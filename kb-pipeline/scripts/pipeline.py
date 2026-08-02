@@ -75,6 +75,36 @@ NOISE_PATTERNS = [
 ]
 CALLOUT_CLASSES = re.compile(r"note|warning|tip|important|alert|caution", re.I)
 
+# 转换质量第 3 项（无截断/乱码）的乱码签名：UTF-8 字节流被按 Latin-1 解码时的
+# 典型产物（Ã©=é、â€œ="、Â\xa0=不换行空格），正常 UTF-8 内容不会命中。
+MOJIBAKE_PATTERNS = [
+    re.compile(r"Ã[\x80-\xbf]"),
+    re.compile(r"Â[\xa0\x80-\xbf]"),
+    re.compile(r"â€[\x80-\xbf]"),
+]
+
+
+def garbled_markdown_problems(md: str) -> list[str]:
+    """检查清洗后 Markdown 的截断/乱码信号（规格 §6 转换质量第 3 项）。
+
+    乱码：U+FFFD 替换字符、UTF-8 被按 Latin-1 解码的典型签名、控制字符；
+    截断：代码围栏不平衡、文档结尾出现未闭合的链接/图片。返回问题清单，空=通过。
+    """
+    problems: list[str] = []
+    if "�" in md:
+        problems.append("含 U+FFFD 替换字符（解码失败）")
+    for pat in MOJIBAKE_PATTERNS:
+        if pat.search(md):
+            problems.append("疑似乱码签名（UTF-8 被按 Latin-1 解码）")
+    ctrl = sorted({c for c in md if ord(c) < 32 and c not in "\n\r\t"})
+    if ctrl:
+        problems.append(f"含控制字符 {''.join(ctrl)[:5]!r}")
+    if md.count("```") % 2:
+        problems.append("代码围栏不平衡（``` 为奇数）")
+    if re.search(r"!?\[[^\]]*\]\([^)]*$", md, re.M):
+        problems.append("文档结尾存在未闭合的链接/图片")
+    return problems
+
 
 def topic_url(manifest: Manifest, lang: str, page: str) -> str:
     return f"{manifest.site}/{lang}/Content/Topics/{manifest.topic_path}/{page}"
@@ -338,7 +368,8 @@ def raw_body_stats(raw_html: str):
 def md_stats(md: str):
     heading_lines = [(len(m.group(1)), m.group(2).strip())
                      for m in re.finditer(r"^(#{1,6})\s+(.+)$", md, re.M)]
-    links = re.findall(r"\[[^\]]+\]\(([^)]+)\)", md)
+    # 正文链接只统计 [text](url)，(?<!!) 排除图片语法 ![alt](url)
+    links = re.findall(r"(?<!!)\[[^\]]+\]\(([^)]+)\)", md)
     images = re.findall(r"!\[[^\]]*\]\(([^)]+)\)", md)
     return {"headings": heading_lines, "links": links, "images": images,
             "blockquote_lines": len(re.findall(r"^>\s?", md, re.M)),

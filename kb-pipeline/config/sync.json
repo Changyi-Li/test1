@@ -4,5 +4,6 @@
   "user_agent": "MonitorERP-KB-Bot/1.0 (+internal knowledge base)",
   "backoff": { "base_seconds": 1, "max_seconds": 60 },
   "stop_conditions": { "consecutive_failures": 5, "error_rate_percent": 10 },
-  "renames": { "UserGuide/GettingStarted/MobileClient": "WebClient.htm" }
+  "renames": { "UserGuide/GettingStarted/MobileClient": "WebClient.htm" },
+  "check": { "sample_min_percent": 5, "sample_min_pages": 10 }
 }

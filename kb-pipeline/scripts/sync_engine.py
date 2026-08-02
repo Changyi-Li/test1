@@ -30,6 +30,7 @@ state/sync-state.jsonl（gitignore）。重复运行幂等。
 from __future__ import annotations
 
 import json
+import math
 import re
 import sys
 import time
@@ -89,6 +90,10 @@ def exceptions_path() -> Path:
 
 def check_path() -> Path:
     return ROOT / "data" / "selfcheck-results.txt"
+
+
+def sample_check_path() -> Path:
+    return ROOT / "data" / "selfcheck-sample-results.txt"
 
 
 @dataclass(frozen=True)
@@ -505,10 +510,11 @@ def _save_exceptions(rows: list[dict]) -> None:
 
 
 def upsert_exception(row: dict) -> None:
-    """按 (id, type) 幂等覆盖写入例外表；保留首次发现时间与既有 resolved 状态。
+    """按 (id, type) 幂等覆盖写入例外表；保留首次发现时间，resolved 以本轮为准。
 
-    重跑全量对账时同一结构例外不再刷新 discovered_at，保证重跑产物逐字节一致；
-    其他既有例外（如试点首版两条）原样保留。
+    重跑全量对账时同一结构例外不再刷新 discovered_at，保证重跑产物逐字节一致
+    （resolved 同值时输出不变）；条件重新出现（如图片 broken→revive→broken）
+    时 resolved 回到 False，反映当前状态。
     """
     rows = _load_exceptions()
     existing = next(
@@ -520,7 +526,6 @@ def upsert_exception(row: dict) -> None:
         row = {
             **row,
             "discovered_at": existing.get("discovered_at", row.get("discovered_at")),
-            "resolved": existing.get("resolved", row.get("resolved")),
         }
         rows = [r for r in rows if r is not existing]
     rows.append(row)
@@ -625,16 +630,57 @@ def _is_topic_url(url: str, language: str) -> bool:
         return False
     return bool(re.search(rf"/{re.escape(language)}/Content/Topics/.+\.htm$",
                           parsed.path))
-def selfcheck_single(meta: dict, chunks: list[dict]) -> bool:
-    """单页机器自检：元数据完整性 + 分块完整性；配对检查标记 SKIP。"""
-    lines: list[str] = []
-    ok = True
 
-    def report(name: str, passed: bool, detail: str = "") -> None:
-        nonlocal ok
-        ok = ok and passed
-        lines.append(f"[{'PASS' if passed else 'FAIL'}] {name}"
-                     + (f" — {detail}" if detail else ""))
+
+class _CheckLog:
+    """自检输出收集器：report 记录 PASS/FAIL 行并聚合 ok；failures 供失败清单。"""
+
+    def __init__(self) -> None:
+        self.lines: list[str] = []
+        self.failures: list[str] = []
+        self.skips: int = 0
+        self.ok = True
+
+    def report(self, name: str, passed: bool, detail: str = "") -> None:
+        self.ok = self.ok and passed
+        line = f"[{'PASS' if passed else 'FAIL'}] {name}" \
+            + (f" — {detail}" if detail else "")
+        self.lines.append(line)
+        if not passed:
+            self.failures.append(line)
+
+    def skip(self, name: str) -> None:
+        self.lines.append(f"[SKIP] {name}")
+        self.skips += 1
+
+
+def _print_failures(failures: list[str]) -> None:
+    """门禁失败清单输出到 stderr（票 #20 AC5：失败即给清单）。"""
+    if not failures:
+        return
+    print(f"自检失败清单（{len(failures)} 项）:", file=sys.stderr)
+    for line in failures:
+        print(f"  {line}", file=sys.stderr)
+
+
+def _emit_gate(machine: _CheckLog, conversion: _CheckLog, path: Path) -> bool:
+    """把机器检查 + 转换质量结果合并写盘并打印失败清单；返回是否全部通过。"""
+    lines = machine.lines + conversion.lines
+    ok = machine.ok and conversion.ok
+    lines.append(f"\nRESULT: {'ALL PASS' if ok else 'HAS FAILURES'}\n")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("\n".join(lines), encoding="utf-8")
+    _print_failures(machine.failures + conversion.failures)
+    return ok
+
+
+def selfcheck_single(meta: dict, chunks: list[dict]) -> bool:
+    """单页机器自检：元数据完整性 + 分块完整性；配对检查标记 SKIP。
+
+    任一检查失败 → 写自检结果文件、stderr 打印失败清单并返回 False。
+    """
+    log = _CheckLog()
+    report = log.report
 
     topic_id = meta["id"]
     language = meta["language"]
@@ -662,7 +708,7 @@ def selfcheck_single(meta: dict, chunks: list[dict]) -> bool:
     hash_ok = clean_file.exists() and P.sha256_hex(
         clean_file.read_text(encoding="utf-8")) == meta.get("content_hash")
     report("M8 content_hash 重算一致", hash_ok)
-    lines.append("[SKIP] M9 镜像配对（单 URL 对账不做镜像扫描，清单驱动票覆盖）")
+    log.skip("M9 镜像配对（单 URL 对账不做镜像扫描，清单驱动票覆盖）")
 
     # ---- 分块完整性 ----
     report("C0 至少一个分块（空页不能通过自检）", len(chunks) > 0)
@@ -687,37 +733,30 @@ def selfcheck_single(meta: dict, chunks: list[dict]) -> bool:
     report("C8 token_estimate 为正整数且 ≤ 1200 硬上限",
            all(isinstance(c["token_estimate"], int)
                and 0 < c["token_estimate"] <= 1200 for c in chunks))
-    lines.append("[SKIP] C9 中文块镜像配对（单 URL 对账不做镜像扫描，清单驱动票覆盖）")
+    log.skip("C9 中文块镜像配对（单 URL 对账不做镜像扫描，清单驱动票覆盖）")
     report("C10 块 images 与内容内图片一致",
            all(c["images"] == re.findall(r"!\[[^\]]*\]\(([^)]+)\)", c["content"])
                for c in chunks))
 
-    lines.append(f"\nRESULT: {'ALL PASS' if ok else 'HAS FAILURES'}\n")
+    log.lines.append(f"\nRESULT: {'ALL PASS' if log.ok else 'HAS FAILURES'}\n")
     path = check_path()
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text("\n".join(lines), encoding="utf-8")
-    return ok
+    path.write_text("\n".join(log.lines), encoding="utf-8")
+    _print_failures(log.failures)
+    return log.ok
 
 
-def selfcheck_dataset(expected_pairs: dict[str, str | None]) -> bool:
-    """全量数据集自检（规格 §6）：M1–M10 + C1–C10 + Q1–Q6 转换质量代理。
+def _machine_check(meta_rows: list[dict], chunk_rows: list[dict],
+                   exc_rows: list[dict],
+                   expected_pairs: dict[str, str | None]) -> _CheckLog:
+    """机器检查 100%（规格 §6 第 2 条）：M1–M10 元数据完整性 + C1–C10 分块完整性。
 
-    expected_pairs：本轮镜像扫描得到的 {topic_id: paired_topic_id 或 None}，
-    用于校验配对与例外覆盖。
+    expected_pairs 为本轮镜像扫描得到的 {topic_id: paired_topic_id 或 None}；
+    抽查模式传 {} 时只校验数据内部一致性（互逆/悬空/同语言），不比对扫描结果。
     """
-    meta_rows = _load_jsonl(meta_path())
-    chunk_rows = _load_jsonl(chunks_path())
-    exc_rows = _load_exceptions()
+    log = _CheckLog()
+    report = log.report
     ids = {r["id"] for r in meta_rows}
-    lines: list[str] = []
-    ok = True
-
-    def report(name: str, passed: bool, detail: str = "") -> None:
-        nonlocal ok
-        ok = ok and passed
-        lines.append(f"[{'PASS' if passed else 'FAIL'}] {name}"
-                     + (f" — {detail}" if detail else ""))
-
     id_re = re.compile(rf"^({'|'.join(LANGS)})/(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+$")
     url_re = re.compile(
         r"^https?://[^/]+(?:/[^/]+)?/(en-us|zh-cn)/Content/Topics/.+\.htm$")
@@ -856,22 +895,42 @@ def selfcheck_dataset(expected_pairs: dict[str, str | None]) -> bool:
                 if c["images"] != re.findall(r"!\[[^\]]*\]\(([^)]+)\)",
                                              c["content"])]
     report("C10 块 images 与内容内图片一致", not img_fail, f"bad={img_fail}")
+    return log
 
-    # ---- 转换质量代理（逐页） ----
-    report("--- 转换质量代理（逐页） ---", True)
+
+def _conversion_check(meta_rows: list[dict],
+                      sampled: set[str] | None = None,
+                      skip_without_raw: bool = False) -> _CheckLog:
+    """转换质量逐页 7 项（规格 §6 第 3 条）：无残留/标题一致/无截断乱码/链接数/
+    图片绝对 URL/提示框转 blockquote/表格代码原子保留。sampled=None 时全量逐页。
+
+    skip_without_raw=True 时缺失 data/raw 的页面标 SKIP 而非 FAIL（raw 不入库，
+    供抽查模板在 fresh clone 上不假失败；对账自检保持 FAIL 以拦截产物不一致）。
+    """
+    log = _CheckLog()
+    report = log.report
+    log.lines.append("--- 转换质量代理（逐页） ---" if sampled is None
+                     else f"--- 转换质量代理（按模块抽样 {len(sampled)} 页） ---")
     for r in meta_rows:
+        if sampled is not None and r["id"] not in sampled:
+            continue
+        tid = r["id"]
         raw_file = ROOT / "data" / "raw" / r["language"] / (
-            r["id"].rsplit("/", 1)[-1] + ".htm")
+            tid.rsplit("/", 1)[-1] + ".htm")
         if not raw_file.exists():
-            report(f"Q1[{r['id']}] 原始 HTML 存在", False, "data/raw 缺失")
+            if skip_without_raw:
+                log.skip(f"Q1[{tid}] 原始 HTML 缺失（data/raw 不入库）"
+                         "— 跳过转换质量校验")
+            else:
+                report(f"Q1[{tid}] 原始 HTML 存在", False, "data/raw 缺失")
             continue
         raw_html = raw_file.read_bytes().decode("utf-8", errors="replace")
-        md = (clean_dir() / (r["id"].replace("/", "_") + ".md")).read_text(
+        md = (clean_dir() / (tid.replace("/", "_") + ".md")).read_text(
             encoding="utf-8")
         rb = P.raw_body_stats(raw_html)
         ms = P.md_stats(md)
         noise = [p for p in P.NOISE_PATTERNS if re.search(p, md, re.I)]
-        report(f"Q1[{r['id']}] 无导航/页脚/版本/脚本残留", not noise,
+        report(f"Q1[{tid}] 无导航/页脚/版本/脚本残留", not noise,
                f"found={noise}")
         rh = [(lv, txt) for lv, txt in rb["headings"]]
         mh = ms["headings"]
@@ -881,28 +940,146 @@ def selfcheck_dataset(expected_pairs: dict[str, str | None]) -> bool:
             b = mh[k] if k < len(mh) else None
             if a != b:
                 hdiff.append(f"#{k}: raw={a} md={b}")
-        report(f"Q2[{r['id']}] 标题层级/文本一致", not hdiff, "; ".join(hdiff[:4]))
-        report(f"Q3[{r['id']}] 正文链接数量一致",
+        report(f"Q2[{tid}] 标题层级/文本一致", not hdiff, "; ".join(hdiff[:4]))
+        garbled = P.garbled_markdown_problems(md)
+        report(f"Q3[{tid}] 无截断/乱码", not garbled, "; ".join(garbled[:4]))
+        report(f"Q4[{tid}] 正文链接数量一致",
                len(rb["links"]) == len(ms["links"]),
                f"raw={len(rb['links'])} md={len(ms['links'])}")
         img_abs = all(x.startswith("http") for x in ms["images"])
-        report(f"Q4[{r['id']}] 图片数量一致且绝对 URL",
+        report(f"Q5[{tid}] 图片数量一致且绝对 URL",
                len(rb["images"]) == len(ms["images"]) and img_abs,
                f"raw={len(rb['images'])} md={len(ms['images'])} abs={img_abs}")
-        report(f"Q5[{r['id']}] 提示框转 blockquote",
+        report(f"Q6[{tid}] 提示框转 blockquote",
                rb["callouts"] == ms["blockquote_lines"],
                f"raw_callouts={rb['callouts']} md_blockquotes={ms['blockquote_lines']}")
-        report(f"Q6[{r['id']}] 表格/代码计数一致",
+        report(f"Q7[{tid}] 表格/代码计数一致",
                rb["tables"] == ms["tables"]
                and rb["pre"] == ms["code_fences"] // 2,
                f"tables raw={rb['tables']} md={ms['tables']}; "
                f"pre raw={rb['pre']} fences={ms['code_fences']}")
+    return log
 
-    lines.append(f"\nRESULT: {'ALL PASS' if ok else 'HAS FAILURES'}\n")
-    path = check_path()
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text("\n".join(lines), encoding="utf-8")
-    return ok
+
+def selfcheck_dataset(expected_pairs: dict[str, str | None]) -> bool:
+    """全量数据集自检（规格 §6）：机器检查 100%（M1–M10/C1–C10）+ 转换质量
+    Q1–Q7 逐页全检。任一门禁失败 → 写自检文件、stderr 打印失败清单并返回 False。"""
+    meta_rows = _load_jsonl(meta_path())
+    chunk_rows = _load_jsonl(chunks_path())
+    exc_rows = _load_exceptions()
+    machine = _machine_check(meta_rows, chunk_rows, exc_rows, expected_pairs)
+    conversion = _conversion_check(meta_rows)
+    return _emit_gate(machine, conversion, check_path())
+
+
+def _module_of(row: dict) -> str:
+    """主题所属模块：topic_path 首段，缺失时按 "root"。"""
+    return (row.get("topic_path") or "").split("/")[0] or "root"
+
+
+def sample_pages_per_module(meta_rows: list[dict],
+                            check_cfg: sync_config.CheckConfig) -> set[str]:
+    """按模块抽样：每模块 ≥max(ceil(页数×percent%), min_pages) 页，不足该数全取；
+    按 id 排序取前 N，保证确定性（规格 §6 全站抽查模板）。"""
+    by_module: dict[str, list[str]] = {}
+    for r in meta_rows:
+        by_module.setdefault(_module_of(r), []).append(r["id"])
+    sampled: set[str] = set()
+    for module in sorted(by_module):
+        ids = by_module[module]
+        sample_size = max(
+            math.ceil(len(ids) * check_cfg.sample_min_percent / 100.0),
+            check_cfg.sample_min_pages)
+        sampled.update(sorted(ids)[:sample_size])
+    return sampled
+
+
+def check_dataset_sampled(cfg: sync_config.SyncConfig,
+                          module: str | None = None) -> int:
+    """抽查模板 CLI 能力（规格 §6，票 #20）：机器检查 100%，转换质量按模块抽样
+    （每模块 ≥5% 且 ≥10 页，7 项全过）。只读当前 data/ 产物，不发网络请求。
+
+    任一 M/C/Q 门禁失败 → 写 data/selfcheck-sample-results.txt、stderr 打印失败
+    清单并返回非零退出码；全部通过返回 0。--module 限定单模块；data/raw 缺失的
+    页面转换质量标 SKIP（raw 不入库，fresh clone 不假失败）。"""
+    meta_rows = _load_jsonl(meta_path())
+    if module is not None:
+        filtered = [r for r in meta_rows if _module_of(r) == module]
+        if not filtered:
+            print(f"错误: 模块 {module!r} 无主题页（按 topic_path 首段匹配）",
+                  file=sys.stderr)
+            return 1
+        meta_rows = filtered
+    if not meta_rows:
+        print("抽查: 数据集为空（先运行全量对账）", file=sys.stderr)
+        return 1
+    scope_ids = {r["id"] for r in meta_rows}
+    chunk_rows = [c for c in _load_jsonl(chunks_path())
+                  if c["topic_id"] in scope_ids]
+    exc_rows = _load_exceptions()
+    machine = _machine_check(meta_rows, chunk_rows, exc_rows, expected_pairs={})
+    sampled = sample_pages_per_module(meta_rows, cfg.check)
+    conversion = _conversion_check(meta_rows, sampled=sampled,
+                                   skip_without_raw=True)
+    ok = _emit_gate(machine, conversion, sample_check_path())
+    note = ""
+    if conversion.skips:
+        note = f"，{conversion.skips} 页缺 data/raw 跳过转换质量"
+    print(f"== 抽查: {'ALL PASS' if ok else 'HAS FAILURES'} "
+          f"-> {sample_check_path().relative_to(ROOT)}"
+          + (f"（转换质量抽样 {len(sampled)}/{len(meta_rows)} 页{note}）"
+             if ok else ""))
+    return 0 if ok else 1
+
+
+def verify_images(cfg: sync_config.SyncConfig, rate: float,
+                  headers_rec: dict,
+                  round_f: RoundFailures) -> tuple[list[str], str | None]:
+    """全量对账图片验证（规格 §5.2/§5.6，票 #20）：数据集内图片 URL 去重后全量
+    HEAD 验证。200 通过并 resolve 既有 broken_image 例外；404/410 记 broken_image
+    例外（detail 记所属主题）；其余状态按失败计入停止阈值（429/5xx 指数退避）。
+    返回 (失效 URL 列表, 停止原因或 None)。"""
+    meta_rows = _load_jsonl(meta_path())
+    refs: dict[str, set[str]] = {}
+    for r in meta_rows:
+        for url in r.get("images", []):
+            if isinstance(url, str) and url:
+                refs.setdefault(url, set()).add(r["id"])
+    image_urls = sorted(refs)
+    if not image_urls:
+        print("== 图片验证: 数据集无图片")
+        return [], None
+    manifest = _headers_manifest(cfg.user_agent)
+    broken: list[str] = []
+    for url in image_urls:
+        hinfo = _probe_head_with_backoff(manifest, url, headers_rec, cfg.backoff)
+        _pace(rate)
+        status = hinfo.get("status")
+        if status == 200:
+            round_f.attempt_ok()
+            _resolve_exception(url, "broken_image")
+            continue
+        if status == 404 or status == 410:
+            # 404/410 与删除/未翻译判定口径一致（资源已不存在）→ broken_image 例外
+            round_f.attempt_ok()   # 失效是结构性例外，不计失败
+            upsert_exception({
+                "id": url,
+                "type": "broken_image",
+                "detail": f"{url} {status}，被 {','.join(sorted(refs[url]))} 引用",
+                "discovered_at": sync_state.utc_now_iso(),
+                "resolved": False,
+            })
+            broken.append(url)
+            continue
+        round_f.attempt_failed(url, _status_reason(status))
+        stop = round_f.consecutive_stop(cfg)
+        if stop is not None:
+            return broken, stop
+    print(f"== 图片验证: 去重后 {len(image_urls)} 个 URL，"
+          f"{len(broken)} 个失效（broken_image 例外）")
+    return broken, None
+
+
 def process_topic(target: TopicTarget, cfg: sync_config.SyncConfig, rate: float,
                   state: sync_state.SyncState, headers_rec: dict) -> TopicResult:
     """抓取→清洗→元数据→分块（429/5xx 指数退避）；返回 TopicResult。
@@ -1272,6 +1449,12 @@ def reconcile_manifest(limit: int | None, cfg: sync_config.SyncConfig,
                       etag=fetched.get("etag"), lastmod=fetched.get("lastmod"),
                       content_hash=meta["content_hash"])
         _resolve_exception(meta["id"], "deleted")
+
+    # 图片验证（票 #20 AC1）：数据集图片 URL 去重后全量 HEAD，404 记 broken_image 例外
+    _, img_stop = verify_images(cfg, rate, headers_rec, round_f)
+    if img_stop is not None:
+        _merge_headers(headers_rec)
+        return _stop_round(round_f.records, img_stop, round_f.attempts)
     stop = round_f.rate_stop(cfg)
     if stop is not None:
         _merge_headers(headers_rec)

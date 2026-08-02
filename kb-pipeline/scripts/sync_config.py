@@ -36,6 +36,16 @@ class StopConditions:
 
 
 @dataclass(frozen=True)
+class CheckConfig:
+    """抽查模板参数（规格 §6，票 #20）。
+
+    每模块转换质量抽样 ≥sample_min_percent% 且 ≥sample_min_pages 页。
+    """
+    sample_min_percent: int = 5
+    sample_min_pages: int = 10
+
+
+@dataclass(frozen=True)
 class SyncConfig:
     incremental: ModeConfig
     reconcile: ModeConfig
@@ -43,6 +53,7 @@ class SyncConfig:
     backoff: BackoffConfig
     stop_conditions: StopConditions
     renames: dict[str, str] = field(default_factory=dict)
+    check: CheckConfig = field(default_factory=CheckConfig)
 
 
 def _require_key(data: dict, key: str, path: Path) -> None:
@@ -98,6 +109,21 @@ def _stop_conditions(data: dict, path: Path) -> StopConditions:
     )
 
 
+def _check_config(data: dict, path: Path) -> CheckConfig:
+    raw = data.get("check", {})
+    if not isinstance(raw, dict):
+        raise ValueError(f"{path}: check 必须是对象")
+    defaults = CheckConfig()
+    percent = raw.get("sample_min_percent", defaults.sample_min_percent)
+    pages = raw.get("sample_min_pages", defaults.sample_min_pages)
+    if not isinstance(percent, int) or isinstance(percent, bool) \
+            or not 1 <= percent <= 100:
+        raise ValueError(f"{path}: check.sample_min_percent 必须是 1–100 的整数")
+    if not isinstance(pages, int) or isinstance(pages, bool) or pages <= 0:
+        raise ValueError(f"{path}: check.sample_min_pages 必须是正整数")
+    return CheckConfig(sample_min_percent=percent, sample_min_pages=pages)
+
+
 def _renames(data: dict, path: Path) -> dict[str, str]:
     raw = data.get("renames", {})
     if not isinstance(raw, dict):
@@ -131,6 +157,7 @@ def load_sync_config(path: Path | str | None = None) -> SyncConfig:
         backoff=_backoff_config(data["backoff"], cfg_path),
         stop_conditions=_stop_conditions(data["stop_conditions"], cfg_path),
         renames=_renames(data, cfg_path),
+        check=_check_config(data, cfg_path),
     )
 
 
