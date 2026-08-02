@@ -18,7 +18,7 @@
 [PASS] C8 token_estimate 为正整数且 ≤ 1200 硬上限 — bad=[]
 [PASS] C9 中文块 paired_chunk_id 引用真实英文块（英文块为 null）
 [PASS] C10 块 images 与内容内图片一致 — bad=[]
---- 转换质量代理（逐页） ---
+--- 转换质量代理（按模块抽样 5 页） ---
 [PASS] Q1[en-us/UserGuide/GettingStarted/GettingStarted] 无导航/页脚/版本/脚本残留 — found=[]
 [PASS] Q2[en-us/UserGuide/GettingStarted/GettingStarted] 标题层级/文本一致
 [PASS] Q3[en-us/UserGuide/GettingStarted/GettingStarted] 无截断/乱码

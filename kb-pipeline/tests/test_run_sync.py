@@ -113,16 +113,17 @@ def test_main_config_error_returns_nonzero(capsys, monkeypatch, tmp_path):
 def test_main_reconcile_limit_delegates_to_manifest_engine(monkeypatch):
     calls = []
 
-    def fake_engine(limit, cfg, rate):
-        calls.append((limit, cfg, rate))
+    def fake_engine(limit, cfg, rate, topic_path):
+        calls.append((limit, cfg, rate, topic_path))
         return 3
 
     monkeypatch.setattr(run_sync.sync_engine, "reconcile_manifest", fake_engine)
     code = run_sync.main(["--mode", "reconcile", "--limit", "2", "--rate", "4"])
     assert code == 3
     assert len(calls) == 1
-    limit, cfg, rate = calls[0]
+    limit, cfg, rate, topic_path = calls[0]
     assert limit == 2
+    assert topic_path is None
     assert isinstance(cfg, sync_config.SyncConfig)
     assert rate == 4.0
 
@@ -165,3 +166,68 @@ def test_main_incremental_dry_run_delegates(monkeypatch):
     assert isinstance(cfg, sync_config.SyncConfig)
     assert rate == 1.5
     assert dry_run is True
+
+
+def test_parse_topic_path_reconcile():
+    ns = run_sync.parse_args(["--mode", "reconcile",
+                              "--topic-path", "UserGuide/GettingStarted"])
+    assert ns.mode == "reconcile"
+    assert ns.topic_path == "UserGuide/GettingStarted"
+    assert ns.limit is None
+    assert ns.url is None
+
+
+def test_topic_path_and_limit_together_are_allowed():
+    ns = run_sync.parse_args(["--mode", "reconcile", "--topic-path", "UserGuide",
+                              "--limit", "2"])
+    assert ns.topic_path == "UserGuide"
+    assert ns.limit == 2
+
+
+def test_topic_path_and_url_together_exit_nonzero(capsys):
+    with pytest.raises(SystemExit) as exc:
+        run_sync.parse_args(["--mode", "reconcile", "--topic-path", "UserGuide",
+                             "--url", "https://example.test/a.htm"])
+    assert exc.value.code != 0
+    err = capsys.readouterr().err
+    assert "--topic-path" in err and "--url" in err
+
+
+def test_empty_topic_path_exits_nonzero(capsys):
+    with pytest.raises(SystemExit) as exc:
+        run_sync.parse_args(["--mode", "reconcile", "--topic-path", ""])
+    assert exc.value.code != 0
+    assert "--topic-path" in capsys.readouterr().err
+
+
+def test_topic_path_not_allowed_in_incremental(capsys):
+    with pytest.raises(SystemExit) as exc:
+        run_sync.parse_args(["--mode", "incremental", "--topic-path", "UserGuide"])
+    assert exc.value.code != 0
+    assert "--topic-path" in capsys.readouterr().err
+
+
+def test_topic_path_not_allowed_in_check(capsys):
+    with pytest.raises(SystemExit) as exc:
+        run_sync.parse_args(["--mode", "check", "--topic-path", "UserGuide"])
+    assert exc.value.code != 0
+    assert "--topic-path" in capsys.readouterr().err
+
+
+def test_main_reconcile_topic_path_delegates_to_manifest_engine(monkeypatch):
+    calls = []
+
+    def fake_engine(limit, cfg, rate, topic_path):
+        calls.append((limit, cfg, rate, topic_path))
+        return 0
+
+    monkeypatch.setattr(run_sync.sync_engine, "reconcile_manifest", fake_engine)
+    code = run_sync.main(["--mode", "reconcile", "--topic-path",
+                          "UserGuide/GettingStarted", "--rate", "4"])
+    assert code == 0
+    assert len(calls) == 1
+    limit, cfg, rate, topic_path = calls[0]
+    assert limit is None
+    assert topic_path == "UserGuide/GettingStarted"
+    assert isinstance(cfg, sync_config.SyncConfig)
+    assert rate == 4.0

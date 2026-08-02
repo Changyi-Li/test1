@@ -586,3 +586,76 @@ def test_reconcile_manifest_revival_clears_tombstone_and_resolves_exception(
     assert tid in meta
     assert (engine_root / "data" / "clean" /
             "en-us_Accounting_AccrualAccounting_AccrualAccounting.md").exists()
+
+
+def test_reconcile_manifest_topic_path_scopes_round(engine_root, monkeypatch, cfg):
+    """AC1：--topic-path 把本轮限定为主题路径前缀下的 en 主题及其 zh 镜像。"""
+    net = FakeNetwork(sitemap=sitemap_xml(EN_URLS), zh_ok=ZH_OK)
+    monkeypatch.setattr(P, "_open", net.get)
+    monkeypatch.setattr(P, "_head", net.head)
+    monkeypatch.setattr(sync_manifest, "SITEMAP_URL", SITEMAP_URL)
+    monkeypatch.setattr(sync_engine, "_pace", lambda rate: None)
+
+    code = sync_engine.reconcile_manifest(
+        limit=None, cfg=cfg, rate=5.0, topic_path="UserGuide/GettingStarted")
+
+    assert code == 0
+    meta = {r["id"]: r for r in _jsonl(engine_root / "data" / "metadata.jsonl")}
+    assert set(meta) == {
+        "en-us/UserGuide/GettingStarted/GettingStarted",
+        "en-us/UserGuide/GettingStarted/MobileClient",
+        "en-us/UserGuide/GettingStarted/MonitorBI",
+        "zh-cn/UserGuide/GettingStarted/GettingStarted",
+        "zh-cn/UserGuide/GettingStarted/WebClient",
+    }
+    # 双语配对与重命名映射：en MobileClient ↔ zh WebClient；MonitorBI 未翻译
+    assert meta["en-us/UserGuide/GettingStarted/MobileClient"][
+        "paired_topic_id"] == "zh-cn/UserGuide/GettingStarted/WebClient"
+    assert meta["zh-cn/UserGuide/GettingStarted/WebClient"][
+        "paired_topic_id"] == "en-us/UserGuide/GettingStarted/MobileClient"
+    assert meta["en-us/UserGuide/GettingStarted/MonitorBI"][
+        "paired_topic_id"] is None
+    # 中文分块全部命中真实英文块；英文块为 null
+    chunks = _jsonl(engine_root / "data" / "chunks.jsonl")
+    assert all(c["paired_chunk_id"] for c in chunks if c["language"] == "zh-cn")
+    assert all(c["paired_chunk_id"] is None for c in chunks
+               if c["language"] == "en-us")
+    for c in chunks:
+        if c["language"] == "zh-cn":
+            assert c["paired_chunk_id"].split("::", 1)[0] == (
+                meta[c["topic_id"]]["paired_topic_id"])
+    # 未翻译/重命名例外
+    exc = {r["id"]: r for r in _jsonl(engine_root / "data" / "exceptions.jsonl")}
+    assert exc["zh-cn/UserGuide/GettingStarted/MonitorBI"]["type"] == "untranslated"
+    assert exc["zh-cn/UserGuide/GettingStarted/MobileClient"]["type"] == "renamed"
+    # 自检 ALL PASS，配对检查不 SKIP（M9/C9 全过）
+    check_txt = (engine_root / "data" / "selfcheck-results.txt").read_text(
+        encoding="utf-8")
+    assert "RESULT: ALL PASS" in check_txt
+    assert "[SKIP]" not in check_txt
+
+
+def test_reconcile_manifest_topic_path_does_not_tombstone_out_of_scope(
+        engine_root, monkeypatch, cfg):
+    """AC1：--topic-path 缩小处理范围，但删除检测仍以完整 sitemap 为准，
+    范围外曾 ok 页面不被误标墓碑（状态保持 ok、无 deleted 例外）。"""
+    out_url = EN_URLS[0]  # Accounting/AccrualAccounting（范围外）
+    state = sync_state.SyncState(engine_root / "state" / "sync-state.jsonl")
+    state.load()
+    state.mark_ok(out_url, language="en-us", etag='"old"',
+                  content_hash="a" * 64)
+    net = FakeNetwork(sitemap=sitemap_xml(EN_URLS), zh_ok=ZH_OK)
+    monkeypatch.setattr(P, "_open", net.get)
+    monkeypatch.setattr(P, "_head", net.head)
+    monkeypatch.setattr(sync_manifest, "SITEMAP_URL", SITEMAP_URL)
+    monkeypatch.setattr(sync_engine, "_pace", lambda rate: None)
+
+    code = sync_engine.reconcile_manifest(
+        limit=None, cfg=cfg, rate=5.0, topic_path="UserGuide/GettingStarted")
+
+    assert code == 0
+    state2 = sync_state.SyncState(engine_root / "state" / "sync-state.jsonl")
+    state2.load()
+    assert state2.get(out_url)["status"] == "ok"
+    exc = _jsonl(engine_root / "data" / "exceptions.jsonl")
+    assert not [r for r in exc if r["type"] == "deleted"]

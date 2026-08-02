@@ -1,12 +1,14 @@
 """生产同步 CLI（规格 §5.7/§6，票 #14/#15/#16/#17/#20）。
 
-解析/校验全部规划参数（--mode/--url/--limit/--rate/--dry-run/--module）、加载
-配置并解析限速覆盖。`--mode incremental` 基于同步状态对已知主题发起条件请求，
-只 GET 变化页并可断点续跑（票 #17）；`--mode reconcile --url <主题 URL>` 执行
-单页端到端全量对账（票 #15）；`--mode reconcile [--limit N]` 执行清单驱动全量
-对账（sitemap → en 清单 → HEAD → zh 镜像 → 完整管道 → 图片验证 → 例外表 →
-自检，票 #16/#20）；`--mode check [--module M]` 本地抽查模板——机器检查 100%、
-转换质量按模块抽样（每模块 ≥5% 且 ≥10 页，票 #20 AC4）。
+解析/校验全部规划参数（--mode/--url/--limit/--topic-path/--rate/--dry-run/
+--module）、加载配置并解析限速覆盖。`--mode incremental` 基于同步状态对已知
+主题发起条件请求，只 GET 变化页并可断点续跑（票 #17）；`--mode reconcile
+--url <主题 URL>` 执行单页端到端全量对账（票 #15）；`--mode reconcile
+[--limit N] [--topic-path PREFIX]` 执行清单驱动全量对账（sitemap → en 清单 →
+HEAD → zh 镜像 → 完整管道 → 图片验证 → 例外表 → 自检，票 #16/#20/#21）；
+`--mode check [--module M]` 本地抽查模板——机器检查 100%、转换质量按模块抽样
+（每模块 ≥5% 且 ≥10 页，票 #20 AC4）。`--topic-path` 把对账范围限定为主题路径
+前缀下的 en 主题及其 zh 镜像（票 #21 交付：完整 Getting Started 全量对账）。
 """
 from __future__ import annotations
 
@@ -31,9 +33,12 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--mode", required=True, choices=CLI_MODES,
                     help="incremental=日常增量 | reconcile=全量对账 | check=抽查模板")
     ap.add_argument("--url", metavar="URL",
-                    help="只处理单个主题 URL（与 --limit 互斥）")
+                    help="只处理单个主题 URL（与 --limit/--topic-path 互斥）")
     ap.add_argument("--limit", metavar="N", type=int,
-                    help="最多处理 N 个 URL（与 --url 互斥）")
+                    help="最多处理 N 个 URL（与 --url 互斥；可与 --topic-path 叠加）")
+    ap.add_argument("--topic-path", metavar="PREFIX",
+                    help="reconcile 模式限定主题路径前缀（如 UserGuide/GettingStarted，"
+                         "与 --url 互斥；可与 --limit 叠加先按前缀过滤再取前 N）")
     ap.add_argument("--rate", metavar="REQ/S", type=float,
                     help="覆盖当前模式限速（必须 > 0）")
     ap.add_argument("--dry-run", action="store_true",
@@ -47,12 +52,20 @@ def parse_args(argv=None) -> argparse.Namespace:
     ap = build_parser()
     ns = ap.parse_args(argv)
     if ns.mode == "check" and (ns.url is not None or ns.limit is not None
-                               or ns.rate is not None or ns.dry_run):
-        ap.error("--mode check 只读本地数据集，不使用 --url/--limit/--rate/--dry-run")
+                               or ns.topic_path is not None or ns.rate is not None
+                               or ns.dry_run):
+        ap.error("--mode check 只读本地数据集，不使用 --url/--limit/--topic-path/"
+                 "--rate/--dry-run")
     if ns.module is not None and ns.mode != "check":
         ap.error("--module 只用于 --mode check（限定抽查模块）")
+    if ns.topic_path is not None and ns.mode != "reconcile":
+        ap.error("--topic-path 只用于 --mode reconcile（限定主题路径前缀）")
     if ns.url is not None and ns.limit is not None:
-        ap.error("--url 与 --limit 不能同时使用（两者都是范围限定方式）")
+        ap.error("--url 与 --limit 不能同时使用（--url 是单页对账）")
+    if ns.url is not None and ns.topic_path is not None:
+        ap.error("--url 与 --topic-path 不能同时使用（--url 是单页对账）")
+    if ns.topic_path is not None and not ns.topic_path.strip():
+        ap.error("--topic-path 必须是非空主题路径前缀")
     if ns.limit is not None and ns.limit <= 0:
         ap.error(f"--limit 必须为正整数，得到 {ns.limit}")
     if ns.rate is not None and ns.rate <= 0:
@@ -83,9 +96,12 @@ def main(argv=None) -> int:
     if args.mode == "reconcile" and args.url is not None and not args.dry_run:
         return sync_engine.reconcile_single_url(args.url, cfg, rate)
     if args.mode == "reconcile" and args.url is None and not args.dry_run:
-        return sync_engine.reconcile_manifest(args.limit, cfg, rate)
+        return sync_engine.reconcile_manifest(args.limit, cfg, rate,
+                                              args.topic_path)
     if args.url is not None:
         scope = f"单 URL: {args.url}"
+    elif args.topic_path is not None:
+        scope = f"主题路径前缀 {args.topic_path}"
     elif args.limit is not None:
         scope = f"最多 {args.limit} 个 URL"
     else:
@@ -108,9 +124,15 @@ def main(argv=None) -> int:
         print("提示: --dry-run 只预览；去掉后执行单 URL 全量对账"
               "（抓取→清洗→元数据→分块→自检）。")
     else:
+        if args.topic_path is not None:
+            scope_note = f"；--topic-path 限定为主题路径前缀 {args.topic_path}"
+        elif args.limit is not None:
+            scope_note = f"；--limit {args.limit} 限定本轮主题数"
+        else:
+            scope_note = "；--limit N 限定本轮主题数"
         print("提示: --dry-run 只预览；去掉后执行清单驱动全量对账"
               "（sitemap → en 清单 → HEAD 校验 → zh 镜像扫描 → 完整管道 → "
-              "例外表 → 自检）；--limit N 限定本轮主题数。")
+              "例外表 → 自检）" + scope_note + "。")
     return 0
 
 

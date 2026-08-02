@@ -30,7 +30,8 @@ kb-pipeline/
 │   ├── metadata.jsonl           # 每主题 13 字段（入库）
 │   ├── chunks.jsonl             # 每块 14 字段（入库）
 │   ├── exceptions.jsonl         # 例外表（§4.3）
-│   └── selfcheck-results.txt    # 最近一次自检输出（入库）
+│   ├── selfcheck-results.txt    # 最近一次全量自检输出（入库）
+│   └── selfcheck-sample-results.txt  # 最近一次抽查模板输出（入库，§6 全站抽查）
 └── docs/
     ├── pipeline-spec.md         # 本规格
     ├── pilot-sample.md          # 双语样张（试点产物）
@@ -144,8 +145,12 @@ ETag 优先 → Last-Modified 兜底（If-Modified-Since）→ GET 后重算 `co
 ### 5.7 手动触发
 
 ```
-py kb-pipeline/scripts/run_sync.py --mode incremental|reconcile [--dry-run] [--limit N] [--url <单个URL>] [--rate <req/s>]
+py kb-pipeline/scripts/run_sync.py --mode incremental|reconcile [--dry-run] [--limit N] [--topic-path <前缀>] [--url <单个URL>] [--rate <req/s>]
 ```
+
+`--topic-path <前缀>` 把 reconcile 范围限定为主题路径前缀下的 en 主题（含其 zh 镜像），
+用于模块级手动对账（如 `--topic-path UserGuide/GettingStarted` 触发完整 Getting Started 对账，
+票 #21 交付）；删除检测仍以完整 sitemap 为准，范围外曾入库页不被误标墓碑。
 
 默认节奏/限速/时段/UA 在 `kb-pipeline/config/sync.json`；试点阶段手动触发，未来 CI 读同一配置。
 

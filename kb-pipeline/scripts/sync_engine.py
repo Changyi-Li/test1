@@ -219,6 +219,16 @@ def _topic_id_of_url(url: str) -> str:
     return f"{language}/{topic_path}/{Path(page).stem}"
 
 
+def _en_topic_path(url: str) -> str:
+    """从 en 主题 URL 提取主题路径（Content/Topics/ 后、页面文件前的目录部分）。
+
+    例如 `.../Content/Topics/UserGuide/GettingStarted/GettingStarted.htm` →
+    `UserGuide/GettingStarted`。用于 --topic-path 前缀限定对账范围（票 #21）。
+    """
+    rel = sync_manifest.en_topic_rel_path(url)
+    return rel.rsplit("/", 1)[0]
+
+
 def _pace(rate: float) -> None:
     """抓取后按 1/rate 秒间隔限速（试点自约束 1–2 req/s 口径的参数化）。"""
     time.sleep(1.0 / rate)
@@ -1240,7 +1250,7 @@ def apply_pairings(mirrors: dict[str, MirrorResult]) -> None:
 
 
 def reconcile_manifest(limit: int | None, cfg: sync_config.SyncConfig,
-                       rate: float) -> int:
+                       rate: float, topic_path: str | None = None) -> int:
     """清单驱动全量对账（规格 §5.1–§5.6，票 #16/#18/#19）。
 
     每轮：sitemap 下载/修复/过滤/去重 → en HEAD 可达性校验（>10% 失配即停）→
@@ -1250,6 +1260,10 @@ def reconcile_manifest(limit: int | None, cfg: sync_config.SyncConfig,
     resolved、重新入库。重复运行幂等。票 #19：所有 GET/HEAD 遇 429/5xx 指数
     退避重试；完整管道连续失败达阈值或单轮错误率超阈值 → 停止、非零退出、
     写错误报告（失败 URL 与原因）。
+
+    topic_path 非 None 时（票 #21）：本轮范围限定为该主题路径前缀下的 en 主题
+    （含其 zh 镜像），用于手动触发模块级全量对账；删除检测仍以完整 sitemap
+    为准，范围外曾 ok 页面不被误标墓碑。与 --limit 可叠加（先按前缀过滤再取前 N）。
     """
     state = sync_state.SyncState(state_path())
     state.load()
@@ -1275,10 +1289,17 @@ def reconcile_manifest(limit: int | None, cfg: sync_config.SyncConfig,
     if not en_urls:
         reason = "sitemap 未解析出 Topics/*.htm 条目，停止本轮"
         return _stop_round([], reason, 0)
-    scope = en_urls if limit is None else en_urls[:limit]
-    print(f"== en 清单: 修复/过滤/去重后 {len(en_urls)} 条"
-          + (f"，--limit {limit} → 本轮 {len(scope)} 条" if limit is not None
-             else ""))
+    scope = en_urls
+    if topic_path is not None:
+        scope = [u for u in en_urls if _en_topic_path(u).startswith(topic_path)]
+    if limit is not None:
+        scope = scope[:limit]
+    scope_note = ""
+    if topic_path is not None:
+        scope_note += f"，--topic-path {topic_path} → 本轮 {len(scope)} 条"
+    if limit is not None:
+        scope_note += f"，--limit {limit} → 本轮 {len(scope)} 条"
+    print(f"== en 清单: 修复/过滤/去重后 {len(en_urls)} 条{scope_note}")
 
     manifest = _headers_manifest(cfg.user_agent)
     round_f = RoundFailures()
