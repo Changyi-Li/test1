@@ -330,13 +330,15 @@ def test_incremental_interrupt_then_resume_skips_completed_items(
         "en-us_UserGuide_GettingStarted_MonitorBI.md")).exists()
 
 
-def test_incremental_http_500_marks_state_error(engine_root, cfg,
-                                                  monkeypatch, capsys):
-    """非 304/200 响应记 error，不写产物，也不把 GET 请求发出去。"""
+def test_incremental_http_500_marks_state_error_and_stops_round(
+        engine_root, cfg, monkeypatch, capsys):
+    """票 #19：5xx 指数退避重试后仍失败 → 记 error，单轮错误率 100% → 停止、
+    非零退出、写错误报告（失败 URL + 原因），不写产物、不发 GET。"""
     net = FakeNetwork({}, fail_status=500)
     monkeypatch.setattr(P, "_open", net.get)
     monkeypatch.setattr(P, "_head", net.head)
     monkeypatch.setattr(sync_engine, "_pace", lambda rate: None)
+    monkeypatch.setattr(sync_engine.time, "sleep", lambda s: None)
     _seed_state(engine_root, [{
         "url": URL_A, "language": "en-us", "etag": '"a-v1"',
         "lastmod": "2026-05-21T08:18:54Z", "content_hash": "a" * 64,
@@ -345,13 +347,19 @@ def test_incremental_http_500_marks_state_error(engine_root, cfg,
 
     code = sync_engine.incremental_sync(None, None, cfg, rate=2.0)
 
-    assert code == 0
+    assert code == 1
     assert net.calls["get"] == []
     state = _jsonl(engine_root / "state" / "sync-state.jsonl")
     assert state[0]["status"] == "error"
     assert state[0]["etag"] == '"a-v1"'   # 保留最后已知指纹
     assert not (engine_root / "data" / "metadata.jsonl").exists()
-    assert "500" in capsys.readouterr().err
+    err = capsys.readouterr().err
+    assert "500" in err
+    assert "100.0% > 10.0%" in err
+    report = _jsonl(engine_root / "state" / "sync-error-report.jsonl")
+    assert any(r["type"] == "failure" and r["url"] == URL_A
+               and "HTTP 500" in r["reason"] for r in report)
+    assert any(r["type"] == "summary" and r["failed"] == 1 for r in report)
 
 
 def test_incremental_dry_run_only_lists_would_fetch_urls(

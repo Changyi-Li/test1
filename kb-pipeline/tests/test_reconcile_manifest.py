@@ -387,6 +387,7 @@ def test_reconcile_manifest_en_http_500_is_error_not_deleted(
     monkeypatch.setattr(P, "_head", net.head)
     monkeypatch.setattr(sync_manifest, "SITEMAP_URL", SITEMAP_URL)
     monkeypatch.setattr(sync_engine, "_pace", lambda rate: None)
+    monkeypatch.setattr(sync_engine.time, "sleep", lambda s: None)
     state = sync_state.SyncState(engine_root / "state" / "sync-state.jsonl")
     state.load()
     state.mark_ok(down, language="en-us", etag='"old"',
@@ -412,6 +413,7 @@ def test_reconcile_manifest_zh_http_500_is_error_not_untranslated(
     monkeypatch.setattr(P, "_head", net.head)
     monkeypatch.setattr(sync_manifest, "SITEMAP_URL", SITEMAP_URL)
     monkeypatch.setattr(sync_engine, "_pace", lambda rate: None)
+    monkeypatch.setattr(sync_engine.time, "sleep", lambda s: None)
 
     code = sync_engine.reconcile_manifest(limit=4, cfg=cfg, rate=5.0)
 

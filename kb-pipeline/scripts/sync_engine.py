@@ -20,6 +20,12 @@ state/sync-state.jsonl（gitignore）。重复运行幂等。
 删除检测（票 #18）：曾 ok 的页面 200→404 或从 sitemap 消失时，同步状态留墓碑
 （deleted_at + 最后指纹）、例外表记 deleted，并清除该页数据集旧产物与镜像配对；
 页面重现时墓碑清除、例外 resolved、重新入库。全量对账与增量同步两种模式均覆盖。
+
+失败恢复与停止条件（票 #19）：所有 GET/HEAD 遇 429/5xx 按配置指数退避重试
+（base×2^n 封顶 max_seconds，config/sync.json 的 backoff）。每轮跟踪连续失败与
+错误率：连续失败 ≥ 配置阈值或单轮错误率 > 配置阈值时停止本轮、非零退出，并把
+失败 URL 与原因写进 state/sync-error-report.jsonl 供恢复排查；每条结果即时落盘，
+任何中断（含阈值停止）后续跑从同步状态恢复，不重复已完成工作。
 """
 from __future__ import annotations
 
@@ -28,10 +34,11 @@ import re
 import sys
 import time
 import xml.etree.ElementTree as ET
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
 from email.utils import format_datetime
 from pathlib import Path
+from typing import Callable, TypeVar
 from urllib.parse import urlparse
 
 import pipeline as P
@@ -41,15 +48,23 @@ import sync_state
 
 ROOT = Path(__file__).resolve().parent.parent
 STATE_FILE_REL = "state/sync-state.jsonl"
+ERROR_REPORT_REL = "state/sync-error-report.jsonl"
 
 LANGS = ("en-us", "zh-cn")
 _TOPIC_URL_RE = re.compile(
     r"^/(.+?)/(en-us|zh-cn)/Content/Topics/(.+)/([^/]+\.htm)$"
 )
 
+# 429/5xx 视为服务器侧瞬时可重试错误（规格 §5.4）；其余状态不重试。
+RETRYABLE_STATUSES = frozenset({429, 500, 502, 503, 504})
+
 
 def state_path() -> Path:
     return ROOT / STATE_FILE_REL
+
+
+def error_report_path() -> Path:
+    return ROOT / ERROR_REPORT_REL
 
 
 def headers_path() -> Path:
@@ -98,6 +113,76 @@ class MirrorResult:
     kind: str               # paired | renamed | untranslated
 
 
+@dataclass(frozen=True)
+class TopicResult:
+    """process_topic 的结果（票 #19）：status=ok 时 meta/chunks/info 为有效产物。
+
+    - ok：抓取→清洗→元数据→分块全部完成，产物已入库。
+    - deleted：200→404/410 删除事件或墓碑保持，墓碑/例外已写，不算失败。
+    - error：运行时失败（网络/429/5xx/自检未过），reason 供错误报告。
+    """
+    status: str
+    meta: dict = field(default_factory=dict)
+    chunks: list[dict] = field(default_factory=list)
+    info: dict = field(default_factory=dict)
+    reason: str | None = None
+
+
+@dataclass
+class RoundFailures:
+    """单轮失败跟踪（规格 §5.5，票 #19）：连续失败与错误率停止判定 + 失败清单。
+
+    attempt_ok / attempt_failed 逐条更新（attempts 分母含成功/失败/删除事件）；
+    consecutive_stop 在每次失败后立即检查，rate_stop 在阶段边界/轮末检查。
+    records 供错误报告（失败 URL 与原因，供恢复排查）。
+    """
+    attempts: int = 0
+    failures: int = 0
+    consecutive: int = 0
+    records: list[dict] = field(default_factory=list)
+
+    def attempt_ok(self) -> None:
+        self.attempts += 1
+        self.consecutive = 0
+
+    def attempt_failed(self, url: str, reason: str) -> None:
+        self.attempts += 1
+        self.failures += 1
+        self.consecutive += 1
+        self.records.append({
+            "url": url,
+            "reason": reason,
+            "at": sync_state.utc_now_iso(),
+        })
+
+    def consecutive_stop(self, cfg: sync_config.SyncConfig) -> str | None:
+        threshold = cfg.stop_conditions.consecutive_failures
+        if self.consecutive >= threshold:
+            return f"连续失败 {self.consecutive} 次 ≥ {threshold}，停止本轮"
+        return None
+
+    def rate_stop(self, cfg: sync_config.SyncConfig) -> str | None:
+        threshold = cfg.stop_conditions.error_rate_percent / 100.0
+        if self.attempts and self.failures / self.attempts > threshold:
+            pct = self.failures / self.attempts * 100.0
+            return (f"单轮错误率 {pct:.1f}% > "
+                    f"{cfg.stop_conditions.error_rate_percent}%，停止本轮")
+        return None
+
+    def consume(self, result: TopicResult, cfg: sync_config.SyncConfig,
+                url: str) -> str | None:
+        """按 process_topic 结果更新失败跟踪；连续失败达阈值返回停止原因，否则 None。
+
+        error → 记失败；ok / deleted → 记成功（删除事件不算失败）。调用方仍需按
+        result.status 决定跳过（error/deleted）或 mark_ok（ok）。
+        """
+        if result.status == "error":
+            self.attempt_failed(url, result.reason or "抓取失败")
+            return self.consecutive_stop(cfg)
+        self.attempt_ok()
+        return None
+
+
 def parse_topic_url(url: str) -> TopicTarget:
     """从主题 URL 推导站点/语言/主题路径/页面；非法 URL 抛 ValueError。"""
     parsed = urlparse(url)
@@ -134,20 +219,114 @@ def _pace(rate: float) -> None:
     time.sleep(1.0 / rate)
 
 
-def _fetch(target: TopicTarget, user_agent: str, headers_rec: dict,
-           timeout: int = 30):
-    """按配置 UA 抓取单页；响应头信息写入调用方共享的 headers_rec。"""
+# ---------- 429/5xx 指数退避（规格 §5.4，票 #19） ----------
+
+def _backoff_delay(attempt: int, backoff: sync_config.BackoffConfig) -> float:
+    """第 attempt 次重试前的退避延迟：base×2^attempt，封顶 max_seconds。"""
+    return min(backoff.base_seconds * (2 ** attempt), backoff.max_seconds)
+
+
+def _retriable(status: object) -> bool:
+    """429/5xx 视为可重试；网络异常（字符串状态）与其余状态码不重试。"""
+    return isinstance(status, int) and status in RETRYABLE_STATUSES
+
+
+def _can_retry(attempt: int, backoff: sync_config.BackoffConfig) -> bool:
+    """下一跳退避延迟仍低于上限才继续重试（1s→2s→4s…封顶 max_seconds）。"""
+    return _backoff_delay(attempt, backoff) < backoff.max_seconds
+
+
+def _status_reason(status: object) -> str:
+    """把抓取返回的 status（HTTP 状态码或 ERROR 字符串）转成错误报告用的原因。"""
+    if isinstance(status, int):
+        return f"HTTP {status}"
+    return str(status)
+
+
+_T = TypeVar("_T")
+
+
+def _retry_probe(probe: Callable[[], tuple[_T, dict]],
+                 backoff: sync_config.BackoffConfig) -> tuple[_T, dict]:
+    """执行返回 (result, info) 的探测；429/5xx 按配置指数退避重试。
+
+    返回最后一次探测的 (result, info)；退避延迟 base×2^n 封顶 max_seconds，
+    下一跳延迟已达上限时放弃重试（1s→2s→4s…上限 60s，规格 §5.4）。
+    """
+    attempt = 0
+    while True:
+        result, info = probe()
+        status = info.get("status")
+        if not _retriable(status) or not _can_retry(attempt, backoff):
+            return result, info
+        time.sleep(_backoff_delay(attempt, backoff))
+        attempt += 1
+
+
+def _write_error_report(failures: list[dict], stopped: str, total: int) -> Path:
+    """写错误报告：失败 URL 与原因逐行 JSONL + summary 行；覆盖上次报告。"""
+    path = error_report_path()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    lines = [
+        json.dumps({"type": "failure", **f}, ensure_ascii=False)
+        for f in failures
+    ]
+    lines.append(json.dumps({
+        "type": "summary",
+        "stopped": stopped,
+        "failed": len(failures),
+        "total": total,
+        "at": sync_state.utc_now_iso(),
+    }, ensure_ascii=False))
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return path
+
+
+def _stop_round(failures: list[dict], reason: str, total: int) -> int:
+    """停止本轮：写错误报告、打印停止原因与报告路径、返回非零退出码。"""
+    path = _write_error_report(failures, reason, total)
+    print(f"错误: {reason}", file=sys.stderr)
+    print(f"错误报告: {path.relative_to(ROOT)}（{len(failures)} 条失败）",
+          file=sys.stderr)
+    return 1
+
+
+def _fetch(target: TopicTarget, cfg: sync_config.SyncConfig, headers_rec: dict,
+           timeout: int = 30) -> tuple[bytes | None, dict]:
+    """按配置 UA 抓取单页；429/5xx 按配置指数退避重试（票 #19）。
+
+    响应头信息写入调用方共享的 headers_rec；重试期间每次探测都会刷新该记录，
+    返回最后一次探测的结果与响应头信息。
+    """
     manifest = P.Manifest(
         site=target.site,
         topic_path=target.topic_path,
         source=target.source,
         topics=(),
         zh_probes=(),
-        headers={"User-Agent": user_agent},
+        headers={"User-Agent": cfg.user_agent},
         fetch_sleep=0.0,
     )
-    raw = P.probe(manifest, target.url, headers_rec, timeout=timeout)
-    return raw, headers_rec.get(target.url, {})
+
+    def _probe_once() -> tuple[bytes | None, dict]:
+        raw = P.probe(manifest, target.url, headers_rec, timeout=timeout)
+        return raw, headers_rec.get(target.url, {})
+
+    return _retry_probe(_probe_once, cfg.backoff)
+
+
+def _probe_head_with_backoff(manifest: P.Manifest, url: str, headers_rec: dict,
+                             backoff: sync_config.BackoffConfig) -> dict:
+    """HEAD 探测；429/5xx 指数退避重试（票 #19）。返回最后一次探测的 info。"""
+    _result, info = _retry_probe(
+        lambda: (None, P.probe_head(manifest, url, headers_rec)), backoff)
+    return info
+
+
+def _download_sitemap_with_backoff(cfg: sync_config.SyncConfig) -> tuple[bytes | None, dict]:
+    """下载 en sitemap；429/5xx 指数退避重试（票 #19）。返回 (raw, info)。"""
+    return _retry_probe(lambda: sync_manifest.download_sitemap(cfg.user_agent),
+                        cfg.backoff)
 
 
 def _headers_manifest(user_agent: str,
@@ -725,10 +904,14 @@ def selfcheck_dataset(expected_pairs: dict[str, str | None]) -> bool:
     path.write_text("\n".join(lines), encoding="utf-8")
     return ok
 def process_topic(target: TopicTarget, cfg: sync_config.SyncConfig, rate: float,
-                  state: sync_state.SyncState, headers_rec: dict):
-    """抓取→清洗→元数据→分块；成功返回 (meta, chunks, info)，失败返回 None。"""
+                  state: sync_state.SyncState, headers_rec: dict) -> TopicResult:
+    """抓取→清洗→元数据→分块（429/5xx 指数退避）；返回 TopicResult。
+
+    ok=产物入库；deleted=404/410 删除事件或墓碑保持（不算失败）；error=运行时
+    失败，reason 供错误报告。删除/失败的状态与例外在该函数内即时落盘。
+    """
     print(f"== 抓取: {target.url}")
-    raw, info = _fetch(target, cfg.user_agent, headers_rec)
+    raw, info = _fetch(target, cfg, headers_rec)
     _pace(rate)
     if raw is None:
         status = info.get("status")
@@ -736,15 +919,15 @@ def process_topic(target: TopicTarget, cfg: sync_config.SyncConfig, rate: float,
         if prev is not None and prev.get("status") == "deleted":
             print(f"错误: 墓碑页 {target.url} GET 失败（status={status}），"
                   "墓碑保持", file=sys.stderr)
-            return None
+            return TopicResult("deleted")
         if prev is not None and (status == 404 or status == 410):
             _delete_topic(target.url, target.language, state,
                           f"{target.url} 现 {status}")
-            return None
+            return TopicResult("deleted")
         state.mark_error(target.url, language=target.language)
         print(f"错误: 抓取失败（status={status}），同步状态已记 error",
               file=sys.stderr)
-        return None
+        return TopicResult("error", reason=_status_reason(status))
 
     raw_file = ROOT / "data" / "raw" / target.language / target.page
     raw_file.parent.mkdir(parents=True, exist_ok=True)
@@ -765,11 +948,15 @@ def process_topic(target: TopicTarget, cfg: sync_config.SyncConfig, rate: float,
     chunks = build_chunks(meta, md)
     upsert_chunks(meta["id"], chunks)
     print(f"== 分块: {len(chunks)} 块 -> {chunks_path().relative_to(ROOT)}")
-    return meta, chunks, info
+    return TopicResult("ok", meta=meta, chunks=chunks, info=info)
 
 
 def reconcile_single_url(url: str, cfg: sync_config.SyncConfig, rate: float) -> int:
-    """单主题 URL 端到端全量对账；返回进程退出码（0=成功且自检全 PASS）。"""
+    """单主题 URL 端到端全量对账；返回进程退出码（0=成功且自检全 PASS）。
+
+    运行时失败或自检未通过 → 写错误报告并非零退出（票 #19）；删除事件非零退出，
+    但不写错误报告（已由墓碑/例外处理，非失败）。
+    """
     try:
         target = parse_topic_url(url)
     except ValueError as exc:
@@ -780,10 +967,16 @@ def reconcile_single_url(url: str, cfg: sync_config.SyncConfig, rate: float) -> 
     state.load()
     headers_rec: dict = {}
     result = process_topic(target, cfg, rate, state, headers_rec)
-    if result is None:
-        return 1
-    meta, chunks, info = result
     _merge_headers(headers_rec)
+    if result.status == "error":
+        failures = [{"url": target.url, "reason": result.reason or "抓取失败",
+                     "at": sync_state.utc_now_iso()}]
+        return _stop_round(failures, f"单 URL 对账失败: {target.url}", 1)
+    if result.status == "deleted":
+        print(f"== 对账: {target.url} 已删除（墓碑保持/删除事件），非零退出",
+              file=sys.stderr)
+        return 1
+    meta, chunks, info = result.meta, result.chunks, result.info
     print(f"  响应头 -> {headers_path().relative_to(ROOT)}")
 
     ok = selfcheck_single(meta, chunks)
@@ -797,13 +990,15 @@ def reconcile_single_url(url: str, cfg: sync_config.SyncConfig, rate: float) -> 
         print(f"== 同步状态: ok（etag={info.get('etag')!r}, "
               f"lastmod={info.get('lastmod')!r}, "
               f"content_hash={meta['content_hash'][:12]}…）")
-    else:
-        state.mark_error(target.url, language=target.language,
-                         etag=info.get("etag"), lastmod=info.get("lastmod"),
-                         content_hash=meta["content_hash"])
-        print("== 同步状态: error（自检未通过，产物保留供检查，不记 ok）",
-              file=sys.stderr)
-    return 0 if ok else 1
+        return 0
+    state.mark_error(target.url, language=target.language,
+                     etag=info.get("etag"), lastmod=info.get("lastmod"),
+                     content_hash=meta["content_hash"])
+    print("== 同步状态: error（自检未通过，产物保留供检查，不记 ok）",
+          file=sys.stderr)
+    failures = [{"url": target.url, "reason": "自检未通过",
+                 "at": sync_state.utc_now_iso()}]
+    return _stop_round(failures, f"单 URL 自检未通过: {target.url}", 1)
 
 
 def _expected_pair_map(mirrors: dict[str, MirrorResult]) -> dict[str, str | None]:
@@ -869,60 +1064,80 @@ def apply_pairings(mirrors: dict[str, MirrorResult]) -> None:
 
 def reconcile_manifest(limit: int | None, cfg: sync_config.SyncConfig,
                        rate: float) -> int:
-    """清单驱动全量对账（规格 §5.1–§5.6，票 #16/#18）。
+    """清单驱动全量对账（规格 §5.1–§5.6，票 #16/#18/#19）。
 
     每轮：sitemap 下载/修复/过滤/去重 → en HEAD 可达性校验（>10% 失配即停）→
     删除检测（sitemap 消失与 200→404 → 墓碑 + deleted 例外 + 产物清除）→
     zh 同路径 HEAD 镜像扫描（含已知重命名映射）→ 样本主题完整管道 →
     例外表与同步状态 → 全量数据集自检。页面重现自动恢复：墓碑清除、例外
-    resolved、重新入库。重复运行幂等。
+    resolved、重新入库。重复运行幂等。票 #19：所有 GET/HEAD 遇 429/5xx 指数
+    退避重试；完整管道连续失败达阈值或单轮错误率超阈值 → 停止、非零退出、
+    写错误报告（失败 URL 与原因）。
     """
     state = sync_state.SyncState(state_path())
     state.load()
     headers_rec: dict = {}
 
     print(f"== sitemap: {sync_manifest.SITEMAP_URL}")
-    raw, info = sync_manifest.download_sitemap(cfg.user_agent)
+    raw, info = _download_sitemap_with_backoff(cfg)
     _pace(rate)
     if raw is None:
-        print(f"错误: sitemap 下载失败（status={info.get('status')}），"
-              "停止本轮，不使用旧清单静默继续", file=sys.stderr)
-        return 1
+        reason = (f"sitemap 下载失败（status={info.get('status')}），"
+                  "停止本轮，不使用旧清单静默继续")
+        failures = [{"url": sync_manifest.SITEMAP_URL, "reason": reason,
+                     "at": sync_state.utc_now_iso()}]
+        return _stop_round(failures, reason, 1)
     try:
         en_urls = sync_manifest.build_en_manifest(
             raw.decode("utf-8", errors="replace"))
     except ET.ParseError as exc:
-        print(f"错误: sitemap 不是合法 XML（{exc}），停止本轮", file=sys.stderr)
-        return 1
+        reason = f"sitemap 不是合法 XML（{exc}），停止本轮"
+        failures = [{"url": sync_manifest.SITEMAP_URL, "reason": reason,
+                     "at": sync_state.utc_now_iso()}]
+        return _stop_round(failures, reason, 1)
     if not en_urls:
-        print("错误: sitemap 未解析出 Topics/*.htm 条目，停止本轮", file=sys.stderr)
-        return 1
+        reason = "sitemap 未解析出 Topics/*.htm 条目，停止本轮"
+        return _stop_round([], reason, 0)
     scope = en_urls if limit is None else en_urls[:limit]
     print(f"== en 清单: 修复/过滤/去重后 {len(en_urls)} 条"
           + (f"，--limit {limit} → 本轮 {len(scope)} 条" if limit is not None
              else ""))
 
     manifest = _headers_manifest(cfg.user_agent)
+    round_f = RoundFailures()
     en_ok: list[str] = []
     en_failed: list[tuple[str, object]] = []
     for url in scope:
-        hinfo = P.probe_head(manifest, url, headers_rec)
+        hinfo = _probe_head_with_backoff(manifest, url, headers_rec, cfg.backoff)
         _pace(rate)
         status = hinfo.get("status")
         if status == 200:
             en_ok.append(url)
+            round_f.attempt_ok()
         else:
             en_failed.append((url, status))
+            if status == 404 or status == 410:
+                round_f.attempt_ok()   # 删除候选：计入分母，不计失败
+            else:
+                round_f.attempt_failed(url, _status_reason(status))
+                stop = round_f.consecutive_stop(cfg)
+                if stop is not None:
+                    return _stop_round(round_f.records, stop, round_f.attempts)
     failure_rate = len(en_failed) / len(scope)
     threshold = cfg.stop_conditions.error_rate_percent / 100.0
     if failure_rate > threshold:
-        print(f"错误: en 清单失配 {len(en_failed)}/{len(scope)} "
-              f"（{failure_rate:.1%} > {cfg.stop_conditions.error_rate_percent}%），"
-              "停止本轮并告警，不使用旧清单静默继续", file=sys.stderr)
+        reason = (f"en 清单失配 {len(en_failed)}/{len(scope)} "
+                  f"（{failure_rate:.1%} > {cfg.stop_conditions.error_rate_percent}%），"
+                  "停止本轮并告警，不使用旧清单静默继续")
         for url, status in en_failed[:5]:
             print(f"  失配示例: {url} → {status}",
                   file=sys.stderr)
-        return 1
+        failures = [
+            {"url": u, "reason": _status_reason(s),
+             "at": sync_state.utc_now_iso()}
+            for u, s in en_failed
+        ]
+        return _stop_round(failures, reason, len(scope))
     for url, status in en_failed:
         prev = state.get(url)
         if prev is not None and prev.get("status") == "deleted":
@@ -953,7 +1168,8 @@ def reconcile_manifest(limit: int | None, cfg: sync_config.SyncConfig,
     for url in en_ok:
         en_id = _topic_id_of_url(url)
         zh_url = sync_manifest.zh_url_for(url)
-        hinfo = P.probe_head(manifest, zh_url, headers_rec)
+        hinfo = _probe_head_with_backoff(manifest, zh_url, headers_rec,
+                                         cfg.backoff)
         _pace(rate)
         status = hinfo.get("status")
         if status == 200:
@@ -965,7 +1181,13 @@ def reconcile_manifest(limit: int | None, cfg: sync_config.SyncConfig,
             continue
         if status != 404 and status != 410:
             state.mark_error(zh_url, language="zh-cn")
+            round_f.attempt_failed(zh_url, _status_reason(status))
+            stop = round_f.consecutive_stop(cfg)
+            if stop is not None:
+                _merge_headers(headers_rec)
+                return _stop_round(round_f.records, stop, round_f.attempts)
             continue
+        round_f.attempt_ok()   # 同路径 404/410：未翻译/重命名候选，计入分母不计失败
         zh_prev = state.get(zh_url)
         if zh_prev is not None and zh_prev.get("status") != "deleted":
             _delete_topic(zh_url, "zh-cn", state,
@@ -973,7 +1195,8 @@ def reconcile_manifest(limit: int | None, cfg: sync_config.SyncConfig,
         renamed_page = cfg.renames.get(sync_manifest.en_topic_rel_path(url))
         if renamed_page:
             renamed_url = sync_manifest.zh_url_for_page(zh_url, renamed_page)
-            hinfo2 = P.probe_head(manifest, renamed_url, headers_rec)
+            hinfo2 = _probe_head_with_backoff(manifest, renamed_url, headers_rec,
+                                              cfg.backoff)
             _pace(rate)
             status2 = hinfo2.get("status")
             if status2 == 200:
@@ -990,10 +1213,17 @@ def reconcile_manifest(limit: int | None, cfg: sync_config.SyncConfig,
                     "discovered_at": sync_state.utc_now_iso(),
                     "resolved": False,
                 })
+                round_f.attempt_ok()
                 continue
             if status2 != 404 and status2 != 410:
                 state.mark_error(renamed_url, language="zh-cn")
+                round_f.attempt_failed(renamed_url, _status_reason(status2))
+                stop = round_f.consecutive_stop(cfg)
+                if stop is not None:
+                    _merge_headers(headers_rec)
+                    return _stop_round(round_f.records, stop, round_f.attempts)
                 continue
+            round_f.attempt_ok()   # 重命名探测 404：仍按未翻译处理
         mirrors[url] = MirrorResult(url, en_id, None, None, "untranslated")
         upsert_exception({
             "id": _topic_id_of_url(zh_url),
@@ -1009,19 +1239,17 @@ def reconcile_manifest(limit: int | None, cfg: sync_config.SyncConfig,
           f"{sum(1 for m in mirrors.values() if m.kind == 'renamed')} 重命名")
 
     print(f"== 完整管道: {len(en_ok)} en 主题 + {zh_count} zh 镜像")
-    consecutive_failures = 0
     for url in en_ok:
         target = parse_topic_url(url)
         result = process_topic(target, cfg, rate, state, headers_rec)
-        if result is None:
-            consecutive_failures += 1
-            if consecutive_failures >= cfg.stop_conditions.consecutive_failures:
-                print("错误: 连续抓取失败达到阈值，停止本轮", file=sys.stderr)
-                _merge_headers(headers_rec)
-                return 1
+        stop = round_f.consume(result, cfg, target.url)
+        if stop is not None:
+            _merge_headers(headers_rec)
+            return _stop_round(round_f.records, stop, round_f.attempts)
+        if result.status == "error" or result.status == "deleted":
             continue
-        consecutive_failures = 0
-        meta, _chunks, fetched = result
+        meta = result.meta
+        fetched = result.info
         state.mark_ok(target.url, language=target.language,
                       etag=fetched.get("etag"), lastmod=fetched.get("lastmod"),
                       content_hash=meta["content_hash"])
@@ -1032,19 +1260,22 @@ def reconcile_manifest(limit: int | None, cfg: sync_config.SyncConfig,
             continue
         target = parse_topic_url(mirror.zh_url)
         result = process_topic(target, cfg, rate, state, headers_rec)
-        if result is None:
-            consecutive_failures += 1
-            if consecutive_failures >= cfg.stop_conditions.consecutive_failures:
-                print("错误: 连续抓取失败达到阈值，停止本轮", file=sys.stderr)
-                _merge_headers(headers_rec)
-                return 1
+        stop = round_f.consume(result, cfg, target.url)
+        if stop is not None:
+            _merge_headers(headers_rec)
+            return _stop_round(round_f.records, stop, round_f.attempts)
+        if result.status == "error" or result.status == "deleted":
             continue
-        consecutive_failures = 0
-        meta, _chunks, fetched = result
+        meta = result.meta
+        fetched = result.info
         state.mark_ok(target.url, language=target.language,
                       etag=fetched.get("etag"), lastmod=fetched.get("lastmod"),
                       content_hash=meta["content_hash"])
         _resolve_exception(meta["id"], "deleted")
+    stop = round_f.rate_stop(cfg)
+    if stop is not None:
+        _merge_headers(headers_rec)
+        return _stop_round(round_f.records, stop, round_f.attempts)
 
     apply_pairings(mirrors)
     _merge_headers(headers_rec)
@@ -1054,18 +1285,24 @@ def reconcile_manifest(limit: int | None, cfg: sync_config.SyncConfig,
     ok = selfcheck_dataset(_expected_pair_map(mirrors))
     print(f"== 自检: {'ALL PASS' if ok else 'HAS FAILURES'} -> "
           f"{check_path().relative_to(ROOT)}")
+    # 正常结束也写报告（失败 0 条时为仅 summary），覆盖上一次报告，避免残留误导；
+    # 自检未通过时 stopped 反映非零退出，避免报告与退出状态矛盾
+    stopped = "completed" if ok else "数据集自检未通过"
+    _write_error_report(round_f.records, stopped, round_f.attempts)
     return 0 if ok else 1
 
 
 def incremental_sync(limit: int | None, url: str | None,
                      cfg: sync_config.SyncConfig, rate: float,
                      dry_run: bool = False) -> int:
-    """日常增量同步（票 #17/#18）：基于同步状态对已知主题发起条件请求。
+    """日常增量同步（票 #17/#18/#19）：基于同步状态对已知主题发起条件请求。
 
     未变化页（304 或指纹一致）不重写任何产物、状态保持；变化页 GET 全文。
     曾 ok 页面 404/410 → 墓碑 + deleted 例外 + 产物清除；已删除墓碑不重探，
     --url 显式指定时可重新入库（墓碑清除、例外 resolved）。每条结果即时落盘，
-    中断后可从断点续跑。dry_run 只输出将抓取的 URL 清单，不发 GET、不写任何产物。
+    中断后可从断点续跑。429/5xx 条件 HEAD 按配置指数退避重试；连续失败达阈值
+    立即停止，轮末错误率超阈值也停止——停止均非零退出并写错误报告（票 #19）。
+    dry_run 只输出将抓取的 URL 清单，不发 GET、不写任何产物。
     """
     state = sync_state.SyncState(state_path())
     state.load()
@@ -1090,11 +1327,12 @@ def incremental_sync(limit: int | None, url: str | None,
     changed = 0
     errors = 0
     fetched_any = False
+    round_f = RoundFailures()
     for target_url in scope:
         record = state.get(target_url)
-        info = P.probe_head(
+        info = _probe_head_with_backoff(
             _headers_manifest(cfg.user_agent, _conditional_headers(record)),
-            target_url, headers_rec)
+            target_url, headers_rec, cfg.backoff)
         _pace(rate)
         record_status = (record or {}).get("status")
         if info.get("status") == 304 and record_status == "deleted":
@@ -1102,6 +1340,8 @@ def incremental_sync(limit: int | None, url: str | None,
             info = {**info, "status": 200}
         if _is_unchanged(info, record) and record_status != "deleted":
             unchanged += 1
+            if not dry_run:
+                round_f.attempt_ok()
             print(f"== 未变化: {target_url}")
             continue
         if info.get("status") != 200:
@@ -1112,16 +1352,24 @@ def incremental_sync(limit: int | None, url: str | None,
                       file=sys.stderr)
                 continue
             if record_status == "deleted":
+                round_f.attempt_ok()  # 墓碑保持：本轮已处理（不重探），不计失败
                 print(f"== 墓碑保持: {target_url} → {status}，不改写状态")
                 continue
             if status == 404 or status == 410:
                 _delete_topic(target_url, (record or {}).get("language"),
                               state, f"{target_url} 现 {status}")
+                round_f.attempt_ok()  # 删除事件：本轮已处理，不计失败
                 continue
             state.mark_error(target_url,
                              language=(record or {}).get("language"))
+            round_f.attempt_failed(target_url, _status_reason(status))
             print(f"错误: {target_url} → {status}，同步状态已记 error",
                   file=sys.stderr)
+            stop = round_f.consecutive_stop(cfg)
+            if stop is not None:
+                if fetched_any:
+                    _merge_headers(headers_rec)
+                return _stop_round(round_f.records, stop, round_f.attempts)
             continue
         changed += 1
         if dry_run:
@@ -1131,10 +1379,18 @@ def incremental_sync(limit: int | None, url: str | None,
         print(f"== 变化: {target_url}")
         target = parse_topic_url(target_url)
         result = process_topic(target, cfg, rate, state, headers_rec)
-        if result is None:
+        stop = round_f.consume(result, cfg, target_url)
+        if stop is not None:
+            if fetched_any:
+                _merge_headers(headers_rec)
+            return _stop_round(round_f.records, stop, round_f.attempts)
+        if result.status == "error":
             errors += 1
             continue
-        meta, _chunks, fetched = result
+        if result.status == "deleted":
+            continue  # 404/410 删除事件：本轮已处理（consume 已计成功）
+        meta = result.meta
+        fetched = result.info
         state.mark_ok(target_url, language=target.language,
                       etag=fetched.get("etag"), lastmod=fetched.get("lastmod"),
                       content_hash=meta["content_hash"])
@@ -1147,9 +1403,14 @@ def incremental_sync(limit: int | None, url: str | None,
     if dry_run:
         print(f"== 增量同步预览: 将抓取 {changed}，未变化 {unchanged}"
               + (f"，错误 {errors}" if errors else ""))
-    else:
-        print(f"== 增量同步完成: 未变化 {unchanged}，变化 {changed}"
-              + (f"，错误 {errors}" if errors else ""))
+        return 0
+    stop = round_f.rate_stop(cfg)
+    if stop is not None:
+        return _stop_round(round_f.records, stop, round_f.attempts)
+    # 正常结束也写报告（失败 0 条时为仅 summary），覆盖上一次报告，避免残留误导
+    _write_error_report(round_f.records, "completed", round_f.attempts)
+    print(f"== 增量同步完成: 未变化 {unchanged}，变化 {changed}"
+          + (f"，错误 {errors}" if errors else ""))
     return 0
 
 
