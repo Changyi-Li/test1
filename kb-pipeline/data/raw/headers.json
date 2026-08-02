@@ -1,0 +1,51 @@
+{
+  "https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/UserGuide/GettingStarted/GettingStarted.htm": {
+    "url": "https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/UserGuide/GettingStarted/GettingStarted.htm",
+    "status": 200,
+    "final_url": "https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/UserGuide/GettingStarted/GettingStarted.htm",
+    "lastmod": "2026-05-21T08:18:54Z",
+    "etag": "\"c18ad76fae8dc1:0\""
+  },
+  "https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/UserGuide/GettingStarted/MobileClient.htm": {
+    "url": "https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/UserGuide/GettingStarted/MobileClient.htm",
+    "status": 200,
+    "final_url": "https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/UserGuide/GettingStarted/MobileClient.htm",
+    "lastmod": "2026-05-21T08:18:54Z",
+    "etag": "\"7e7abd76fae8dc1:0\""
+  },
+  "https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/UserGuide/GettingStarted/MonitorBI.htm": {
+    "url": "https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/UserGuide/GettingStarted/MonitorBI.htm",
+    "status": 200,
+    "final_url": "https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/UserGuide/GettingStarted/MonitorBI.htm",
+    "lastmod": "2026-05-21T08:18:54Z",
+    "etag": "\"193fc676fae8dc1:0\""
+  },
+  "https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Topics/UserGuide/GettingStarted/GettingStarted.htm": {
+    "url": "https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Topics/UserGuide/GettingStarted/GettingStarted.htm",
+    "status": 200,
+    "final_url": "https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Topics/UserGuide/GettingStarted/GettingStarted.htm",
+    "lastmod": "2026-05-21T08:22:34Z",
+    "etag": "\"475ef9f9fae8dc1:0\""
+  },
+  "https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Topics/UserGuide/GettingStarted/WebClient.htm": {
+    "url": "https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Topics/UserGuide/GettingStarted/WebClient.htm",
+    "status": 200,
+    "final_url": "https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Topics/UserGuide/GettingStarted/WebClient.htm",
+    "lastmod": "2026-05-21T08:22:34Z",
+    "etag": "\"3cf0faf9fae8dc1:0\""
+  },
+  "https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Topics/UserGuide/GettingStarted/MobileClient.htm": {
+    "url": "https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Topics/UserGuide/GettingStarted/MobileClient.htm",
+    "status": 404,
+    "final_url": null,
+    "lastmod": null,
+    "etag": null
+  },
+  "https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Topics/UserGuide/GettingStarted/MonitorBI.htm": {
+    "url": "https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Topics/UserGuide/GettingStarted/MonitorBI.htm",
+    "status": 404,
+    "final_url": null,
+    "lastmod": null,
+    "etag": null
+  }
+}
