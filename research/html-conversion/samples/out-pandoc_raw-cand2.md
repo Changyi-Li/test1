@@ -1,0 +1,51 @@
+:::: {#mc-main-content role="main"}
+### Manage transactions via bank integration
+
+If you have activated the [Bank integration]{.italic} option, you use this tab to manage your bank transactions.
+
+Every morning, a bank statement is loaded from the bank, i.e. an overview of everything that has happened with the account. Normally, [Monitor ERP]{.mc-variable .Variables.ProductName .variable} loads bank transactions from the bank between 07:00-09:00. This is the case for all banks except Swedbank (08:00-09:00) and Handelsbanken (07:15-09:00). Prior to the transactions being loaded, the system checks whether the payment details have been filled out. If the information is missing (due to a delay from the bank's side), the system will wait and try to download the transactions again an hour later. This is repeated on an hourly basis until the transactions are ready to be downloaded. When the download is delayed, a notification is sent to the users entered under [Notify when error occurs]{.italic} explaining why there aren't any records to confirm. It is therefore important that you have entered users under the [Notify when error occurs]{.italic} button under the [Bank integration]{.italic} tab, in the [Bank settings]{.italic} procedure so that they receive these notifications.
+
+Confirmation of payment is done in the same way as confirmation from file. No file needs to be imported however, and bank transactions are ready to be loaded via the [Load transactions]{.italic} button ![](../../../../Resources/Images/button_import.png). The bank transactions are loaded and matched automatically with both accounts receivable and accounts payable.
+
+![](../../../../Resources/Images/SubProjects/BankIntegration_Manage_BanktTransactions_BankIntegration.png){style="mc-thumbnail: popup;mc-thumbnail-max-height: 244px;"}
+
+If the [Automatic confirmation of payments]{.italic} setting is activated in the [Payment method]{.italic} tab in the [Bank settings]{.italic} procedure, the system will automatically confirm and record all events each night. This feature should only be activated once you have used bank integration for a while.
+
+You are also able to match manually via drag and drop. When you save in the procedure, all matched records are confirmed and recorded. Any remaining records will stay there until the next time you load the bank statement. All records that have been confirmed via this procedure will be automatically loaded as reconciled in the [Bank reconciliation]{.italic} procedure.
+
+With the [Exclude]{.italic} check box, you can create an exception for a record in the bank statement so that it is not confirmed/recorded. This can be useful if you e.g. intend to record the payment manually (on the side of this procedure), or if the payment has already been recorded.
+
+An excluded record is not shown again when you load the bank statement the next time.
+
+For a short period of time, outgoing payment transactions may be shown that are missing necessary reference information and can therefore not automatically be matched to accounts receivable. These are outgoing payment transactions that have been ordered via ISO file before you began using bank integration.
+
+::: note
+[If your bank is DNB]{.bold}. The first time you confirm after activating bank integration, incoming payments may be missing details that are needed for automatic matching.
+:::
+
+The procedure also has support for linking documents (PDF and TIFF files) to payment records. Use the [Documents]{.italic} button ![](../../../../Resources/Images/button_file_link.png) on the row for the bank transaction that you would like to link the document to.
+
+#### International payment records via Global Pay
+
+As the records are loaded from the bank, a bookkeeping basis showing proof of payment information is automatically attached as a PDF. Use the ![](../../../../Resources/Images/button_file_linked.png) button in the [Documents]{.italic} column in [Payment records in period]{.italic} to view the document. This PDF is automatically saved as a document to the voucher which is created during the confirmation reporting.
+
+In the [Scan documents]{.italic} procedure, you can set the attachment type for Global Pay. The default type is the attachment type at the bottom of the list.
+
+#### Payment records that do not relate to invoices
+
+Transactions that do not relate to invoices, such as fees, interest or other payments, can be recorded at the same time as payments are confirmed. You can do this by either using the [Posting]{.italic} button and entering the payment's posting, or by selecting a bank transaction rule so that the posting is done automatically.
+
+![](../../../../Resources/Images/SubProjects/BankIntegration_BankTransactionRule.png){style="mc-thumbnail: popup;mc-thumbnail-max-height: 188px;"}
+
+If there is a recurring transaction, a bank transaction rule can be used so that in the future they are matched and posted automatically when the records are loaded. Bank transaction rules can be created/updated by marking the transaction and clicking the [Add/update bank transaction rule]{.italic} ![](../../../../Resources/Images/button_create_rule.png) in the function menu, or via the [Bank transaction rules]{.italic} tab in the [Bank settings]{.italic} procedure.
+
+![](../../../../Resources/Images/SubProjects/BankIntegration_Update_BankTransactionRule.png){style="mc-thumbnail-max-height: 144px;mc-thumbnail: popup;"}
+
+You can then enter a [Reference]{.italic} for the bank transaction rule. If this reference appears on the transaction, the bank transaction rule will be used. You can also use a % as a wildcard character in the reference in order to match, e.g. by writing [Bank charge%]{.italic}.
+
+![](../../../../Resources/Images/SubProjects/BankIntegration_Add_Update_BankTransactionRule.png){style="mc-thumbnail: popup;mc-thumbnail-max-height: 188px;"}
+
+You can also register transactions from/to customers/suppliers that are missing in the ledger as an on account payment. The transaction is then recorded on the bank account but is registered at the same time as an on account payment in the ledger so that the transaction can be settled against other invoices. To create an on account payment, mark the record and click the [Create on account record]{.italic} button ![](../../../../Resources/Images/button_on_account.png) on the function menu. You then get to choose if it should be recorded on a customer or a supplier and which customer/supplier is concerned.
+
+If information such as name, reference, exchange rate, currency code, and the transaction amount is missing on a payment record, you are, in some instances, able to update the bank transaction details with the [Update bank transaction details]{.italic} button ![](../../../../Resources/Images/button_download.png) in the function menu. If you update a row that is a total row (e.g. bulk deposit via bankgiro), you then need to exclude the total row as the payment records are updated one at a time, i.e. new rows are added for the records.
+::::
