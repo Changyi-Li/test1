@@ -16,6 +16,7 @@ import urllib.request
 from dataclasses import dataclass
 from datetime import timezone
 from email.utils import parsedate_to_datetime
+from typing import Any
 from urllib.parse import urljoin
 
 from bs4 import BeautifulSoup
@@ -87,7 +88,7 @@ def _open(url: str, headers: dict, timeout: int = 30):
 
 def probe(manifest: Manifest, url: str, headers_rec: dict, timeout: int = 30):
     """探测 URL；200 返回字节，否则返回 None 并记录状态。"""
-    info = {"url": url, "status": None, "final_url": None, "lastmod": None, "etag": None}
+    info: dict[str, object] = {"url": url, "status": None, "final_url": None, "lastmod": None, "etag": None}
     try:
         with _open(url, manifest.headers, timeout) as resp:
             info["status"] = resp.status
@@ -370,19 +371,19 @@ def chunk_markdown(md: str, cap: int = 1200):
     if not heads:
         return [{"path": [], "pos": (), "content": "\n".join(lines).strip()}]
 
-    occurrence = {}
+    occurrence: dict[int, int] = {}
 
     def next_idx(level):
         occurrence[level] = occurrence.get(level, 0) + 1
         return occurrence[level] - 1
 
-    units = []
+    units: list[dict[str, Any]] = []
     for k, (idx, level, text) in enumerate(heads):
         end = heads[k + 1][0] if k + 1 < len(heads) else len(lines)
         body = lines[idx + 1:end]
         units.append({"level": level, "text": text, "idx": next_idx(level), "body": body})
 
-    stack = []
+    stack: list[dict[str, Any]] = []
     for u in units:
         while stack and stack[-1]["level"] >= u["level"]:
             stack.pop()
@@ -392,8 +393,8 @@ def chunk_markdown(md: str, cap: int = 1200):
     prefix = lines[: heads[0][0]] if heads[0][0] > 0 else []
     have_h2 = any(u["level"] == 2 for u in units)
 
-    chunks = []
-    current = None
+    chunks: list[dict[str, Any]] = []
+    current: Any = None
 
     def close_current():
         nonlocal current
@@ -415,6 +416,7 @@ def chunk_markdown(md: str, cap: int = 1200):
         unit_text = "#" * u["level"] + " " + u["text"] + "\n" + "\n".join(u["body"])
         if current is None:
             start(u)
+            assert current is not None
             if prefix:
                 current["content"] = prefix + [""] + current["content"]
         elif u["level"] <= 2:

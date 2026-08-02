@@ -119,7 +119,7 @@ def metadata_stage(manifest: P.Manifest) -> None:
         h = headers.get(r["url"], {})
         images = re.findall(r"!\[[^\]]*\]\(([^)]+)\)", md)
         quality = "canonical" if r["lang"] == "en-us" else "reference"
-        paired = None
+        paired: str | None = None
         if r["lang"] == "en-us":
             zh_page = r["zh_page"]
             if zh_page in zh_discovered:
@@ -188,7 +188,7 @@ def chunk_stage() -> None:
                 (r["paired_topic_id"], pos_by_chunk.get(chunk["chunk_id"], ())), None)
     # 二次配对：zh 块按位置路径重新匹配（chunk.pos 未存，按 heading_path 文本序列兜底）
     if any(c["paired_chunk_id"] is None for c in out if c["language"] == "zh-cn"):
-        en_by_path = {}
+        en_by_path: dict[tuple[str, ...], list[str]] = {}
         for chunk in out:
             if chunk["language"] == "en-us":
                 en_by_path.setdefault(tuple(chunk["heading_path"]), []).append(chunk["chunk_id"])
@@ -244,7 +244,7 @@ def check_stage(manifest: P.Manifest) -> bool:
             hash_fail.append(r["id"])
     report("M8 content_hash 重算一致", not hash_fail, f"mismatch={hash_fail}")
     # 期望配对表
-    expect_pair = {}
+    expect_pair: dict[str, str | None] = {}
     for t in manifest.topics:
         en = P.topic_id(manifest, "en-us", t["page"])
         zh = P.topic_id(manifest, "zh-cn", t["zh_page"])
@@ -267,7 +267,7 @@ def check_stage(manifest: P.Manifest) -> bool:
     cid_fail = [c["chunk_id"] for c in chunks if c["chunk_id"] != f"{c['topic_id']}::{c['order']}" or c["topic_id"] not in ids]
     report("C2 chunk_id 格式与 topic_id 引用", not cid_fail, f"bad={cid_fail}")
     order_fail = []
-    by_topic = {}
+    by_topic: dict[str, list[int]] = {}
     for c in chunks:
         by_topic.setdefault(c["topic_id"], []).append(c["order"])
     for tid, orders in by_topic.items():
