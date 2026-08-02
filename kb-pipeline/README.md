@@ -1,7 +1,7 @@
 # kb-pipeline — Monitor ERP help 抽取流水线
 
 > 状态：Getting Started 试点已评审通过（「Getting Started 双语试点数据集」，2026-08-02）；规格定稿见 `docs/pipeline-spec.md`（「抽取流水线规格与仓库布局原型」评审通过，2026-08-02）。
-> 生产同步 CLI（`run_sync.py`）骨架已就绪（票 #14）：参数解析、配置加载与同步状态原语；同步引擎按票 #15+ 实现。
+> 生产同步 CLI（`run_sync.py`）已交付（票 #14/#15）：参数解析、配置加载与同步状态原语，以及 `--mode reconcile --url <主题 URL>` 单页端到端全量对账；清单/`--limit` 模式按后续票实现。
 
 ## 一键运行（试点）
 
@@ -12,25 +12,29 @@
 
 抓取自约束：help.monitorerp.cn 无 robots.txt，请求间隔 1 秒（日常 1–2 req/s 口径）。
 
-## 生产同步 CLI（骨架）
+## 生产同步 CLI
 
     py scripts/run_sync.py --mode incremental|reconcile [--dry-run] [--limit N] [--url <单个URL>] [--rate <req/s>]
 
 - `--mode` 必填（incremental | reconcile）；`--limit`/`--url` 为范围限定且互斥；`--rate` 覆盖当前模式限速；`--dry-run` 只预览不写产物。
 - 非法组合/取值以非零码退出并给出可读错误。
 - 限速/UA/退避/停止阈值来自 `config/sync.json`，可被 `--rate` 覆盖。
-- 当前为骨架：解析、校验、加载配置并输出同步计划；抓取与对账引擎由后续票（#15+）实现。
+- `--mode reconcile --url <主题 URL>`（票 #15）对单页完成 抓取→清洗→元数据→分块→自检：原始 HTML 与响应头落盘 `data/raw/`（gitignore，不入库）；清洗 Markdown、13 字段元数据、14 字段分块与自检结果写入 `data/`；同步状态写 `state/sync-state.jsonl` 的 ok 记录（ETag/Last-Modified/content_hash）。重复运行幂等（按 id/topic_id 覆盖更新，保留其他主题既有产物）。
+
+其余组合（`incremental`、`--limit`、`--dry-run`）当前输出同步计划；清单驱动的全量对账由后续票实现。
 
 ## 测试
 
     python -m pytest kb-pipeline/tests
 
-单元测试覆盖：同步状态读写（ETag/Last-Modified/content_hash/status/last_ok_at/deleted_at、墓碑与幂等重跑）、配置加载与 `--rate` 覆盖、`run_sync` 参数解析与非法组合、共享库按清单参数化。
+单元测试覆盖：同步状态读写（ETag/Last-Modified/content_hash/status/last_ok_at/deleted_at、墓碑与幂等重跑）、配置加载与 `--rate` 覆盖、`run_sync` 参数解析与非法组合、共享库按清单参数化、单 URL 对账引擎（UA/限速/幂等/失败状态/自检）。
 
 ## 布局
 
 - `scripts/pipeline.py` — 共享库：抓取、清洗（`#contentBody` BS4 管线）、分块、token 估算；站点/主题路径/主题清单由 `Manifest` 参数化（`pilot_manifest()` 为试点清单）
-- `scripts/run_pilot.py` — 试点编排 + 验收自检；生产同步入口 `run_sync.py` 见规格 §5.7（骨架，引擎待后续票）
+- `scripts/run_pilot.py` — 试点编排 + 验收自检
+- `scripts/run_sync.py` — 生产同步 CLI（规格 §5.7）：计划预览 + `--mode reconcile --url` 单页对账（票 #15）
+- `scripts/sync_engine.py` — 单 URL 全量对账引擎：抓取（UA/限速）→ 清洗 → 元数据 → 分块 → 自检 → 同步状态
 - `scripts/sync_state.py` — 同步状态原语（state/sync-state.jsonl，按 URL 读写）
 - `scripts/sync_config.py` — 同步配置加载（config/sync.json + CLI 覆盖）
 - `config/sync.json` — 同步节奏/限速/退避参数（规格 §5，未来 CI 同源读取）
@@ -59,3 +63,4 @@
 - 目标 ~600 token、硬上限 ~1200；超限先按 h3、再按段落/列表边界二次切，列表/提示框/代码不切断
 - 中文块按标题**位置路径**（层级内出现序号）单向映射英文同构块（`paired_chunk_id`）
 - token 估算：CJK 每字 ~1 token，其余 ~4 字符/token（cl100k_base 近似，仅监控）
+

@@ -25,15 +25,9 @@ CHECK_TXT = ROOT / "data" / "selfcheck-results.txt"
 
 ID_FILE = lambda tid: CLEAN / (tid.replace("/", "_") + ".md")  # noqa: E731
 
-EXPECTED_FIELDS_META = {
-    "id", "title", "url", "source", "version", "language", "topic_path",
-    "quality", "lastmod", "etag", "content_hash", "images", "paired_topic_id",
-}
-EXPECTED_FIELDS_CHUNK = {
-    "chunk_id", "topic_id", "order", "title", "heading_path", "content",
-    "language", "quality", "url", "topic_path", "images", "paired_chunk_id",
-    "char_count", "token_estimate",
-}
+# schema 常量已上移共享库 pipeline.py（规格 §4.1/§4.2）
+EXPECTED_FIELDS_META = P.EXPECTED_FIELDS_META
+EXPECTED_FIELDS_CHUNK = P.EXPECTED_FIELDS_CHUNK
 
 
 def load_headers() -> dict:
@@ -372,3 +366,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
+

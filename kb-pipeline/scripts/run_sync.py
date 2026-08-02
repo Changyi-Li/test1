@@ -1,25 +1,25 @@
-"""生产同步 CLI 骨架（规格 §5.7，票 #14）。
+"""生产同步 CLI（规格 §5.7，票 #14/#15）。
 
-当前交付：解析/校验全部规划参数（--mode/--url/--limit/--rate/--dry-run）、
-加载配置并解析限速覆盖、输出本轮同步计划。同步引擎由后续票（#15+）实现。
+解析/校验全部规划参数（--mode/--url/--limit/--rate/--dry-run）、加载配置并
+解析限速覆盖。`--mode reconcile --url <主题 URL>` 执行单页端到端全量对账
+（票 #15）；其余组合输出本轮同步计划（清单/--limit 模式由后续票实现）。
 """
 from __future__ import annotations
 
 import argparse
 import sys
-from pathlib import Path
 from urllib.parse import urlparse
 
 import sync_config
+import sync_engine
 
-STATE_FILE_REL = "state/sync-state.jsonl"
-STATE_PATH = Path(__file__).resolve().parent.parent / STATE_FILE_REL
+STATE_FILE_REL = sync_engine.STATE_FILE_REL
 
 
 def build_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(
         prog="run_sync.py",
-        description="Monitor ERP 知识库同步 CLI（骨架：解析/校验/配置/计划）",
+        description="Monitor ERP 知识库同步 CLI（单 URL 对账已实现，清单模式待后续票）",
     )
     ap.add_argument("--mode", required=True, choices=sync_config.MODES,
                     help="incremental=日常增量 | reconcile=全量对账")
@@ -60,6 +60,8 @@ def main(argv=None) -> int:
 
     rate = sync_config.effective_rate(cfg, args.mode, args.rate)
     mode_cfg = getattr(cfg, args.mode)
+    if args.mode == "reconcile" and args.url is not None and not args.dry_run:
+        return sync_engine.reconcile_single_url(args.url, cfg, rate)
     if args.url is not None:
         scope = f"单 URL: {args.url}"
     elif args.limit is not None:
@@ -70,7 +72,7 @@ def main(argv=None) -> int:
     if args.rate is not None:
         rate_line += f"（配置 {mode_cfg.rate_per_sec}，由 --rate 覆盖）"
 
-    print("== run_sync 计划（骨架） ==")
+    print("== run_sync 计划 ==")
     print(f"模式: {args.mode}")
     print(f"范围: {scope}")
     print(f"限速: {rate_line}")
@@ -80,7 +82,12 @@ def main(argv=None) -> int:
           f"或错误率 > {cfg.stop_conditions.error_rate_percent}%")
     print(f"dry-run: {'是' if args.dry_run else '否'}")
     print(f"状态文件: {STATE_FILE_REL}")
-    print("提示: 同步引擎由后续票实现，本票仅交付参数解析、配置加载与状态原语。")
+    if args.mode == "reconcile" and args.url is not None:
+        print("提示: --dry-run 只预览；去掉后执行单 URL 全量对账"
+              "（抓取→清洗→元数据→分块→自检）。")
+    else:
+        print("提示: 单 URL 对账已实现（--mode reconcile --url）；"
+              "清单/--limit 模式由后续票实现。")
     return 0
 
 

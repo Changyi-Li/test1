@@ -53,6 +53,18 @@ PILOT_MANIFEST = Manifest(
     fetch_sleep=1.0,  # 无 robots.txt，自约束 1–2 req/s
 )
 
+# ---------- schema（规格 §4.1/§4.2，试点与生产共用） ----------
+
+EXPECTED_FIELDS_META = {
+    "id", "title", "url", "source", "version", "language", "topic_path",
+    "quality", "lastmod", "etag", "content_hash", "images", "paired_topic_id",
+}
+EXPECTED_FIELDS_CHUNK = {
+    "chunk_id", "topic_id", "order", "title", "heading_path", "content",
+    "language", "quality", "url", "topic_path", "images", "paired_chunk_id",
+    "char_count", "token_estimate",
+}
+
 NOISE_PATTERNS = [
     r"Powered by MadCap",
     r"Online help for version",
@@ -443,3 +455,4 @@ def chunk_markdown(md: str, cap: int = 1200):
             final.append(c)
 
     return final
+
