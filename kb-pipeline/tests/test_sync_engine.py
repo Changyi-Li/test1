@@ -14,6 +14,7 @@ import pipeline as P
 import run_sync
 import sync_config
 import sync_engine
+import sync_state
 
 
 URL = ("https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/"
@@ -402,3 +403,60 @@ def test_selfcheck_rejects_zero_chunks(engine_root):
         encoding="utf-8")
     assert "RESULT: HAS FAILURES" in check_txt
     assert "[FAIL] C0" in check_txt
+
+
+
+def test_reconcile_known_url_404_tombstones_and_returns_nonzero(
+        engine_root, monkeypatch):
+    """AC(#18)：--url 对账中已知页 404 → 墓碑 + deleted 例外，旧产物清除。"""
+    def fake_open(url, headers, timeout=30):
+        raise urllib.error.HTTPError(url, 404, "Not Found", {}, None)
+
+    monkeypatch.setattr(P, "_open", fake_open)
+    monkeypatch.setattr(sync_engine, "_pace", lambda rate: None)
+    cfg = sync_config.load_sync_config()
+    state = sync_state.SyncState(engine_root / "state" / "sync-state.jsonl")
+    state.load()
+    state.mark_ok(URL, language="en-us", etag='"old"', content_hash="0" * 64)
+    clean_file = engine_root / "data" / "clean" / (
+        "en-us_UserGuide_GettingStarted_GettingStarted.md")
+    clean_file.parent.mkdir(parents=True, exist_ok=True)
+    clean_file.write_text("# Topic\n\nWelcome.\n", encoding="utf-8")
+    meta_path = engine_root / "data" / "metadata.jsonl"
+    meta_path.parent.mkdir(parents=True, exist_ok=True)
+    meta_path.write_text(json.dumps({
+        "id": "en-us/UserGuide/GettingStarted/GettingStarted",
+        "title": "Topic", "url": URL, "source": "help.monitorerp.cn",
+        "version": "25.8", "language": "en-us",
+        "topic_path": "UserGuide/GettingStarted", "quality": "canonical",
+        "lastmod": "2026-05-21T08:18:54Z", "etag": '"old"',
+        "content_hash": "0" * 64, "images": [], "paired_topic_id": None,
+    }, ensure_ascii=False) + "\n", encoding="utf-8")
+
+    code = sync_engine.reconcile_single_url(URL, cfg, rate=5.0)
+
+    assert code == 1
+    state_rows = [json.loads(line) for line in
+                  (engine_root / "state" / "sync-state.jsonl").read_text(
+                      encoding="utf-8").splitlines() if line.strip()]
+    assert len(state_rows) == 1
+    row = state_rows[0]
+    assert row["status"] == "deleted"
+    assert row["deleted_at"]
+    assert row["etag"] == '"old"'           # 墓碑保留最后指纹
+    exc = [json.loads(line) for line in
+           (engine_root / "data" / "exceptions.jsonl").read_text(
+               encoding="utf-8").splitlines() if line.strip()]
+    assert exc[0]["type"] == "deleted"
+    assert exc[0]["id"] == "en-us/UserGuide/GettingStarted/GettingStarted"
+    assert not clean_file.exists()
+    meta_lines = []
+    if (engine_root / "data" / "metadata.jsonl").exists():
+        meta_lines = [json.loads(x) for x in (engine_root / "data" / "metadata.jsonl")
+                      .read_text(encoding="utf-8").splitlines() if x.strip()]
+    assert meta_lines == []
+    chunk_lines = []
+    if (engine_root / "data" / "chunks.jsonl").exists():
+        chunk_lines = [json.loads(x) for x in (engine_root / "data" / "chunks.jsonl")
+                       .read_text(encoding="utf-8").splitlines() if x.strip()]
+    assert chunk_lines == []

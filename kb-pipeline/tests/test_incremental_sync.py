@@ -70,10 +70,12 @@ class FakeNetwork:
 
     def __init__(self, fingerprints: dict[str, tuple[str, str]],
                  bodies: dict[str, str] | None = None,
-                 interrupt_after: int | None = None):
+                 interrupt_after: int | None = None,
+                 fail_status: int = 404):
         self.fingerprints = fingerprints
         self.bodies = bodies or {url: FIXTURE_HTML for url in fingerprints}
         self.interrupt_after = interrupt_after
+        self.fail_status = fail_status
         self.calls: dict[str, list[str]] = {"head": [], "get": []}
         self.requests: list[tuple[str, str, dict]] = []
         self._count = 0
@@ -88,7 +90,7 @@ class FakeNetwork:
         self.requests.append(("HEAD", url, dict(headers)))
         self._maybe_interrupt()
         if url not in self.fingerprints:
-            raise urllib.error.HTTPError(url, 404, "Not Found", {}, None)
+            raise urllib.error.HTTPError(url, self.fail_status, "Not Found", {}, None)
         etag, lastmod = self.fingerprints[url]
         if headers.get("If-None-Match") == etag:
             raise urllib.error.HTTPError(url, 304, "Not Modified", {}, None)
@@ -101,7 +103,7 @@ class FakeNetwork:
         self.requests.append(("GET", url, dict(headers)))
         self._maybe_interrupt()
         if url not in self.fingerprints:
-            raise urllib.error.HTTPError(url, 404, "Not Found", {}, None)
+            raise urllib.error.HTTPError(url, self.fail_status, "Not Found", {}, None)
         etag, lastmod = self.fingerprints[url]
         return FakeResponse(self.bodies[url].encode("utf-8"),
                             etag=etag, lastmod=lastmod)
@@ -328,10 +330,10 @@ def test_incremental_interrupt_then_resume_skips_completed_items(
         "en-us_UserGuide_GettingStarted_MonitorBI.md")).exists()
 
 
-def test_incremental_http_error_marks_state_error(engine_root, cfg,
+def test_incremental_http_500_marks_state_error(engine_root, cfg,
                                                   monkeypatch, capsys):
     """非 304/200 响应记 error，不写产物，也不把 GET 请求发出去。"""
-    net = FakeNetwork({})
+    net = FakeNetwork({}, fail_status=500)
     monkeypatch.setattr(P, "_open", net.get)
     monkeypatch.setattr(P, "_head", net.head)
     monkeypatch.setattr(sync_engine, "_pace", lambda rate: None)
@@ -349,7 +351,7 @@ def test_incremental_http_error_marks_state_error(engine_root, cfg,
     assert state[0]["status"] == "error"
     assert state[0]["etag"] == '"a-v1"'   # 保留最后已知指纹
     assert not (engine_root / "data" / "metadata.jsonl").exists()
-    assert "404" in capsys.readouterr().err
+    assert "500" in capsys.readouterr().err
 
 
 def test_incremental_dry_run_only_lists_would_fetch_urls(
@@ -500,3 +502,102 @@ def test_incremental_invalid_url_is_clean_error(engine_root, cfg, monkeypatch,
     assert net.requests == []
     assert not (engine_root / "state" / "sync-state.jsonl").exists()
     assert "错误" in capsys.readouterr().err
+
+
+def test_incremental_404_tombstones_and_removes_artifacts(engine_root, cfg,
+                                                          monkeypatch, capsys):
+    """AC(#18)：曾 ok 的页面 404 → 状态墓碑 + deleted 例外，数据集旧产物清除。"""
+    net = FakeNetwork({})
+    monkeypatch.setattr(P, "_open", net.get)
+    monkeypatch.setattr(P, "_head", net.head)
+    monkeypatch.setattr(sync_engine, "_pace", lambda rate: None)
+    _seed_state(engine_root, [{
+        "url": URL_A, "language": "en-us", "etag": '"a-v1"',
+        "lastmod": "2026-05-21T08:18:54Z", "content_hash": "a" * 64,
+        "status": "ok", "last_ok_at": "2026-08-02T00:00:00Z",
+    }])
+    clean_file = engine_root / "data" / "clean" / (
+        "en-us_UserGuide_GettingStarted_GettingStarted.md")
+    clean_file.parent.mkdir(parents=True, exist_ok=True)
+    clean_file.write_text("# Topic\n\nWelcome.\n", encoding="utf-8")
+    meta_path = engine_root / "data" / "metadata.jsonl"
+    meta_path.parent.mkdir(parents=True, exist_ok=True)
+    meta_path.write_text(json.dumps({
+        "id": "en-us/UserGuide/GettingStarted/GettingStarted",
+        "title": "Topic", "url": URL_A, "source": "help.monitorerp.cn",
+        "version": "25.8", "language": "en-us",
+        "topic_path": "UserGuide/GettingStarted", "quality": "canonical",
+        "lastmod": "2026-05-21T08:18:54Z", "etag": '"a-v1"',
+        "content_hash": "a" * 64, "images": [], "paired_topic_id": None,
+    }, ensure_ascii=False) + "\n", encoding="utf-8")
+    chunks_path = engine_root / "data" / "chunks.jsonl"
+    chunks_path.write_text(json.dumps({
+        "chunk_id": "en-us/UserGuide/GettingStarted/GettingStarted::0",
+        "topic_id": "en-us/UserGuide/GettingStarted/GettingStarted",
+        "order": 0, "title": "Topic", "heading_path": ["Topic"],
+        "content": "# Topic\n\nWelcome.\n", "language": "en-us",
+        "quality": "canonical", "url": URL_A,
+        "topic_path": "UserGuide/GettingStarted", "images": [],
+        "paired_chunk_id": None, "char_count": 18, "token_estimate": 6,
+    }, ensure_ascii=False) + "\n", encoding="utf-8")
+
+    code = sync_engine.incremental_sync(None, None, cfg, rate=2.0)
+
+    assert code == 0
+    assert net.calls["get"] == []
+    state = _jsonl(engine_root / "state" / "sync-state.jsonl")
+    row = next(r for r in state if r["url"] == URL_A)
+    assert row["status"] == "deleted"
+    assert row["deleted_at"]
+    assert row["etag"] == '"a-v1"'          # 墓碑保留最后指纹
+    assert row["content_hash"] == "a" * 64
+    exc = _jsonl(engine_root / "data" / "exceptions.jsonl")
+    deleted = [r for r in exc if r["type"] == "deleted"]
+    assert len(deleted) == 1
+    assert deleted[0]["id"] == "en-us/UserGuide/GettingStarted/GettingStarted"
+    assert deleted[0]["resolved"] is False
+    # 数据集不残留旧产物
+    assert not clean_file.exists()
+    assert _jsonl(meta_path) == []
+    assert _jsonl(chunks_path) == []
+    assert "已删除" in capsys.readouterr().out
+
+
+def test_incremental_revives_tombstoned_page_via_explicit_url(
+        engine_root, cfg, monkeypatch):
+    """AC(#18)：--url 显式探测墓碑页；指纹未变（304）也重新入库并清墓碑。"""
+    etag = '"a-v1"'
+    lastmod = "2026-05-21T08:18:54Z"
+    net = FakeNetwork({URL_A: (etag, lastmod)})
+    monkeypatch.setattr(P, "_open", net.get)
+    monkeypatch.setattr(P, "_head", net.head)
+    monkeypatch.setattr(sync_engine, "_pace", lambda rate: None)
+    _seed_state(engine_root, [{
+        "url": URL_A, "language": "en-us", "etag": etag, "lastmod": lastmod,
+        "content_hash": "a" * 64, "status": "deleted",
+        "last_ok_at": "2026-07-01T00:00:00Z",
+        "deleted_at": "2026-08-01T00:00:00Z",
+    }])
+    sync_engine.upsert_exception({
+        "id": "en-us/UserGuide/GettingStarted/GettingStarted",
+        "type": "deleted", "detail": f"{URL_A} 曾删除",
+        "discovered_at": "2026-08-01T00:00:00Z", "resolved": False,
+    })
+
+    code = sync_engine.incremental_sync(None, URL_A, cfg, rate=2.0)
+
+    assert code == 0
+    assert net.calls["head"] == [URL_A]
+    assert net.calls["get"] == [URL_A]      # 304 也不跳过：墓碑页需重新入库
+    state = _jsonl(engine_root / "state" / "sync-state.jsonl")
+    row = next(r for r in state if r["url"] == URL_A)
+    assert row["status"] == "ok"
+    assert row["deleted_at"] is None
+    exc = _jsonl(engine_root / "data" / "exceptions.jsonl")
+    deleted = next(r for r in exc if r["type"] == "deleted")
+    assert deleted["resolved"] is True
+    clean_file = engine_root / "data" / "clean" / (
+        "en-us_UserGuide_GettingStarted_GettingStarted.md")
+    assert clean_file.exists()
+    meta = _jsonl(engine_root / "data" / "metadata.jsonl")
+    assert meta[0]["id"] == "en-us/UserGuide/GettingStarted/GettingStarted"

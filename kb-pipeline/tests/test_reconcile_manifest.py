@@ -145,6 +145,56 @@ def _jsonl(path: Path) -> list[dict]:
             path.read_text(encoding="utf-8").splitlines() if line.strip()]
 
 
+def _seed_topic(root: Path, topic_id: str, url: str, language: str,
+                quality: str, paired_topic_id: str | None = None) -> None:
+    """写入一条可通过全量自检的主题产物（raw/clean/meta/chunks）。"""
+    md = P.clean_markdown(FIXTURE_HTML, url)
+    clean_dir = root / "data" / "clean"
+    clean_dir.mkdir(parents=True, exist_ok=True)
+    clean_file = clean_dir / (topic_id.replace("/", "_") + ".md")
+    clean_file.write_text(md, encoding="utf-8")
+    raw_dir = root / "data" / "raw" / language
+    raw_dir.mkdir(parents=True, exist_ok=True)
+    (raw_dir / (topic_id.rsplit("/", 1)[-1] + ".htm")).write_bytes(
+        FIXTURE_HTML.encode("utf-8"))
+    meta = {
+        "id": topic_id, "title": "Topic", "url": url,
+        "source": "help.monitorerp.cn", "version": "25.8",
+        "language": language,
+        "topic_path": "/".join(topic_id.split("/")[1:-1]),
+        "quality": quality, "lastmod": "2026-05-21T08:18:54Z",
+        "etag": '"seed"', "content_hash": P.sha256_hex(md), "images": [],
+        "paired_topic_id": paired_topic_id,
+    }
+    meta_path = root / "data" / "metadata.jsonl"
+    meta_path.parent.mkdir(parents=True, exist_ok=True)
+    rows = [r for r in _jsonl(meta_path) if r.get("id") != topic_id]
+    rows.append(meta)
+    rows.sort(key=lambda r: (r["language"], r["id"]))
+    meta_path.write_text(
+        "".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows),
+        encoding="utf-8")
+    chunks_path = root / "data" / "chunks.jsonl"
+    chunks_path.parent.mkdir(parents=True, exist_ok=True)
+    chunk_rows = [c for c in _jsonl(chunks_path)
+                  if c.get("topic_id") != topic_id]
+    for order, chunk in enumerate(P.chunk_markdown(md)):
+        chunk_rows.append({
+            "chunk_id": f"{topic_id}::{order}", "topic_id": topic_id,
+            "order": order, "title": meta["title"],
+            "heading_path": [p["text"] for p in chunk["path"]],
+            "content": chunk["content"], "language": language,
+            "quality": quality, "url": url, "topic_path": meta["topic_path"],
+            "images": [], "paired_chunk_id": None,
+            "char_count": len(chunk["content"]),
+            "token_estimate": P.est_tokens(chunk["content"]),
+        })
+    chunk_rows.sort(key=lambda c: (c["topic_id"], c["order"]))
+    chunks_path.write_text(
+        "".join(json.dumps(c, ensure_ascii=False) + "\n" for c in chunk_rows),
+        encoding="utf-8")
+
+
 def test_reconcile_manifest_runs_full_pipeline_with_mirrors(
         engine_root, round_network, cfg, monkeypatch):
     paced = []
@@ -303,6 +353,8 @@ def test_reconcile_manifest_marks_deleted_for_previously_ok_en_404(
     state.load()
     state.mark_ok(gone, language="en-us", etag='"old"',
                   content_hash="0" * 64)
+    _seed_topic(engine_root, "en-us/Area/Module/Topic0", gone,
+                "en-us", "canonical")
 
     code = sync_engine.reconcile_manifest(limit=None, cfg=cfg, rate=5.0)
 
@@ -315,6 +367,13 @@ def test_reconcile_manifest_marks_deleted_for_previously_ok_en_404(
     deleted = [r for r in exc if r["type"] == "deleted"]
     assert len(deleted) == 1
     assert deleted[0]["id"] == "en-us/Area/Module/Topic0"
+    # 数据集不残留墓碑页旧产物
+    assert not (engine_root / "data" / "clean" /
+                "en-us_Area_Module_Topic0.md").exists()
+    assert "en-us/Area/Module/Topic0" not in {
+        r["id"] for r in _jsonl(engine_root / "data" / "metadata.jsonl")}
+    assert all(c["topic_id"] != "en-us/Area/Module/Topic0"
+               for c in _jsonl(engine_root / "data" / "chunks.jsonl"))
 
 
 def test_reconcile_manifest_en_http_500_is_error_not_deleted(
@@ -406,3 +465,122 @@ def test_reconcile_manifest_fails_when_pairing_missing(
     assert "[FAIL] C9" in check_txt
 
 
+
+
+def test_reconcile_manifest_sitemap_disappearance_tombstones_and_removes_artifacts(
+        engine_root, round_network, cfg, monkeypatch):
+    """AC1/AC2：曾 ok 的 en 页从 sitemap 消失 → 墓碑 + deleted 例外，产物与配对清除。"""
+    monkeypatch.setattr(sync_engine, "_pace", lambda rate: None)
+    gone_en = ("https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/"
+               "Legacy/OldTopic/OldTopic.htm")
+    gone_id = "en-us/Legacy/OldTopic/OldTopic"
+    zh_url = ("https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Topics/"
+              "Legacy/OldTopic/OldTopic.htm")
+    zh_id = "zh-cn/Legacy/OldTopic/OldTopic"
+    _seed_topic(engine_root, gone_id, gone_en, "en-us", "canonical", zh_id)
+    _seed_topic(engine_root, zh_id, zh_url, "zh-cn", "reference", gone_id)
+    state = sync_state.SyncState(engine_root / "state" / "sync-state.jsonl")
+    state.load()
+    state.mark_ok(gone_en, language="en-us", etag='"old-en"',
+                  content_hash="e" * 64)
+    state.mark_ok(zh_url, language="zh-cn", etag='"old-zh"',
+                  content_hash="z" * 64)
+
+    code = sync_engine.reconcile_manifest(limit=3, cfg=cfg, rate=5.0)
+
+    assert code == 0
+    rows = _jsonl(engine_root / "state" / "sync-state.jsonl")
+    gone_row = next(r for r in rows if r["url"] == gone_en)
+    assert gone_row["status"] == "deleted"
+    assert gone_row["deleted_at"]
+    assert gone_row["etag"] == '"old-en"'           # 墓碑保留最后指纹
+    assert gone_row["content_hash"] == "e" * 64
+    zh_row = next(r for r in rows if r["url"] == zh_url)
+    assert zh_row["status"] == "ok"                 # 在线 zh 镜像不受影响
+    exc = _jsonl(engine_root / "data" / "exceptions.jsonl")
+    deleted = [r for r in exc if r["type"] == "deleted" and r["id"] == gone_id]
+    assert len(deleted) == 1
+    assert deleted[0]["resolved"] is False
+    # 数据集不残留墓碑页旧产物
+    assert not (engine_root / "data" / "clean" /
+                "en-us_Legacy_OldTopic_OldTopic.md").exists()
+    meta = _jsonl(engine_root / "data" / "metadata.jsonl")
+    assert gone_id not in {r["id"] for r in meta}
+    assert all(c["topic_id"] != gone_id
+               for c in _jsonl(engine_root / "data" / "chunks.jsonl"))
+    # 对方配对解除：zh 镜像保留，但不再指向已删除 en 页
+    zh_meta = next(r for r in meta if r["id"] == zh_id)
+    assert zh_meta["paired_topic_id"] is None
+    assert all(c["paired_chunk_id"] is None
+               for c in _jsonl(engine_root / "data" / "chunks.jsonl")
+               if c["topic_id"] == zh_id)
+
+
+def test_reconcile_manifest_zh_previously_ok_now_404_tombstones(
+        engine_root, monkeypatch, cfg):
+    """AC1/AC2：曾 ok 的 zh 镜像 404 → 墓碑 + deleted/untranslated 例外，产物清除。"""
+    en_url = EN_URLS[0]
+    en_id = "en-us/Accounting/AccrualAccounting/AccrualAccounting"
+    zh_url = sync_manifest.zh_url_for(en_url)
+    zh_id = "zh-cn/Accounting/AccrualAccounting/AccrualAccounting"
+    _seed_topic(engine_root, zh_id, zh_url, "zh-cn", "reference", en_id)
+    state = sync_state.SyncState(engine_root / "state" / "sync-state.jsonl")
+    state.load()
+    state.mark_ok(zh_url, language="zh-cn", etag='"old-zh"',
+                  content_hash="z" * 64)
+    net = FakeNetwork(sitemap=sitemap_xml(EN_URLS), zh_ok=set())
+    monkeypatch.setattr(P, "_open", net.get)
+    monkeypatch.setattr(P, "_head", net.head)
+    monkeypatch.setattr(sync_manifest, "SITEMAP_URL", SITEMAP_URL)
+    monkeypatch.setattr(sync_engine, "_pace", lambda rate: None)
+
+    code = sync_engine.reconcile_manifest(limit=4, cfg=cfg, rate=5.0)
+
+    assert code == 0
+    rows = _jsonl(engine_root / "state" / "sync-state.jsonl")
+    zh_row = next(r for r in rows if r["url"] == zh_url)
+    assert zh_row["status"] == "deleted"
+    assert zh_row["deleted_at"]
+    assert zh_row["etag"] == '"old-zh"'
+    exc = _jsonl(engine_root / "data" / "exceptions.jsonl")
+    assert any(r["type"] == "deleted" and r["id"] == zh_id for r in exc)
+    assert any(r["type"] == "untranslated" and r["id"] == zh_id for r in exc)
+    meta = _jsonl(engine_root / "data" / "metadata.jsonl")
+    assert zh_id not in {r["id"] for r in meta}
+    en_meta = next(r for r in meta if r["id"] == en_id)
+    assert en_meta["paired_topic_id"] is None
+    assert not (engine_root / "data" / "clean" /
+                "zh-cn_Accounting_AccrualAccounting_AccrualAccounting.md"
+                ).exists()
+
+
+def test_reconcile_manifest_revival_clears_tombstone_and_resolves_exception(
+        engine_root, round_network, cfg, monkeypatch):
+    """AC3：墓碑页重现 → mark_ok 清墓碑、deleted 例外 resolved、产物重新入库。"""
+    monkeypatch.setattr(sync_engine, "_pace", lambda rate: None)
+    url = EN_URLS[0]
+    tid = "en-us/Accounting/AccrualAccounting/AccrualAccounting"
+    state = sync_state.SyncState(engine_root / "state" / "sync-state.jsonl")
+    state.load()
+    state.mark_deleted(url, language="en-us", deleted_at="2026-08-01T00:00:00Z",
+                       etag='"old"', content_hash="0" * 64)
+    sync_engine.upsert_exception({
+        "id": tid, "type": "deleted", "detail": f"{url} 曾删除",
+        "discovered_at": "2026-08-01T00:00:00Z", "resolved": False,
+    })
+
+    code = sync_engine.reconcile_manifest(limit=1, cfg=cfg, rate=5.0)
+
+    assert code == 0
+    rows = _jsonl(engine_root / "state" / "sync-state.jsonl")
+    row = next(r for r in rows if r["url"] == url)
+    assert row["status"] == "ok"
+    assert row["deleted_at"] is None
+    assert row["etag"] == '"en"'
+    exc = _jsonl(engine_root / "data" / "exceptions.jsonl")
+    deleted = next(r for r in exc if r["type"] == "deleted" and r["id"] == tid)
+    assert deleted["resolved"] is True
+    meta = {r["id"] for r in _jsonl(engine_root / "data" / "metadata.jsonl")}
+    assert tid in meta
+    assert (engine_root / "data" / "clean" /
+            "en-us_Accounting_AccrualAccounting_AccrualAccounting.md").exists()

@@ -16,6 +16,10 @@ Topics/*.htm 过滤、规范化去重、HEAD 可达性校验），同轮扫描 z
 原始 HTML 与响应头写入 data/raw/（gitignore，不入库）；清洗 Markdown、13 字段
 元数据、14 字段分块、例外表与自检结果写入 data/ 入库产物；同步状态写入
 state/sync-state.jsonl（gitignore）。重复运行幂等。
+
+删除检测（票 #18）：曾 ok 的页面 200→404 或从 sitemap 消失时，同步状态留墓碑
+（deleted_at + 最后指纹）、例外表记 deleted，并清除该页数据集旧产物与镜像配对；
+页面重现时墓碑清除、例外 resolved、重新入库。全量对账与增量同步两种模式均覆盖。
 """
 from __future__ import annotations
 
@@ -345,6 +349,97 @@ def upsert_exception(row: dict) -> None:
     _save_exceptions(rows)
 
 
+def _resolve_exception(topic_id: str, kind: str) -> None:
+    """页面重现/镜像恢复时把进行中的结构例外标记 resolved（无变化不写盘）。"""
+    rows = _load_exceptions()
+    changed = False
+    for row in rows:
+        if (row.get("id") == topic_id and row.get("type") == kind
+                and not row.get("resolved")):
+            row["resolved"] = True
+            changed = True
+    if changed:
+        _save_exceptions(rows)
+
+
+def _remove_topic_artifacts(topic_id: str) -> None:
+    """从数据集中清除该主题全部旧产物，并解除指向它的镜像配对。"""
+    clean_file = clean_dir() / (topic_id.replace("/", "_") + ".md")
+    if clean_file.exists():
+        clean_file.unlink()
+    raw_file = ROOT / "data" / "raw" / topic_id.split("/", 1)[0] / (
+        topic_id.rsplit("/", 1)[-1] + ".htm")
+    if raw_file.exists():
+        raw_file.unlink()
+
+    meta_rows = _load_jsonl(meta_path())
+    kept: list[dict] = []
+    changed = False
+    for row in meta_rows:
+        if row.get("id") == topic_id:
+            changed = True
+            continue
+        if row.get("paired_topic_id") == topic_id:
+            row["paired_topic_id"] = None
+            changed = True
+        kept.append(row)
+    if changed:
+        _save_jsonl(meta_path(), kept)
+
+    chunk_rows = _load_jsonl(chunks_path())
+    kept_chunks: list[dict] = []
+    chunk_changed = False
+    unpaired = {r["id"] for r in kept if r.get("paired_topic_id") is None}
+    for chunk in chunk_rows:
+        if chunk.get("topic_id") == topic_id:
+            chunk_changed = True
+            continue
+        if chunk.get("language") == "en-us":
+            if chunk.get("paired_chunk_id") is not None:
+                chunk["paired_chunk_id"] = None
+                chunk_changed = True
+        elif (chunk.get("topic_id") in unpaired
+              and chunk.get("paired_chunk_id") is not None):
+            chunk["paired_chunk_id"] = None
+            chunk_changed = True
+        kept_chunks.append(chunk)
+    if chunk_changed:
+        _save_jsonl(chunks_path(), kept_chunks)
+
+
+def _delete_topic(url: str, language: str | None,
+                  state: sync_state.SyncState, detail: str) -> None:
+    """200→404 或从清单消失：状态留墓碑（deleted_at + 最后指纹）、
+    例外表记 deleted、清除该主题数据集产物并解除对方配对。同一事件幂等。"""
+    try:
+        topic_id = _topic_id_of_url(url)
+    except ValueError:
+        topic_id = None
+    prev = state.get(url)
+    was_deleted = prev is not None and prev.get("status") == "deleted"
+    state.mark_deleted(url, language=language)
+    print(f"== 已删除: {url}（墓碑：deleted_at + 最后指纹）")
+    if topic_id is None:
+        return
+    _remove_topic_artifacts(topic_id)
+    rows = _load_exceptions()
+    has_open = any(r.get("id") == topic_id and r.get("type") == "deleted"
+                   and not r.get("resolved") for r in rows)
+    if was_deleted and has_open:
+        return  # 同一删除事件仍在进行：保留首次 discovered_at，产物逐字节一致
+    rows = [r for r in rows
+            if not (r.get("id") == topic_id and r.get("type") == "deleted")]
+    rows.append({
+        "id": topic_id,
+        "type": "deleted",
+        "detail": detail,
+        "discovered_at": sync_state.utc_now_iso(),
+        "resolved": False,
+    })
+    rows.sort(key=lambda r: (r["type"], r["id"]))
+    _save_exceptions(rows)
+
+
 def _is_topic_url(url: str, language: str) -> bool:
     parsed = urlparse(url)
     if parsed.scheme not in ("http", "https") or not parsed.netloc:
@@ -636,8 +731,18 @@ def process_topic(target: TopicTarget, cfg: sync_config.SyncConfig, rate: float,
     raw, info = _fetch(target, cfg.user_agent, headers_rec)
     _pace(rate)
     if raw is None:
+        status = info.get("status")
+        prev = state.get(target.url)
+        if prev is not None and prev.get("status") == "deleted":
+            print(f"错误: 墓碑页 {target.url} GET 失败（status={status}），"
+                  "墓碑保持", file=sys.stderr)
+            return None
+        if prev is not None and (status == 404 or status == 410):
+            _delete_topic(target.url, target.language, state,
+                          f"{target.url} 现 {status}")
+            return None
         state.mark_error(target.url, language=target.language)
-        print(f"错误: 抓取失败（status={info.get('status')}），同步状态已记 error",
+        print(f"错误: 抓取失败（status={status}），同步状态已记 error",
               file=sys.stderr)
         return None
 
@@ -688,6 +793,7 @@ def reconcile_single_url(url: str, cfg: sync_config.SyncConfig, rate: float) -> 
         state.mark_ok(target.url, language=target.language,
                       etag=info.get("etag"), lastmod=info.get("lastmod"),
                       content_hash=meta["content_hash"])
+        _resolve_exception(meta["id"], "deleted")
         print(f"== 同步状态: ok（etag={info.get('etag')!r}, "
               f"lastmod={info.get('lastmod')!r}, "
               f"content_hash={meta['content_hash'][:12]}…）")
@@ -763,11 +869,13 @@ def apply_pairings(mirrors: dict[str, MirrorResult]) -> None:
 
 def reconcile_manifest(limit: int | None, cfg: sync_config.SyncConfig,
                        rate: float) -> int:
-    """清单驱动全量对账（规格 §5.1–§5.6，票 #16）。
+    """清单驱动全量对账（规格 §5.1–§5.6，票 #16/#18）。
 
     每轮：sitemap 下载/修复/过滤/去重 → en HEAD 可达性校验（>10% 失配即停）→
+    删除检测（sitemap 消失与 200→404 → 墓碑 + deleted 例外 + 产物清除）→
     zh 同路径 HEAD 镜像扫描（含已知重命名映射）→ 样本主题完整管道 →
-    例外表与同步状态 → 全量数据集自检。重复运行幂等。
+    例外表与同步状态 → 全量数据集自检。页面重现自动恢复：墓碑清除、例外
+    resolved、重新入库。重复运行幂等。
     """
     state = sync_state.SyncState(state_path())
     state.load()
@@ -817,20 +925,28 @@ def reconcile_manifest(limit: int | None, cfg: sync_config.SyncConfig,
         return 1
     for url, status in en_failed:
         prev = state.get(url)
-        if prev is not None and prev.get("status") == "ok" and (
-                status == 404 or status == 410):
-            state.mark_deleted(url, language="en-us")
-            upsert_exception({
-                "id": _topic_id_of_url(url),
-                "type": "deleted",
-                "detail": f"{url} 曾 200 现 404（sitemap 仍在清单中）",
-                "discovered_at": sync_state.utc_now_iso(),
-                "resolved": False,
-            })
+        if prev is not None and prev.get("status") == "deleted":
+            continue  # 墓碑保持：不因探测失败改写状态
+        if prev is not None and (status == 404 or status == 410):
+            _delete_topic(url, "en-us", state,
+                          f"{url} 现 {status}（sitemap 仍在清单中）")
         else:
             state.mark_error(url, language="en-us")
     print(f"== en HEAD 校验: {len(en_ok)}/{len(scope)} 可达"
           + (f"，{len(en_failed)} 个失配已记状态/例外" if en_failed else ""))
+
+    manifest_normalized = {sync_manifest.normalize_url(u) for u in en_urls}
+    disappeared = [
+        u for u in sorted(state.urls())
+        if (state.get(u) or {}).get("language") == "en-us"
+        and (state.get(u) or {}).get("status") != "deleted"
+        and sync_manifest.normalize_url(u) not in manifest_normalized
+    ]
+    for url in disappeared:
+        _delete_topic(url, "en-us", state, f"{url} 已从 sitemap 消失")
+    if disappeared:
+        print(f"== 删除检测: {len(disappeared)} 个曾入库 en 页从 sitemap 消失，"
+              "已留墓碑并清除产物")
 
     mirrors: dict[str, MirrorResult] = {}
     print(f"== zh 镜像扫描: {len(en_ok)} 个 en 主题同路径 HEAD")
@@ -841,12 +957,19 @@ def reconcile_manifest(limit: int | None, cfg: sync_config.SyncConfig,
         _pace(rate)
         status = hinfo.get("status")
         if status == 200:
+            zh_id = _topic_id_of_url(zh_url)
+            _resolve_exception(zh_id, "untranslated")
+            _resolve_exception(zh_id, "renamed")
             mirrors[url] = MirrorResult(url, en_id, zh_url,
                                         _topic_id_of_url(zh_url), "paired")
             continue
         if status != 404 and status != 410:
             state.mark_error(zh_url, language="zh-cn")
             continue
+        zh_prev = state.get(zh_url)
+        if zh_prev is not None and zh_prev.get("status") != "deleted":
+            _delete_topic(zh_url, "zh-cn", state,
+                          f"{zh_url} 现 {status}（zh 镜像消失）")
         renamed_page = cfg.renames.get(sync_manifest.en_topic_rel_path(url))
         if renamed_page:
             renamed_url = sync_manifest.zh_url_for_page(zh_url, renamed_page)
@@ -857,6 +980,7 @@ def reconcile_manifest(limit: int | None, cfg: sync_config.SyncConfig,
                 mirrors[url] = MirrorResult(url, en_id, renamed_url,
                                             _topic_id_of_url(renamed_url),
                                             "renamed")
+                _resolve_exception(_topic_id_of_url(zh_url), "untranslated")
                 upsert_exception({
                     "id": _topic_id_of_url(zh_url),
                     "type": "renamed",
@@ -901,6 +1025,7 @@ def reconcile_manifest(limit: int | None, cfg: sync_config.SyncConfig,
         state.mark_ok(target.url, language=target.language,
                       etag=fetched.get("etag"), lastmod=fetched.get("lastmod"),
                       content_hash=meta["content_hash"])
+        _resolve_exception(meta["id"], "deleted")
     for url in en_ok:
         mirror = mirrors.get(url)
         if mirror is None or mirror.zh_url is None:
@@ -919,6 +1044,7 @@ def reconcile_manifest(limit: int | None, cfg: sync_config.SyncConfig,
         state.mark_ok(target.url, language=target.language,
                       etag=fetched.get("etag"), lastmod=fetched.get("lastmod"),
                       content_hash=meta["content_hash"])
+        _resolve_exception(meta["id"], "deleted")
 
     apply_pairings(mirrors)
     _merge_headers(headers_rec)
@@ -934,11 +1060,12 @@ def reconcile_manifest(limit: int | None, cfg: sync_config.SyncConfig,
 def incremental_sync(limit: int | None, url: str | None,
                      cfg: sync_config.SyncConfig, rate: float,
                      dry_run: bool = False) -> int:
-    """日常增量同步（票 #17）：基于同步状态对已知主题发起条件请求。
+    """日常增量同步（票 #17/#18）：基于同步状态对已知主题发起条件请求。
 
     未变化页（304 或指纹一致）不重写任何产物、状态保持；变化页 GET 全文。
-    每条结果即时落盘，中断后可从断点续跑；已删除墓碑不重探。dry_run
-    只输出将抓取的 URL 清单，不发 GET、不写任何产物。
+    曾 ok 页面 404/410 → 墓碑 + deleted 例外 + 产物清除；已删除墓碑不重探，
+    --url 显式指定时可重新入库（墓碑清除、例外 resolved）。每条结果即时落盘，
+    中断后可从断点续跑。dry_run 只输出将抓取的 URL 清单，不发 GET、不写任何产物。
     """
     state = sync_state.SyncState(state_path())
     state.load()
@@ -969,18 +1096,32 @@ def incremental_sync(limit: int | None, url: str | None,
             _headers_manifest(cfg.user_agent, _conditional_headers(record)),
             target_url, headers_rec)
         _pace(rate)
-        if _is_unchanged(info, record):
+        record_status = (record or {}).get("status")
+        if info.get("status") == 304 and record_status == "deleted":
+            # 墓碑页重现：内容未变（304）也要重新入库并清墓碑
+            info = {**info, "status": 200}
+        if _is_unchanged(info, record) and record_status != "deleted":
             unchanged += 1
             print(f"== 未变化: {target_url}")
             continue
         if info.get("status") != 200:
             errors += 1
-            if not dry_run:
-                state.mark_error(target_url,
-                                 language=(record or {}).get("language"))
-            print(f"错误: {target_url} → {info.get('status')}，"
-                  + ("同步状态已记 error" if not dry_run
-                     else "dry-run 不记状态"), file=sys.stderr)
+            status = info.get("status")
+            if dry_run:
+                print(f"错误: {target_url} → {status}，dry-run 不记状态",
+                      file=sys.stderr)
+                continue
+            if record_status == "deleted":
+                print(f"== 墓碑保持: {target_url} → {status}，不改写状态")
+                continue
+            if status == 404 or status == 410:
+                _delete_topic(target_url, (record or {}).get("language"),
+                              state, f"{target_url} 现 {status}")
+                continue
+            state.mark_error(target_url,
+                             language=(record or {}).get("language"))
+            print(f"错误: {target_url} → {status}，同步状态已记 error",
+                  file=sys.stderr)
             continue
         changed += 1
         if dry_run:
@@ -997,6 +1138,7 @@ def incremental_sync(limit: int | None, url: str | None,
         state.mark_ok(target_url, language=target.language,
                       etag=fetched.get("etag"), lastmod=fetched.get("lastmod"),
                       content_hash=meta["content_hash"])
+        _resolve_exception(meta["id"], "deleted")
         print(f"== 同步状态: ok（etag={fetched.get('etag')!r}, "
               f"content_hash={meta['content_hash'][:12]}…）")
     if fetched_any:
