@@ -1,0 +1,7 @@
+{
+  "incremental": { "cadence": "weekly", "rate_per_sec": 2, "time_window": "night_asia_shanghai" },
+  "reconcile": { "cadence": "monthly", "rate_per_sec": 5, "time_window": "night_asia_shanghai" },
+  "user_agent": "MonitorERP-KB-Bot/1.0 (+internal knowledge base)",
+  "backoff": { "base_seconds": 1, "max_seconds": 60 },
+  "stop_conditions": { "consecutive_failures": 5, "error_rate_percent": 10 }
+}

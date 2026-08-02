@@ -1,0 +1,52 @@
+[PASS] M1 主题清单 JSONL 可解析且字段集合 = 13 字段 — 5 rows
+[PASS] M2 id 唯一且符合稳定格式 — dup=[]
+[PASS] M3 url 规范且与 language 一致
+[PASS] M4 language 枚举且与 id 前缀一致
+[PASS] M5 quality 枚举（en→canonical, zh→reference）
+[PASS] M6 version/lastmod/etag 非空且 lastmod 为 ISO8601 UTC
+[PASS] M7 images 为绝对 URL 数组
+[PASS] M8 content_hash 重算一致 — mismatch=[]
+[PASS] M9 paired_topic_id 引用完整且与镜像映射一致
+[PASS] C1 分块 JSONL 可解析且字段集合 = 14 字段 — 5 rows
+[PASS] C2 chunk_id 格式与 topic_id 引用 — bad=[]
+[PASS] C3 order 每主题 0 起连续 — bad=[]
+[PASS] C4 heading_path 非空字符串列表
+[PASS] C5 content 非空
+[PASS] C6 char_count 与内容一致 — bad=[]
+[PASS] C7 块上下文字段与主题清单一致 — bad=[]
+[PASS] C8 token_estimate 为正整数且 ≤ 1200 硬上限 — bad=[]; max=1079
+[PASS] C9 中文块 paired_chunk_id 引用真实英文块（英文块为 null）
+[PASS] C10 块 images 与内容内图片一致 — bad=[]
+[PASS] --- 转换质量代理（逐页） ---
+[PASS] Q1[en-us/UserGuide/GettingStarted/GettingStarted] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/UserGuide/GettingStarted/GettingStarted] 标题层级/文本一致
+[PASS] Q3[en-us/UserGuide/GettingStarted/GettingStarted] 正文链接数量一致 — raw=9 md=9
+[PASS] Q4[en-us/UserGuide/GettingStarted/GettingStarted] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q5[en-us/UserGuide/GettingStarted/GettingStarted] 提示框转 blockquote — raw_callouts=1 md_blockquotes=1
+[PASS] Q6[en-us/UserGuide/GettingStarted/GettingStarted] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/UserGuide/GettingStarted/MobileClient] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/UserGuide/GettingStarted/MobileClient] 标题层级/文本一致
+[PASS] Q3[en-us/UserGuide/GettingStarted/MobileClient] 正文链接数量一致 — raw=5 md=5
+[PASS] Q4[en-us/UserGuide/GettingStarted/MobileClient] 图片数量一致且绝对 URL — raw=3 md=3 abs=True
+[PASS] Q5[en-us/UserGuide/GettingStarted/MobileClient] 提示框转 blockquote — raw_callouts=2 md_blockquotes=2
+[PASS] Q6[en-us/UserGuide/GettingStarted/MobileClient] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/UserGuide/GettingStarted/MonitorBI] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/UserGuide/GettingStarted/MonitorBI] 标题层级/文本一致
+[PASS] Q3[en-us/UserGuide/GettingStarted/MonitorBI] 正文链接数量一致 — raw=2 md=2
+[PASS] Q4[en-us/UserGuide/GettingStarted/MonitorBI] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q5[en-us/UserGuide/GettingStarted/MonitorBI] 提示框转 blockquote — raw_callouts=1 md_blockquotes=1
+[PASS] Q6[en-us/UserGuide/GettingStarted/MonitorBI] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[zh-cn/UserGuide/GettingStarted/GettingStarted] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[zh-cn/UserGuide/GettingStarted/GettingStarted] 标题层级/文本一致
+[PASS] Q3[zh-cn/UserGuide/GettingStarted/GettingStarted] 正文链接数量一致 — raw=8 md=8
+[PASS] Q4[zh-cn/UserGuide/GettingStarted/GettingStarted] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q5[zh-cn/UserGuide/GettingStarted/GettingStarted] 提示框转 blockquote — raw_callouts=1 md_blockquotes=1
+[PASS] Q6[zh-cn/UserGuide/GettingStarted/GettingStarted] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[zh-cn/UserGuide/GettingStarted/WebClient] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[zh-cn/UserGuide/GettingStarted/WebClient] 标题层级/文本一致
+[PASS] Q3[zh-cn/UserGuide/GettingStarted/WebClient] 正文链接数量一致 — raw=2 md=2
+[PASS] Q4[zh-cn/UserGuide/GettingStarted/WebClient] 图片数量一致且绝对 URL — raw=3 md=3 abs=True
+[PASS] Q5[zh-cn/UserGuide/GettingStarted/WebClient] 提示框转 blockquote — raw_callouts=1 md_blockquotes=1
+[PASS] Q6[zh-cn/UserGuide/GettingStarted/WebClient] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+
+RESULT: ALL PASS
