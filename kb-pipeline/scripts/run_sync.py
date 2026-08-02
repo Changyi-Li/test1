@@ -1,8 +1,9 @@
-"""生产同步 CLI（规格 §5.7，票 #14/#15）。
+"""生产同步 CLI（规格 §5.7，票 #14/#15/#16）。
 
 解析/校验全部规划参数（--mode/--url/--limit/--rate/--dry-run）、加载配置并
 解析限速覆盖。`--mode reconcile --url <主题 URL>` 执行单页端到端全量对账
-（票 #15）；其余组合输出本轮同步计划（清单/--limit 模式由后续票实现）。
+（票 #15）；`--mode reconcile [--limit N]` 执行清单驱动全量对账
+（sitemap → en 清单 → HEAD → zh 镜像 → 完整管道 → 例外表 → 自检，票 #16）。
 """
 from __future__ import annotations
 
@@ -19,7 +20,7 @@ STATE_FILE_REL = sync_engine.STATE_FILE_REL
 def build_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(
         prog="run_sync.py",
-        description="Monitor ERP 知识库同步 CLI（单 URL 对账已实现，清单模式待后续票）",
+        description="Monitor ERP 知识库同步 CLI（单 URL 与清单驱动全量对账）",
     )
     ap.add_argument("--mode", required=True, choices=sync_config.MODES,
                     help="incremental=日常增量 | reconcile=全量对账")
@@ -62,6 +63,8 @@ def main(argv=None) -> int:
     mode_cfg = getattr(cfg, args.mode)
     if args.mode == "reconcile" and args.url is not None and not args.dry_run:
         return sync_engine.reconcile_single_url(args.url, cfg, rate)
+    if args.mode == "reconcile" and args.url is None and not args.dry_run:
+        return sync_engine.reconcile_manifest(args.limit, cfg, rate)
     if args.url is not None:
         scope = f"单 URL: {args.url}"
     elif args.limit is not None:
@@ -86,8 +89,9 @@ def main(argv=None) -> int:
         print("提示: --dry-run 只预览；去掉后执行单 URL 全量对账"
               "（抓取→清洗→元数据→分块→自检）。")
     else:
-        print("提示: 单 URL 对账已实现（--mode reconcile --url）；"
-              "清单/--limit 模式由后续票实现。")
+        print("提示: --dry-run 只预览；去掉后执行清单驱动全量对账"
+              "（sitemap → en 清单 → HEAD 校验 → zh 镜像扫描 → 完整管道 → "
+              "例外表 → 自检）；--limit N 限定本轮主题数。")
     return 0
 
 

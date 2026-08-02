@@ -91,3 +91,29 @@ def test_effective_rate_rejects_nonpositive_override():
         assert "必须 > 0" in str(exc)
     else:
         raise AssertionError("非正 --rate 覆盖应抛 ValueError")
+
+def test_loads_optional_renames_mapping(tmp_path):
+    data = {
+        "incremental": {"cadence": "weekly", "rate_per_sec": 2,
+                        "time_window": "night_asia_shanghai"},
+        "reconcile": {"cadence": "monthly", "rate_per_sec": 5,
+                      "time_window": "night_asia_shanghai"},
+        "user_agent": "MonitorERP-KB-Bot/1.0 (test)",
+        "backoff": {"base_seconds": 1, "max_seconds": 60},
+        "stop_conditions": {"consecutive_failures": 5, "error_rate_percent": 10},
+        "renames": {"UserGuide/GettingStarted/MobileClient": "WebClient.htm"},
+    }
+    path = tmp_path / "sync.json"
+    path.write_text(json.dumps(data), encoding="utf-8")
+    cfg = sync_config.load_sync_config(path)
+    assert cfg.renames == {"UserGuide/GettingStarted/MobileClient": "WebClient.htm"}
+
+
+def test_missing_renames_defaults_to_empty():
+    cfg = sync_config.load_sync_config()
+    assert isinstance(cfg.renames, dict)
+
+
+def test_default_config_has_known_mobileclient_rename():
+    cfg = sync_config.load_sync_config()
+    assert cfg.renames.get("UserGuide/GettingStarted/MobileClient") == "WebClient.htm"

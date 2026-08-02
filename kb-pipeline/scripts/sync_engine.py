@@ -1,12 +1,16 @@
-"""单 URL 全量对账引擎（票 #15，垂直切片）。
+"""同步引擎：单 URL 对账（票 #15）与清单驱动全量对账（票 #16）。
 
-`--mode reconcile --url <主题 URL>` 的单页端到端：抓取（配置 UA + 限速）→
-清洗 → 元数据 → 分块 → 机器自检。原始 HTML 与响应头写入 data/raw/
-（gitignore，不入库）；清洗 Markdown、13 字段元数据、14 字段分块与自检结果
-写入 data/ 入库产物；同步状态写入 state/sync-state.jsonl（gitignore）。
+`--mode reconcile --url <主题 URL>`：单页端到端（抓取→清洗→元数据→分块→自检），
+镜像配对检查标记 SKIP。
 
-重复运行幂等：元数据按 id、分块按 topic_id 覆盖更新，其他主题的既有产物保留。
-镜像配对（paired_topic_id）属于清单驱动对账（后续票），本引擎不做镜像扫描。
+`--mode reconcile [--limit N]`：从 en-us sitemap 生成权威 en 清单（修复规则、
+Topics/*.htm 过滤、规范化去重、HEAD 可达性校验），同轮扫描 zh 同路径镜像
+（含已知重命名映射），对样本主题走完整管道，把未翻译/重命名/删除例外写进
+例外表，最后跑全量数据集自检（M1–M10/C1–C10，含镜像配对）。
+
+原始 HTML 与响应头写入 data/raw/（gitignore，不入库）；清洗 Markdown、13 字段
+元数据、14 字段分块、例外表与自检结果写入 data/ 入库产物；同步状态写入
+state/sync-state.jsonl（gitignore）。重复运行幂等。
 """
 from __future__ import annotations
 
@@ -14,12 +18,14 @@ import json
 import re
 import sys
 import time
+import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from pathlib import Path
 from urllib.parse import urlparse
 
 import pipeline as P
 import sync_config
+import sync_manifest
 import sync_state
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -51,6 +57,10 @@ def chunks_path() -> Path:
     return ROOT / "data" / "chunks.jsonl"
 
 
+def exceptions_path() -> Path:
+    return ROOT / "data" / "exceptions.jsonl"
+
+
 def check_path() -> Path:
     return ROOT / "data" / "selfcheck-results.txt"
 
@@ -65,6 +75,16 @@ class TopicTarget:
     topic_path: str
     page: str
     topic_id: str
+
+
+@dataclass(frozen=True)
+class MirrorResult:
+    """一个 en 主题的 zh 镜像扫描结果。"""
+    en_url: str
+    en_id: str
+    zh_url: str | None      # 解析后的 zh 页面 URL（同路径或重命名），None=无镜像
+    zh_id: str | None
+    kind: str               # paired | renamed | untranslated
 
 
 def parse_topic_url(url: str) -> TopicTarget:
@@ -90,13 +110,22 @@ def parse_topic_url(url: str) -> TopicTarget:
     )
 
 
+def _topic_id_of_url(url: str) -> str:
+    m = _TOPIC_URL_RE.match(urlparse(url).path)
+    if m is None:
+        raise ValueError(f"不是主题 URL: {url!r}")
+    _site, language, topic_path, page = m.groups()
+    return f"{language}/{topic_path}/{Path(page).stem}"
+
+
 def _pace(rate: float) -> None:
     """抓取后按 1/rate 秒间隔限速（试点自约束 1–2 req/s 口径的参数化）。"""
     time.sleep(1.0 / rate)
 
 
-def _fetch(target: TopicTarget, user_agent: str, timeout: int = 30):
-    """按配置 UA 抓取单页；返回 (原始字节或 None, 响应头信息)。"""
+def _fetch(target: TopicTarget, user_agent: str, headers_rec: dict,
+           timeout: int = 30):
+    """按配置 UA 抓取单页；响应头信息写入调用方共享的 headers_rec。"""
     manifest = P.Manifest(
         site=target.site,
         topic_path=target.topic_path,
@@ -106,9 +135,21 @@ def _fetch(target: TopicTarget, user_agent: str, timeout: int = 30):
         headers={"User-Agent": user_agent},
         fetch_sleep=0.0,
     )
-    headers_rec: dict = {}
     raw = P.probe(manifest, target.url, headers_rec, timeout=timeout)
     return raw, headers_rec.get(target.url, {})
+
+
+def _headers_manifest(user_agent: str) -> P.Manifest:
+    """只携带 UA 的抓取参数（HEAD 探测用，站点字段不参与请求）。"""
+    return P.Manifest(
+        site="",
+        topic_path="",
+        source="",
+        topics=(),
+        zh_probes=(),
+        headers={"User-Agent": user_agent},
+        fetch_sleep=0.0,
+    )
 
 
 def _load_jsonl(path: Path) -> list[dict]:
@@ -147,6 +188,12 @@ def _save_headers(headers: dict) -> None:
     path = headers_path()
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(headers, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def _merge_headers(headers_rec: dict) -> None:
+    headers = _load_headers()
+    headers.update(headers_rec)
+    _save_headers(headers)
 
 
 def build_metadata(target: TopicTarget, info: dict, md: str, raw_html: str) -> dict:
@@ -219,14 +266,44 @@ def upsert_chunks(topic_id: str, chunks: list[dict]) -> None:
     _save_jsonl(chunks_path(), rows)
 
 
+def _load_exceptions() -> list[dict]:
+    return _load_jsonl(exceptions_path())
+
+
+def _save_exceptions(rows: list[dict]) -> None:
+    _save_jsonl(exceptions_path(), rows)
+
+
+def upsert_exception(row: dict) -> None:
+    """按 (id, type) 幂等覆盖写入例外表；保留首次发现时间与既有 resolved 状态。
+
+    重跑全量对账时同一结构例外不再刷新 discovered_at，保证重跑产物逐字节一致；
+    其他既有例外（如试点首版两条）原样保留。
+    """
+    rows = _load_exceptions()
+    existing = next(
+        (r for r in rows
+         if r.get("id") == row.get("id") and r.get("type") == row.get("type")),
+        None,
+    )
+    if existing is not None:
+        row = {
+            **row,
+            "discovered_at": existing.get("discovered_at", row.get("discovered_at")),
+            "resolved": existing.get("resolved", row.get("resolved")),
+        }
+        rows = [r for r in rows if r is not existing]
+    rows.append(row)
+    rows.sort(key=lambda r: (r["type"], r["id"]))
+    _save_exceptions(rows)
+
+
 def _is_topic_url(url: str, language: str) -> bool:
     parsed = urlparse(url)
     if parsed.scheme not in ("http", "https") or not parsed.netloc:
         return False
     return bool(re.search(rf"/{re.escape(language)}/Content/Topics/.+\.htm$",
                           parsed.path))
-
-
 def selfcheck_single(meta: dict, chunks: list[dict]) -> bool:
     """单页机器自检：元数据完整性 + 分块完整性；配对检查标记 SKIP。"""
     lines: list[str] = []
@@ -301,35 +378,226 @@ def selfcheck_single(meta: dict, chunks: list[dict]) -> bool:
     return ok
 
 
-def reconcile_single_url(url: str, cfg: sync_config.SyncConfig, rate: float) -> int:
-    """单主题 URL 端到端全量对账；返回进程退出码（0=成功且自检全 PASS）。"""
-    try:
-        target = parse_topic_url(url)
-    except ValueError as exc:
-        print(f"错误: {exc}", file=sys.stderr)
-        return 1
+def selfcheck_dataset(expected_pairs: dict[str, str | None]) -> bool:
+    """全量数据集自检（规格 §6）：M1–M10 + C1–C10 + Q1–Q6 转换质量代理。
 
+    expected_pairs：本轮镜像扫描得到的 {topic_id: paired_topic_id 或 None}，
+    用于校验配对与例外覆盖。
+    """
+    meta_rows = _load_jsonl(meta_path())
+    chunk_rows = _load_jsonl(chunks_path())
+    exc_rows = _load_exceptions()
+    ids = {r["id"] for r in meta_rows}
+    lines: list[str] = []
+    ok = True
+
+    def report(name: str, passed: bool, detail: str = "") -> None:
+        nonlocal ok
+        ok = ok and passed
+        lines.append(f"[{'PASS' if passed else 'FAIL'}] {name}"
+                     + (f" — {detail}" if detail else ""))
+
+    id_re = re.compile(rf"^({'|'.join(LANGS)})/(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+$")
+    url_re = re.compile(
+        r"^https?://[^/]+(?:/[^/]+)?/(en-us|zh-cn)/Content/Topics/.+\.htm$")
+
+    # ---- 元数据完整性 ----
+    report("M1 元数据字段集合 = 13 字段",
+           all(set(r) == P.EXPECTED_FIELDS_META for r in meta_rows),
+           f"{len(meta_rows)} rows")
+    dups = [r["id"] for r in meta_rows
+            if sum(1 for x in meta_rows if x["id"] == r["id"]) > 1]
+    report("M2 id 唯一且符合稳定格式",
+           not dups and all(re.fullmatch(id_re, r["id"]) for r in meta_rows),
+           f"dup={dups}")
+    report("M3 url 规范且与 language 一致",
+           all(re.fullmatch(url_re, r["url"])
+               and ("/" + r["language"] + "/Content/Topics/") in r["url"]
+               for r in meta_rows))
+    report("M4 language 枚举且与 id 前缀一致",
+           all(r["language"] in LANGS
+               and r["id"].startswith(r["language"] + "/") for r in meta_rows))
+    report("M5 quality 枚举（en→canonical, zh→reference）",
+           all((r["language"] == "en-us" and r["quality"] == "canonical")
+               or (r["language"] == "zh-cn" and r["quality"] == "reference")
+               for r in meta_rows))
+    report("M6 version/lastmod/etag 非空且 lastmod 为 ISO8601 UTC",
+           all(r["version"] and r["etag"] and r["lastmod"]
+               and re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z",
+                                r["lastmod"] or "")
+               for r in meta_rows))
+    report("M7 images 为绝对 URL 数组",
+           all(isinstance(r["images"], list)
+               and all(str(x).startswith("http") for x in r["images"])
+               for r in meta_rows))
+    hash_fail = []
+    for r in meta_rows:
+        cf = clean_dir() / (r["id"].replace("/", "_") + ".md")
+        if not cf.exists() or P.sha256_hex(
+                cf.read_text(encoding="utf-8")) != r["content_hash"]:
+            hash_fail.append(r["id"])
+    report("M8 content_hash 重算一致", not hash_fail, f"mismatch={hash_fail}")
+
+    pair_fail: list[str] = []
+    by_id = {r["id"]: r for r in meta_rows}
+    for r in meta_rows:
+        p = r.get("paired_topic_id")
+        if p is not None:
+            partner = by_id.get(p)
+            if partner is None:
+                pair_fail.append(f"{r['id']}->悬空 {p}")
+            else:
+                if partner.get("paired_topic_id") != r["id"]:
+                    pair_fail.append(f"{r['id']}->{p} 非互逆")
+                if partner["language"] == r["language"]:
+                    pair_fail.append(f"{r['id']}->{p} 同语言配对")
+        if r["id"] in expected_pairs and expected_pairs[r["id"]] != p:
+            pair_fail.append(f"{r['id']}: 期望 {expected_pairs[r['id']]} 实际 {p}")
+    report("M9 镜像配对互逆且与镜像扫描一致", not pair_fail,
+           "; ".join(pair_fail[:8]))
+
+    exc_keys = {(e["id"], e["type"]) for e in exc_rows}
+    missing_exc = []
+    for tid, expected_partner in expected_pairs.items():
+        if expected_partner is None and tid.startswith("en-us/"):
+            zh_id = "zh-cn/" + tid.split("/", 1)[1]
+            if (zh_id, "untranslated") not in exc_keys:
+                missing_exc.append(f"{zh_id} 缺 untranslated 例外")
+    report("M10 缺失镜像的 en 主题有 untranslated 例外",
+           not missing_exc, "; ".join(missing_exc))
+
+    # ---- 分块完整性 ----
+    report("C1 分块字段集合 = 14 字段",
+           all(set(c) == P.EXPECTED_FIELDS_CHUNK for c in chunk_rows),
+           f"{len(chunk_rows)} rows")
+    cid_fail = [c["chunk_id"] for c in chunk_rows
+                if c["chunk_id"] != f"{c['topic_id']}::{c['order']}"
+                or c["topic_id"] not in ids]
+    report("C2 chunk_id 格式与 topic_id 引用", not cid_fail, f"bad={cid_fail}")
+    order_fail = []
+    by_topic: dict[str, list[int]] = {}
+    for c in chunk_rows:
+        by_topic.setdefault(c["topic_id"], []).append(c["order"])
+    for tid, orders in by_topic.items():
+        if sorted(orders) != list(range(len(orders))):
+            order_fail.append(tid)
+    report("C3 order 每主题 0 起连续", not order_fail, f"bad={order_fail}")
+    report("C4 heading_path 非空字符串列表",
+           all(isinstance(c["heading_path"], list) and c["heading_path"]
+               and all(isinstance(x, str) and x for x in c["heading_path"])
+               for c in chunk_rows))
+    report("C5 content 非空", all(bool(c["content"]) for c in chunk_rows))
+    cc_fail = [c["chunk_id"] for c in chunk_rows
+               if c["char_count"] != len(c["content"])]
+    report("C6 char_count 与内容一致", not cc_fail, f"bad={cc_fail}")
+    ctx_fail = []
+    for c in chunk_rows:
+        mrow = by_id.get(c["topic_id"])
+        if mrow is None or not (c["language"] == mrow["language"]
+                                and c["quality"] == mrow["quality"]
+                                and c["url"] == mrow["url"]
+                                and c["topic_path"] == mrow["topic_path"]):
+            ctx_fail.append(c["chunk_id"])
+    report("C7 块上下文字段与主题清单一致", not ctx_fail, f"bad={ctx_fail}")
+    tk_fail = [c["chunk_id"] for c in chunk_rows
+               if not isinstance(c["token_estimate"], int)
+               or not (0 < c["token_estimate"] <= 1200)]
+    report("C8 token_estimate 为正整数且 ≤ 1200 硬上限", not tk_fail,
+           f"bad={tk_fail}")
+    en_chunk_ids = {c["chunk_id"] for c in chunk_rows if c["language"] == "en-us"}
+    pair_fail2: list[str] = []
+    for c in chunk_rows:
+        if c["language"] == "en-us":
+            if c["paired_chunk_id"] is not None:
+                pair_fail2.append(f"en {c['chunk_id']} 不应有配对")
+            continue
+        pair_id = by_id.get(c["topic_id"], {}).get("paired_topic_id")
+        if pair_id is None:
+            if c["paired_chunk_id"] is not None:
+                pair_fail2.append(f"{c['chunk_id']} 无主题配对却有分块配对")
+            continue
+        if c["paired_chunk_id"] is None:
+            pair_fail2.append(f"{c['chunk_id']} 缺配对")
+            continue
+        if c["paired_chunk_id"] not in en_chunk_ids:
+            pair_fail2.append(f"{c['chunk_id']}->{c['paired_chunk_id']} 悬空")
+        if c["paired_chunk_id"].rsplit("::", 1)[0] != pair_id:
+            pair_fail2.append(f"{c['chunk_id']}->{c['paired_chunk_id']} 主题不一致")
+    for tid, expected_partner in expected_pairs.items():
+        if expected_partner is None or not tid.startswith("zh-cn/"):
+            continue
+        if any(c["paired_chunk_id"] is None
+               for c in chunk_rows if c["topic_id"] == tid):
+            pair_fail2.append(f"{tid} 分块配对未全部命中")
+    report("C9 中文块 paired_chunk_id 引用真实英文块（英文块为 null）",
+           not pair_fail2, "; ".join(pair_fail2[:8]))
+    img_fail = [c["chunk_id"] for c in chunk_rows
+                if c["images"] != re.findall(r"!\[[^\]]*\]\(([^)]+)\)",
+                                             c["content"])]
+    report("C10 块 images 与内容内图片一致", not img_fail, f"bad={img_fail}")
+
+    # ---- 转换质量代理（逐页） ----
+    report("--- 转换质量代理（逐页） ---", True)
+    for r in meta_rows:
+        raw_file = ROOT / "data" / "raw" / r["language"] / (
+            r["id"].rsplit("/", 1)[-1] + ".htm")
+        if not raw_file.exists():
+            report(f"Q1[{r['id']}] 原始 HTML 存在", False, "data/raw 缺失")
+            continue
+        raw_html = raw_file.read_bytes().decode("utf-8", errors="replace")
+        md = (clean_dir() / (r["id"].replace("/", "_") + ".md")).read_text(
+            encoding="utf-8")
+        rb = P.raw_body_stats(raw_html)
+        ms = P.md_stats(md)
+        noise = [p for p in P.NOISE_PATTERNS if re.search(p, md, re.I)]
+        report(f"Q1[{r['id']}] 无导航/页脚/版本/脚本残留", not noise,
+               f"found={noise}")
+        rh = [(lv, txt) for lv, txt in rb["headings"]]
+        mh = ms["headings"]
+        hdiff = []
+        for k in range(max(len(rh), len(mh))):
+            a = rh[k] if k < len(rh) else None
+            b = mh[k] if k < len(mh) else None
+            if a != b:
+                hdiff.append(f"#{k}: raw={a} md={b}")
+        report(f"Q2[{r['id']}] 标题层级/文本一致", not hdiff, "; ".join(hdiff[:4]))
+        report(f"Q3[{r['id']}] 正文链接数量一致",
+               len(rb["links"]) == len(ms["links"]),
+               f"raw={len(rb['links'])} md={len(ms['links'])}")
+        img_abs = all(x.startswith("http") for x in ms["images"])
+        report(f"Q4[{r['id']}] 图片数量一致且绝对 URL",
+               len(rb["images"]) == len(ms["images"]) and img_abs,
+               f"raw={len(rb['images'])} md={len(ms['images'])} abs={img_abs}")
+        report(f"Q5[{r['id']}] 提示框转 blockquote",
+               rb["callouts"] == ms["blockquote_lines"],
+               f"raw_callouts={rb['callouts']} md_blockquotes={ms['blockquote_lines']}")
+        report(f"Q6[{r['id']}] 表格/代码计数一致",
+               rb["tables"] == ms["tables"]
+               and rb["pre"] == ms["code_fences"] // 2,
+               f"tables raw={rb['tables']} md={ms['tables']}; "
+               f"pre raw={rb['pre']} fences={ms['code_fences']}")
+
+    lines.append(f"\nRESULT: {'ALL PASS' if ok else 'HAS FAILURES'}\n")
+    path = check_path()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("\n".join(lines), encoding="utf-8")
+    return ok
+def process_topic(target: TopicTarget, cfg: sync_config.SyncConfig, rate: float,
+                  state: sync_state.SyncState, headers_rec: dict):
+    """抓取→清洗→元数据→分块；成功返回 (meta, chunks, info)，失败返回 None。"""
     print(f"== 抓取: {target.url}")
-    raw, info = _fetch(target, cfg.user_agent)
+    raw, info = _fetch(target, cfg.user_agent, headers_rec)
     _pace(rate)
-
-    state = sync_state.SyncState(state_path())
-    state.load()
     if raw is None:
         state.mark_error(target.url, language=target.language)
         print(f"错误: 抓取失败（status={info.get('status')}），同步状态已记 error",
               file=sys.stderr)
-        return 1
+        return None
 
-    # 原始 HTML 与响应头落盘（data/raw/ 为 gitignore，不入库）
     raw_file = ROOT / "data" / "raw" / target.language / target.page
     raw_file.parent.mkdir(parents=True, exist_ok=True)
     raw_file.write_bytes(raw)
-    headers = _load_headers()
-    headers[target.url] = info
-    _save_headers(headers)
     print(f"  原始 HTML -> {raw_file.relative_to(ROOT)}")
-    print(f"  响应头 -> {headers_path().relative_to(ROOT)}")
 
     raw_html = raw.decode("utf-8", errors="replace")
     md = P.clean_markdown(raw_html, target.url)
@@ -345,11 +613,30 @@ def reconcile_single_url(url: str, cfg: sync_config.SyncConfig, rate: float) -> 
     chunks = build_chunks(meta, md)
     upsert_chunks(meta["id"], chunks)
     print(f"== 分块: {len(chunks)} 块 -> {chunks_path().relative_to(ROOT)}")
+    return meta, chunks, info
+
+
+def reconcile_single_url(url: str, cfg: sync_config.SyncConfig, rate: float) -> int:
+    """单主题 URL 端到端全量对账；返回进程退出码（0=成功且自检全 PASS）。"""
+    try:
+        target = parse_topic_url(url)
+    except ValueError as exc:
+        print(f"错误: {exc}", file=sys.stderr)
+        return 1
+
+    state = sync_state.SyncState(state_path())
+    state.load()
+    headers_rec: dict = {}
+    result = process_topic(target, cfg, rate, state, headers_rec)
+    if result is None:
+        return 1
+    meta, chunks, info = result
+    _merge_headers(headers_rec)
+    print(f"  响应头 -> {headers_path().relative_to(ROOT)}")
 
     ok = selfcheck_single(meta, chunks)
     print(f"== 自检: {'ALL PASS' if ok else 'HAS FAILURES'} -> "
           f"{check_path().relative_to(ROOT)}")
-
     if ok:
         state.mark_ok(target.url, language=target.language,
                       etag=info.get("etag"), lastmod=info.get("lastmod"),
@@ -365,5 +652,235 @@ def reconcile_single_url(url: str, cfg: sync_config.SyncConfig, rate: float) -> 
               file=sys.stderr)
     return 0 if ok else 1
 
+
+def _expected_pair_map(mirrors: dict[str, MirrorResult]) -> dict[str, str | None]:
+    expected: dict[str, str | None] = {}
+    for m in mirrors.values():
+        expected[m.en_id] = m.zh_id
+        if m.zh_id is not None:
+            expected[m.zh_id] = m.en_id
+    return expected
+
+
+def apply_pairings(mirrors: dict[str, MirrorResult]) -> None:
+    """把本轮镜像扫描结果写回元数据 paired_topic_id 与分块 paired_chunk_id。
+
+    中文块按标题位置路径单向映射英文同构块；匹配不上为 None（自检会拦截）。
+    """
+    expected = _expected_pair_map(mirrors)
+    meta_rows = _load_jsonl(meta_path())
+    changed = False
+    for row in meta_rows:
+        if row["id"] in expected and row.get("paired_topic_id") != expected[row["id"]]:
+            row["paired_topic_id"] = expected[row["id"]]
+            changed = True
+    if changed:
+        meta_rows.sort(key=lambda r: (r["language"], r["id"]))
+        _save_jsonl(meta_path(), meta_rows)
+
+    chunk_rows = _load_jsonl(chunks_path())
+    pair_by_topic = {r["id"]: r.get("paired_topic_id") for r in meta_rows}
+    pos_by_topic: dict[str, dict[str, tuple]] = {}
+    for row in meta_rows:
+        cf = clean_dir() / (row["id"].replace("/", "_") + ".md")
+        if not cf.exists():
+            continue
+        md = cf.read_text(encoding="utf-8")
+        positions: dict[str, tuple] = {}
+        for order, c in enumerate(P.chunk_markdown(md)):
+            positions[f"{row['id']}::{order}"] = c["pos"]
+        pos_by_topic[row["id"]] = positions
+    en_by_path: dict[tuple[str, ...], list[str]] = {}
+    for c in chunk_rows:
+        if c["language"] == "en-us":
+            c["paired_chunk_id"] = None
+            en_by_path.setdefault(tuple(c["heading_path"]), []).append(c["chunk_id"])
+    for c in chunk_rows:
+        if c["language"] != "zh-cn":
+            continue
+        partner = pair_by_topic.get(c["topic_id"])
+        if partner is None:
+            c["paired_chunk_id"] = None
+            continue
+        pos = pos_by_topic.get(c["topic_id"], {}).get(c["chunk_id"])
+        matched = next(
+            (cid for cid, p in pos_by_topic.get(partner, {}).items() if p == pos),
+            None,
+        )
+        if matched is None:
+            matched = en_by_path.get(tuple(c["heading_path"]), [None])[0]
+        c["paired_chunk_id"] = matched
+    chunk_rows.sort(key=lambda c: (c["topic_id"], c["order"]))
+    _save_jsonl(chunks_path(), chunk_rows)
+
+
+def reconcile_manifest(limit: int | None, cfg: sync_config.SyncConfig,
+                       rate: float) -> int:
+    """清单驱动全量对账（规格 §5.1–§5.6，票 #16）。
+
+    每轮：sitemap 下载/修复/过滤/去重 → en HEAD 可达性校验（>10% 失配即停）→
+    zh 同路径 HEAD 镜像扫描（含已知重命名映射）→ 样本主题完整管道 →
+    例外表与同步状态 → 全量数据集自检。重复运行幂等。
+    """
+    state = sync_state.SyncState(state_path())
+    state.load()
+    headers_rec: dict = {}
+
+    print(f"== sitemap: {sync_manifest.SITEMAP_URL}")
+    raw, info = sync_manifest.download_sitemap(cfg.user_agent)
+    _pace(rate)
+    if raw is None:
+        print(f"错误: sitemap 下载失败（status={info.get('status')}），"
+              "停止本轮，不使用旧清单静默继续", file=sys.stderr)
+        return 1
+    try:
+        en_urls = sync_manifest.build_en_manifest(
+            raw.decode("utf-8", errors="replace"))
+    except ET.ParseError as exc:
+        print(f"错误: sitemap 不是合法 XML（{exc}），停止本轮", file=sys.stderr)
+        return 1
+    if not en_urls:
+        print("错误: sitemap 未解析出 Topics/*.htm 条目，停止本轮", file=sys.stderr)
+        return 1
+    scope = en_urls if limit is None else en_urls[:limit]
+    print(f"== en 清单: 修复/过滤/去重后 {len(en_urls)} 条"
+          + (f"，--limit {limit} → 本轮 {len(scope)} 条" if limit is not None
+             else ""))
+
+    manifest = _headers_manifest(cfg.user_agent)
+    en_ok: list[str] = []
+    en_failed: list[tuple[str, object]] = []
+    for url in scope:
+        hinfo = P.probe_head(manifest, url, headers_rec)
+        _pace(rate)
+        status = hinfo.get("status")
+        if status == 200:
+            en_ok.append(url)
+        else:
+            en_failed.append((url, status))
+    failure_rate = len(en_failed) / len(scope)
+    threshold = cfg.stop_conditions.error_rate_percent / 100.0
+    if failure_rate > threshold:
+        print(f"错误: en 清单失配 {len(en_failed)}/{len(scope)} "
+              f"（{failure_rate:.1%} > {cfg.stop_conditions.error_rate_percent}%），"
+              "停止本轮并告警，不使用旧清单静默继续", file=sys.stderr)
+        for url, status in en_failed[:5]:
+            print(f"  失配示例: {url} → {status}",
+                  file=sys.stderr)
+        return 1
+    for url, status in en_failed:
+        prev = state.get(url)
+        if prev is not None and prev.get("status") == "ok" and (
+                status == 404 or status == 410):
+            state.mark_deleted(url, language="en-us")
+            upsert_exception({
+                "id": _topic_id_of_url(url),
+                "type": "deleted",
+                "detail": f"{url} 曾 200 现 404（sitemap 仍在清单中）",
+                "discovered_at": sync_state.utc_now_iso(),
+                "resolved": False,
+            })
+        else:
+            state.mark_error(url, language="en-us")
+    print(f"== en HEAD 校验: {len(en_ok)}/{len(scope)} 可达"
+          + (f"，{len(en_failed)} 个失配已记状态/例外" if en_failed else ""))
+
+    mirrors: dict[str, MirrorResult] = {}
+    print(f"== zh 镜像扫描: {len(en_ok)} 个 en 主题同路径 HEAD")
+    for url in en_ok:
+        en_id = _topic_id_of_url(url)
+        zh_url = sync_manifest.zh_url_for(url)
+        hinfo = P.probe_head(manifest, zh_url, headers_rec)
+        _pace(rate)
+        status = hinfo.get("status")
+        if status == 200:
+            mirrors[url] = MirrorResult(url, en_id, zh_url,
+                                        _topic_id_of_url(zh_url), "paired")
+            continue
+        if status != 404 and status != 410:
+            state.mark_error(zh_url, language="zh-cn")
+            continue
+        renamed_page = cfg.renames.get(sync_manifest.en_topic_rel_path(url))
+        if renamed_page:
+            renamed_url = sync_manifest.zh_url_for_page(zh_url, renamed_page)
+            hinfo2 = P.probe_head(manifest, renamed_url, headers_rec)
+            _pace(rate)
+            status2 = hinfo2.get("status")
+            if status2 == 200:
+                mirrors[url] = MirrorResult(url, en_id, renamed_url,
+                                            _topic_id_of_url(renamed_url),
+                                            "renamed")
+                upsert_exception({
+                    "id": _topic_id_of_url(zh_url),
+                    "type": "renamed",
+                    "detail": (f"zh 侧页面为 {renamed_page}："
+                               f"{Path(url).stem} ↔ {Path(renamed_page).stem} "
+                               "重命名映射"),
+                    "discovered_at": sync_state.utc_now_iso(),
+                    "resolved": False,
+                })
+                continue
+            if status2 != 404 and status2 != 410:
+                state.mark_error(renamed_url, language="zh-cn")
+                continue
+        mirrors[url] = MirrorResult(url, en_id, None, None, "untranslated")
+        upsert_exception({
+            "id": _topic_id_of_url(zh_url),
+            "type": "untranslated",
+            "detail": f"{zh_url} 404，英文主题无中文镜像",
+            "discovered_at": sync_state.utc_now_iso(),
+            "resolved": False,
+        })
+
+    zh_count = sum(1 for m in mirrors.values() if m.zh_url is not None)
+    print(f"== zh 镜像: {zh_count} 个命中，"
+          f"{sum(1 for m in mirrors.values() if m.kind == 'untranslated')} 未翻译，"
+          f"{sum(1 for m in mirrors.values() if m.kind == 'renamed')} 重命名")
+
+    print(f"== 完整管道: {len(en_ok)} en 主题 + {zh_count} zh 镜像")
+    consecutive_failures = 0
+    for url in en_ok:
+        target = parse_topic_url(url)
+        result = process_topic(target, cfg, rate, state, headers_rec)
+        if result is None:
+            consecutive_failures += 1
+            if consecutive_failures >= cfg.stop_conditions.consecutive_failures:
+                print("错误: 连续抓取失败达到阈值，停止本轮", file=sys.stderr)
+                _merge_headers(headers_rec)
+                return 1
+            continue
+        consecutive_failures = 0
+        meta, _chunks, fetched = result
+        state.mark_ok(target.url, language=target.language,
+                      etag=fetched.get("etag"), lastmod=fetched.get("lastmod"),
+                      content_hash=meta["content_hash"])
+    for url in en_ok:
+        mirror = mirrors.get(url)
+        if mirror is None or mirror.zh_url is None:
+            continue
+        target = parse_topic_url(mirror.zh_url)
+        result = process_topic(target, cfg, rate, state, headers_rec)
+        if result is None:
+            consecutive_failures += 1
+            if consecutive_failures >= cfg.stop_conditions.consecutive_failures:
+                print("错误: 连续抓取失败达到阈值，停止本轮", file=sys.stderr)
+                _merge_headers(headers_rec)
+                return 1
+            continue
+        consecutive_failures = 0
+        meta, _chunks, fetched = result
+        state.mark_ok(target.url, language=target.language,
+                      etag=fetched.get("etag"), lastmod=fetched.get("lastmod"),
+                      content_hash=meta["content_hash"])
+
+    apply_pairings(mirrors)
+    _merge_headers(headers_rec)
+    print(f"== 例外表: {len(_load_exceptions())} 条 -> "
+          f"{exceptions_path().relative_to(ROOT)}")
+
+    ok = selfcheck_dataset(_expected_pair_map(mirrors))
+    print(f"== 自检: {'ALL PASS' if ok else 'HAS FAILURES'} -> "
+          f"{check_path().relative_to(ROOT)}")
+    return 0 if ok else 1
 
 

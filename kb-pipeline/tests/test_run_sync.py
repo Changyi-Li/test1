@@ -106,3 +106,19 @@ def test_main_config_error_returns_nonzero(capsys, monkeypatch, tmp_path):
     code = run_sync.main(["--mode", "reconcile"])
     assert code != 0
     assert "配置" in capsys.readouterr().err
+
+def test_main_reconcile_limit_delegates_to_manifest_engine(monkeypatch):
+    calls = []
+
+    def fake_engine(limit, cfg, rate):
+        calls.append((limit, cfg, rate))
+        return 3
+
+    monkeypatch.setattr(run_sync.sync_engine, "reconcile_manifest", fake_engine)
+    code = run_sync.main(["--mode", "reconcile", "--limit", "2", "--rate", "4"])
+    assert code == 3
+    assert len(calls) == 1
+    limit, cfg, rate = calls[0]
+    assert limit == 2
+    assert isinstance(cfg, sync_config.SyncConfig)
+    assert rate == 4.0

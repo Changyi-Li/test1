@@ -93,6 +93,10 @@ def est_tokens(text: str) -> int:
 
 # ---------- 抓取 ----------
 
+def _head(url: str, headers: dict, timeout: int = 30):
+    req = urllib.request.Request(url, headers=headers, method="HEAD")
+    return urllib.request.urlopen(req, timeout=timeout)
+
 def _open(url: str, headers: dict, timeout: int = 30):
     req = urllib.request.Request(url, headers=headers)
     return urllib.request.urlopen(req, timeout=timeout)
@@ -128,6 +132,28 @@ def _iso_lastmod(value):
     except Exception:
         return value
 
+
+def probe_head(manifest: Manifest, url: str, headers_rec: dict, timeout: int = 30):
+    """HEAD 探测 URL；返回信息记录（status/final_url/lastmod/etag），不读 body。"""
+    info: dict[str, object] = {
+        "url": url, "status": None, "final_url": None, "lastmod": None, "etag": None,
+    }
+    try:
+        with _head(url, manifest.headers, timeout) as resp:
+            info["status"] = resp.status
+            info["final_url"] = resp.geturl()
+            info["lastmod"] = _iso_lastmod(resp.headers.get("Last-Modified"))
+            info["etag"] = resp.headers.get("ETag")
+            headers_rec[url] = info
+            return info
+    except urllib.error.HTTPError as exc:
+        info["status"] = exc.code
+        headers_rec[url] = info
+        return info
+    except Exception as exc:  # 网络错误也算失败，记入 headers
+        info["status"] = f"ERROR: {exc}"
+        headers_rec[url] = info
+        return info
 
 # ---------- 清洗（复用 custom_convert，图片 URL 绝对化） ----------
 
@@ -455,4 +481,5 @@ def chunk_markdown(md: str, cap: int = 1200):
             final.append(c)
 
     return final
+
 

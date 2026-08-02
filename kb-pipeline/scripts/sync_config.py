@@ -1,12 +1,13 @@
-"""同步配置加载（规格 §5.4，票 #14）。
+"""同步配置加载（规格 §5.4，票 #14；重命名映射由票 #16 补充）。
 
 默认配置在 kb-pipeline/config/sync.json：限速/时段/UA/退避/停止阈值由配置驱动，
-CLI 可用 --rate 覆盖当前模式的限速。
+CLI 可用 --rate 覆盖当前模式的限速。renames 为已知 en→zh 重命名映射
+（en 主题相对路径 → zh 页面文件名），用于 zh 镜像扫描的例外判定。
 """
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 KB_PIPELINE_ROOT = Path(__file__).resolve().parent.parent
@@ -41,6 +42,7 @@ class SyncConfig:
     user_agent: str
     backoff: BackoffConfig
     stop_conditions: StopConditions
+    renames: dict[str, str] = field(default_factory=dict)
 
 
 def _require_key(data: dict, key: str, path: Path) -> None:
@@ -96,6 +98,20 @@ def _stop_conditions(data: dict, path: Path) -> StopConditions:
     )
 
 
+def _renames(data: dict, path: Path) -> dict[str, str]:
+    raw = data.get("renames", {})
+    if not isinstance(raw, dict):
+        raise ValueError(f"{path}: renames 必须是对象")
+    result: dict[str, str] = {}
+    for key, value in raw.items():
+        if not isinstance(key, str) or not key:
+            raise ValueError(f"{path}: renames 的键必须是 en 主题相对路径")
+        if not isinstance(value, str) or not value:
+            raise ValueError(f"{path}: renames 的值必须是 zh 页面文件名")
+        result[key] = value
+    return result
+
+
 def load_sync_config(path: Path | str | None = None) -> SyncConfig:
     cfg_path = Path(path) if path is not None else DEFAULT_CONFIG_PATH
     if not cfg_path.exists():
@@ -114,6 +130,7 @@ def load_sync_config(path: Path | str | None = None) -> SyncConfig:
         user_agent=str(data["user_agent"]),
         backoff=_backoff_config(data["backoff"], cfg_path),
         stop_conditions=_stop_conditions(data["stop_conditions"], cfg_path),
+        renames=_renames(data, cfg_path),
     )
 
 
