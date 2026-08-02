@@ -1,4 +1,9 @@
-"""同步引擎：单 URL 对账（票 #15）与清单驱动全量对账（票 #16）。
+"""同步引擎：增量同步（票 #17）、单 URL 对账（票 #15）与清单驱动全量对账（票 #16）。
+
+`--mode incremental [--dry-run]`：基于同步状态对已知主题发起条件请求
+（ETag 优先 If-None-Match，Last-Modified 兜底 If-Modified-Since），
+304/指纹一致不重写任何产物、状态保持；变化页只对该主题 GET 全文并即时落盘，
+中断后可从断点续跑，重跑幂等。
 
 `--mode reconcile --url <主题 URL>`：单页端到端（抓取→清洗→元数据→分块→自检），
 镜像配对检查标记 SKIP。
@@ -20,6 +25,8 @@ import sys
 import time
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass
+from datetime import datetime
+from email.utils import format_datetime
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -139,17 +146,57 @@ def _fetch(target: TopicTarget, user_agent: str, headers_rec: dict,
     return raw, headers_rec.get(target.url, {})
 
 
-def _headers_manifest(user_agent: str) -> P.Manifest:
-    """只携带 UA 的抓取参数（HEAD 探测用，站点字段不参与请求）。"""
+def _headers_manifest(user_agent: str,
+                       extra_headers: dict[str, str] | None = None) -> P.Manifest:
+    """只携带 UA（及可选条件请求头）的抓取参数（HEAD 探测用，站点字段不参与请求）。"""
+    headers = {"User-Agent": user_agent}
+    if extra_headers:
+        headers.update(extra_headers)
     return P.Manifest(
         site="",
         topic_path="",
         source="",
         topics=(),
         zh_probes=(),
-        headers={"User-Agent": user_agent},
+        headers=headers,
         fetch_sleep=0.0,
     )
+
+
+def _http_if_modified_since(lastmod: str) -> str:
+    """状态里的 ISO 时间 → HTTP 条件请求头需要的 IMF-fixdate（GMT）。"""
+    try:
+        dt = datetime.fromisoformat(lastmod.replace("Z", "+00:00"))
+    except ValueError:
+        return lastmod
+    return format_datetime(dt, usegmt=True)
+
+
+def _conditional_headers(record: dict | None) -> dict[str, str]:
+    """按同步状态构造条件请求头：ETag 优先，Last-Modified 兜底。"""
+    if record is None:
+        return {}
+    etag = record.get("etag")
+    if etag:
+        return {"If-None-Match": str(etag)}
+    lastmod = record.get("lastmod")
+    if lastmod:
+        return {"If-Modified-Since": _http_if_modified_since(str(lastmod))}
+    return {}
+
+
+def _is_unchanged(info: dict, record: dict | None) -> bool:
+    """304 或 HEAD 指纹与状态一致 → 未变化（ETag 优先，Last-Modified 兜底）。"""
+    if info.get("status") == 304:
+        return True
+    if record is None or info.get("status") != 200:
+        return False
+    etag = info.get("etag")
+    if etag is not None and record.get("etag") is not None:
+        return etag == record.get("etag")
+    lastmod = info.get("lastmod")
+    return (lastmod is not None and record.get("lastmod") is not None
+            and lastmod == record.get("lastmod"))
 
 
 def _load_jsonl(path: Path) -> list[dict]:
@@ -882,5 +929,85 @@ def reconcile_manifest(limit: int | None, cfg: sync_config.SyncConfig,
     print(f"== 自检: {'ALL PASS' if ok else 'HAS FAILURES'} -> "
           f"{check_path().relative_to(ROOT)}")
     return 0 if ok else 1
+
+
+def incremental_sync(limit: int | None, url: str | None,
+                     cfg: sync_config.SyncConfig, rate: float,
+                     dry_run: bool = False) -> int:
+    """日常增量同步（票 #17）：基于同步状态对已知主题发起条件请求。
+
+    未变化页（304 或指纹一致）不重写任何产物、状态保持；变化页 GET 全文。
+    每条结果即时落盘，中断后可从断点续跑；已删除墓碑不重探。dry_run
+    只输出将抓取的 URL 清单，不发 GET、不写任何产物。
+    """
+    state = sync_state.SyncState(state_path())
+    state.load()
+    if url is not None:
+        try:
+            parse_topic_url(url)
+        except ValueError as exc:
+            print(f"错误: {exc}", file=sys.stderr)
+            return 1
+        scope = [url]
+    else:
+        records = sorted(state.urls())
+        active = [u for u in records
+                  if (state.get(u) or {}).get("status") != "deleted"]
+        scope = active[:limit] if limit is not None else active
+    if not scope:
+        print("增量同步: 同步状态为空或无活跃主题（先运行全量对账）")
+        return 0
+
+    headers_rec: dict = {}
+    unchanged = 0
+    changed = 0
+    errors = 0
+    fetched_any = False
+    for target_url in scope:
+        record = state.get(target_url)
+        info = P.probe_head(
+            _headers_manifest(cfg.user_agent, _conditional_headers(record)),
+            target_url, headers_rec)
+        _pace(rate)
+        if _is_unchanged(info, record):
+            unchanged += 1
+            print(f"== 未变化: {target_url}")
+            continue
+        if info.get("status") != 200:
+            errors += 1
+            if not dry_run:
+                state.mark_error(target_url,
+                                 language=(record or {}).get("language"))
+            print(f"错误: {target_url} → {info.get('status')}，"
+                  + ("同步状态已记 error" if not dry_run
+                     else "dry-run 不记状态"), file=sys.stderr)
+            continue
+        changed += 1
+        if dry_run:
+            print(f"== 将抓取: {target_url}")
+            continue
+        fetched_any = True
+        print(f"== 变化: {target_url}")
+        target = parse_topic_url(target_url)
+        result = process_topic(target, cfg, rate, state, headers_rec)
+        if result is None:
+            errors += 1
+            continue
+        meta, _chunks, fetched = result
+        state.mark_ok(target_url, language=target.language,
+                      etag=fetched.get("etag"), lastmod=fetched.get("lastmod"),
+                      content_hash=meta["content_hash"])
+        print(f"== 同步状态: ok（etag={fetched.get('etag')!r}, "
+              f"content_hash={meta['content_hash'][:12]}…）")
+    if fetched_any:
+        _merge_headers(headers_rec)
+        print(f"  响应头 -> {headers_path().relative_to(ROOT)}")
+    if dry_run:
+        print(f"== 增量同步预览: 将抓取 {changed}，未变化 {unchanged}"
+              + (f"，错误 {errors}" if errors else ""))
+    else:
+        print(f"== 增量同步完成: 未变化 {unchanged}，变化 {changed}"
+              + (f"，错误 {errors}" if errors else ""))
+    return 0
 
 

@@ -1,9 +1,11 @@
-"""生产同步 CLI（规格 §5.7，票 #14/#15/#16）。
+"""生产同步 CLI（规格 §5.7，票 #14/#15/#16/#17）。
 
 解析/校验全部规划参数（--mode/--url/--limit/--rate/--dry-run）、加载配置并
-解析限速覆盖。`--mode reconcile --url <主题 URL>` 执行单页端到端全量对账
-（票 #15）；`--mode reconcile [--limit N]` 执行清单驱动全量对账
-（sitemap → en 清单 → HEAD → zh 镜像 → 完整管道 → 例外表 → 自检，票 #16）。
+解析限速覆盖。`--mode incremental` 基于同步状态对已知主题发起条件请求，
+只 GET 变化页并可断点续跑（票 #17）；`--mode reconcile --url <主题 URL>`
+执行单页端到端全量对账（票 #15）；`--mode reconcile [--limit N]` 执行
+清单驱动全量对账（sitemap → en 清单 → HEAD → zh 镜像 → 完整管道 →
+例外表 → 自检，票 #16）。
 """
 from __future__ import annotations
 
@@ -61,6 +63,9 @@ def main(argv=None) -> int:
 
     rate = sync_config.effective_rate(cfg, args.mode, args.rate)
     mode_cfg = getattr(cfg, args.mode)
+    if args.mode == "incremental":
+        return sync_engine.incremental_sync(args.limit, args.url, cfg, rate,
+                                            dry_run=args.dry_run)
     if args.mode == "reconcile" and args.url is not None and not args.dry_run:
         return sync_engine.reconcile_single_url(args.url, cfg, rate)
     if args.mode == "reconcile" and args.url is None and not args.dry_run:

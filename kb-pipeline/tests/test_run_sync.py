@@ -11,6 +11,9 @@ import pytest
 import run_sync
 import sync_config
 
+URL = ("https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/"
+       "UserGuide/GettingStarted/GettingStarted.htm")
+
 
 def test_parse_minimal_reconcile():
     ns = run_sync.parse_args(["--mode", "reconcile"])
@@ -122,3 +125,43 @@ def test_main_reconcile_limit_delegates_to_manifest_engine(monkeypatch):
     assert limit == 2
     assert isinstance(cfg, sync_config.SyncConfig)
     assert rate == 4.0
+
+
+def test_main_incremental_delegates_to_engine(monkeypatch):
+    calls = []
+
+    def fake_engine(limit, url, cfg, rate, dry_run):
+        calls.append((limit, url, cfg, rate, dry_run))
+        return 5
+
+    monkeypatch.setattr(run_sync.sync_engine, "incremental_sync", fake_engine)
+    code = run_sync.main(["--mode", "incremental", "--limit", "2",
+                          "--rate", "2"])
+    assert code == 5
+    assert len(calls) == 1
+    limit, url, cfg, rate, dry_run = calls[0]
+    assert limit == 2
+    assert url is None
+    assert isinstance(cfg, sync_config.SyncConfig)
+    assert rate == 2.0
+    assert dry_run is False
+
+
+def test_main_incremental_dry_run_delegates(monkeypatch):
+    calls = []
+
+    def fake_engine(limit, url, cfg, rate, dry_run):
+        calls.append((limit, url, cfg, rate, dry_run))
+        return 0
+
+    monkeypatch.setattr(run_sync.sync_engine, "incremental_sync", fake_engine)
+    code = run_sync.main(["--mode", "incremental", "--url", URL,
+                          "--dry-run", "--rate", "1.5"])
+    assert code == 0
+    assert len(calls) == 1
+    limit, url, cfg, rate, dry_run = calls[0]
+    assert limit is None
+    assert url == URL
+    assert isinstance(cfg, sync_config.SyncConfig)
+    assert rate == 1.5
+    assert dry_run is True
