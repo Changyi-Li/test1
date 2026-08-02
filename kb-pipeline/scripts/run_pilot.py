@@ -1,7 +1,7 @@
 """Getting Started 双语试点：一键跑通 抓取 → 清洗 → 元数据 → 分块 → 自检。
 
 用法：py kb-pipeline/scripts/run_pilot.py [--stage fetch|clean|metadata|chunk|check]
-默认全跑。所有产物落在 kb-pipeline/data/ 下。
+默认全跑。所有产物落在 kb-pipeline/data/ 下。清单取自 pipeline.pilot_manifest()。
 """
 from __future__ import annotations
 
@@ -42,20 +42,20 @@ def load_headers() -> dict:
     return {}
 
 
-def fetch() -> None:
+def fetch(manifest: P.Manifest) -> None:
     headers = load_headers()
     RAW.mkdir(parents=True, exist_ok=True)
-    for t in P.TOPICS:
-        url = P.topic_url(t["lang"], t["page"])
-        raw = P.probe(url, headers)
+    for t in manifest.topics:
+        url = P.topic_url(manifest, t["lang"], t["page"])
+        raw = P.probe(manifest, url, headers)
         if raw:
             (RAW / t["lang"] / t["page"]).parent.mkdir(parents=True, exist_ok=True)
             (RAW / t["lang"] / t["page"]).write_bytes(raw)
             print(f"fetched {t['lang']} {t['page']} ({len(raw)} bytes)")
-        time.sleep(P.FETCH_SLEEP)
-    for zh_page in P.ZH_PROBES:
-        url = P.topic_url("zh-cn", zh_page)
-        raw = P.probe(url, headers)
+        time.sleep(manifest.fetch_sleep)
+    for zh_page in manifest.zh_probes:
+        url = P.topic_url(manifest, "zh-cn", zh_page)
+        raw = P.probe(manifest, url, headers)
         if raw:
             (RAW / "zh-cn" / zh_page).parent.mkdir(parents=True, exist_ok=True)
             (RAW / "zh-cn" / zh_page).write_bytes(raw)
@@ -63,54 +63,54 @@ def fetch() -> None:
         else:
             status = headers.get(url, {}).get("status")
             print(f"zh-cn {zh_page}: {status}")
-        time.sleep(P.FETCH_SLEEP)
+        time.sleep(manifest.fetch_sleep)
     HEADERS.write_text(json.dumps(headers, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
-def build_rows() -> list[dict]:
+def build_rows(manifest: P.Manifest) -> list[dict]:
     headers = load_headers()
     rows = []
-    for t in P.TOPICS:
-        en_url = P.topic_url(t["lang"], t["page"])
+    for t in manifest.topics:
+        en_url = P.topic_url(manifest, t["lang"], t["page"])
         en_raw = (RAW / t["lang"] / t["page"]).read_bytes() if (RAW / t["lang"] / t["page"]).exists() else None
         if en_raw is None:
             continue
         md = P.clean_markdown(en_raw.decode("utf-8", errors="replace"), en_url)
         rows.append({
-            "lang": "en-us", "page": t["page"], "id": P.topic_id("en-us", t["page"]),
+            "lang": "en-us", "page": t["page"], "id": P.topic_id(manifest, "en-us", t["page"]),
             "url": en_url, "raw": str(RAW / "en-us" / t["page"]),
-            "clean": str(ID_FILE(P.topic_id("en-us", t["page"]))),
+            "clean": str(ID_FILE(P.topic_id(manifest, "en-us", t["page"]))),
             "md": md, "zh_page": t["zh_page"],
         })
-    for t in P.TOPICS:
+    for t in manifest.topics:
         zh_path = RAW / "zh-cn" / t["zh_page"]
         if not zh_path.exists():
             continue
-        zh_url = P.topic_url("zh-cn", t["zh_page"])
+        zh_url = P.topic_url(manifest, "zh-cn", t["zh_page"])
         md = P.clean_markdown(zh_path.read_bytes().decode("utf-8", errors="replace"), zh_url)
         rows.append({
-            "lang": "zh-cn", "page": t["zh_page"], "id": P.topic_id("zh-cn", t["zh_page"]),
+            "lang": "zh-cn", "page": t["zh_page"], "id": P.topic_id(manifest, "zh-cn", t["zh_page"]),
             "url": zh_url, "raw": str(zh_path),
-            "clean": str(ID_FILE(P.topic_id("zh-cn", t["zh_page"]))),
+            "clean": str(ID_FILE(P.topic_id(manifest, "zh-cn", t["zh_page"]))),
             "md": md, "zh_page": t["zh_page"],
         })
     return rows
 
 
-def clean_stage() -> None:
-    rows = build_rows()
+def clean_stage(manifest: P.Manifest) -> None:
+    rows = build_rows(manifest)
     CLEAN.mkdir(parents=True, exist_ok=True)
     for r in rows:
         ID_FILE(r["id"]).write_text(r["md"], encoding="utf-8")
         print(f"cleaned {r['id']} -> {ID_FILE(r['id']).name} ({len(r['md'])} chars)")
 
 
-def metadata_stage() -> None:
-    rows = build_rows()
+def metadata_stage(manifest: P.Manifest) -> None:
+    rows = build_rows(manifest)
     headers = load_headers()
-    en_by_page = {t["page"]: P.topic_id("en-us", t["page"]) for t in P.TOPICS}
-    zh_by_page = {t["zh_page"]: P.topic_id("zh-cn", t["zh_page"]) for t in P.TOPICS}
-    zh_discovered = {t["zh_page"] for t in P.TOPICS if (RAW / "zh-cn" / t["zh_page"]).exists()}
+    en_by_page = {t["page"]: P.topic_id(manifest, "en-us", t["page"]) for t in manifest.topics}
+    zh_by_page = {t["zh_page"]: P.topic_id(manifest, "zh-cn", t["zh_page"]) for t in manifest.topics}
+    zh_discovered = {t["zh_page"] for t in manifest.topics if (RAW / "zh-cn" / t["zh_page"]).exists()}
     out = []
     for r in rows:
         md = r["md"]
@@ -125,17 +125,17 @@ def metadata_stage() -> None:
             if zh_page in zh_discovered:
                 paired = zh_by_page[zh_page]
         else:
-            en_page = next((t["page"] for t in P.TOPICS if t["zh_page"] == r["page"]), None)
+            en_page = next((t["page"] for t in manifest.topics if t["zh_page"] == r["page"]), None)
             if en_page:
                 paired = en_by_page[en_page]
         out.append({
             "id": r["id"],
             "title": P.extract_title(md, raw_html),
             "url": r["url"],
-            "source": P.SOURCE,
+            "source": manifest.source,
             "version": P.extract_version(raw_html),
             "language": r["lang"],
-            "topic_path": P.TOPIC_PATH,
+            "topic_path": manifest.topic_path,
             "quality": quality,
             "lastmod": h.get("lastmod"),
             "etag": h.get("etag"),
@@ -205,7 +205,7 @@ def chunk_stage() -> None:
     print(f"chunks: {len(out)} rows -> {CHUNKS.name}")
 
 
-def check_stage() -> bool:
+def check_stage(manifest: P.Manifest) -> bool:
     rows = [json.loads(line) for line in META.read_text(encoding="utf-8").splitlines() if line.strip()]
     chunks = [json.loads(line) for line in CHUNKS.read_text(encoding="utf-8").splitlines() if line.strip()]
     ids = {r["id"] for r in rows}
@@ -217,15 +217,18 @@ def check_stage() -> bool:
         ok = ok and passed
         lines.append(f"[{'PASS' if passed else 'FAIL'}] {name}" + (f" — {detail}" if detail else ""))
 
+    id_re = rf"(en-us|zh-cn)/{re.escape(manifest.topic_path)}/[A-Za-z0-9_-]+"
+    url_re = (rf"{re.escape(manifest.site)}/(en-us|zh-cn)/Content/Topics/"
+              rf"{re.escape(manifest.topic_path)}/.+\.htm")
+
     # ---- 元数据 ----
     report("M1 主题清单 JSONL 可解析且字段集合 = 13 字段", all(set(r) == EXPECTED_FIELDS_META for r in rows),
            f"{len(rows)} rows")
     dups = [r["id"] for r in rows if sum(1 for x in rows if x["id"] == r["id"]) > 1]
-    report("M2 id 唯一且符合稳定格式", not dups and all(re.fullmatch(r"(en-us|zh-cn)/UserGuide/GettingStarted/[A-Za-z0-9_-]+", r["id"]) for r in rows),
+    report("M2 id 唯一且符合稳定格式", not dups and all(re.fullmatch(id_re, r["id"]) for r in rows),
            f"dup={dups}")
     report("M3 url 规范且与 language 一致",
-           all(re.fullmatch(r"https://help\.monitorerp\.cn/CN-MONITOR_G5/(en-us|zh-cn)/Content/Topics/UserGuide/GettingStarted/.+\.htm", r["url"])
-               and r["url"].split("/")[4] == r["language"] for r in rows))
+           all(re.fullmatch(url_re, r["url"]) and r["url"].split("/")[4] == r["language"] for r in rows))
     report("M4 language 枚举且与 id 前缀一致",
            all(r["language"] in ("en-us", "zh-cn") and r["id"].startswith(r["language"] + "/") for r in rows))
     report("M5 quality 枚举（en→canonical, zh→reference）",
@@ -242,9 +245,9 @@ def check_stage() -> bool:
     report("M8 content_hash 重算一致", not hash_fail, f"mismatch={hash_fail}")
     # 期望配对表
     expect_pair = {}
-    for t in P.TOPICS:
-        en = P.topic_id("en-us", t["page"])
-        zh = P.topic_id("zh-cn", t["zh_page"])
+    for t in manifest.topics:
+        en = P.topic_id(manifest, "en-us", t["page"])
+        zh = P.topic_id(manifest, "zh-cn", t["zh_page"])
         if (RAW / "zh-cn" / t["zh_page"]).exists():
             expect_pair[en] = zh
             expect_pair[zh] = en
@@ -349,19 +352,20 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--stage", choices=["fetch", "clean", "metadata", "chunk", "check"])
     args = ap.parse_args()
+    manifest = P.pilot_manifest()
     stages = [args.stage] if args.stage else ["fetch", "clean", "metadata", "chunk", "check"]
     for s in stages:
         print(f"== stage: {s} ==")
         if s == "fetch":
-            fetch()
+            fetch(manifest)
         elif s == "clean":
-            clean_stage()
+            clean_stage(manifest)
         elif s == "metadata":
-            metadata_stage()
+            metadata_stage(manifest)
         elif s == "chunk":
             chunk_stage()
         elif s == "check":
-            if not check_stage():
+            if not check_stage(manifest):
                 return 1
     return 0
 

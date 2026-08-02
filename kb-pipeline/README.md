@@ -1,21 +1,38 @@
 # kb-pipeline — Monitor ERP help 抽取流水线
 
 > 状态：Getting Started 试点已评审通过（「Getting Started 双语试点数据集」，2026-08-02）；规格定稿见 `docs/pipeline-spec.md`（「抽取流水线规格与仓库布局原型」评审通过，2026-08-02）。
-> 生产同步 CLI（`run_sync.py`）按规格待实现；当前提供试点一键脚本。
+> 生产同步 CLI（`run_sync.py`）骨架已就绪（票 #14）：参数解析、配置加载与同步状态原语；同步引擎按票 #15+ 实现。
 
 ## 一键运行（试点）
 
     py scripts/run_pilot.py               # 全流程：fetch → clean → metadata → chunk → check
     py scripts/run_pilot.py --stage fetch # 只跑某个阶段
 
-依赖：Python 3.10+；`pip install beautifulsoup4 lxml`。
+依赖：Python 3.10+；`pip install beautifulsoup4 lxml pytest`。
 
 抓取自约束：help.monitorerp.cn 无 robots.txt，请求间隔 1 秒（日常 1–2 req/s 口径）。
 
+## 生产同步 CLI（骨架）
+
+    py scripts/run_sync.py --mode incremental|reconcile [--dry-run] [--limit N] [--url <单个URL>] [--rate <req/s>]
+
+- `--mode` 必填（incremental | reconcile）；`--limit`/`--url` 为范围限定且互斥；`--rate` 覆盖当前模式限速；`--dry-run` 只预览不写产物。
+- 非法组合/取值以非零码退出并给出可读错误。
+- 限速/UA/退避/停止阈值来自 `config/sync.json`，可被 `--rate` 覆盖。
+- 当前为骨架：解析、校验、加载配置并输出同步计划；抓取与对账引擎由后续票（#15+）实现。
+
+## 测试
+
+    python -m pytest kb-pipeline/tests
+
+单元测试覆盖：同步状态读写（ETag/Last-Modified/content_hash/status/last_ok_at/deleted_at、墓碑与幂等重跑）、配置加载与 `--rate` 覆盖、`run_sync` 参数解析与非法组合、共享库按清单参数化。
+
 ## 布局
 
-- `scripts/pipeline.py` — 共享库：抓取、清洗（`#contentBody` BS4 管线）、分块、token 估算
-- `scripts/run_pilot.py` — 试点编排 + 验收自检；生产同步入口 `run_sync.py` 见规格 §5.7（待实现）
+- `scripts/pipeline.py` — 共享库：抓取、清洗（`#contentBody` BS4 管线）、分块、token 估算；站点/主题路径/主题清单由 `Manifest` 参数化（`pilot_manifest()` 为试点清单）
+- `scripts/run_pilot.py` — 试点编排 + 验收自检；生产同步入口 `run_sync.py` 见规格 §5.7（骨架，引擎待后续票）
+- `scripts/sync_state.py` — 同步状态原语（state/sync-state.jsonl，按 URL 读写）
+- `scripts/sync_config.py` — 同步配置加载（config/sync.json + CLI 覆盖）
 - `config/sync.json` — 同步节奏/限速/退避参数（规格 §5，未来 CI 同源读取）
 - `state/` — gitignore；`sync-state.jsonl` 运行时缓存（生产实现后产生，不入库）
 - `data/raw/` — gitignore；原始 HTML 与响应头（不入库，评审结论 R1）
@@ -24,6 +41,7 @@
 - `data/chunks.jsonl` — 每块 14 字段分块 JSONL（入库）
 - `data/exceptions.jsonl` — 例外表（untranslated / renamed / deleted / broken_image，入库）
 - `data/selfcheck-results.txt` — 最近一次自检输出（入库）
+- `tests/` — 单元测试（状态、配置、CLI、清单参数化）
 - `docs/` — 规格、双语样张、验收报告、中文问题清单夹具
 
 ## 清洗规则（试点实测）

@@ -1,36 +1,56 @@
-"""kb-pipeline 试点共享库：抓取、清洗、元数据、分块、自检。
+"""kb-pipeline 共享库：抓取、清洗、元数据、分块、自检（按主题清单参数化）。
 
 清洗管线复用了 research/html-conversion/scripts/compare.py 的 custom_convert
 （BS4 + #contentBody 提取），并补充：图片相对路径解析为绝对 URL。
+
+站点、主题路径与主题清单由 Manifest 传入，同一个共享库既可驱动试点
+（pilot_manifest()）也可驱动生产清单（后续票由 sitemap 生成）。
 """
 from __future__ import annotations
 
 import hashlib
-import json
 import pathlib
 import re
-import time
 import urllib.error
 import urllib.request
-from email.utils import parsedate_to_datetime
+from dataclasses import dataclass
 from datetime import timezone
+from email.utils import parsedate_to_datetime
 from urllib.parse import urljoin
 
 from bs4 import BeautifulSoup
 
-SITE = "https://help.monitorerp.cn/CN-MONITOR_G5"
-TOPIC_PATH = "UserGuide/GettingStarted"
-SOURCE = "help.monitorerp.cn"
 
-TOPICS = [
-    {"lang": "en-us", "page": "GettingStarted.htm", "zh_page": "GettingStarted.htm"},
-    {"lang": "en-us", "page": "MobileClient.htm", "zh_page": "WebClient.htm"},
-    {"lang": "en-us", "page": "MonitorBI.htm", "zh_page": "MonitorBI.htm"},
-]
-ZH_PROBES = ["GettingStarted.htm", "WebClient.htm", "MobileClient.htm", "MonitorBI.htm"]
+@dataclass(frozen=True)
+class Manifest:
+    """一次同步的主题清单：站点、主题路径、主题列表与抓取参数。"""
+    site: str
+    topic_path: str
+    source: str
+    topics: tuple[dict, ...]
+    zh_probes: tuple[str, ...]
+    headers: dict[str, str]
+    fetch_sleep: float = 1.0
 
-REQ_HEADERS = {"User-Agent": "MonitorERP-KB-Pilot/0.1 (https://github.com/Changyi-Li/test1)"}
-FETCH_SLEEP = 1.0  # 无 robots.txt，自约束 1–2 req/s
+
+def pilot_manifest() -> Manifest:
+    """试点清单：与历史硬编码行为完全一致（URL/UA/间隔/主题）。"""
+    return PILOT_MANIFEST
+
+
+PILOT_MANIFEST = Manifest(
+    site="https://help.monitorerp.cn/CN-MONITOR_G5",
+    topic_path="UserGuide/GettingStarted",
+    source="help.monitorerp.cn",
+    topics=(
+        {"lang": "en-us", "page": "GettingStarted.htm", "zh_page": "GettingStarted.htm"},
+        {"lang": "en-us", "page": "MobileClient.htm", "zh_page": "WebClient.htm"},
+        {"lang": "en-us", "page": "MonitorBI.htm", "zh_page": "MonitorBI.htm"},
+    ),
+    zh_probes=("GettingStarted.htm", "WebClient.htm", "MobileClient.htm", "MonitorBI.htm"),
+    headers={"User-Agent": "MonitorERP-KB-Pilot/0.1 (https://github.com/Changyi-Li/test1)"},
+    fetch_sleep=1.0,  # 无 robots.txt，自约束 1–2 req/s
+)
 
 NOISE_PATTERNS = [
     r"Powered by MadCap",
@@ -43,12 +63,12 @@ NOISE_PATTERNS = [
 CALLOUT_CLASSES = re.compile(r"note|warning|tip|important|alert|caution", re.I)
 
 
-def topic_url(lang: str, page: str) -> str:
-    return f"{SITE}/{lang}/Content/Topics/{TOPIC_PATH}/{page}"
+def topic_url(manifest: Manifest, lang: str, page: str) -> str:
+    return f"{manifest.site}/{lang}/Content/Topics/{manifest.topic_path}/{page}"
 
 
-def topic_id(lang: str, page: str) -> str:
-    return f"{lang}/{TOPIC_PATH}/{pathlib.Path(page).stem}"
+def topic_id(manifest: Manifest, lang: str, page: str) -> str:
+    return f"{lang}/{manifest.topic_path}/{pathlib.Path(page).stem}"
 
 
 def est_tokens(text: str) -> int:
@@ -60,16 +80,16 @@ def est_tokens(text: str) -> int:
 
 # ---------- 抓取 ----------
 
-def _open(url: str, timeout: int = 30):
-    req = urllib.request.Request(url, headers=REQ_HEADERS)
+def _open(url: str, headers: dict, timeout: int = 30):
+    req = urllib.request.Request(url, headers=headers)
     return urllib.request.urlopen(req, timeout=timeout)
 
 
-def probe(url: str, headers_rec: dict, timeout: int = 30):
+def probe(manifest: Manifest, url: str, headers_rec: dict, timeout: int = 30):
     """探测 URL；200 返回字节，否则返回 None 并记录状态。"""
     info = {"url": url, "status": None, "final_url": None, "lastmod": None, "etag": None}
     try:
-        with _open(url, timeout) as resp:
+        with _open(url, manifest.headers, timeout) as resp:
             info["status"] = resp.status
             info["final_url"] = resp.geturl()
             info["lastmod"] = _iso_lastmod(resp.headers.get("Last-Modified"))
