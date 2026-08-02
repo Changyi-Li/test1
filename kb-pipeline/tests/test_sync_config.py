@@ -81,3 +81,13 @@ def test_effective_rate_uses_mode_then_cli_override():
     assert sync_config.effective_rate(cfg, "reconcile") == 5
     assert sync_config.effective_rate(cfg, "incremental", override=7.5) == 7.5
     assert sync_config.effective_rate(cfg, "reconcile", override=0.25) == 0.25
+
+
+def test_effective_rate_rejects_nonpositive_override():
+    cfg = sync_config.load_sync_config()
+    try:
+        sync_config.effective_rate(cfg, "incremental", override=0)
+    except ValueError as exc:
+        assert "必须 > 0" in str(exc)
+    else:
+        raise AssertionError("非正 --rate 覆盖应抛 ValueError")

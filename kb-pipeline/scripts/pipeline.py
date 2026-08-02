@@ -277,7 +277,7 @@ def extract_title(md: str, raw_html: str) -> str:
 def raw_body_stats(raw_html: str):
     """统计 #contentBody 内的标题/链接/图片/提示框/表格/代码，供质量代理检查。"""
     soup = BeautifulSoup(raw_html, "lxml")
-    body = soup.select_one("#contentBody") or soup.select_one(".body-container") or soup.body
+    body: Any = soup.select_one("#contentBody") or soup.select_one(".body-container") or soup.body
     headings = []
     for h in body.find_all(re.compile(r"^h[1-6]$")):
         headings.append((int(h.name[1]), re.sub(r"\s+", " ", h.get_text(" ", strip=True))))
@@ -405,27 +405,25 @@ def chunk_markdown(md: str, cap: int = 1200):
                                "content": content})
         current = None
 
-    def start(u):
-        nonlocal current
+    def start(u) -> dict[str, Any]:
         path = [{"level": p["level"], "text": p["text"]} for p in u["path"]]
         pos = tuple(p["idx"] for p in u["path"])
-        current = {"path": path, "pos": pos,
-                   "content": ["#" * u["level"] + " " + u["text"]]}
+        return {"path": path, "pos": pos,
+                "content": ["#" * u["level"] + " " + u["text"]]}
 
     for u in units:
         unit_text = "#" * u["level"] + " " + u["text"] + "\n" + "\n".join(u["body"])
         if current is None:
-            start(u)
-            assert current is not None
+            current = start(u)
             if prefix:
                 current["content"] = prefix + [""] + current["content"]
         elif u["level"] <= 2:
             close_current()
-            start(u)
+            current = start(u)
         else:
             if est_tokens(current["content"] + [unit_text]) > cap:
                 close_current()
-                start(u)
+                current = start(u)
             else:
                 current["content"].append("#" * u["level"] + " " + u["text"])
         current["content"].extend(u["body"])

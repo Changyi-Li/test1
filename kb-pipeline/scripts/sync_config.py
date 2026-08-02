@@ -48,13 +48,15 @@ def _require_key(data: dict, key: str, path: Path) -> None:
         raise ValueError(f"{path}: 缺少配置项 {key!r}")
 
 
-def _positive_float(value, label: str, path: Path) -> float:
+def _positive_float(value, label: str, path: Path | None = None) -> float:
     try:
         number = float(value)
     except (TypeError, ValueError) as exc:
-        raise ValueError(f"{path}: {label} 必须是数字") from exc
+        where = f"{path}: " if path is not None else ""
+        raise ValueError(f"{where}{label} 必须是数字") from exc
     if number <= 0:
-        raise ValueError(f"{path}: {label} 必须 > 0，得到 {number}")
+        where = f"{path}: " if path is not None else ""
+        raise ValueError(f"{where}{label} 必须 > 0，得到 {number}")
     return number
 
 
@@ -120,6 +122,6 @@ def effective_rate(config: SyncConfig, mode: str, override: float | None = None)
     if mode not in MODES:
         raise ValueError(f"非法模式 {mode!r}，应为 {'/'.join(MODES)} 之一")
     if override is not None:
-        rate = _positive_float(override, "--rate", Path("--rate"))
+        rate = _positive_float(override, "--rate")
         return rate
     return getattr(config, mode).rate_per_sec

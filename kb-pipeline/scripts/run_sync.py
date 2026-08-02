@@ -12,9 +12,8 @@ from urllib.parse import urlparse
 
 import sync_config
 
-STATE_PATH = (
-    Path(__file__).resolve().parent.parent / "state" / "sync-state.jsonl"
-)
+STATE_FILE_REL = "state/sync-state.jsonl"
+STATE_PATH = Path(__file__).resolve().parent.parent / STATE_FILE_REL
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -80,7 +79,7 @@ def main(argv=None) -> int:
     print(f"停止阈值: 连续失败 {cfg.stop_conditions.consecutive_failures} 次 "
           f"或错误率 > {cfg.stop_conditions.error_rate_percent}%")
     print(f"dry-run: {'是' if args.dry_run else '否'}")
-    print("状态文件: state/sync-state.jsonl")
+    print(f"状态文件: {STATE_FILE_REL}")
     print("提示: 同步引擎由后续票实现，本票仅交付参数解析、配置加载与状态原语。")
     return 0
 
