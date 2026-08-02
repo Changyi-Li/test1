@@ -25,7 +25,7 @@ kb-pipeline/
 │   └── pipeline.py              # 共享库：fetch / clean / metadata / chunk / check
 ├── state/                       # gitignore；sync-state.jsonl（运行时缓存，不入库）
 ├── data/
-│   ├── raw/                     # 原始 HTML + 响应头（生产 gitignore，评审点 R1）
+│   ├── raw/                     # 原始 HTML + 响应头（gitignore，评审已定）
 │   ├── clean/                   # 每主题清洗后 Markdown（入库）
 │   ├── metadata.jsonl           # 每主题 13 字段（入库）
 │   ├── chunks.jsonl             # 每块 14 字段（入库）
@@ -38,7 +38,7 @@ kb-pipeline/
     └── questions-fixture.md     # 15 题中文问题夹具（试点产物）
 ```
 
-评审点 R1：试点把 `data/raw/`（5 页 HTML）提交进了分支；全站推广后原始 HTML 约 7000+ 页，建议生产环境 gitignore `data/raw/`，只提交清洗后产物与例外表（原始内容可用 `run_sync.py` 重取）。
+评审结论（2026-08-02，用户通过）：生产环境 `data/raw/` 进 gitignore——试点分支里已提交的 5 页原始 HTML 不回迁 main；全站推广后原始 HTML 约 7000+ 页不占仓库体积（原始内容可用 `run_sync.py` 重取），只提交清洗后产物与例外表。
 
 ## 3. 模块划分
 
@@ -187,7 +187,7 @@ py kb-pipeline/scripts/run_sync.py --mode incremental|reconcile [--dry-run] [--l
 
 ## 10. 评审清单（reviewer）
 
-- [ ] 布局（§2）是否符合预期；`data/raw/` 是否 gitignore（R1）。
+- [x] 布局（§2）符合预期；`data/raw/` 进 gitignore（评审结论）。
 - [ ] exceptions.jsonl 四类是否够用；字段是否要加（如 `paired_id` 映射字段）。
 - [ ] 同步参数默认值（每周增量/每月全量、限速、退避阈值）是否合适。
 - [ ] 质量门（§6）与抽查模板是否可执行。
