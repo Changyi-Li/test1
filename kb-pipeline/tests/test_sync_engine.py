@@ -141,6 +141,14 @@ def test_normalize_heading_text_ignores_whitespace_around_sup():
         "The List tab") != P.normalize_heading_text("List")
 
 
+def test_md_stats_counts_table_blocks_not_rows():
+    """md_stats 的 tables 按块计（连续 | 行算一张表），与 raw 的 <table> 对齐。"""
+    md = "### T\n\n| A | B |\n|---|---|\n| 1 | 2 |\n| 3 | 4 |\n\n" \
+         "| C | D |\n|---|---|\n| 5 | 6 |\n"
+    stats = P.md_stats(md)
+    assert stats["tables"] == 2  # 两张 3 行表，不是 6 行
+
+
 def test_pace_sleeps_one_over_rate(monkeypatch):
     slept = []
     monkeypatch.setattr(sync_engine.time, "sleep", slept.append)

@@ -371,6 +371,23 @@ def raw_body_stats(raw_html: str):
             "callouts": len(callouts), "tables": tables, "pre": pre, "code": codes}
 
 
+def _count_md_tables(md: str) -> int:
+    """统计 Markdown 表格**块**数（连续的 | 起始行算一个表格）。
+
+    旧的按行计数把表格的每一行都当一张表，与 raw_body_stats 的
+    `<table>` 元素计数对不上（一张 6 行表 → raw=1 md=6）。"""
+    count = 0
+    in_table = False
+    for ln in md.splitlines():
+        if ln.lstrip().startswith("|"):
+            if not in_table:
+                count += 1
+                in_table = True
+        else:
+            in_table = False
+    return count
+
+
 def md_stats(md: str):
     heading_lines = [(len(m.group(1)), m.group(2).strip())
                      for m in re.finditer(r"^(#{1,6})\s+(.+)$", md, re.M)]
@@ -379,7 +396,7 @@ def md_stats(md: str):
     images = re.findall(r"!\[[^\]]*\]\(([^)]+)\)", md)
     return {"headings": heading_lines, "links": links, "images": images,
             "blockquote_lines": len(re.findall(r"^>\s?", md, re.M)),
-            "tables": len(re.findall(r"^\|.*\|$", md, re.M)),
+            "tables": _count_md_tables(md),
             "code_fences": len(re.findall(r"^```", md, re.M))}
 
 
