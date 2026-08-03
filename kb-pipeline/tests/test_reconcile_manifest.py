@@ -155,7 +155,7 @@ def _seed_topic(root: Path, topic_id: str, url: str, language: str,
     clean_file.write_text(md, encoding="utf-8")
     raw_dir = root / "data" / "raw" / language
     raw_dir.mkdir(parents=True, exist_ok=True)
-    (raw_dir / (topic_id.rsplit("/", 1)[-1] + ".htm")).write_bytes(
+    (raw_dir / (topic_id.replace("/", "_") + ".htm")).write_bytes(
         FIXTURE_HTML.encode("utf-8"))
     meta = {
         "id": topic_id, "title": "Topic", "url": url,

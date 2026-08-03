@@ -167,7 +167,7 @@ def _seed_topic(root: Path, topic_id: str, url: str, language: str,
     clean_file.write_text(md, encoding="utf-8")
     raw_dir = root / "data" / "raw" / language
     raw_dir.mkdir(parents=True, exist_ok=True)
-    (raw_dir / (topic_id.rsplit("/", 1)[-1] + ".htm")).write_bytes(
+    (raw_dir / (topic_id.replace("/", "_") + ".htm")).write_bytes(
         IMAGE_HTML.encode("utf-8"))
     images = re.findall(r"!\[[^\]]*\]\(([^)]+)\)", md)
     meta = {
@@ -220,6 +220,25 @@ def _seed_module_pages(root: Path, module: str, count: int) -> list[str]:
         _seed_topic(root, tid, url, "en-us", "canonical")
         ids.append(tid)
     return ids
+
+
+def test_raw_keyed_by_topic_id_avoids_page_name_collision(engine_root):
+    """data/raw 按 topic_id 编码文件名落盘，同名页互不覆盖（票 #26 回归）。"""
+    url_a = ("https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/"
+             "Stock/Alpha/bSettings.htm")
+    url_b = ("https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/"
+             "Stock/Beta/bSettings.htm")
+    _seed_topic(engine_root, "en-us/Stock/Alpha/bSettings", url_a,
+                "en-us", "canonical")
+    _seed_topic(engine_root, "en-us/Stock/Beta/bSettings", url_b,
+                "en-us", "canonical")
+    ra = (engine_root / "data" / "raw" / "en-us" /
+          "en-us_Stock_Alpha_bSettings.htm")
+    rb = (engine_root / "data" / "raw" / "en-us" /
+          "en-us_Stock_Beta_bSettings.htm")
+    assert ra.exists() and rb.exists()
+    assert not (engine_root / "data" / "raw" / "en-us" /
+                "bSettings.htm").exists()
 
 
 # ---------- AC1 图片 URL 去重后全量验证，404 记 broken_image 例外 ----------

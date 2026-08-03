@@ -131,7 +131,8 @@ def test_reconcile_single_url_runs_full_pipeline(engine_root, fake_network,
     # UA 生效：请求头携带配置 UA
     assert fake_network["headers"] == {"User-Agent": cfg.user_agent}
     # 原始 HTML 落盘（不入库目录 data/raw/）
-    raw_file = engine_root / "data" / "raw" / "en-us" / "GettingStarted.htm"
+    raw_file = (engine_root / "data" / "raw" / "en-us" /
+                "en-us_UserGuide_GettingStarted_GettingStarted.htm")
     assert raw_file.read_bytes() == FIXTURE_HTML.encode("utf-8")
     headers = json.loads((engine_root / "data" / "raw" / "headers.json").read_text(
         encoding="utf-8"))

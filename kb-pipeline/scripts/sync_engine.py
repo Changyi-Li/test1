@@ -562,7 +562,7 @@ def _remove_topic_artifacts(topic_id: str) -> None:
     if clean_file.exists():
         clean_file.unlink()
     raw_file = ROOT / "data" / "raw" / topic_id.split("/", 1)[0] / (
-        topic_id.rsplit("/", 1)[-1] + ".htm")
+        topic_id.replace("/", "_") + ".htm")
     if raw_file.exists():
         raw_file.unlink()
 
@@ -926,7 +926,7 @@ def _conversion_check(meta_rows: list[dict],
             continue
         tid = r["id"]
         raw_file = ROOT / "data" / "raw" / r["language"] / (
-            tid.rsplit("/", 1)[-1] + ".htm")
+            tid.replace("/", "_") + ".htm")
         if not raw_file.exists():
             if skip_without_raw:
                 log.skip(f"Q1[{tid}] 原始 HTML 缺失（data/raw 不入库）"
@@ -1116,7 +1116,8 @@ def process_topic(target: TopicTarget, cfg: sync_config.SyncConfig, rate: float,
               file=sys.stderr)
         return TopicResult("error", reason=_status_reason(status))
 
-    raw_file = ROOT / "data" / "raw" / target.language / target.page
+    raw_file = ROOT / "data" / "raw" / target.language / (
+        target.topic_id.replace("/", "_") + ".htm")
     raw_file.parent.mkdir(parents=True, exist_ok=True)
     raw_file.write_bytes(raw)
     print(f"  原始 HTML -> {raw_file.relative_to(ROOT)}")
