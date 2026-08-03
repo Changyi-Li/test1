@@ -174,6 +174,19 @@ def test_clean_markdown_preserves_table_inside_list_item():
     assert "| A | B |" in md
 
 
+def test_clean_markdown_collapses_tag_whitespace_within_cell():
+    """相邻 <img> 标签间的换行文本节点折叠为空格，不切断表格单元格。"""
+    html = ('<html><body><div id="contentBody"><h1>T</h1><table><tr><td>'
+            '<img src="../../Resources/Images/a.png"/>'
+            '<img src="../../Resources/Images/b.png"/></td></tr></table>'
+            "</div></body></html>")
+    md = P.clean_markdown(html, "https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/x.htm")
+    assert md.count("![") == 2
+    for ln in md.splitlines():
+        if "a.png" in ln:
+            assert "b.png" in ln
+
+
 def test_pace_sleeps_one_over_rate(monkeypatch):
     slept = []
     monkeypatch.setattr(sync_engine.time, "sleep", slept.append)

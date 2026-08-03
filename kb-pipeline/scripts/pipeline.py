@@ -197,7 +197,9 @@ def inline_md(el, base_url):
     out = []
     for child in el.children:
         if getattr(child, "name", None) is None:
-            out.append(child.string or "")
+            # 源 HTML 元素间的换行/空白是文本节点；折叠为单空格，避免表格单元格
+            # 被标签间换行切断（<br> 的换行由 br 分支单独保留）
+            out.append(re.sub(r"\s+", " ", child.string or ""))
             continue
         name = child.name.lower()
         if name == "br":
@@ -269,7 +271,9 @@ def _inline_only(el, base_url: str) -> str:
     out = []
     for child in el.children:
         if getattr(child, "name", None) is None:
-            out.append(child.string or "")
+            # 源 HTML 元素间的换行/空白是文本节点；折叠为单空格，避免表格单元格
+            # 被标签间换行切断（<br> 的换行由 br 分支单独保留）
+            out.append(re.sub(r"\s+", " ", child.string or ""))
             continue
         if child.name.lower() in _BLOCK_TAGS:
             continue
