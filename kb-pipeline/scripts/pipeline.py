@@ -121,6 +121,12 @@ def est_tokens(text: str) -> int:
     return int(cjk + other / 4 + 0.5)
 
 
+def normalize_heading_text(text: str | None) -> str:
+    """标题文本比较用归一化：去掉全部空白（raw 侧 get_text 会在上标 sup 周围
+    插入空白，如 'm 3 '，与清洗器的 'm3' 等价；Q2 比较前两侧统一去空白）。"""
+    return re.sub(r"\s+", "", text or "")
+
+
 # ---------- 抓取 ----------
 
 def _head(url: str, headers: dict, timeout: int = 30):

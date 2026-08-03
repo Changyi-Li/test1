@@ -957,7 +957,10 @@ def _conversion_check(meta_rows: list[dict],
         for k in range(max(len(rh), len(mh))):
             a = rh[k] if k < len(rh) else None
             b = mh[k] if k < len(mh) else None
-            if a != b:
+            same = (a is not None and b is not None and a[0] == b[0]
+                    and P.normalize_heading_text(a[1])
+                    == P.normalize_heading_text(b[1]))
+            if not same:
                 hdiff.append(f"#{k}: raw={a} md={b}")
         report(f"Q2[{tid}] 标题层级/文本一致", not hdiff, "; ".join(hdiff[:4]))
         garbled = P.garbled_markdown_problems(md)

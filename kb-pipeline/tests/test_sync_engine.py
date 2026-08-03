@@ -133,6 +133,14 @@ def test_chunk_markdown_splits_oversize_single_heading_block():
         assert P.est_tokens(c["content"]) <= 1200
 
 
+def test_normalize_heading_text_ignores_whitespace_around_sup():
+    """上标标题 raw（'m 3 '）与清洗（'m3'）归一后等价；内容不同仍判不等（票 #29）。"""
+    assert P.normalize_heading_text(
+        "Occupancy (m 3 )") == P.normalize_heading_text("Occupancy (m3)")
+    assert P.normalize_heading_text(
+        "The List tab") != P.normalize_heading_text("List")
+
+
 def test_pace_sleeps_one_over_rate(monkeypatch):
     slept = []
     monkeypatch.setattr(sync_engine.time, "sleep", slept.append)
