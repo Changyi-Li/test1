@@ -68,7 +68,7 @@ EXPECTED_FIELDS_CHUNK = {
 NOISE_PATTERNS = [
     r"Powered by MadCap",
     r"Online help for version",
-    r"Skip to",
+    r"Skip to main content",   # 导航跳转链接；不带 main 的 "skip to item" 是正文（票 #51）
     r"Cookies",
     r"data-mc-",
     r"You are here",
@@ -122,9 +122,11 @@ def est_tokens(text: str) -> int:
 
 
 def normalize_heading_text(text: str | None) -> str:
-    """标题文本比较用归一化：去掉全部空白（raw 侧 get_text 会在上标 sup 周围
-    插入空白，如 'm 3 '，与清洗器的 'm3' 等价；Q2 比较前两侧统一去空白）。"""
-    return re.sub(r"\s+", "", text or "")
+    """标题文本比较用归一化：去掉全部空白；标题内的 markdown 图片/链接语法去掉，
+    只留可见文本（raw 侧 get_text 不含图片，md 侧标题内嵌图片/链接，Q2 需对齐，票 #53）。"""
+    t = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", text or "")
+    t = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", t)
+    return re.sub(r"\s+", "", t)
 
 
 # ---------- 抓取 ----------
@@ -222,11 +224,15 @@ def inline_md(el, base_url):
                 if inner:
                     out.append(f"[{inner}]({href})")
                     continue
-            txt = re.sub(r"\s+", " ", child.get_text(" ", strip=True))
-            if txt and href and not href.startswith("#") and not href.startswith("javascript:"):
-                out.append(f"[{txt}]({href})")
-            elif txt:
-                out.append(txt)
+            # 非真实链接（# / javascript: / 空）的锚点仍渲染子内容，保留图片（票 #45，
+            # 如 MCDropDown 热点 <a href="#"> 内的按钮图标）。
+            inner = inline_md(child, base_url)
+            if inner:
+                out.append(inner)
+            else:
+                txt = re.sub(r"\s+", " ", child.get_text(" ", strip=True))
+                if txt:
+                    out.append(txt)
         elif name == "code":
             out.append("`" + (child.get_text() or "") + "`")
         elif name in ("span", "strong", "em", "b", "i", "u", "sup", "sub", "font"):
@@ -244,7 +250,9 @@ def inline_md(el, base_url):
 def table_md(table, base_url):
     rows = []
     for tr in table.find_all("tr"):
-        cells = [inline_md(c, base_url) or " " for c in tr.find_all(["th", "td"])]
+        # 单元格内 <br/> 由 inline_md 转为换行会打断表格行，改成空格（票 #47）。
+        cells = [(inline_md(c, base_url) or " ").replace("\n", " ")
+                 for c in tr.find_all(["th", "td"])]
         if cells:
             rows.append(cells)
     if not rows:
@@ -281,11 +289,29 @@ def _inline_only(el, base_url: str) -> str:
             continue
         if child.name.lower() in _BLOCK_TAGS:
             continue
+        if child.name.lower() == "a":
+            # inline_md(a) 只渲染其子内容、丢外层链接；这里补回链接（票 #46，
+            # 块级 li 头部 <a><img></a> 缩略图）。
+            href = child.get("href", "") or ""
+            inner = inline_md(child, base_url)
+            if href and not href.startswith("#") and not href.startswith("javascript:"):
+                out.append(f"[{inner}]({href})" if inner else inner)
+            else:
+                out.append(inner)
+            continue
         out.append(inline_md(child, base_url))
     return "".join(out)
 
 
+def _unwrap_heading_paragraphs(html: str) -> str:
+    """修复 <hX><p>text</p></hX> 非法嵌套（解析器把 hX 自动闭合为空标题，内容变成
+    游离段落），转成 <hX>text</hX>，保证清洗与 raw 统计一致（票 #49）。"""
+    return re.sub(r"<(h[1-6])>\s*<p[^>]*>(.*?)</p>\s*</\1>",
+                  r"<\1>\2</\1>", html, flags=re.S)
+
+
 def clean_markdown(raw_html: str, base_url: str) -> str:
+    raw_html = _unwrap_heading_paragraphs(raw_html)
     soup = BeautifulSoup(raw_html, "lxml")
     body = soup.select_one("#contentBody") or soup.select_one(".body-container") or soup.body
     lines = []
@@ -321,7 +347,12 @@ def clean_markdown(raw_html: str, base_url: str) -> str:
                         head = _inline_only(sub, base_url)
                         if head:
                             lines.append(f"{idx}. " + head if numbered else "- " + head)
-                        walk(sub)
+                        # 只 walk 块级子元素，避免内联头部（文本/图片/链接）被 head 与
+                        # walk 双重输出（票 #46，块级 li 内 <a><img> 重复渲染）。
+                        for c in sub.children:
+                            if (getattr(c, "name", None) is not None
+                                    and c.name.lower() in _BLOCK_TAGS):
+                                emit(c)
                     else:
                         t = inline_md(sub, base_url)
                         if t:
@@ -427,10 +458,14 @@ def extract_title(md: str, raw_html: str) -> str:
 
 def raw_body_stats(raw_html: str):
     """统计 #contentBody 内的标题/链接/图片/提示框/表格/代码，供质量代理检查。"""
+    raw_html = _unwrap_heading_paragraphs(raw_html)
     soup = BeautifulSoup(raw_html, "lxml")
     body: Any = soup.select_one("#contentBody") or soup.select_one(".body-container") or soup.body
     headings = []
     for h in body.find_all(re.compile(r"^h[1-6]$")):
+        # 表格单元格内标题被清洗器扁平化为单元格文本，不计文档标题（票 #52）。
+        if h.find_parent("table") is not None:
+            continue
         headings.append((int(h.name[1]), re.sub(r"\s+", " ", h.get_text(" ", strip=True))))
     links = []
     for a in body.find_all("a"):
@@ -446,8 +481,10 @@ def raw_body_stats(raw_html: str):
               if img.get("src")
               and "MCDropDown_Image_Icon" not in " ".join(img.get("class", []))
               and "MCHelpControl_Image_Icon" not in " ".join(img.get("class", []))]
-    callouts = [el for el in body.find_all(["p", "div"])
-                if CALLOUT_CLASSES.search(" ".join(el.get("class", [])) or "")]
+    # callout 类 p/div 与 <blockquote> 都会转 markdown blockquote 行（票 #50）。
+    callouts = [el for el in body.find_all(["p", "div", "blockquote"])
+                if el.name == "blockquote"
+                or CALLOUT_CLASSES.search(" ".join(el.get("class", [])) or "")]
     # 只计顶层表：嵌套表（单元格内套表）被清洗器扁平化进单元格文本，不单独成块
     # （票 #43），find_all 会把嵌套表也计入导致与 md 表块数失配。
     tables = len([t for t in body.find_all("table")
@@ -473,7 +510,7 @@ def _count_md_tables(md: str) -> int:
 
 def md_stats(md: str):
     heading_lines = [(len(m.group(1)), m.group(2).strip())
-                     for m in re.finditer(r"^(#{1,6})\s+(.+)$", md, re.M)]
+                     for m in re.finditer(r"^(#{1,6})[^\S\r\n]+(.+)$", md, re.M)]
     # 正文链接只统计 [text](url)，(?<!!) 排除图片语法 ![alt](url)
     links = re.findall(r"(?<!!)\[[^\]]+\]\(([^)]+)\)", md)
     images = re.findall(r"!\[[^\]]*\]\(([^)]+)\)", md)

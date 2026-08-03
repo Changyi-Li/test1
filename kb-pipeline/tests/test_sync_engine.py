@@ -258,6 +258,85 @@ def test_raw_body_stats_skips_empty_anchor():
     assert stats["links"] == ["../CashFlowForecast/CashFlowForecast.htm"]
 
 
+def test_inline_md_keeps_image_in_hash_anchor():
+    """<a href=\"#\"> 锚点（MCDropDown 热点）内的图片不丢失（票 #45 回归）。"""
+    html = ('<html><body><div id="contentBody"><h1>T</h1>'
+            '<p>By using the button <a href="#">Confirm'
+            '<img src="../../Resources/Images/StatusFinished.png" /></a> ok.</p>'
+            "</div></body></html>")
+    md = P.clean_markdown(html, "https://help.monitorerp.cn/x.htm")
+    assert md.count("![") == 1
+    assert "StatusFinished.png" in md
+
+
+def test_clean_markdown_block_li_does_not_duplicate_inline_content():
+    """块级 li（含嵌套 ul）的头部内联内容不被 head 与 walk 双重输出（图片/文本不重复）。"""
+    html = ('<html><body><div id="contentBody"><h1>T</h1><ul><li>'
+            'Intro <a href="../../Resources/Images/a.png">'
+            '<img src="../../Resources/Images/a.png" alt="a"/></a>'
+            '<ul><li>sub</li></ul></li></ul></div></body></html>')
+    md = P.clean_markdown(html, "https://help.monitorerp.cn/x.htm")
+    assert md.count("![") == 1
+    assert md.count("Intro") == 1
+
+
+def test_table_md_br_in_cell_stays_one_line():
+    """表格单元格内 <br/> 不打断表格行（票 #47 回归）。"""
+    html = ('<html><body><div id="contentBody"><h1>T</h1>'
+            '<table><tr><th>A</th><th>B</th></tr>'
+            '<tr><td>1</td><td>x<br/>y</td></tr></table>'
+            "</div></body></html>")
+    md = P.clean_markdown(html, "https://help.monitorerp.cn/x.htm")
+    assert P.md_stats(md)["tables"] == 1
+    assert "x y" in md  # <br/> 转空格，单元格不产生裸行
+
+
+def test_clean_markdown_unwraps_heading_wrapped_paragraph():
+    """<h2><p>text</p></h2>（非法嵌套）产出 ## text 而非空标题 + 段落（票 #49 回归）。"""
+    html = ('<html><body><div id="contentBody"><h1>X</h1>'
+            '<h2><p>Preparations</p></h2></div></body></html>')
+    md = P.clean_markdown(html, "https://help.monitorerp.cn/x.htm")
+    assert "## Preparations" in md
+    assert md.count("## ") == 1
+
+
+def test_md_stats_heading_does_not_cross_newline():
+    """空标题行 + 下一行文本不被 md_stats 合并为一个标题（票 #48 回归）。"""
+    md = "## X\n\n##  \nPreparations\n\n### Y\n"
+    headings = P.md_stats(md)["headings"]
+    assert (2, "Preparations") not in headings
+    assert (2, "") in headings
+
+
+def test_normalize_heading_text_strips_markdown_syntax():
+    """标题比较去 markdown 链接/图片语法，只比可见文本（票 #44 配套）。"""
+    assert P.normalize_heading_text("[![](x)](y) Accounting") == "Accounting"
+    assert P.normalize_heading_text("a [timezone](url) (tz)") == "atimezone(tz)"
+
+
+def test_raw_body_stats_ignores_headings_inside_table():
+    """表格单元格内的标题不计入文档标题（与清洗器扁平化一致，票 #46 回归）。"""
+    html = ('<html><body><div id="contentBody"><h1>T</h1>'
+            '<table><tr><td><h4>Bank</h4></td></tr></table>'
+            "</div></body></html>")
+    stats = P.raw_body_stats(html)
+    assert all(level != 4 for level, _ in stats["headings"])
+
+
+def test_raw_body_stats_counts_blockquote_as_callout():
+    """<blockquote> 元素与 callout 一样转 blockquote 行，raw 侧一并计入（票 #50 回归）。"""
+    html = ('<html><body><div id="contentBody"><h1>T</h1>'
+            '<blockquote><p>quote text</p></blockquote></div></body></html>')
+    stats = P.raw_body_stats(html)
+    assert stats["callouts"] == 1
+
+
+def test_noise_patterns_do_not_flag_content_skip_to():
+    """'skip to item' 正文不被 Q1 噪声模式误报（票 #51 回归）。"""
+    md = "click Next and skip to item 14 below."
+    assert not any(re.search(p, md, re.I) for p in P.NOISE_PATTERNS)
+
+
 def test_clean_markdown_keeps_loose_callout_inside_list():
     """ul 内 <li> 之间的游离 <p class=note> 不得丢失，转 blockquote（票 #41 回归）。"""
     html = ('<html><body><div id="contentBody"><h1>Licenses</h1><ul>'
