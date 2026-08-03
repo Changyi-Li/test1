@@ -248,6 +248,16 @@ def test_raw_body_stats_counts_top_level_tables_only():
     assert stats["tables"] == 1
 
 
+def test_raw_body_stats_skips_empty_anchor():
+    """无内容空 <a>（解析器自动闭合的嵌套锚点外壳）不算链接，与清洗器一致（票 #44）。"""
+    html = ('<html><body><div id="contentBody"><h1>I</h1>'
+            '<p><a href="../../Sales/CashFlowForecast/CashFlowForecast.htm">'
+            '<a href="../CashFlowForecast/CashFlowForecast.htm">Cash flow forecast</a></a></p>'
+            "</div></body></html>")
+    stats = P.raw_body_stats(html)
+    assert stats["links"] == ["../CashFlowForecast/CashFlowForecast.htm"]
+
+
 def test_clean_markdown_keeps_loose_callout_inside_list():
     """ul 内 <li> 之间的游离 <p class=note> 不得丢失，转 blockquote（票 #41 回归）。"""
     html = ('<html><body><div id="contentBody"><h1>Licenses</h1><ul>'

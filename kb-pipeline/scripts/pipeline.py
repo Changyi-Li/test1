@@ -432,9 +432,16 @@ def raw_body_stats(raw_html: str):
     headings = []
     for h in body.find_all(re.compile(r"^h[1-6]$")):
         headings.append((int(h.name[1]), re.sub(r"\s+", " ", h.get_text(" ", strip=True))))
-    links = [a.get("href", "") for a in body.find_all("a")
-             if a.get("href") and not a.get("href", "").startswith("#")
-             and not a.get("href", "").startswith("javascript:")]
+    links = []
+    for a in body.find_all("a"):
+        href = a.get("href", "")
+        if not href or href.startswith("#") or href.startswith("javascript:"):
+            continue
+        # 无内容空锚点（解析器自动闭合的嵌套 <a> 外壳）不是真实链接，与清洗器一致
+        # （票 #44）；<a><img></a> 缩略图虽无文本但有图，仍算。
+        if not a.get_text(strip=True) and not a.find("img"):
+            continue
+        links.append(href)
     images = [img.get("src", "") for img in body.find_all("img")
               if img.get("src")
               and "MCDropDown_Image_Icon" not in " ".join(img.get("class", []))
