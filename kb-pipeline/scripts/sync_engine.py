@@ -740,9 +740,11 @@ def selfcheck_single(meta: dict, chunks: list[dict]) -> bool:
            all(c["language"] == language and c["quality"] == meta["quality"]
                and c["url"] == meta["url"] and c["topic_path"] == meta["topic_path"]
                for c in chunks))
-    report("C8 token_estimate 为正整数且 ≤ 1200 硬上限",
+    report("C8 token_estimate 为正整数且 ≤ 1200 硬上限（原子块例外）",
            all(isinstance(c["token_estimate"], int)
-               and 0 < c["token_estimate"] <= 1200 for c in chunks))
+               and (0 < c["token_estimate"] <= 1200
+                    or not _has_split_point(c["content"]))
+               for c in chunks))
     log.skip("C9 中文块镜像配对（单 URL 对账不做镜像扫描，清单驱动票覆盖）")
     report("C10 块 images 与内容内图片一致",
            all(c["images"] == re.findall(r"!\[[^\]]*\]\(([^)]+)\)", c["content"])
@@ -754,6 +756,12 @@ def selfcheck_single(meta: dict, chunks: list[dict]) -> bool:
     path.write_text("\n".join(log.lines), encoding="utf-8")
     _print_failures(log.failures)
     return log.ok
+
+
+def _has_split_point(content: str) -> bool:
+    """块内容是否有可切分点（空行）。原子块（表格/列表/提示框，无空行）按规格
+    §4.2「原子保留/不切断」允许超过 ~1200 硬上限；有切分点却仍超上限才判 FAIL。"""
+    return bool(re.search(r"\n\s*\n", content or ""))
 
 
 def _machine_check(meta_rows: list[dict], chunk_rows: list[dict],
@@ -871,9 +879,10 @@ def _machine_check(meta_rows: list[dict], chunk_rows: list[dict],
     report("C7 块上下文字段与主题清单一致", not ctx_fail, f"bad={ctx_fail}")
     tk_fail = [c["chunk_id"] for c in chunk_rows
                if not isinstance(c["token_estimate"], int)
-               or not (0 < c["token_estimate"] <= 1200)]
-    report("C8 token_estimate 为正整数且 ≤ 1200 硬上限", not tk_fail,
-           f"bad={tk_fail}")
+               or not (0 < c["token_estimate"] <= 1200)
+               and _has_split_point(c["content"])]
+    report("C8 token_estimate 为正整数且 ≤ 1200 硬上限（原子块例外）",
+           not tk_fail, f"bad={tk_fail}")
     en_chunk_ids = {c["chunk_id"] for c in chunk_rows if c["language"] == "en-us"}
     pair_fail2: list[str] = []
     for c in chunk_rows:
@@ -1617,5 +1626,4 @@ def incremental_sync(limit: int | None, url: str | None,
     print(f"== 增量同步完成: 未变化 {unchanged}，变化 {changed}"
           + (f"，错误 {errors}" if errors else ""))
     return 0
-
 

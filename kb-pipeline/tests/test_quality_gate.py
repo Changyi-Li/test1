@@ -387,6 +387,44 @@ def test_machine_check_rejects_unknown_field(engine_root):
     assert any("M1" in f for f in log.failures)
 
 
+def _valid_chunk_row(topic_id: str, url: str, content: str,
+                     token_estimate: int, language: str = "en-us",
+                     order: int = 0) -> dict:
+    quality = "canonical" if language == "en-us" else "reference"
+    return {
+        "chunk_id": f"{topic_id}::{order}", "topic_id": topic_id, "order": order,
+        "title": "Topic", "heading_path": ["Topic"], "content": content,
+        "language": language, "quality": quality, "url": url,
+        "topic_path": "/".join(topic_id.split("/")[1:-1]),
+        "images": [], "paired_chunk_id": None,
+        "char_count": len(content), "token_estimate": token_estimate,
+    }
+
+
+def test_machine_check_c8_allows_atomic_oversize_chunk(engine_root):
+    """超上限但无空行切分点的原子块（表格）通过 C8（票 #28 原子块例外）。"""
+    tid = "en-us/Stock/Parts/PartPrices"
+    url = ("https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/"
+           "Stock/Parts/PartPrices.htm")
+    meta = _valid_meta_row(tid, url, "en-us", "canonical")
+    atomic = _valid_chunk_row(
+        tid, url, "| A | B |\n|---|---|\n" + "| x | y |\n" * 200, 2500)
+    log = sync_engine._machine_check([meta], [atomic], [], {})
+    assert not any("C8" in f for f in log.failures)
+
+
+def test_machine_check_c8_rejects_splitable_oversize_chunk(engine_root):
+    """有可切分点（空行）却仍超上限的块判 C8 FAIL。"""
+    tid = "en-us/Stock/Parts/PartPrices"
+    url = ("https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/"
+           "Stock/Parts/PartPrices.htm")
+    meta = _valid_meta_row(tid, url, "en-us", "canonical")
+    splitable = _valid_chunk_row(
+        tid, url, "Para one\n\nPara two\n\n" + "word " * 1000, 2500)
+    log = sync_engine._machine_check([meta], [splitable], [], {})
+    assert any("C8" in f for f in log.failures)
+
+
 # ---------- AC3 转换质量逐页 7 项（含无截断/乱码） ----------
 
 def test_garbled_markdown_problems_detects_signals():

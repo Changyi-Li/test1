@@ -490,7 +490,7 @@ def chunk_markdown(md: str, cap: int = 1200):
             close_current()
             current = start(u)
         else:
-            if est_tokens(current["content"] + [unit_text]) > cap:
+            if est_tokens("\n".join(current["content"] + [unit_text])) > cap:
                 close_current()
                 current = start(u)
             else:
@@ -501,13 +501,14 @@ def chunk_markdown(md: str, cap: int = 1200):
 
     final = []
     for c in chunks:
-        if est_tokens(c["content"]) > cap and len(c["path"]) >= 2:
+        if est_tokens(c["content"]) > cap and len(c["path"]) >= 1:
             head_line = "#" * c["path"][-1]["level"] + " " + c["path"][-1]["text"]
-            body = c["content"]
-            if c["content"][0].startswith("#"):
-                body = c["content"][1:]
-            for part in split_oversize_unit(head_line, body, cap):
-                final.append({"path": c["path"], "pos": c["pos"], "content": part})
+            body_lines = c["content"].splitlines()
+            if body_lines and body_lines[0].startswith("#"):
+                body_lines = body_lines[1:]
+            for part in split_oversize_unit(head_line, body_lines, cap):
+                final.append({"path": c["path"], "pos": c["pos"],
+                              "content": "\n".join(part)})
         else:
             final.append(c)
 

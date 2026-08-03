@@ -110,6 +110,29 @@ def test_clean_markdown_absolutizes_images_in_table_cells():
     assert expected in md
 
 
+def test_chunk_markdown_splits_long_page_without_h2():
+    """无 h2（仅 h3/h4）长页切块后无单块超 1200 token（票 #28 回归）。"""
+    md = "### Planning window\n"
+    for i in range(12):
+        md += f"\n#### Section {i}\n" + " ".join(f"word{i}" for _ in range(300)) + "\n"
+    chunks = P.chunk_markdown(md)
+    assert len(chunks) > 1
+    for c in chunks:
+        assert isinstance(c["content"], str)
+        assert P.est_tokens(c["content"]) <= 1200
+
+
+def test_chunk_markdown_splits_oversize_single_heading_block():
+    """仅一个 h3（path 长度 1）且正文超上限时，oversize 切分按段落拆开。"""
+    md = "### Big block\n" + "\n\n".join(
+        "Paragraph " + "p" * 400 for _ in range(20))
+    chunks = P.chunk_markdown(md)
+    assert len(chunks) > 1
+    for c in chunks:
+        assert isinstance(c["content"], str)
+        assert P.est_tokens(c["content"]) <= 1200
+
+
 def test_pace_sleeps_one_over_rate(monkeypatch):
     slept = []
     monkeypatch.setattr(sync_engine.time, "sleep", slept.append)
