@@ -337,6 +337,32 @@ def test_noise_patterns_do_not_flag_content_skip_to():
     assert not any(re.search(p, md, re.I) for p in P.NOISE_PATTERNS)
 
 
+def test_block_li_keeps_direct_image_child():
+    """块级 li 的直接子 <img>（无 <a> 包裹）在头部保留（票 #55 回归）。"""
+    html = ('<html><body><div id="contentBody"><h1>T</h1><ul><li>'
+            'Warehouse selector <img src="../../Resources/Images/btn.png" alt=""/> in d'
+            '<ul><li>sub</li></ul></li></ul></div></body></html>')
+    md = P.clean_markdown(html, "https://help.monitorerp.cn/x.htm")
+    assert md.count("![") == 1
+    assert "btn.png" in md
+
+
+def test_raw_body_stats_ignores_headings_inside_callout():
+    """callout（div.note）内标题被清洗器扁平化，不计 raw 文档标题（票 #54 回归）。"""
+    html = ('<html><body><div id="contentBody"><h1>T</h1>'
+            '<div class="note"><h4>Important</h4><p>text</p></div>'
+            "</div></body></html>")
+    stats = P.raw_body_stats(html)
+    assert all(level != 4 for level, _ in stats["headings"])
+
+
+def test_md_stats_link_regex_no_false_positive_across_newline():
+    """正文方括号 + 换行 + 图片不构成误报链接（票 #56 回归）。"""
+    md = "输入左边括号 [。这将显示列表。\n![](https://x/img.png)"
+    links = P.md_stats(md)["links"]
+    assert links == []
+
+
 def test_clean_markdown_keeps_loose_callout_inside_list():
     """ul 内 <li> 之间的游离 <p class=note> 不得丢失，转 blockquote（票 #41 回归）。"""
     html = ('<html><body><div id="contentBody"><h1>Licenses</h1><ul>'

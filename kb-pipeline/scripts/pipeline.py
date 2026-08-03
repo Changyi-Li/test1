@@ -299,6 +299,19 @@ def _inline_only(el, base_url: str) -> str:
             else:
                 out.append(inner)
             continue
+        if child.name.lower() == "img":
+            # inline_md(img) 处理 img 的子节点（空）返回空串；直接子 <img> 在此渲染
+            # （票 #55，块级 li 头部的按钮图标）。
+            cls = " ".join(child.get("class", [])) or ""
+            if "MCDropDown_Image_Icon" in cls or "MCHelpControl_Image_Icon" in cls:
+                continue
+            alt = child.get("alt", "") or ""
+            src = child.get("src", "") or ""
+            out.append(f"![{alt}]({urljoin(base_url, src)})")
+            continue
+        if child.name.lower() == "br":
+            out.append("\n")
+            continue
         out.append(inline_md(child, base_url))
     return "".join(out)
 
@@ -466,6 +479,10 @@ def raw_body_stats(raw_html: str):
         # 表格单元格内标题被清洗器扁平化为单元格文本，不计文档标题（票 #52）。
         if h.find_parent("table") is not None:
             continue
+        # callout 容器内标题被清洗器扁平化为 blockquote 文本，同样不计（票 #54）。
+        if any(p.name == "div" and CALLOUT_CLASSES.search(" ".join(p.get("class", [])) or "")
+               for p in h.parents):
+            continue
         headings.append((int(h.name[1]), re.sub(r"\s+", " ", h.get_text(" ", strip=True))))
     links = []
     for a in body.find_all("a"):
@@ -511,8 +528,9 @@ def _count_md_tables(md: str) -> int:
 def md_stats(md: str):
     heading_lines = [(len(m.group(1)), m.group(2).strip())
                      for m in re.finditer(r"^(#{1,6})[^\S\r\n]+(.+)$", md, re.M)]
-    # 正文链接只统计 [text](url)，(?<!!) 排除图片语法 ![alt](url)
-    links = re.findall(r"(?<!!)\[[^\]]+\]\(([^)]+)\)", md)
+    # 正文链接只统计 [text](url)，(?<!!) 排除图片语法 ![alt](url)；
+    # 链接文本不跨行（[^\n\]]），避免正文方括号 + 换行 + 图片被误拼成链接（票 #56）。
+    links = re.findall(r"(?<!!)\[[^\n\]]+\]\(([^)]+)\)", md)
     images = re.findall(r"!\[[^\]]*\]\(([^)]+)\)", md)
     return {"headings": heading_lines, "links": links, "images": images,
             "blockquote_lines": len(re.findall(r"^>\s?", md, re.M)),
