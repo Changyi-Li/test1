@@ -9,6 +9,20 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import sync_manifest as SM
 
 
+def test_normalize_url_unquotes_percent_encoding():
+    """百分号编码与非编码形式的同一 URL 规范化后一致（票 #57 回归）。
+
+    否则同一主题的编码/非编码双 state 记录会被删除检测当成两页，误清产物。
+    """
+    a = ("https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/"
+         "Sales/StatisticsFollowUp/InvoicingLog/"
+         "tListBudgetDeviationAnalysisS%C3%A4ljare.htm")
+    b = ("https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/"
+         "Sales/StatisticsFollowUp/InvoicingLog/"
+         "tListBudgetDeviationAnalysisSäljare.htm")
+    assert SM.normalize_url(a) == SM.normalize_url(b)
+
+
 SITEMAP_XML = """<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://help.monitorerp.com/CN-MONITOR_G5/en-us/Content/Content/Topics/Accounting/AccrualAccounting/AccrualAccounting.htm</loc></url>

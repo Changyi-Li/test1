@@ -8,7 +8,7 @@ help.monitorerp.cn、去掉 Content/Content/ 双写层），随后过滤 /Topics
 from __future__ import annotations
 
 import xml.etree.ElementTree as ET
-from urllib.parse import urlsplit, urlunsplit
+from urllib.parse import unquote, urlsplit, urlunsplit
 
 import pipeline as P
 
@@ -24,9 +24,10 @@ def fix_sitemap_url(url: str) -> str:
 
 
 def normalize_url(url: str) -> str:
-    """规范化：去 fragment/query/尾斜杠；主机小写（路径大小写原样保留）。"""
+    """规范化：去 fragment/query/尾斜杠；主机小写；路径百分号解码（票 #57，
+    编码/非编码同一 URL 规范化一致，避免删除检测把双记录当两页误清产物）。"""
     parts = urlsplit(url)
-    path = parts.path.rstrip("/") or "/"
+    path = unquote(parts.path).rstrip("/") or "/"
     return urlunsplit((parts.scheme.lower(), parts.netloc.lower(), path, "", ""))
 
 
