@@ -367,6 +367,16 @@ def test_machine_check_rejects_duplicate_id(engine_root):
     assert any("M2" in f for f in log.failures)
 
 
+def test_machine_check_accepts_parens_in_topic_id(engine_root):
+    """真实文件名含括号（tWarnings(intotal)）应通过 M2 id 格式（票 #27 回归）。"""
+    row = _valid_meta_row(
+        "en-us/Stock/Valuation/WIPValue/tWarnings(intotal)",
+        "https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/Stock/Valuation/WIPValue/tWarnings(intotal).htm",
+        "en-us", "canonical")
+    log = sync_engine._machine_check([row], [], [], {})
+    assert not any("M2" in f for f in log.failures)
+
+
 def test_machine_check_rejects_unknown_field(engine_root):
     row = _valid_meta_row("en-us/UserGuide/GettingStarted/GettingStarted",
                           "https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/UserGuide/GettingStarted/GettingStarted.htm",

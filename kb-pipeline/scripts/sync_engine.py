@@ -694,7 +694,7 @@ def selfcheck_single(meta: dict, chunks: list[dict]) -> bool:
 
     topic_id = meta["id"]
     language = meta["language"]
-    id_re = re.compile(rf"^({'|'.join(LANGS)})/(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+$")
+    id_re = re.compile(rf"^({'|'.join(LANGS)})/(?:[A-Za-z0-9_()-]+/)*[A-Za-z0-9_()-]+$")
 
     # ---- 元数据完整性 ----
     report("M1 元数据字段集合 = 13 字段", set(meta) == P.EXPECTED_FIELDS_META)
@@ -767,7 +767,7 @@ def _machine_check(meta_rows: list[dict], chunk_rows: list[dict],
     log = _CheckLog()
     report = log.report
     ids = {r["id"] for r in meta_rows}
-    id_re = re.compile(rf"^({'|'.join(LANGS)})/(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+$")
+    id_re = re.compile(rf"^({'|'.join(LANGS)})/(?:[A-Za-z0-9_()-]+/)*[A-Za-z0-9_()-]+$")
     url_re = re.compile(
         r"^https?://[^/]+(?:/[^/]+)?/(en-us|zh-cn)/Content/Topics/.+\.htm$")
 
