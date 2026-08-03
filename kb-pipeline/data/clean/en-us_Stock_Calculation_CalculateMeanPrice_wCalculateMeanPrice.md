@@ -1,0 +1,12 @@
+## Calculate mean price
+This procedure is used to calculate an alternate average purchase price for purchased parts called Mean price. The mean price is calculated manually in this procedure and is more dynamic since it is based on a selectable number of purchases made within an entered time interval. Rows from credit invoices, canceled invoices, and deleted deliveries are excluded from the mean price calculation.
+The list is based on part data, arrival data, stock transaction log, and invoice data.
+The price used in the list is loaded from the stock transaction log. The price is saved in the stock transaction log upon arrival and can be updated when final recording the supplier invoice. Parts which are not stock updated do not create a record in the stock transaction log. The price is loaded from the purchase order for these parts up until the supplier invoice is final recorded.
+Start the calculation when you have loaded the list, checked the selection of purchase orders, and, if needed, deselected purchase orders that you do not want to include in the calculation. Check if there are any warnings in the list before you save. If the list is long, you might need to scroll. When you save, the mean price will be saved to the parts.
+> It is important to understand what the different prices on parts mean and for what they are used. Read more about this in the chapter called [Explanation of part prices](../../Parts/PartPrices.htm).
+Selection rows
+In a list procedure there is always a tab called Selection where you can select data records in different intervals from the database. The data records are then loaded by using the Load button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_display_list.png) in the toolbar of the procedure.
+Under Selection rows in the backstage of the procedure, you can choose which selection rows that each list type should have, under the Selection tab in the procedure. In the List type field you select for which list type you want to customize the selection rows.
+One table shows selection rows possible to select and one one table shows the selected selection rows. You can add, delete, or move selection rows by dragging and dropping the selection rows with your mouse pointer.
+Using the Save button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_save.png) you save the selected selection rows.
+Read more about this in the [Selection](../../../UserGuide/GeneralFeatures/Selection.htm) topic.

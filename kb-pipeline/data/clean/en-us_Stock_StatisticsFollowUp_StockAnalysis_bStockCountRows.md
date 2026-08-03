@@ -1,0 +1,3 @@
+### Stock count rows
+In this list you see all completed stock counts per part for the selected year, for the selected parts. Per part you see which user who did the stock count, the date of stock count, stock count difference (positive difference in green and negative difference in red), stock counted balance, and total balance of the part after this stock count. You can also see the stock count number (shown if the part has been included in a stock count list) and log date and time when then stock count was saved in the stock transaction log.
+On the function menu you find buttons with different standard functions for lists.

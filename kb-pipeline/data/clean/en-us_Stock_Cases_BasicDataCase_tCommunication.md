@@ -1,0 +1,2 @@
+### Communication
+Here you can create templates with groups for communication regarding cases. The templates can e.g. be different for defined groups for customer or supplier nonconformities. These groups can then be inserted into the Communication box under the Header tab in the Register case procedure. In the top box, you create the template and name it. In the bottom box, you add those who are to be included in the template/group. You can add both internal and external people into the template. Then you save the template.

@@ -1,0 +1,2 @@
+### The Manual level list
+This list shows information grouped by serial number, and you also see the included serial numbers, part info, and when warranty expires. A serial number can consist of vital components that have been registered as separate serial numbers. These components can be changed or modified and can also have their own warranty times. That is why they have own serial numbers. In their turn, these components might be included in other serial numbers.

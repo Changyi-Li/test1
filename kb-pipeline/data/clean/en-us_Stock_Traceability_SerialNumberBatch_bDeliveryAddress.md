@@ -1,0 +1,2 @@
+### Delivery address
+In this box you can see where to the product has been delivered. The delivery address is automatically filled in if the serial number/batch has a link to a customer order. Even if you enter the order number manually, this address will become inserted using the information on the customer order. If you do not enter an order number but you enter a Customer instead, then the delivery address is loaded from there.

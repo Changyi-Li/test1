@@ -1,0 +1,2 @@
+### Settings – Price type
+These settings determine which prices should be shown for purchased parts, manufactured parts, and services. If you select the price list option for any of the settings, the field below it will become available. There it is possible to select which price list to apply. If you have selected a supplier price or a price in another currency, the field where you can select rate type will also become available.

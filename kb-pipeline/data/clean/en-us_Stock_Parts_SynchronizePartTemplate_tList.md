@@ -1,0 +1,2 @@
+### List
+This list displays the part's data/values and the corresponding values of the part template. Then you can make it updateable by clicking the ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_edit_data.png) button and select which parts should be updated using the data/values from the part template. Confirm by saving. Validations are made, and under the Validations tab you see the warnings, if any, explaining what it is that makes it impossible to synchronize this part with the part template.

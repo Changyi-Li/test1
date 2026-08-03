@@ -1,0 +1,5 @@
+## Packaging templates
+In this procedure you can create templates for combinations of packaging parts. Packaging templates are useful if you have parts which should always be packed using the same combination of packaging parts.
+In the Packaging template rows box you construct/create, for each packaging template, a combination of packaging parts in different levels. An example of a combination can be a cardboard box to place parts in, a pallet which holds a number of cardboard boxes, a pallet collar, and a pallet lid. This forms a package structure.
+In the Part register procedure you link the packaging template to the part/parts which should be packed using this packaging template. When you then generate a pick list in the Delivery planning procedure, the system creates a package structure to the pick list from the packaging templates. The package structure is shown when you load the pick list in the procedure called Pack for delivery.
+> A packaging template is not a complete package structure on its own. It should be thought of more as a "recipe" which the system uses to create a resulting package structure.

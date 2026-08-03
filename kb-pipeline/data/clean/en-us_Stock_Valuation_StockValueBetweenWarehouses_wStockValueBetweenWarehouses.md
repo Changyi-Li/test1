@@ -1,0 +1,15 @@
+## Stock value between warehouses
+This procedure is part of the option Warehouse. The purposes of this procedure is to valuate parts being transported between warehouses. You acquire parts from one warehouse to another by using customer orders and purchase orders of the type stock order.
+When delivery reporting has been made of a stock order for sales but no arrival reporting has yet been made of the linked stock order for purchase, then the delivery reported quantity of parts on the order is considered to be in transit. This quantity does not belong to any warehouse and can for this reason not be valuated in the Stock value procedure. Also the quantity that is subject to receiving inspection in the receiving warehouse is considered to be in transit. This quantity is therefore also included in the stock value between warehouses.
+The stock value between warehouses is always a present value. It is not possible to load a historical stock value between warehouses. It is also not possible to update any data in the list. There are no available list types in this procedure.
+Presentations
+The presentations determine how the selected list should be displayed/presented. For example if it should be presented as grouped or as total. There are some standard presentations included in the program.
+In most procedures where you can load lists, you are also able to create your own presentations.This is done under Presentations in the backstage of the procedure in question. If you create your own presentation you can for example choose if it should have a drilldown function and a drilldown filterering.
+You can select which columns the list should consist of, and for each of the columns you can configure grouping, sorting, aggregation, and if the column should be shown in chart form and if it should be printed. Additionally you can also make printout settings, chart settings, and settings regarding extra aggregation.
+Read more about this in [Presentations](../../../UserGuide/GeneralFeatures/Presentations.htm).
+Selection rows
+In a list procedure there is always a tab called Selection where you can select data records in different intervals from the database. The data records are then loaded by using the Load button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_display_list.png) in the toolbar of the procedure.
+Under Selection rows in the backstage of the procedure, you can choose which selection rows that each list type should have, under the Selection tab in the procedure. In the List type field you select for which list type you want to customize the selection rows.
+One table shows selection rows possible to select and one one table shows the selected selection rows. You can add, delete, or move selection rows by dragging and dropping the selection rows with your mouse pointer.
+Using the Save button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_save.png) you save the selected selection rows.
+Read more about this in the [Selection](../../../UserGuide/GeneralFeatures/Selection.htm) topic.

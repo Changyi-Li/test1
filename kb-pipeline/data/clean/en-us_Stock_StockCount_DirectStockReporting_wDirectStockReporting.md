@@ -1,0 +1,3 @@
+## Direct stock reporting
+In this procedure you can direct report arrivals or withdrawals from stock. However, these are not made against any orders or projects. The reports are directly registered in the stock transaction log. If you want to link a cause and/or posting to the arrivals and withdrawals this is determined by the system setting Use cause/posting in the procedure Direct stock reporting. The related cause codes are handled in the Cause codes procedure. In the that procedure you also choose if it should be mandatory to enter a comment in connection to the transaction.
+The system setting Create new location at arrival determines if a new location always should be created or if only traceable material should create a new location.

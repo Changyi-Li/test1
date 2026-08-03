@@ -1,0 +1,2 @@
+### The Other part identities list
+In this list you can see different part identities entered for the parts. A part can have several registered part identities. This is an alternative name that is used to identify the part, for example as a Global Trade Item Number (GTIN). These are handled under the Other part identities ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_more_info.png) button in the part register. In the list you can also see which of these part identities are the active.

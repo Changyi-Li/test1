@@ -1,0 +1,3 @@
+### The list Change staggered price
+There are three lists for changing staggered prices. They are sorted by price list, customer, and supplier. In these lists you can create, change, and delete staggered prices. You can register new prices and new quantities for parts. If you selected to also include parts without previous staggered prices, an empty row will be created for those. If both New quantity and New price are empty, the staggering will not be saved.
+When saving, the price will be updated and a price change log will be created. Discount and Valid through date will be updated if they are included in the list.

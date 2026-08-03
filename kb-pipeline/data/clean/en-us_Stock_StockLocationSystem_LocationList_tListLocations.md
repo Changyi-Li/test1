@@ -1,0 +1,5 @@
+### The Locations list
+In this list you can see all generated location names as well as modify settings for these in the location register.
+Use the button Updateable ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_edit_list.png) (Ctrl + U) before the list can be updated.
+When the list is possible to update, you can choose if only one or if multiple parts should be allowed to save for the location name. You can enter a comment for each location name. You can also choose if a location name should be blocked and you can enter a block message, that is, the cause of it being blocked. If you use exposure time on parts, you can update Controlled environment on locations (e.g. a cabinet with lower humidity).
+> If you make a presentation of your own of this list, you can add the Sort order column. This means you can see and update the route sorting number for the location names, if such have been saved. You create route sorting numbers for the location names by using the Route sorting list type.

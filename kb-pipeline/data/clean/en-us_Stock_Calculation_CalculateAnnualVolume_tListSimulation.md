@@ -1,0 +1,3 @@
+### The Simulation list
+This is a list which is not possible to update. It is used to get a structure explosion and a calculation of the loading in the same run. You can, for example, simulate how much raw material will be consumed and how much loading is created for manufacturing a certain number of pieces of some complex/compound products. This simulation is not saved. You start the structural explosion by using the button Start calculation ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_run.png) (Ctrl + R) on the toolbar of the procedure.
+After the structural explosion, the tabs Annual volume and Loading appear. There you can see annual volumes for parts and loadings for work centers.

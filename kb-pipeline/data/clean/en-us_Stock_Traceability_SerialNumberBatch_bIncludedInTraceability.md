@@ -1,0 +1,5 @@
+### Included in
+Here you see where a serial number/batch number is included. That is, in which serial number/batch number it is included. The columns are the same as in the Consists of box.
+The top level in the traceability structure is based on the serial number/batch number marked in the Consists of box. In this box you see the levels in the traceability structure in reversed order. For example, if the batch on the top level in the traceability structure in the box is included in a manufacturing order, which in its turn is included in a serial number which was delivered for a customer order, it means the customer order is shown in the bottom level.
+By using the ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_replace.png) button on the function menu you can load the marked serial number/batch number to the record selector of the procedure.
+You also find a few standard buttons on the function menu which you use to expand/collapse traceability structure, go to related procedures for the part on row, print traceability structure, preview, and copy the parts in the traceability structure to Clipboard.

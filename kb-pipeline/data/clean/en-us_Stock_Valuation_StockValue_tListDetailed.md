@@ -1,0 +1,3 @@
+### The Detailed with location list type
+This list shows information about the stock value for the selected parts per location. The list is sorted by part number. The value of all parts are shown as total per location. The list has a total of small positive and negative amounts. What is shown here depends on the value you entered in the settings as minimum value. A total value of the selected parts is also shown.
+Each location displays price, balance, unit, and value. If the Warehouse option is installed, you see to which warehouse the location belongs. If you have activated the setting Show calculation information you can see information about cost of material, SO, subcontract, SC, processing, and cost factors.

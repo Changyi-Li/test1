@@ -1,0 +1,4 @@
+### The Additional IDs list
+This list displays all information concerning Additional IDs for a serial number or a batch. The list is grouped by Serial number A serial number is a number that is used for traceability for parts on entity level./Batch A batch is the set of components/products manufactured at the same time and made from the same original material.. If you activate the Updateable (Ctrl + U) function![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_edit_list.png), it is also possible to update all of this information.
+The list is only visible if the Additional IDs system setting is activated under the Stock tab in the System settings procedure.
+The use of Additional IDs enables traceability according to, for example, the EU Deforestation Regulation (EUDR).

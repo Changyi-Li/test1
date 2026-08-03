@@ -1,0 +1,2 @@
+### Required reorder, safety stock – ABC
+This box contains a pie chart which – per ABC ABC codes are used to classify the range of parts by the volumes you sell. The codes are used as a scale for the parts that turn over the most money. The turnover is calculated by multiplying the price of the part by the annual volume. Parts that turn over the most money are called "A-parts", and after that, "B-parts", etc. code – shows quantity and percentage of the parts' required reorder to reach the safety stock level.

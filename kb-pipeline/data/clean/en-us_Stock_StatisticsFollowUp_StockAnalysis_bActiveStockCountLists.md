@@ -1,0 +1,4 @@
+### Active stock count lists
+In this list you see which stock count lists that are active for the selected year. Active stock count lists means lists that are created and lists where the stock count is in progress. The information shown is loaded from the stock count lists in question. If a list has stock count in progress you will see how many percent of the parts have been stock counted.
+Data from a created stock count list is shown as planned stock count in the charts. If a stock count list has a stock count in progress, you will see the stock counted parts on the list as performed stock count and parts which have not been stock counted yet are shown as planned stock count in the charts. Stock count lists where the stock count has been completed are not shown here. Data from the finished stock count lists is shown as performed stock counts in the charts.
+On the function menu you find buttons with different standard functions for lists.

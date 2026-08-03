@@ -1,4 +1,4 @@
-[PASS] M1 元数据字段集合 = 13 字段 — 5 rows
+[PASS] M1 元数据字段集合 = 13 字段 — 972 rows
 [PASS] M2 id 唯一且符合稳定格式 — dup=[]
 [PASS] M3 url 规范且与 language 一致
 [PASS] M4 language 枚举且与 id 前缀一致
@@ -8,17 +8,360 @@
 [PASS] M8 content_hash 重算一致 — mismatch=[]
 [PASS] M9 镜像配对互逆且与镜像扫描一致
 [PASS] M10 缺失镜像的 en 主题有 untranslated 例外
-[PASS] C1 分块字段集合 = 14 字段 — 5 rows
+[PASS] C1 分块字段集合 = 14 字段 — 1085 rows
 [PASS] C2 chunk_id 格式与 topic_id 引用 — bad=[]
 [PASS] C3 order 每主题 0 起连续 — bad=[]
 [PASS] C4 heading_path 非空字符串列表
 [PASS] C5 content 非空
 [PASS] C6 char_count 与内容一致 — bad=[]
 [PASS] C7 块上下文字段与主题清单一致 — bad=[]
-[PASS] C8 token_estimate 为正整数且 ≤ 1200 硬上限 — bad=[]
-[PASS] C9 中文块 paired_chunk_id 引用真实英文块（英文块为 null）
+[PASS] C8 token_estimate 为正整数且 ≤ 1200 硬上限（原子块例外） — bad=[]
+[PASS] C9 中文块 paired_chunk_id 引用真实英文块（英文块为 null） — 未匹配 29（非同构，允许 None）
 [PASS] C10 块 images 与内容内图片一致 — bad=[]
---- 转换质量代理（按模块抽样 5 页） ---
+--- 转换质量代理（按模块抽样 54 页） ---
+[PASS] Q1[en-us/Stock/Activities/Activities] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Activities/Activities] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Activities/Activities] 无截断/乱码
+[PASS] Q4[en-us/Stock/Activities/Activities] 正文链接数量一致 — raw=9 md=9
+[PASS] Q5[en-us/Stock/Activities/Activities] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Activities/Activities] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Activities/Activities] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Activities/ActivityList/bSettings] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Activities/ActivityList/bSettings] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Activities/ActivityList/bSettings] 无截断/乱码
+[PASS] Q4[en-us/Stock/Activities/ActivityList/bSettings] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Activities/ActivityList/bSettings] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Activities/ActivityList/bSettings] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Activities/ActivityList/bSettings] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Activities/ActivityList/tList] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Activities/ActivityList/tList] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Activities/ActivityList/tList] 无截断/乱码
+[PASS] Q4[en-us/Stock/Activities/ActivityList/tList] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Activities/ActivityList/tList] 图片数量一致且绝对 URL — raw=9 md=9 abs=True
+[PASS] Q6[en-us/Stock/Activities/ActivityList/tList] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Activities/ActivityList/tList] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Activities/ActivityList/tPreview] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Activities/ActivityList/tPreview] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Activities/ActivityList/tPreview] 无截断/乱码
+[PASS] Q4[en-us/Stock/Activities/ActivityList/tPreview] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Activities/ActivityList/tPreview] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Activities/ActivityList/tPreview] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Activities/ActivityList/tPreview] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Activities/ActivityList/wActivityList] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Activities/ActivityList/wActivityList] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Activities/ActivityList/wActivityList] 无截断/乱码
+[PASS] Q4[en-us/Stock/Activities/ActivityList/wActivityList] 正文链接数量一致 — raw=2 md=2
+[PASS] Q5[en-us/Stock/Activities/ActivityList/wActivityList] 图片数量一致且绝对 URL — raw=2 md=2 abs=True
+[PASS] Q6[en-us/Stock/Activities/ActivityList/wActivityList] 提示框转 blockquote — raw_callouts=2 md_blockquotes=2
+[PASS] Q7[en-us/Stock/Activities/ActivityList/wActivityList] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateAnnualBudget/bSettings] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateAnnualBudget/bSettings] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateAnnualBudget/bSettings] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateAnnualBudget/bSettings] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateAnnualBudget/bSettings] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateAnnualBudget/bSettings] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateAnnualBudget/bSettings] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateAnnualBudget/tList] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateAnnualBudget/tList] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateAnnualBudget/tList] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateAnnualBudget/tList] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateAnnualBudget/tList] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateAnnualBudget/tList] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateAnnualBudget/tList] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateAnnualBudget/wCalculateAnnualBudget] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateAnnualBudget/wCalculateAnnualBudget] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateAnnualBudget/wCalculateAnnualBudget] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateAnnualBudget/wCalculateAnnualBudget] 正文链接数量一致 — raw=1 md=1
+[PASS] Q5[en-us/Stock/Calculation/CalculateAnnualBudget/wCalculateAnnualBudget] 图片数量一致且绝对 URL — raw=2 md=2 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateAnnualBudget/wCalculateAnnualBudget] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateAnnualBudget/wCalculateAnnualBudget] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsCalculateExpenses] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsCalculateExpenses] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsCalculateExpenses] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsCalculateExpenses] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsCalculateExpenses] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsCalculateExpenses] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsCalculateExpenses] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsGeneral] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsGeneral] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsGeneral] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsGeneral] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsGeneral] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsGeneral] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsGeneral] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsLoadAnnualVolumeFrom] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsLoadAnnualVolumeFrom] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsLoadAnnualVolumeFrom] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsLoadAnnualVolumeFrom] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsLoadAnnualVolumeFrom] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsLoadAnnualVolumeFrom] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsLoadAnnualVolumeFrom] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsMiscellaneous] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsMiscellaneous] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsMiscellaneous] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsMiscellaneous] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsMiscellaneous] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsMiscellaneous] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsMiscellaneous] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsPriceType] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsPriceType] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsPriceType] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsPriceType] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsPriceType] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsPriceType] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsPriceType] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsResetAnnualVolume] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsResetAnnualVolume] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsResetAnnualVolume] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsResetAnnualVolume] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsResetAnnualVolume] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsResetAnnualVolume] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsResetAnnualVolume] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsTermsForStructureExplosion] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsTermsForStructureExplosion] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsTermsForStructureExplosion] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsTermsForStructureExplosion] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsTermsForStructureExplosion] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsTermsForStructureExplosion] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateAnnualVolume/bSettingsTermsForStructureExplosion] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateAnnualVolume/tAnnualVolume] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateAnnualVolume/tAnnualVolume] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateAnnualVolume/tAnnualVolume] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateAnnualVolume/tAnnualVolume] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateAnnualVolume/tAnnualVolume] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateAnnualVolume/tAnnualVolume] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateAnnualVolume/tAnnualVolume] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateAnnualVolume/tListCalculateAnnualVolumeDetailed] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateAnnualVolume/tListCalculateAnnualVolumeDetailed] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateAnnualVolume/tListCalculateAnnualVolumeDetailed] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateAnnualVolume/tListCalculateAnnualVolumeDetailed] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateAnnualVolume/tListCalculateAnnualVolumeDetailed] 图片数量一致且绝对 URL — raw=3 md=3 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateAnnualVolume/tListCalculateAnnualVolumeDetailed] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateAnnualVolume/tListCalculateAnnualVolumeDetailed] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateAnnualVolume/tListCalculateExpenses] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateAnnualVolume/tListCalculateExpenses] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateAnnualVolume/tListCalculateExpenses] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateAnnualVolume/tListCalculateExpenses] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateAnnualVolume/tListCalculateExpenses] 图片数量一致且绝对 URL — raw=1 md=1 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateAnnualVolume/tListCalculateExpenses] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateAnnualVolume/tListCalculateExpenses] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateAnnualVolume/tListExplosion] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateAnnualVolume/tListExplosion] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateAnnualVolume/tListExplosion] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateAnnualVolume/tListExplosion] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateAnnualVolume/tListExplosion] 图片数量一致且绝对 URL — raw=1 md=1 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateAnnualVolume/tListExplosion] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateAnnualVolume/tListExplosion] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateAnnualVolume/tListLoading] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateAnnualVolume/tListLoading] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateAnnualVolume/tListLoading] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateAnnualVolume/tListLoading] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateAnnualVolume/tListLoading] 图片数量一致且绝对 URL — raw=1 md=1 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateAnnualVolume/tListLoading] 提示框转 blockquote — raw_callouts=1 md_blockquotes=1
+[PASS] Q7[en-us/Stock/Calculation/CalculateAnnualVolume/tListLoading] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateAnnualVolume/tListResetAnnualVolume] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateAnnualVolume/tListResetAnnualVolume] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateAnnualVolume/tListResetAnnualVolume] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateAnnualVolume/tListResetAnnualVolume] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateAnnualVolume/tListResetAnnualVolume] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateAnnualVolume/tListResetAnnualVolume] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateAnnualVolume/tListResetAnnualVolume] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateAnnualVolume/tListSimulation] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateAnnualVolume/tListSimulation] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateAnnualVolume/tListSimulation] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateAnnualVolume/tListSimulation] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateAnnualVolume/tListSimulation] 图片数量一致且绝对 URL — raw=1 md=1 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateAnnualVolume/tListSimulation] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateAnnualVolume/tListSimulation] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateAnnualVolume/tListUpdateAnnualVolume] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateAnnualVolume/tListUpdateAnnualVolume] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateAnnualVolume/tListUpdateAnnualVolume] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateAnnualVolume/tListUpdateAnnualVolume] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateAnnualVolume/tListUpdateAnnualVolume] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateAnnualVolume/tListUpdateAnnualVolume] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateAnnualVolume/tListUpdateAnnualVolume] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateAnnualVolume/tLoading] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateAnnualVolume/tLoading] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateAnnualVolume/tLoading] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateAnnualVolume/tLoading] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateAnnualVolume/tLoading] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateAnnualVolume/tLoading] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateAnnualVolume/tLoading] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateAnnualVolume/tResult] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateAnnualVolume/tResult] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateAnnualVolume/tResult] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateAnnualVolume/tResult] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateAnnualVolume/tResult] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateAnnualVolume/tResult] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateAnnualVolume/tResult] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateAnnualVolume/wCalculateAnnualVolume] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateAnnualVolume/wCalculateAnnualVolume] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateAnnualVolume/wCalculateAnnualVolume] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateAnnualVolume/wCalculateAnnualVolume] 正文链接数量一致 — raw=1 md=1
+[PASS] Q5[en-us/Stock/Calculation/CalculateAnnualVolume/wCalculateAnnualVolume] 图片数量一致且绝对 URL — raw=2 md=2 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateAnnualVolume/wCalculateAnnualVolume] 提示框转 blockquote — raw_callouts=1 md_blockquotes=1
+[PASS] Q7[en-us/Stock/Calculation/CalculateAnnualVolume/wCalculateAnnualVolume] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateMeanPrice/bSettings] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateMeanPrice/bSettings] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateMeanPrice/bSettings] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateMeanPrice/bSettings] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateMeanPrice/bSettings] 图片数量一致且绝对 URL — raw=1 md=1 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateMeanPrice/bSettings] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateMeanPrice/bSettings] 表格/代码计数一致 — tables raw=1 md=1; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateMeanPrice/tList] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateMeanPrice/tList] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateMeanPrice/tList] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateMeanPrice/tList] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateMeanPrice/tList] 图片数量一致且绝对 URL — raw=3 md=3 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateMeanPrice/tList] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateMeanPrice/tList] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateMeanPrice/wCalculateMeanPrice] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateMeanPrice/wCalculateMeanPrice] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateMeanPrice/wCalculateMeanPrice] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateMeanPrice/wCalculateMeanPrice] 正文链接数量一致 — raw=2 md=2
+[PASS] Q5[en-us/Stock/Calculation/CalculateMeanPrice/wCalculateMeanPrice] 图片数量一致且绝对 URL — raw=2 md=2 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateMeanPrice/wCalculateMeanPrice] 提示框转 blockquote — raw_callouts=1 md_blockquotes=1
+[PASS] Q7[en-us/Stock/Calculation/CalculateMeanPrice/wCalculateMeanPrice] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateOrderQuantity/bSettings] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateOrderQuantity/bSettings] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateOrderQuantity/bSettings] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateOrderQuantity/bSettings] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateOrderQuantity/bSettings] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateOrderQuantity/bSettings] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateOrderQuantity/bSettings] 表格/代码计数一致 — tables raw=2 md=2; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateOrderQuantity/tList] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateOrderQuantity/tList] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateOrderQuantity/tList] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateOrderQuantity/tList] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateOrderQuantity/tList] 图片数量一致且绝对 URL — raw=1 md=1 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateOrderQuantity/tList] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateOrderQuantity/tList] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateOrderQuantity/wCalculateOrderQuantity] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateOrderQuantity/wCalculateOrderQuantity] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateOrderQuantity/wCalculateOrderQuantity] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateOrderQuantity/wCalculateOrderQuantity] 正文链接数量一致 — raw=3 md=3
+[PASS] Q5[en-us/Stock/Calculation/CalculateOrderQuantity/wCalculateOrderQuantity] 图片数量一致且绝对 URL — raw=2 md=2 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateOrderQuantity/wCalculateOrderQuantity] 提示框转 blockquote — raw_callouts=1 md_blockquotes=1
+[PASS] Q7[en-us/Stock/Calculation/CalculateOrderQuantity/wCalculateOrderQuantity] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateStockLevels/bSettings] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateStockLevels/bSettings] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateStockLevels/bSettings] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateStockLevels/bSettings] 正文链接数量一致 — raw=1 md=1
+[PASS] Q5[en-us/Stock/Calculation/CalculateStockLevels/bSettings] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateStockLevels/bSettings] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateStockLevels/bSettings] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateStockLevels/tList] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateStockLevels/tList] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateStockLevels/tList] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateStockLevels/tList] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/CalculateStockLevels/tList] 图片数量一致且绝对 URL — raw=1 md=1 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateStockLevels/tList] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/CalculateStockLevels/tList] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/CalculateStockLevels/wCalculateStockLevels] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/CalculateStockLevels/wCalculateStockLevels] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/CalculateStockLevels/wCalculateStockLevels] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/CalculateStockLevels/wCalculateStockLevels] 正文链接数量一致 — raw=2 md=2
+[PASS] Q5[en-us/Stock/Calculation/CalculateStockLevels/wCalculateStockLevels] 图片数量一致且绝对 URL — raw=2 md=2 abs=True
+[PASS] Q6[en-us/Stock/Calculation/CalculateStockLevels/wCalculateStockLevels] 提示框转 blockquote — raw_callouts=1 md_blockquotes=1
+[PASS] Q7[en-us/Stock/Calculation/CalculateStockLevels/wCalculateStockLevels] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/Calculation] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/Calculation] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/Calculation] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/Calculation] 正文链接数量一致 — raw=8 md=8
+[PASS] Q5[en-us/Stock/Calculation/Calculation] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Calculation/Calculation] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/Calculation] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/ExportAnnualVolume/bSettings] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/ExportAnnualVolume/bSettings] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/ExportAnnualVolume/bSettings] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/ExportAnnualVolume/bSettings] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/ExportAnnualVolume/bSettings] 图片数量一致且绝对 URL — raw=2 md=2 abs=True
+[PASS] Q6[en-us/Stock/Calculation/ExportAnnualVolume/bSettings] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/ExportAnnualVolume/bSettings] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/ExportAnnualVolume/tList] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/ExportAnnualVolume/tList] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/ExportAnnualVolume/tList] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/ExportAnnualVolume/tList] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/ExportAnnualVolume/tList] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Calculation/ExportAnnualVolume/tList] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/ExportAnnualVolume/tList] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/ExportAnnualVolume/wExportAnnualVolume] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/ExportAnnualVolume/wExportAnnualVolume] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/ExportAnnualVolume/wExportAnnualVolume] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/ExportAnnualVolume/wExportAnnualVolume] 正文链接数量一致 — raw=2 md=2
+[PASS] Q5[en-us/Stock/Calculation/ExportAnnualVolume/wExportAnnualVolume] 图片数量一致且绝对 URL — raw=2 md=2 abs=True
+[PASS] Q6[en-us/Stock/Calculation/ExportAnnualVolume/wExportAnnualVolume] 提示框转 blockquote — raw_callouts=1 md_blockquotes=1
+[PASS] Q7[en-us/Stock/Calculation/ExportAnnualVolume/wExportAnnualVolume] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/VolumeValueAnalysis/bSettings] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/VolumeValueAnalysis/bSettings] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/VolumeValueAnalysis/bSettings] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/VolumeValueAnalysis/bSettings] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/VolumeValueAnalysis/bSettings] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Calculation/VolumeValueAnalysis/bSettings] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/VolumeValueAnalysis/bSettings] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/VolumeValueAnalysis/tListClassification] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/VolumeValueAnalysis/tListClassification] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/VolumeValueAnalysis/tListClassification] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/VolumeValueAnalysis/tListClassification] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/VolumeValueAnalysis/tListClassification] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Calculation/VolumeValueAnalysis/tListClassification] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/VolumeValueAnalysis/tListClassification] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/VolumeValueAnalysis/tListClassificationABC] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/VolumeValueAnalysis/tListClassificationABC] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/VolumeValueAnalysis/tListClassificationABC] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/VolumeValueAnalysis/tListClassificationABC] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/VolumeValueAnalysis/tListClassificationABC] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Calculation/VolumeValueAnalysis/tListClassificationABC] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/VolumeValueAnalysis/tListClassificationABC] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/VolumeValueAnalysis/tListShowVolumeValue] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/VolumeValueAnalysis/tListShowVolumeValue] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/VolumeValueAnalysis/tListShowVolumeValue] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/VolumeValueAnalysis/tListShowVolumeValue] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/VolumeValueAnalysis/tListShowVolumeValue] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Calculation/VolumeValueAnalysis/tListShowVolumeValue] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/VolumeValueAnalysis/tListShowVolumeValue] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/VolumeValueAnalysis/tListShowVolumeValueABC] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/VolumeValueAnalysis/tListShowVolumeValueABC] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/VolumeValueAnalysis/tListShowVolumeValueABC] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/VolumeValueAnalysis/tListShowVolumeValueABC] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Calculation/VolumeValueAnalysis/tListShowVolumeValueABC] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Calculation/VolumeValueAnalysis/tListShowVolumeValueABC] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Calculation/VolumeValueAnalysis/tListShowVolumeValueABC] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Calculation/VolumeValueAnalysis/wVolumeValueAnalysis] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Calculation/VolumeValueAnalysis/wVolumeValueAnalysis] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Calculation/VolumeValueAnalysis/wVolumeValueAnalysis] 无截断/乱码
+[PASS] Q4[en-us/Stock/Calculation/VolumeValueAnalysis/wVolumeValueAnalysis] 正文链接数量一致 — raw=3 md=3
+[PASS] Q5[en-us/Stock/Calculation/VolumeValueAnalysis/wVolumeValueAnalysis] 图片数量一致且绝对 URL — raw=2 md=2 abs=True
+[PASS] Q6[en-us/Stock/Calculation/VolumeValueAnalysis/wVolumeValueAnalysis] 提示框转 blockquote — raw_callouts=1 md_blockquotes=1
+[PASS] Q7[en-us/Stock/Calculation/VolumeValueAnalysis/wVolumeValueAnalysis] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Cases/BasicDataCase/bDefaultValues] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Cases/BasicDataCase/bDefaultValues] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Cases/BasicDataCase/bDefaultValues] 无截断/乱码
+[PASS] Q4[en-us/Stock/Cases/BasicDataCase/bDefaultValues] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Cases/BasicDataCase/bDefaultValues] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Cases/BasicDataCase/bDefaultValues] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Cases/BasicDataCase/bDefaultValues] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Cases/BasicDataCase/tActivities] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Cases/BasicDataCase/tActivities] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Cases/BasicDataCase/tActivities] 无截断/乱码
+[PASS] Q4[en-us/Stock/Cases/BasicDataCase/tActivities] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Cases/BasicDataCase/tActivities] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Cases/BasicDataCase/tActivities] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Cases/BasicDataCase/tActivities] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Cases/BasicDataCase/tCaseTypes] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Cases/BasicDataCase/tCaseTypes] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Cases/BasicDataCase/tCaseTypes] 无截断/乱码
+[PASS] Q4[en-us/Stock/Cases/BasicDataCase/tCaseTypes] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Cases/BasicDataCase/tCaseTypes] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Cases/BasicDataCase/tCaseTypes] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Cases/BasicDataCase/tCaseTypes] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
+[PASS] Q1[en-us/Stock/Cases/BasicDataCase/tCommunication] 无导航/页脚/版本/脚本残留 — found=[]
+[PASS] Q2[en-us/Stock/Cases/BasicDataCase/tCommunication] 标题层级/文本一致
+[PASS] Q3[en-us/Stock/Cases/BasicDataCase/tCommunication] 无截断/乱码
+[PASS] Q4[en-us/Stock/Cases/BasicDataCase/tCommunication] 正文链接数量一致 — raw=0 md=0
+[PASS] Q5[en-us/Stock/Cases/BasicDataCase/tCommunication] 图片数量一致且绝对 URL — raw=0 md=0 abs=True
+[PASS] Q6[en-us/Stock/Cases/BasicDataCase/tCommunication] 提示框转 blockquote — raw_callouts=0 md_blockquotes=0
+[PASS] Q7[en-us/Stock/Cases/BasicDataCase/tCommunication] 表格/代码计数一致 — tables raw=0 md=0; pre raw=0 fences=0
 [PASS] Q1[en-us/UserGuide/GettingStarted/GettingStarted] 无导航/页脚/版本/脚本残留 — found=[]
 [PASS] Q2[en-us/UserGuide/GettingStarted/GettingStarted] 标题层级/文本一致
 [PASS] Q3[en-us/UserGuide/GettingStarted/GettingStarted] 无截断/乱码

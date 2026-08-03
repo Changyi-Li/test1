@@ -1,0 +1,6 @@
+### Calculations (Manufacturing)
+In this box you can see calculation information about a manufactured part. You can see current and future standard prices, as well as post-calculated mean price. The prices are displayed in the company currency.
+For the first two, Current and Future, you will also see parts of the saved pre-calculation. For the post-calculated mean price, you will see data from the most recent post-calculation of the part's mean price. The average calculated order quantity and the throughput time are displayed at the end.
+For new parts that are being registered, no calculation information will be displayed.
+By clicking the button Saved calculations ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_more_info.png), at the bottom right corner, you can see all saved calculations for the part in a table, sorted by date with the most recent calculation at the top of the table. The calculations are displayed in total and are not as detailed as in the calculation register. To the far right in the table there is a button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_link.png) you can use to open the saved calculation in the Pre-calculation procedure.
+In the Pre-calculation procedure, you can pre-calculate several manufactured parts at a time.

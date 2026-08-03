@@ -1,0 +1,3 @@
+### Owner
+In this box you can register a change of owner, in cases where a new owner is taking over the serial number/batch. The current owner is shown at the top of the box. Using the button Perform change of owner a dialog will open where you can select a new owner from the customer register. In this dialog you can also choose to load the customer's regular delivery address. Under the button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_more_info_have_data.png) you can see a log of previous owners.
+It is also possible to perform a change of owner if an existing serial number is sold to a new customer.

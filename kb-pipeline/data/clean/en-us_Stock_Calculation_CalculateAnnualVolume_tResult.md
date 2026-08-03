@@ -1,0 +1,2 @@
+### The Results tab
+This tab is shown after you have run the calculation with structure explosion in the Calculate expenses list. The list shows the selected main parts and the incorporated parts found at the explosion. The list is divided into part information, different totals (expenses etc.), and a calculation basis. This calculation basis shows, per part, the expense for the quantity entered before the calculation. In the list you also see the new quantity on which the expenses are calculated.

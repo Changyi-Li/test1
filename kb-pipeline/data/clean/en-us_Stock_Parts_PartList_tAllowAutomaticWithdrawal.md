@@ -1,0 +1,3 @@
+### The Allow automatic withdrawal list
+Here you can allow automatic stock withdrawals during different reporting items. This is made per part. This can be configured for the alternatives Pick location, Cleared, Location, and Project. Automatic withdrawals are allowed by default. However, this does not apply when parts have traceability. Then you can allow automatic withdrawal for the traceable parts, using one or several of the alternatives.
+The corresponding can also be made per part by using the setting Allow automatic withdrawal in the Part register procedure. Read more in the topic [Traceability](../PartRegister/bTraceability.htm) about each option in the setting.

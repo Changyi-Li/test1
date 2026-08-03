@@ -1,0 +1,5 @@
+### The Create stock count basis list
+Under the List tab you see the parts selected to be stock counted. The parts cannot be included in several stock count bases within the same warehouse. When you have reported the parts in question, they become available to be included in a new stock count basis.
+In this list you mark the Include checkbox for the parts you wish to include in the stock count basis to print.
+When you save in th procedure, the Documents tab becomes active. There you can preview and print the stock count basis.
+If you activated the Analyze suitability setting under the Selection tab, you find the Number of locations and Suitability columns in the list. The latter shows the parts' suitability for stock count on a scale from 1 to 4. Suitability 1–2 means that the parts don't have any planned transactions, or that they have planned transactions that are more than 5 calendar days ahead. For parts with suitability 3–4, the Info button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_more_info.png) displays why planned transactions make the parts less suitable to be stock counted at the moment.

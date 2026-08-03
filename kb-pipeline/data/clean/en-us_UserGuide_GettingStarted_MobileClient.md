@@ -4,7 +4,10 @@ A mobile client, Monitor Mobile, is provided with Monitor ERP. This can be run i
 Settings on user
 Settings which need to be configured by the administrator under the Security tab in the Users procedure in the Windows client.
 ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/UserGuide/SettingsWebUser.png)
-- Activate the Allow login to Monitor Mobile setting. When the setting is activated, one of the following settings must also be entered.Enter a password in the Password field. The password is then used when logging into Monitor Mobile. Link an account in Windows to the user with the Windows account setting. Then you do not have to enter a password in the password field. In this case, the Windows account password is used when logging into Monitor Mobile.
+- Activate the Allow login to Monitor Mobile setting. When the setting is activated, one of the following settings must also be entered.
+Allow login to Monitor Mobile
+- Enter a password in the Password field. The password is then used when logging into Monitor Mobile.
+- Link an account in Windows to the user with the Windows account setting. Then you do not have to enter a password in the password field. In this case, the Windows account password is used when logging into Monitor Mobile.
 Installation of web server for Monitor Mobile
 To use Monitor Mobile and the app, the Monitor ERP Web server must be installed in your network. If your IT department or your IT supplier should handle the installation, you find an installation guide [här](../InstallConfig/InstallMONITORWebServer.htm). If you need new installation files, you can contact the Monitor Support Center by phone: +46 650 766 03 or by e-mail: support@monitorerp.com The installation of the web server can also be performed by a technician from the Monitor Support Center.
 Web browser

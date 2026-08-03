@@ -1,0 +1,2 @@
+### The Translation list
+In this list you can handle translations made for part names and additional names. To be able to load the list you must first select for which language the translations should be shown. You can also choose to copy translations from a language and that only parts without translations should be shown. If you want to be able to make translations in the list, you must first make it possible to update the list.

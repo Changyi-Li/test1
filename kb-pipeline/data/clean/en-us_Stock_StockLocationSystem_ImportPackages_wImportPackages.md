@@ -1,0 +1,8 @@
+## Import packages
+In this procedure you can import packages from text files. The procedure is available if you are using the Advanced stock management option. The procedure is mainly used to import new packages, including dimensions etc. But it is also possible to update existing packages.
+Import file
+In the Import file box you enter the path to the file from which you will import data. To start the import click the button Import ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_run.png) in the toolbar. All data will be loaded to the list in the Loaded records box. You can manually add and delete rows. You can also filter to decide which rows to see. To complete the import you must check the box Include for the rows you wish to save and then click Save ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_save.png). When you save, the included rows will be removed from the list.
+Format templates
+You can configure the format of the file at the time of the import. You can create a temporary format or a format template which can be used again.The function Format templates is found in the backstage of the procedure. There you can select for which columns data should be loaded/imported. For the content of the file you can also configure which limiters should be used as column limiter and decimal limiter. Furthermore you can enter a specific number of initial rows which should be skipped during the import.
+Read more about [format templates](../../../UserGuide/GeneralFeatures/FormatTemplates.htm).
+Read more about [Advanced stock management](../../../UserGuide/Using/StockLocationSystem/StockLocationSystem.htm) under Using Monitor in the online help function.

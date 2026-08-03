@@ -1,0 +1,2 @@
+### Settings – Terms for structure explosion
+Here you find settings regarding how data is entered for alternate BOM and routings. These terms are taken into consideration during the explosion. If you in the BOM and routing, e.g., have selected that one material should replace another material for a certain customer and then select that specific customer number, you will get another BOM and routing structure in the calculation.
