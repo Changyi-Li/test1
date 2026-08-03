@@ -885,6 +885,7 @@ def _machine_check(meta_rows: list[dict], chunk_rows: list[dict],
            not tk_fail, f"bad={tk_fail}")
     en_chunk_ids = {c["chunk_id"] for c in chunk_rows if c["language"] == "en-us"}
     pair_fail2: list[str] = []
+    zh_unmatched: list[str] = []
     for c in chunk_rows:
         if c["language"] == "en-us":
             if c["paired_chunk_id"] is not None:
@@ -896,20 +897,24 @@ def _machine_check(meta_rows: list[dict], chunk_rows: list[dict],
                 pair_fail2.append(f"{c['chunk_id']} 无主题配对却有分块配对")
             continue
         if c["paired_chunk_id"] is None:
-            pair_fail2.append(f"{c['chunk_id']} 缺配对")
+            # 规格 §4.2：zh 翻译缺子标题导致非同构，位置路径匹配不上 → None，不做模糊匹配
+            zh_unmatched.append(c["chunk_id"])
             continue
         if c["paired_chunk_id"] not in en_chunk_ids:
             pair_fail2.append(f"{c['chunk_id']}->{c['paired_chunk_id']} 悬空")
         if c["paired_chunk_id"].rsplit("::", 1)[0] != pair_id:
             pair_fail2.append(f"{c['chunk_id']}->{c['paired_chunk_id']} 主题不一致")
-    for tid, expected_partner in expected_pairs.items():
-        if expected_partner is None or not tid.startswith("zh-cn/"):
+    note = f"未匹配 {len(zh_unmatched)}（非同构，允许 None）" if zh_unmatched else ""
+    for tid, exp_partner in expected_pairs.items():
+        if exp_partner is None or not tid.startswith("zh-cn/"):
             continue
-        if any(c["paired_chunk_id"] is None
-               for c in chunk_rows if c["topic_id"] == tid):
-            pair_fail2.append(f"{tid} 分块配对未全部命中")
+        topic_chunks = [c for c in chunk_rows if c["topic_id"] == tid]
+        if topic_chunks and not any(
+                c["paired_chunk_id"] for c in topic_chunks):
+            pair_fail2.append(f"{tid} 分块配对完全缺失")
     report("C9 中文块 paired_chunk_id 引用真实英文块（英文块为 null）",
-           not pair_fail2, "; ".join(pair_fail2[:8]))
+           not pair_fail2, "; ".join(pair_fail2[:8] + [note] if pair_fail2
+                                     else [note]))
     img_fail = [c["chunk_id"] for c in chunk_rows
                 if c["images"] != re.findall(r"!\[[^\]]*\]\(([^)]+)\)",
                                              c["content"])]

@@ -425,6 +425,53 @@ def test_machine_check_c8_rejects_splitable_oversize_chunk(engine_root):
     assert any("C8" in f for f in log.failures)
 
 
+def test_machine_check_c9_allows_non_isomorphic_unmatched_chunks(
+        engine_root):
+    """非同构页：zh 翻译缺 h4 导致部分块匹配不上 → 允许 None（票 #32 决策）。"""
+    en_tid = "en-us/Stock/Calculation/CalculateMeanPrice/bSettings"
+    zh_tid = "zh-cn/Stock/Calculation/CalculateMeanPrice/bSettings"
+    en_url = ("https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/"
+              "Stock/Calculation/CalculateMeanPrice/bSettings.htm")
+    zh_url = ("https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Topics/"
+              "Stock/Calculation/CalculateMeanPrice/bSettings.htm")
+    en_meta = _valid_meta_row(en_tid, en_url, "en-us", "canonical")
+    zh_meta = _valid_meta_row(zh_tid, zh_url, "zh-cn", "reference")
+    en_meta["paired_topic_id"] = zh_tid
+    zh_meta["paired_topic_id"] = en_tid
+    chunks = [
+        _valid_chunk_row(en_tid, en_url, "c0", 100, order=0),
+        _valid_chunk_row(en_tid, en_url, "c1", 100, order=1),
+        _valid_chunk_row(zh_tid, zh_url, "z0", 100, language="zh-cn", order=0),
+        _valid_chunk_row(zh_tid, zh_url, "z1", 100, language="zh-cn", order=1),
+    ]
+    chunks[2]["paired_chunk_id"] = f"{en_tid}::0"
+    expected = {zh_tid: en_tid, en_tid: zh_tid}
+    log = sync_engine._machine_check([en_meta, zh_meta], chunks, [], expected)
+    assert not any("C9" in f for f in log.failures)
+
+
+def test_machine_check_c9_rejects_totally_unpaired_topic(engine_root):
+    """配对步骤完全缺失（所有 zh 块都 None）仍判 C9 FAIL。"""
+    en_tid = "en-us/Stock/Calculation/CalculateMeanPrice/bSettings"
+    zh_tid = "zh-cn/Stock/Calculation/CalculateMeanPrice/bSettings"
+    en_url = ("https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/"
+              "Stock/Calculation/CalculateMeanPrice/bSettings.htm")
+    zh_url = ("https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Topics/"
+              "Stock/Calculation/CalculateMeanPrice/bSettings.htm")
+    en_meta = _valid_meta_row(en_tid, en_url, "en-us", "canonical")
+    zh_meta = _valid_meta_row(zh_tid, zh_url, "zh-cn", "reference")
+    en_meta["paired_topic_id"] = zh_tid
+    zh_meta["paired_topic_id"] = en_tid
+    chunks = [
+        _valid_chunk_row(en_tid, en_url, "c0", 100, order=0),
+        _valid_chunk_row(zh_tid, zh_url, "z0", 100, language="zh-cn", order=0),
+        _valid_chunk_row(zh_tid, zh_url, "z1", 100, language="zh-cn", order=1),
+    ]
+    expected = {zh_tid: en_tid, en_tid: zh_tid}
+    log = sync_engine._machine_check([en_meta, zh_meta], chunks, [], expected)
+    assert any("C9" in f for f in log.failures)
+
+
 # ---------- AC3 转换质量逐页 7 项（含无截断/乱码） ----------
 
 def test_garbled_markdown_problems_detects_signals():
