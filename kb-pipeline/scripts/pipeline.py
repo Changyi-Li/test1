@@ -226,7 +226,11 @@ def inline_md(el, base_url):
         elif name in ("span", "strong", "em", "b", "i", "u", "sup", "sub", "font"):
             out.append(inline_md(child, base_url))
         else:
-            out.append(re.sub(r"\s+", " ", child.get_text(" ", strip=True)))
+            inner = inline_md(child, base_url)
+            if inner:
+                out.append(inner)
+            else:
+                out.append(re.sub(r"\s+", " ", child.get_text(" ", strip=True)))
     text = "".join(out)
     return re.sub(r"[ \t]+", " ", text).strip()
 
@@ -246,6 +250,31 @@ def table_md(table, base_url):
     for r in rows[1:]:
         lines.append("| " + " | ".join(r) + " |")
     return "\n".join(lines)
+
+
+_BLOCK_TAGS = {
+    "p", "ul", "ol", "table", "pre", "blockquote", "dl",
+    "h1", "h2", "h3", "h4", "h5", "h6",
+    "div", "section", "article", "figure", "main",
+}
+
+
+def _li_has_block(li) -> bool:
+    return any(getattr(c, "name", None) and c.name.lower() in _BLOCK_TAGS
+               for c in li.children)
+
+
+def _inline_only(el, base_url: str) -> str:
+    """渲染元素的直接内联子内容，跳过块级子元素（块级交给 walk 顶层展开）。"""
+    out = []
+    for child in el.children:
+        if getattr(child, "name", None) is None:
+            out.append(child.string or "")
+            continue
+        if child.name.lower() in _BLOCK_TAGS:
+            continue
+        out.append(inline_md(child, base_url))
+    return "".join(out)
 
 
 def clean_markdown(raw_html: str, base_url: str) -> str:
@@ -278,14 +307,26 @@ def clean_markdown(raw_html: str, base_url: str) -> str:
                         lines.append(t)
             elif name == "ul":
                 for li in child.find_all("li", recursive=False):
-                    t = inline_md(li, base_url)
-                    if t:
-                        lines.append("- " + t)
+                    if _li_has_block(li):
+                        head = _inline_only(li, base_url)
+                        if head:
+                            lines.append("- " + head)
+                        walk(li)
+                    else:
+                        t = inline_md(li, base_url)
+                        if t:
+                            lines.append("- " + t)
             elif name == "ol":
                 for i, li in enumerate(child.find_all("li", recursive=False), 1):
-                    t = inline_md(li, base_url)
-                    if t:
-                        lines.append(f"{i}. " + t)
+                    if _li_has_block(li):
+                        head = _inline_only(li, base_url)
+                        if head:
+                            lines.append(f"{i}. " + head)
+                        walk(li)
+                    else:
+                        t = inline_md(li, base_url)
+                        if t:
+                            lines.append(f"{i}. " + t)
             elif name == "table":
                 t = table_md(child, base_url)
                 if t:

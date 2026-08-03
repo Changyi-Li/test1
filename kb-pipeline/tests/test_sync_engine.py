@@ -163,6 +163,17 @@ def test_clean_markdown_keeps_image_inside_link():
     assert md.count("](") == 2  # 图片 + 外层链接
 
 
+def test_clean_markdown_preserves_table_inside_list_item():
+    """ul>li>div>table 的表格不被扁平化，输出为表格块（票 #33 回归）。"""
+    html = ('<html><body><div id="contentBody"><h1>T</h1><ul><li>'
+            '<div><table><tr><th>A</th><th>B</th></tr>'
+            '<tr><td>1</td><td>2</td></tr></table></div></li></ul>'
+            "</div></body></html>")
+    md = P.clean_markdown(html, "https://help.monitorerp.cn/x.htm")
+    assert P.md_stats(md)["tables"] == 1
+    assert "| A | B |" in md
+
+
 def test_pace_sleeps_one_over_rate(monkeypatch):
     slept = []
     monkeypatch.setattr(sync_engine.time, "sleep", slept.append)
