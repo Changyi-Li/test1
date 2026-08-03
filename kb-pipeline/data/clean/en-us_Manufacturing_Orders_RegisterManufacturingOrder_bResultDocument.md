@@ -1,0 +1,5 @@
+### Result – Documents
+Under the Documents tab you can print manufacturing order documents for the orders in the result.
+You can in this Result box select whether documents should be printed for the entire structure (E) or for individual parts in the structure. If you uncheck E, you can use the Structure button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_more_info.png) to choose for which included parts you want to print documents. At the bottom of the list you will see a total stating the total number of orders and the number of orders that will be included.
+On the function menu in the box you afterwards approve/cancel the printout by using the buttons Approve ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/StatusFinished.png) and Cancel ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_cancel.png).
+Which information should be printed on the documents are partly determined in the Document templates – Manufacturing order procedure.

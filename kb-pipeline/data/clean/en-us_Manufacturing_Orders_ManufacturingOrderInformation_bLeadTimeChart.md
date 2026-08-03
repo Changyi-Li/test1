@@ -1,0 +1,2 @@
+### Lead time chart
+The lead time chart displays the order structure graphically in a "Gantt chart" containing manufacturing orders, parts, and operations as blocks on a time axis. The lead time chart in the Manufacturing order info procedure is the same as the [lead time chart](../OrderListManufacturing/tLeadTimeChart.htm) in the Order list – Manufacturing procedure. A difference is that you cannot replan orders and operations in the Manufacturing order info.

@@ -1,0 +1,6 @@
+## Report measuring data
+In this procedure you report measuring data for operations in the manufacturing.
+The most common way to work when reporting measuring data for an operation is to open this procedure by using the Go to procedure function ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_link.png) in the reporting procedures called Report receiving inspection (for subcontracts), Report operation, or Report manufacturing order. In the Recording terminal procedure it is also possible to link an operation here to report measuring data. The quantity entered for the operation in any of those procedures will be the default quantity in this procedure.
+When the operation is loaded with an entered quantity, you will in the table see rows with the measuring points which should be entered and reported.
+In the section to the right you find information about the measuring point's tolerances and setpoints for the marked row. If there is a comment entered for the measuring point, this will be shown in the comment field. By using the arrow button to the right of the heading you can expand/minimize this section.
+Please note the difference between Instruction (entered in the basic data in the measuring form) and Comment (which can be entered by the person who reports and saves in the log).

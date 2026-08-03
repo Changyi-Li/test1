@@ -1,0 +1,8 @@
+## Report maintenance
+This procedure is part of the Tools & Maintenance option. Here you report maintenance performed on tools and machines linked to serial numbers.
+You can create a reporting item either by selecting a serial number or a maintenance order to report on. If you select a serial number, this will determine the maintenance items you can choose (maintenance templates). This is in its turn decided by the maintenance plan that applies for the part of the serial number. If you select a maintenance order to report on, the order's serial number and maintenance template will automatically be entered.
+When you have created a reporting item you will see the form linked to the maintenance. In this form you enter the reported values and enter a status on each separate row. You can also enter comments and view instructions for the row you report.
+Under the Documents tab you see the document for the form with values already filled in once you save the reporting.
+The reported status of the maintenance item is set automatically based on the status you selected on the rows in the form, but it is possible to change the status. You can also write comments and link files to the reporting item. If there are instructions and files linked to the form, you can see these here.
+When you save for the first time in the procedure, a service number is created for the reporting. You can also enter this number manually or you can load a saved service number, and it can be edited or deleted.
+Read more about [tools & Maintenance](../../../UserGuide/Using/ToolsMaintenance/ToolsMaintenance.htm) under Using Monitor in the online help function.

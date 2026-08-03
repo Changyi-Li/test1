@@ -1,0 +1,4 @@
+### The list type Report subcontracting costs
+In this list you can modify Setup price, Total unit price, Quantity, and Price per unit, for subcontracting if you have failed to link a supplier invoice in the Register supplier invoice procedure. The list is grouped by supplier. By default you will see the current reported costs for the subcontracts. It is possible to delete both rows linked to the supplier invoice, and rows not yet linked to the supplier invoice. You can also report traceable subcontract parts.
+If you change one of the costs and save, that cost will become updated on the subcontract on the manufacturing order and in the post-calculation.
+> If you have reported subcontract costs here instead of linking the supplier invoice in the Register supplier invoice procedure, this supplier invoice will be shown with status Final recorded, but without a Consecutive number in the Invoice basis – Purchase procedure.

@@ -1,0 +1,24 @@
+### The Chart tab
+The tab is divided into three different sections. To the left there is a section containing [settings](bSettings.htm) that can be configured for the chart. To the right you see the actual chart and at the bottom of the window there is a total.
+
+#### The chart
+When you have loaded the information the chart will be shown for the day/week/month, depending on which time scale you have selected. The first bar in the chart is the period preceding the current period. Following it you will see the current period. And this is followed by 9 more bars representing nine days/weeks/months ahead in time. That is, a total of 11 bars are displayed in the chart. It is also possible to move one or 10 bars at a time, back or forward. You can also move to the first respectively last bar on the time axis. However, to be able to move back to the earliest order, there must be a lag.
+Today's date is marked with a red vertical line on the time axis.
+In the chart you will see the capacity as a line and the loading as bars. If you under the Selection tab have chosen to section the loading by loading type or work center, these are shown in different colors in the loading bar. When you move the cursor over a bar, regardless of section or color, you will see summarized information about the capacity and loading for that particular bar. If you click the section you are pointing, the focus will also be moved to the current row in the Total section.
+
+#### Navigation buttons
+You find the following buttons under the chart/list which you can use to navigate:
+- First period with loading ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_goto_first.png) – This button takes you back in time to the first period in the chart/list where loading exists.
+- Ten periods back in time ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_backward.png) – This button takes you back ten periods in time from today's period. You can then use the button again to go another ten periods back in time.
+- One period back in time ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_goto_previous.png) – This button moves the focus back one period at a time.
+- Today ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_today.png) – Click this button in order to return to the red line that marks today’s date on the time axis.
+- One period ahead ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_goto_next.png) – This button moves the focus ahead, one period at a time.
+- Ten periods ahead in time ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_forward_10.png) – This button takes you ten periods ahead in time from today's period. You can then use the button again to go another ten periods ahead in time.
+- Last period with loading ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_goto_last.png) – This button takes you ahead in time to the last period in the chart/list where loading exists.
+Under the row of navigation buttons there is also a split function that can be used to change the size of the sections in the procedure window with the cursor.
+
+#### Total
+In the table under the chart/list you will see total loading information for each day/week/month, depending on your configured settings. The total follows the periods displayed above in the chart/list.
+The values that are always shown, regardless of other settings, are Capacity (%), Total loading (hrs), Difference per period (hrs), Load (%) and Accumulated difference (hrs).
+Under Capacity, you can see one row for each data type that you have chosen to section by. If, for example, you have chosen to section by loading type, a row for actual orders, and a row for suggestions, etc., is shown. If, on the other hand, you have chosen to section per work center, a row per work center that you have chosen/selected is shown. You can only see rows in the total for the information displayed in the loading chart/list. If you e.g. have selected not to show loading for CDT CDT is short for check delivery times and it is a function on order rows which calculates when the order row in question can be delivered, taking lead times and throughput times into consideration. CDT also checks if existing orders and suggestions can cover material shortages, if any, and affects when the order row can be delivered. or not for work center X, no rows will be displayed for them.
+Directly above this table you can see Total lag (loading in the past) and Total horizon (loading in the flexible future). The totals that are displayed here also include loading outside the period of time (11 periods), and therefore, they are not displayed as separate columns in the chart.

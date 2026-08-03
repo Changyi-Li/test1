@@ -1,0 +1,7 @@
+## Configuration templates
+The purpose of this procedure is to centrally being able to administer the configuration templates created by different users.
+A configuration template is defaults of different included parts in a configuration which in its turn is used during order registration.
+When a user is doing a configuration – in connection with registering an order for a product – it is possible to save the configuration as a template. That template is then displayed here in this procedure for the configuration group in question.
+You can also add new templates for configuration groups directly in this procedure, and also copy (clone) existing templates or delete unnecessary templates.
+With the Configuration button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/Button_Configuration_Done.png) you can open the configuration window to see and update the configuration in a template. If the template contains a configuration where all choices have not been made, then another symbol is shown on the button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/Button_Configuration_Available.png).
+> Please note! It might become necessary to update the configuration in a template to the most recent version of the configuration groups to which it belongs, in case the configuration group has been changed. To do this you can use the button Synchronize with configuration group ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_refresh.png) found in the configuration window.

@@ -1,0 +1,5 @@
+### Manufacturing order document
+In this table you determine which manufacturing order documents should be printed, as well as if you want linked files to be printed. These values will be default when printing shop packet for manufacturing orders from the procedures Priority plan and Recording terminal.
+In the table you select No. of copies to print to be printed by default of each manufacturing order document. Print files determines if linked files should be printed. For travelers, the files here are the files which are linked to parts, either under the Manufacturing tab in the Part register procedure, in the General box in the BOM and routing procedure, or in the Structure box on the order. For operation documents and material documents, these files are files which have been linked to operations/ materials, either in the BOM and routing or on the order.
+Show determines if the document should be shown in the the document viewing window.
+Default determines which document will be shown by default in the document viewing window.

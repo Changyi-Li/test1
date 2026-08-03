@@ -1,0 +1,5 @@
+### Work centers
+In this table you can in the Include column choose which work centers that should get a deviating capacity. The work center which is in focus in the table is the one that is shown in the calendar box.
+
+#### Time precision (T)
+In the Time precision (T) column you can see which has been selected for the work center in question: Day planning Day planning is used when you are NOT applying hourly planning. It means that all operations are planned to a date and not to a specific time on a date., Capacity via schedule, or Hourly planning Hourly planning refers to when planning per work center is done per hour. Hourly planning is activated with a system setting. Period is then entered as date and time. You can view loading on hour basis.. Capacity via schedule and hourly planning can be handled at the same time, since they are both based on a schedule. Work centers with capacity based on schedules and work centers with capacity based on basic time (day planning), are handled separately.

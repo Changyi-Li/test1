@@ -1,0 +1,2 @@
+### Files
+The box shows the file types that can be displayed in the file viewer in the Recording terminal and Priority plan procedures. With the checkbox Show you determine which documents will be displayed, and with the arrow buttons ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_goto_up.png) ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_goto_down.png) you can determine the default order of the files.

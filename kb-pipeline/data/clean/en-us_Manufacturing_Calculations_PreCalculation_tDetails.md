@@ -1,0 +1,2 @@
+### The Details tab
+In the Details tab you can create own presentations in backstage and the list is designed to export to, e.g., Excel. In backstage there are approximately 85 columns to choose from. This tab is available for the New calculation list type. Please note! The displayed values are shown as "each" and not "per order". But order quantity is available if you wish to perform other calculations in Excel.

@@ -1,0 +1,2 @@
+### The Settings tab
+This tab is available only if you have chosen the Existing calculation list type. Here you see how the settings were configured in the Selection tab when the selected calculation was performed/saved. Here you can also see how the system settings (regarding what sales overhead mark-up and profit mark-up were based on) were configured when the marked calculation was performed/saved.

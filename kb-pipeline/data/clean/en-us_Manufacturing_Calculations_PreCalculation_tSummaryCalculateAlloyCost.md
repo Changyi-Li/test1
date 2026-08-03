@@ -1,0 +1,3 @@
+### The Summary tab (Calculate alloy cost)
+In the left section you see all the part numbers you selected. In the next column you see the icon ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/alloydata.png) if there is alloy cost data for an incorporated part. With Save you select if the alloy costs for the parts should be saved.
+In the sections to the right you will see one row per alloy code that exists on purchased parts included in the part. These are alloy costs and alloy quantities entered under the Purchase tab in the part register for the included/incorporated parts. Quantity x Price gives the Amount which can be saved for the parts.

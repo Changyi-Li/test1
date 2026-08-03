@@ -1,0 +1,7 @@
+## Measuring forms
+In this procedure you create measuring forms under the Templates tab. These will then be used when performing control measurements of manufactured details.
+A measuring form contains measuring points and instructions for the measuring. It describes the report that is used to enter measuring data when performing control measurements in the Report measuring data procedure.
+The measuring form can consist of several sections with main rows and sub-rows. Main rows work as a heading. The sub-rows work as measuring points or checkpoints. There are different types of sub-rows; decimals, checkboxes, date fields, and text fields.
+Under the Documents tab you can preview what the measuring form will look like as a document if you print it. Under this tab you can also print the document or send it as a PDF attached to an e-mail. Since the measuring form is a document, you can also create own variants of the document in the Document templates procedure.
+You link a measuring form to one or multiple measuring templates which you create in the Measuring templates procedure. A measuring template contains a default form, default values and settings. The measuring templates can then be selected in a measuring plan for the operations in BOM and routing or manufacturing orders where control measurements should be made.
+![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_log.png)

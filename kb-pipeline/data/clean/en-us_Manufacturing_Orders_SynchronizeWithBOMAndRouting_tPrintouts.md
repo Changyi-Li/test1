@@ -1,0 +1,3 @@
+### The Printouts tab
+After a synchronization has been made, it is possible to print a report containing what is changed on the order. Changed values are displayed in bold font, both under the tab and on the printout. The Action column shows if the row is new, if it should be deleted, or if it has been changed. If you close the procedure you loose the chance of printing the changes.
+By clicking the Print button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_print.png) you open a printer dialog where you can choose to print the Selection, Changed operations, and Changed material. You can also change if the different sections should be printed to separate pages.

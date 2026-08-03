@@ -1,0 +1,11 @@
+## Planned maintenance
+This procedure is part of the Tools & Maintenance option. Here you can view and monitor planned maintenance of tools and machines in a list. The tools and machines possible to view and monitor must have a serial number. Registered serial numbers are shown in the Serial number A serial number is a number that is used for traceability for parts on entity level./Batch A batch is the set of components/products manufactured at the same time and made from the same original material. procedure.
+The procedure checks which maintenance plan is linked to each serial number and when the most recent maintenance item was reported. You can also see the value readings of the serial numbers for meter reading, operation time, and number of cycles. Based on this, it is determined if a maintenance requirement has occurred for the serial number, that is, what caused the maintenance requirement.
+You can also create maintenance order for each maintenance requirement from the list.
+Read more about [tools & Maintenance](../../../UserGuide/Using/ToolsMaintenance/ToolsMaintenance.htm) under Using Monitor in the online help function.
+Selection rows
+In a list procedure there is always a tab called Selection where you can select data records in different intervals from the database. The data records are then loaded by using the Load button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_display_list.png) in the toolbar of the procedure.
+Under Selection rows in the backstage of the procedure, you can choose which selection rows that each list type should have, under the Selection tab in the procedure. In the List type field you select for which list type you want to customize the selection rows.
+One table shows selection rows possible to select and one one table shows the selected selection rows. You can add, delete, or move selection rows by dragging and dropping the selection rows with your mouse pointer.
+Using the Save button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_save.png) you save the selected selection rows.
+Read more about this in the [Selection](../../../UserGuide/GeneralFeatures/Selection.htm) topic.

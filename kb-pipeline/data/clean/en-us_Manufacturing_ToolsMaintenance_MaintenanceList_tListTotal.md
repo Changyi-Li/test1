@@ -1,0 +1,6 @@
+### The Total list
+In this list you can see status and result of reported maintenance on the top level of the forms, when maintenance has been reported. The list is available in a presentation shown in total by date when the reporting was made, as well as two presentations shown in total by maintenance type and service number respectively.
+Each total row can be expanded. This way you can see detailed information entered for rows in the form.
+The presentation Reported when is grouped by day, week, month, quarter, or year. The list shows total information from the reported rows. The list is shown in total by trigger value. Below the list you also see the values by default in a bar chart. This chart can be modified and you can add it to other list types and presentations by using the button Chart ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_chart.png) on the function menu.
+The presentation Maintenance type shows the corresponding information, but shown in total by maintenance type.
+The presentation Service number is also grouped by day, week, month, quarter, or year. The list shows the corresponding information, but shown in total by service number. This list also displays information about which maintenance plan and maintenance template have been used.

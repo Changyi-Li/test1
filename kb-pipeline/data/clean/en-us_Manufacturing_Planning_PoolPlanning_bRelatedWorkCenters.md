@@ -1,0 +1,3 @@
+### Related work centers
+In this box you can see the related work centers, that is, the work centers that are registered in the same pool as the work center selected in the Priority plan box. The total of the remaining time and the most recent date for New finish is shown for the work centers. The actual priority plan for the selected work center is shown in the box to the right.
+Each work center is given a specific color. This color is also used in the columns called New WC and Work center A work center is a part of the factory. It can be a single machine or a group of machines, a single workstation or a group of workstations..

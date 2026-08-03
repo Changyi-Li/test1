@@ -1,0 +1,2 @@
+### The list type Production schedule cycles
+This list type is only available if you have activated the system setting called Enable hourly planning for work center. The list shows information about the work centers’ schedule cycles. The list shows the schedule or the schedule cycle which is active at the moment for each work center, even though there might be several schedules/schedule cycles registered for the work center. It is not possible to update any information in this list.
