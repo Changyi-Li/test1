@@ -210,8 +210,13 @@ def inline_md(el, base_url):
             src = child.get("src", "") or ""
             out.append(f"![{alt}]({urljoin(base_url, src)})")
         elif name == "a":
-            txt = re.sub(r"\s+", " ", child.get_text(" ", strip=True))
             href = child.get("href", "") or ""
+            if href and not href.startswith("#") and not href.startswith("javascript:"):
+                inner = inline_md(child, base_url)
+                if inner:
+                    out.append(f"[{inner}]({href})")
+                    continue
+            txt = re.sub(r"\s+", " ", child.get_text(" ", strip=True))
             if txt and href and not href.startswith("#") and not href.startswith("javascript:"):
                 out.append(f"[{txt}]({href})")
             elif txt:

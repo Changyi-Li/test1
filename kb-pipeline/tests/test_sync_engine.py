@@ -149,6 +149,20 @@ def test_md_stats_counts_table_blocks_not_rows():
     assert stats["tables"] == 2  # 两张 3 行表，不是 6 行
 
 
+def test_clean_markdown_keeps_image_inside_link():
+    """<a> 包裹的图片（缩略图）不得丢失，输出为可点击图片（票 #31 回归）。"""
+    page_url = ("https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/"
+                "Stock/Parts/PackagingTemplates/bPackagingTemplateRows.htm")
+    html = """<html><body><div id="contentBody"><h1>Packaging</h1>
+<p><a href="../../../../Resources/Images/SubProjects/pack_template.png">
+<img src="../../../../Resources/Images/SubProjects/pack_template.png" alt="tpl"/></a></p>
+</div></body></html>"""
+    md = P.clean_markdown(html, page_url)
+    assert "pack_template.png" in md
+    assert md.count("![") == 1
+    assert md.count("](") == 2  # 图片 + 外层链接
+
+
 def test_pace_sleeps_one_over_rate(monkeypatch):
     slept = []
     monkeypatch.setattr(sync_engine.time, "sleep", slept.append)
