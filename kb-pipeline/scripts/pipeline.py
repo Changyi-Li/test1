@@ -220,10 +220,10 @@ def inline_md(el, base_url):
     return re.sub(r"[ \t]+", " ", text).strip()
 
 
-def table_md(table):
+def table_md(table, base_url):
     rows = []
     for tr in table.find_all("tr"):
-        cells = [inline_md(c, "") or " " for c in tr.find_all(["th", "td"])]
+        cells = [inline_md(c, base_url) or " " for c in tr.find_all(["th", "td"])]
         if cells:
             rows.append(cells)
     if not rows:
@@ -276,7 +276,7 @@ def clean_markdown(raw_html: str, base_url: str) -> str:
                     if t:
                         lines.append(f"{i}. " + t)
             elif name == "table":
-                t = table_md(child)
+                t = table_md(child, base_url)
                 if t:
                     lines.append(t)
             elif name == "pre":

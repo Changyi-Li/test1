@@ -94,6 +94,22 @@ def test_parse_topic_url_rejects_invalid_urls():
             sync_engine.parse_topic_url(bad)
 
 
+def test_clean_markdown_absolutizes_images_in_table_cells():
+    """表格单元格内的相对路径图片必须绝对化（票 #25 回归）。"""
+    page_url = ("https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/"
+                "Stock/Parts/PartRegister/bStatusBlock.htm")
+    html = """<html><body><div id="contentBody"><h1>Part types</h1>
+<table><tr><td><img src="../../../../Resources/Images/PartTypeDeleted.png" alt="Del"/></td>
+<td>9</td><td>Obsolete</td></tr></table>
+</div></body></html>"""
+    md = P.clean_markdown(html, page_url)
+    expected = ("https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/"
+                "Resources/Images/PartTypeDeleted.png")
+    assert "PartTypeDeleted.png" in md
+    assert "../../../../" not in md
+    assert expected in md
+
+
 def test_pace_sleeps_one_over_rate(monkeypatch):
     slept = []
     monkeypatch.setattr(sync_engine.time, "sleep", slept.append)
