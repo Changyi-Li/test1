@@ -222,6 +222,18 @@ def test_md_stats_counts_adjacent_tables_without_blank_line():
     assert P.md_stats(md)["tables"] == 2
 
 
+def test_clean_markdown_keeps_loose_callout_inside_list():
+    """ul 内 <li> 之间的游离 <p class=note> 不得丢失，转 blockquote（票 #41 回归）。"""
+    html = ('<html><body><div id="contentBody"><h1>Licenses</h1><ul>'
+            '<li><span class="bold">A</span> – item one</li>'
+            '<p class="note">Please note! Something important.</p>'
+            '<li><span class="bold">B</span> – item two</li></ul>'
+            "</div></body></html>")
+    md = P.clean_markdown(html, "https://help.monitorerp.cn/x.htm")
+    assert "Please note! Something important." in md
+    assert P.md_stats(md)["blockquote_lines"] == 1
+
+
 def test_pace_sleeps_one_over_rate(monkeypatch):
     slept = []
     monkeypatch.setattr(sync_engine.time, "sleep", slept.append)

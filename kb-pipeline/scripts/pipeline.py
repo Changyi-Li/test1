@@ -290,94 +290,94 @@ def clean_markdown(raw_html: str, base_url: str) -> str:
     body = soup.select_one("#contentBody") or soup.select_one(".body-container") or soup.body
     lines = []
 
+    def emit(child):  # 单个子元素按标签分派（票 #41：ul/ol 内游离块元素不再丢失）
+        name = child.name.lower()
+        if name in ("script", "style", "nav", "header", "footer", "aside"):
+            return
+        if re.search(r"breadcrumb|nocontent", " ".join(child.get("class", [])) or "", re.I):
+            return
+        if name in ("h1", "h2", "h3", "h4", "h5", "h6"):
+            level = int(name[1])
+            txt = inline_md(child, base_url) or " "
+            lines.append("\n" + "#" * level + " " + txt)
+        elif name == "p":
+            t = inline_md(child, base_url)
+            if re.match(r"^You are here:$", t):
+                return
+            if t:
+                cls = " ".join(child.get("class", [])) or ""
+                if CALLOUT_CLASSES.search(cls):
+                    lines.append("> " + t)
+                else:
+                    lines.append(t)
+        elif name in ("ul", "ol"):
+            numbered = name == "ol"
+            idx = 1
+            for sub in child.children:
+                if getattr(sub, "name", None) is None:
+                    continue
+                if sub.name.lower() == "li":
+                    if _li_has_block(sub):
+                        head = _inline_only(sub, base_url)
+                        if head:
+                            lines.append(f"{idx}. " + head if numbered else "- " + head)
+                        walk(sub)
+                    else:
+                        t = inline_md(sub, base_url)
+                        if t:
+                            lines.append(f"{idx}. " + t if numbered else "- " + t)
+                    idx += 1
+                else:
+                    emit(sub)  # 游离块元素（如 <p class=note> 夹在 <li> 间）按常规分派
+        elif name == "table":
+            t = table_md(child, base_url)
+            if t:
+                lines.append(t)
+        elif name == "pre":
+            lines.append("```\n" + (child.get_text() or "") + "\n```")
+        elif name == "img":
+            alt = child.get("alt", "") or ""
+            src = child.get("src", "") or ""
+            lines.append(f"![{alt}]({urljoin(base_url, src)})")
+        elif name == "blockquote":
+            t = inline_md(child, base_url)
+            if t:
+                lines.append("> " + t)
+        elif name in ("div", "section", "article", "figure", "span", "main", "a", "li"):
+            cls = " ".join(child.get("class", [])) or ""
+            if CALLOUT_CLASSES.search(cls):
+                t = inline_md(child, base_url)
+                if t:
+                    lines.append("> " + t)
+            else:
+                has_block = any(
+                    getattr(c, "name", None)
+                    and c.name.lower() in ("p", "ul", "ol", "table", "pre",
+                                           "blockquote", "h1", "h2", "h3",
+                                           "h4", "h5", "h6", "div",
+                                           "section", "article", "figure",
+                                           "main")
+                    for c in child.children
+                )
+                if has_block:
+                    walk(child)
+                else:
+                    t = inline_md(child, base_url)
+                    if t:
+                        lines.append(t)
+        elif name == "dl":
+            for dt in child.find_all("dt", recursive=False):
+                lines.append("**" + inline_md(dt, base_url) + "**")
+            for dd in child.find_all("dd", recursive=False):
+                t = inline_md(dd, base_url)
+                if t:
+                    lines.append(": " + t)
+
     def walk(el):
         for child in el.children:
             if getattr(child, "name", None) is None:
                 continue
-            name = child.name.lower()
-            if name in ("script", "style", "nav", "header", "footer", "aside"):
-                continue
-            if re.search(r"breadcrumb|nocontent", " ".join(child.get("class", [])) or "", re.I):
-                continue
-            if name in ("h1", "h2", "h3", "h4", "h5", "h6"):
-                level = int(name[1])
-                txt = inline_md(child, base_url) or " "
-                lines.append("\n" + "#" * level + " " + txt)
-            elif name == "p":
-                t = inline_md(child, base_url)
-                if re.match(r"^You are here:$", t):
-                    continue
-                if t:
-                    cls = " ".join(child.get("class", [])) or ""
-                    if CALLOUT_CLASSES.search(cls):
-                        lines.append("> " + t)
-                    else:
-                        lines.append(t)
-            elif name == "ul":
-                for li in child.find_all("li", recursive=False):
-                    if _li_has_block(li):
-                        head = _inline_only(li, base_url)
-                        if head:
-                            lines.append("- " + head)
-                        walk(li)
-                    else:
-                        t = inline_md(li, base_url)
-                        if t:
-                            lines.append("- " + t)
-            elif name == "ol":
-                for i, li in enumerate(child.find_all("li", recursive=False), 1):
-                    if _li_has_block(li):
-                        head = _inline_only(li, base_url)
-                        if head:
-                            lines.append(f"{i}. " + head)
-                        walk(li)
-                    else:
-                        t = inline_md(li, base_url)
-                        if t:
-                            lines.append(f"{i}. " + t)
-            elif name == "table":
-                t = table_md(child, base_url)
-                if t:
-                    lines.append(t)
-            elif name == "pre":
-                lines.append("```\n" + (child.get_text() or "") + "\n```")
-            elif name == "img":
-                alt = child.get("alt", "") or ""
-                src = child.get("src", "") or ""
-                lines.append(f"![{alt}]({urljoin(base_url, src)})")
-            elif name == "blockquote":
-                t = inline_md(child, base_url)
-                if t:
-                    lines.append("> " + t)
-            elif name in ("div", "section", "article", "figure", "span", "main", "a", "li"):
-                cls = " ".join(child.get("class", [])) or ""
-                if CALLOUT_CLASSES.search(cls):
-                    t = inline_md(child, base_url)
-                    if t:
-                        lines.append("> " + t)
-                else:
-                    has_block = any(
-                        getattr(c, "name", None)
-                        and c.name.lower() in ("p", "ul", "ol", "table", "pre",
-                                               "blockquote", "h1", "h2", "h3",
-                                               "h4", "h5", "h6", "div",
-                                               "section", "article", "figure",
-                                               "main")
-                        for c in child.children
-                    )
-                    if has_block:
-                        walk(child)
-                    else:
-                        t = inline_md(child, base_url)
-                        if t:
-                            lines.append(t)
-            elif name == "dl":
-                for dt in child.find_all("dt", recursive=False):
-                    lines.append("**" + inline_md(dt, base_url) + "**")
-                for dd in child.find_all("dd", recursive=False):
-                    t = inline_md(dd, base_url)
-                    if t:
-                        lines.append(": " + t)
+            emit(child)
 
     walk(body)
     text = "\n".join(x for x in lines if x)
