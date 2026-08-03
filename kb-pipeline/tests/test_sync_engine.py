@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 import sys
 import urllib.error
 from pathlib import Path
@@ -92,6 +93,33 @@ def test_parse_topic_url_rejects_invalid_urls():
                 "https://example.test/en-us/Content/Topics/NoPage"):
         with pytest.raises(ValueError):
             sync_engine.parse_topic_url(bad)
+
+
+# ---- 票 #40：非 ASCII 主题路径（唯一页 tListBudgetDeviationAnalysisSäljare） ----
+_NA_ENC = ("https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/"
+           "Sales/StatisticsFollowUp/InvoicingLog/"
+           "tListBudgetDeviationAnalysisS%C3%A4ljare.htm")
+_NA_DEC = ("https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/"
+           "Sales/StatisticsFollowUp/InvoicingLog/"
+           "tListBudgetDeviationAnalysisSäljare.htm")
+_M2_RE = re.compile(r"^(en-us|zh-cn)/(?:[A-Za-z0-9_()-]+/)*[A-Za-z0-9_()-]+$")
+
+
+def test_topic_id_of_url_non_ascii_is_ascii_safe_and_consistent():
+    """两种输入形式（百分号编码 / 字面非 ASCII）必须产出同一 M2 合法 id。"""
+    ids = {sync_engine._topic_id_of_url(u) for u in (_NA_ENC, _NA_DEC)}
+    assert len(ids) == 1
+    tid = ids.pop()
+    assert tid == ("en-us/Sales/StatisticsFollowUp/InvoicingLog/"
+                   "tListBudgetDeviationAnalysisSaeljare")
+    assert _M2_RE.fullmatch(tid) is not None
+
+
+def test_url_for_request_quotes_non_ascii():
+    """发送前 URL 非 ASCII 字节须百分号编码；已编码形式保持不变。"""
+    assert P._url_for_request(_NA_DEC) == _NA_ENC
+    assert P._url_for_request(_NA_ENC) == _NA_ENC
+
 
 
 def test_clean_markdown_absolutizes_images_in_table_cells():

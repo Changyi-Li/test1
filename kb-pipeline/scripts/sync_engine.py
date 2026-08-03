@@ -40,7 +40,7 @@ from datetime import datetime
 from email.utils import format_datetime
 from pathlib import Path
 from typing import Callable, TypeVar
-from urllib.parse import urlparse
+from urllib.parse import unquote, urlparse
 
 import pipeline as P
 import sync_config
@@ -106,6 +106,39 @@ class TopicTarget:
     topic_path: str
     page: str
     topic_id: str
+
+
+# 拉丁字符 → ASCII 转写（票 #40：唯一非 ASCII 页 Säljare → Saeljare）。
+# 转写表覆盖常见带变音符字符；未收录的非 ASCII 一律丢弃，保证 id 稳定且 ASCII-safe。
+_LATIN1_TO_ASCII = dict(zip(
+    "äöüÄÖÜßéèêëáàâãåíìîïóòôõúùûñçøæ",
+    ["ae", "oe", "ue", "Ae", "Oe", "Ue", "ss", "e", "e", "e", "e",
+     "a", "a", "a", "a", "a", "i", "i", "i", "i", "o", "o", "o", "o",
+     "u", "u", "u", "n", "c", "oe", "ae"],
+))
+_ASCII_SAFE_RE = re.compile(r"[A-Za-z0-9_()-]")
+_LATIN1_ASCII_RE = re.compile("|".join(re.escape(c) for c in _LATIN1_TO_ASCII))
+
+
+def _ascii_safe(segments: list[str]) -> list[str]:
+    """把路径段转成 M2 合法（[A-Za-z0-9_()-]）的 ASCII 段：拉丁变音符转写、其余丢弃。"""
+    out = []
+    for seg in segments:
+        seg = _LATIN1_ASCII_RE.sub(lambda m: _LATIN1_TO_ASCII[m.group(0)], seg)
+        out.append("".join(_ASCII_SAFE_RE.findall(seg)))
+    return out
+
+
+def _build_topic_id(language: str, topic_path: str, page: str) -> str:
+    """从语言/主题路径/页面推导稳定 id（票 #40）。
+
+    先解码百分号编码（sitemap 用字面非 ASCII，--url 可能带 %XX），再按段转写
+    为 ASCII，保证两种输入产出同一 M2 合法 id。
+    """
+    path_parts = unquote(topic_path).split("/")
+    stem = unquote(Path(page).stem)
+    parts = _ascii_safe(path_parts + [stem])
+    return "/".join([language] + parts)
 
 
 @dataclass(frozen=True)
@@ -207,7 +240,7 @@ def parse_topic_url(url: str) -> TopicTarget:
         language=language,
         topic_path=topic_path,
         page=page,
-        topic_id=f"{language}/{topic_path}/{Path(page).stem}",
+        topic_id=_build_topic_id(language, topic_path, page),
     )
 
 
@@ -216,7 +249,7 @@ def _topic_id_of_url(url: str) -> str:
     if m is None:
         raise ValueError(f"不是主题 URL: {url!r}")
     _site, language, topic_path, page = m.groups()
-    return f"{language}/{topic_path}/{Path(page).stem}"
+    return _build_topic_id(language, topic_path, page)
 
 
 def _en_topic_path(url: str) -> str:

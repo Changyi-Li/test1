@@ -17,7 +17,7 @@ from dataclasses import dataclass
 from datetime import timezone
 from email.utils import parsedate_to_datetime
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import quote, urljoin
 
 from bs4 import BeautifulSoup
 
@@ -129,12 +129,16 @@ def normalize_heading_text(text: str | None) -> str:
 
 # ---------- 抓取 ----------
 
+# 只编码非 ASCII 字节；保留已有的 %XX 编码与 URL 保留字符（票 #40）。
+def _url_for_request(url: str) -> str:
+    return quote(url, safe="%:/?#[]@!$&'()*+,;=")
+
 def _head(url: str, headers: dict, timeout: int = 30):
-    req = urllib.request.Request(url, headers=headers, method="HEAD")
+    req = urllib.request.Request(_url_for_request(url), headers=headers, method="HEAD")
     return urllib.request.urlopen(req, timeout=timeout)
 
 def _open(url: str, headers: dict, timeout: int = 30):
-    req = urllib.request.Request(url, headers=headers)
+    req = urllib.request.Request(_url_for_request(url), headers=headers)
     return urllib.request.urlopen(req, timeout=timeout)
 
 
