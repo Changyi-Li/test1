@@ -222,6 +222,32 @@ def test_md_stats_counts_adjacent_tables_without_blank_line():
     assert P.md_stats(md)["tables"] == 2
 
 
+def test_clean_markdown_keeps_top_level_image_link():
+    """顶层（与 <p> 同级的块容器内）<a><img></a> 缩略图链接不丢失（票 #42 回归）。"""
+    html = ('<html><body><div id="contentBody"><h1>T</h1><div><p>Intro text.</p>'
+            '<a class="MCPopupThumbnailLink" '
+            'href="../../../../Resources/Images/SubProjects/Integration.png">'
+            '<img class="MCPopupThumbnail" '
+            'src="../../../../Resources/Images/SubProjects/Integration.png" alt="i"/></a>'
+            '<p>More text.</p></div></div></body></html>')
+    md = P.clean_markdown(html, "https://help.monitorerp.cn/x.htm")
+    assert "Integration.png" in md
+    assert md.count("![") == 1
+    assert md.count("](") == 2  # 图片 + 外层链接
+    assert "[![i](" in md  # 图片被 <a> 外层链接包裹
+
+
+def test_raw_body_stats_counts_top_level_tables_only():
+    """嵌套表（单元格内套表）只算顶层表，与清洗器扁平化行为一致（票 #43 回归）。"""
+    html = ('<html><body><div id="contentBody"><h1>T</h1>'
+            '<table><tr><th>A</th><th>B</th></tr>'
+            '<tr><td>1<table><tr><td>a</td></tr></table></td>'
+            '<td>2<table><tr><td>b</td></tr></table></td></tr></table>'
+            "</div></body></html>")
+    stats = P.raw_body_stats(html)
+    assert stats["tables"] == 1
+
+
 def test_clean_markdown_keeps_loose_callout_inside_list():
     """ul 内 <li> 之间的游离 <p class=note> 不得丢失，转 blockquote（票 #41 回归）。"""
     html = ('<html><body><div id="contentBody"><h1>Licenses</h1><ul>'

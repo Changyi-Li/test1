@@ -343,7 +343,30 @@ def clean_markdown(raw_html: str, base_url: str) -> str:
             t = inline_md(child, base_url)
             if t:
                 lines.append("> " + t)
-        elif name in ("div", "section", "article", "figure", "span", "main", "a", "li"):
+        elif name == "a":
+            # 顶层 <a> 也要渲染成链接（票 #42：<a><img></a> 与 <p> 同级时链接被容器
+            # 分派丢弃）；包裹块级内容的罕见 <a> 仍走 walk 保结构。
+            has_block = any(
+                getattr(c, "name", None) and c.name.lower() in _BLOCK_TAGS
+                for c in child.children
+            )
+            if has_block:
+                walk(child)
+            else:
+                href = child.get("href", "") or ""
+                if href and not href.startswith("#") and not href.startswith("javascript:"):
+                    inner = inline_md(child, base_url)
+                    if inner:
+                        lines.append(f"[{inner}]({href})")
+                    else:
+                        txt = re.sub(r"\s+", " ", child.get_text(" ", strip=True))
+                        if txt:
+                            lines.append(f"[{txt}]({href})")
+                else:
+                    t = inline_md(child, base_url)
+                    if t:
+                        lines.append(t)
+        elif name in ("div", "section", "article", "figure", "span", "main", "li"):
             cls = " ".join(child.get("class", [])) or ""
             if CALLOUT_CLASSES.search(cls):
                 t = inline_md(child, base_url)
@@ -418,7 +441,10 @@ def raw_body_stats(raw_html: str):
               and "MCHelpControl_Image_Icon" not in " ".join(img.get("class", []))]
     callouts = [el for el in body.find_all(["p", "div"])
                 if CALLOUT_CLASSES.search(" ".join(el.get("class", [])) or "")]
-    tables = len(body.find_all("table"))
+    # 只计顶层表：嵌套表（单元格内套表）被清洗器扁平化进单元格文本，不单独成块
+    # （票 #43），find_all 会把嵌套表也计入导致与 md 表块数失配。
+    tables = len([t for t in body.find_all("table")
+                  if t.find_parent("table") is None])
     pre = len(body.find_all("pre"))
     codes = len(body.find_all("code"))
     return {"headings": headings, "links": links, "images": images,
