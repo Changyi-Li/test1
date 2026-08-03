@@ -187,6 +187,13 @@ def test_clean_markdown_collapses_tag_whitespace_within_cell():
             assert "b.png" in ln
 
 
+def test_md_stats_counts_adjacent_tables_without_blank_line():
+    """相邻两张表（无空行分隔）仍各算一张（分隔行计数）。"""
+    md = ("| A | B |\n|---|---|\n| 1 | 2 |\n"
+          "| C | D |\n|---|---|\n| 3 | 4 |\n")
+    assert P.md_stats(md)["tables"] == 2
+
+
 def test_pace_sleeps_one_over_rate(monkeypatch):
     slept = []
     monkeypatch.setattr(sync_engine.time, "sleep", slept.append)

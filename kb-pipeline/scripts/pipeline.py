@@ -422,19 +422,15 @@ def raw_body_stats(raw_html: str):
 
 
 def _count_md_tables(md: str) -> int:
-    """统计 Markdown 表格**块**数（连续的 | 起始行算一个表格）。
+    """统计 Markdown 表格**块**数：每张表恰好一个分隔行 `|---|---|`。
 
-    旧的按行计数把表格的每一行都当一张表，与 raw_body_stats 的
-    `<table>` 元素计数对不上（一张 6 行表 → raw=1 md=6）。"""
+    旧实现按行/按连续 | 块计数——一张 6 行表被当 6 张，相邻两张表（无空行分隔）
+    又被当一张，都与 raw 的 `<table>` 元素计数对不上。"""
     count = 0
-    in_table = False
     for ln in md.splitlines():
-        if ln.lstrip().startswith("|"):
-            if not in_table:
-                count += 1
-                in_table = True
-        else:
-            in_table = False
+        s = ln.strip()
+        if s.startswith("|") and re.fullmatch(r"[\|:\-\s]+", s) and "-" in s:
+            count += 1
     return count
 
 
