@@ -1,0 +1,3 @@
+### The Total list
+This list shows information regarding delivery reliability with one row per each term used to total the list: customer, part, or actual delivery date. You can expand the rows to show the detailed information. Below the list you see a chart displaying the percentage of deliveries made in time. With the function button Chart ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_chart.png) you access settings used to handle the chart.
+The list is loaded and displayed based on the selection and settings you have chosen. As in all lists in Monitor ERP, you can drag and drop in order to change the column to group by.

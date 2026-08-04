@@ -1,0 +1,2 @@
+### The Exception accounts list
+This list shows exceptions for the customer from standard accounts in the chart of accounts. Under Settings in the Selection tab you choose which account type that you wish to load in the list. In the list you create exceptions for customers when transactions for a certain account type’s standard account should not be applied, but instead an exception account should be used. It is also possible to see dimensions in the list, such as cost center and cost unit.

@@ -1,0 +1,2 @@
+### Price list – Purchase
+- There is a new list type called Order simulated price, which was not available in G4. Here you can both see the gross price and the net price that would be used at registration of purchase order. Here you also see the discount. The discount is either loaded from the supplier link, the supplier's general discount, or the discount category. The list is printed for one supplier at a time.

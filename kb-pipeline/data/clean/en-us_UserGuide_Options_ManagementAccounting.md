@@ -1,0 +1,25 @@
+# Management accounting
+Management accountingManagement accounting is an option in Monitor ERP. It is used as a complement to the standard function called Stock accounting. The function means that all transactions on manufacturing orders (WIP value) are posted and transferred to the general ledger in the Accounting module in Monitor G5. The hours worked are recorded in the income statement, and provide a financial follow-up, for example, made per department and cost factor. Calculation differences are posted and these can be followed up per product, per order, etc. This function also contains extended management of cost of goods sold. is an option in Monitor ERP. It is used as a complement to the standard function, Stock accountingStock accounting is a standard feature in Monitor ERP. It is used to continuously post all stock transactions in the system. This way the stock value in the Stock module matches the recorded value in the Accounting module. Changes in stock which are due to changed standard prices, direct stock reporting, arrivals and deliveries, stock count differences, nonconformities (cases), etc. will automatically be posted and give a better understanding of changes in stock and the company's gross profit margin in the income statement.. Management accounting means that all transactions on manufacturing orders (WIP value) are posted and transferred to the general ledger in the Accounting module in Monitor ERP. The hours worked are recorded in the income statement, and provide a financial follow-up, for example, made per department and cost factor. Calculation differences are posted and these can be followed up per product, per order, etc. This function also contains extended management of cost of goods sold.
+
+#### The standard price method
+Stock accounting and Management accounting are both closely connected to Monitor's product calculations, and are based on the standard price method used there. The posting amounts are based on material prices, hourly costs, and mark-ups that exist in the calculation. By posting increased values on manufacturing orders, calculation differences, price differences, and the external book-keeping, you can see if the calculations correspond with reality.
+Furthermore, by using posting on cost center and cost unit it is possible to get a financial follow-up on product groups, departments, or other terms where you wish to follow up the profitability.
+
+#### Continuous update of the accounting
+By using management accounting, continuous updates are made of the WIP value in the accounting. If you do not use management accounting, then you manually have to book this on for example a monthly basis, based on the WIP list. The function called stock accounting is included in the standard version of the system. This function only handles posting items which concern the stock value in the system and not the work in progress.
+![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/TrainingMaterial/ManagementAcc3.png)
+
+#### What is posted?
+Above, you find a schematic illustration with explanations of what is posted via stock accounting and management accounting. The transactions highlighted in green are posted via Stock accounting which is included as standard in MONITOR. Transactions marked with red color require the Management accounting option
+
+#### Method used for posting
+The posting is made based on different logs in the system. In the Stock accounting (standard), all stock transactions are posted based on these logs:
+- Stock transaction log – stock transactions
+- Price change log – adjustment of stock value/WIP value due to new standard prices
+In the Management accounting, posting can also be made of transactions in these logs:
+- Manufacturing order log – work and subcontracts on manufacturing orders
+- Calculation differences – calculation differences on final reported manufacturing orders
+- Invoicing log – ability to post cost of goods sold divided over all calculation components
+By using posting methods, you predetermine how different transaction types should be posted. This applies to accounts and dimensions, but also to the value on the transactions. The posting methods can also be determined by using other terms. This provides complete flexibility regarding how the posting should be made based on different terms such as warehouses, product groups, order types, etc.
+The posting is not made in real time in connection with the reporting. Instead it is made regularly via a built-in scheduling function. Also the transfer of log journals and their posting to the accounting, can be made automatically via the built-in scheduling function. The scheduling can be set to take place at a specific time or at fixed intervals.
+Interested in finding out more? Please contact our Sales department using this [form](https://www.monitorerp.com/sv/kontakt/). Want to find out more? Sign up to our upcoming [Monitor Demos](https://www.monitorerp.com/sv/kunskapsbank/effektivisera-med-monitor-erp/monitor-demos/) (Swedish).

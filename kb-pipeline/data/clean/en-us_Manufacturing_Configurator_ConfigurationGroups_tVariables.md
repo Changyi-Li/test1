@@ -22,7 +22,7 @@ Link to field is used together with Determined by option list. Instead of creati
 - For variables of the Boolean type there are no alternatives at present.
 
 #### Aggregation method
-Aggregation Aggregation is data that is totaled or combined, creating new data. method is used together with Determined by option list. A variable can only have one value and since you in some cases can make multiple options that affect the value, you must enter how this should be handled. You must configure a setting even if you know that it is only possible to make one selection. The available options are:
+AggregationAggregation is data that is totaled or combined, creating new data. method is used together with Determined by option list. A variable can only have one value and since you in some cases can make multiple options that affect the value, you must enter how this should be handled. You must configure a setting even if you know that it is only possible to make one selection. The available options are:
 - For variables of the Number type: First, Quantity, Total, Average value, Min., and Max.
 - For variables of the Text type: First, Min., Max., and Join.
 - For variables of the Boolean and Date types: First, Min., and Max.

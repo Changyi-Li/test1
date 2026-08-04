@@ -1,7 +1,7 @@
 ### Exposure time
 Under this tab you can register exposure time for parts e.g. according to moisture sensitivity level (MSL).
 The list is only visible if the Exposure time system setting is activated under the Stock tab in the System settings procedure.
-> If you change the exposure time of an existing code in Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part, the existing batches do not change. This must instead be changed in the Serial number A serial number is a number that is used for traceability for parts on entity level. list procedure using the Exposure time list type.
+> If you change the exposure time of an existing code in Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part, the existing batches do not change. This must instead be changed in the Serial numberA serial number is a number that is used for traceability for parts on entity level. list procedure using the Exposure time list type.
 
 #### Code
 In this column you enter the code you wish to give the identity. Each identity must have a unique code. (E.g. MSL1.)

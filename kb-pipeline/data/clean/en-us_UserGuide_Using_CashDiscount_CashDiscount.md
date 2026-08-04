@@ -1,0 +1,4 @@
+## Cash discount
+This document describes how cash discounts are handled in the system. The functions affect the modules General registers, Sales, and Purchase.
+Cash discount means you give the customer a discount on the invoice amount if the customer pays earlier than the invoice's due date. For example, 30 days net / 15 days 2% cash discount. If the invoice is paid within 15 days, the customer has to pay 98% of the invoice amount, otherwise the customer pays 100%. The system supports up to three different cash discount levels per payment term and you can choose whether the cash discount should be based on the invoice amount including or excluding VAT.
+Cash discounts are also handled on incoming invoices, that is, when your company receives a discount in the same way if you pay the supplier invoice earlier.

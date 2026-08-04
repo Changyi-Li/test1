@@ -1,0 +1,4 @@
+### Standard price and calculations
+The management accounting is closely connected to the part calculations and the standard prices calculated in the Manufacturing module. That is why it is important that your company has good procedures for calculating and updating standard prices for the parts.
+The standard price on raw material (purchased parts) is handled slightly different from company to company. In most cases, you use the purchase price + intake cost, as a guiding value. The purchase price can be updated in different ways, for example from supplier prices or by running a mean price calculation based on historical purchases.
+The standard price on manufactured parts is normally updated by running a pre-calculation which you save as standard price. Read more about [Calculations](../Calculation/Calculation.htm) under Using MONITOR in the online help function.

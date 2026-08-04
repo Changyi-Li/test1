@@ -1,0 +1,4 @@
+## Invoicing plans
+Invoicing plans are used for the quotes and customer orders where you want to invoice the order in full or partially, in advance or in arrears. An invoicing plan can for example be 30% in advance, 60% upon delivery, and 10% in arrears after final inspection has been made. You can also use invoicing plans if you want to invoice the entire order in advance.
+> An invoicing plan entered for a quote will be included when the quote is turned into a customer order. Please note! Adjustments, if any, made on the invoicing plan on the customer order will not update the invoicing plan on the quote. The invoicing plan on a quote works as a template for the order that will be registered.
+Read more about how [customer order transfer and invoicing plans](../../../GeneralRegisters/CustomerOrderTransfer/SettingsForCustomerOrderTransfer/bHeader.htm#Arbetssätt_för_att_hantera_faktureringsplan) work.

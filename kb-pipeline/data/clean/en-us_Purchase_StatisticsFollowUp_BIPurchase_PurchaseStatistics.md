@@ -1,0 +1,4 @@
+### Purchase statistics
+In this view you can analyze the purchase statistics of the company for a selected period of time.
+The view contains the following boxes: Suppliers, Part codes, and Parts. There is also the box called Invoicing, it shows the supplier invoicing in a chart.
+The purchase statistics is primarily loaded from supplier invoices. In addition to data in this register, data from purchase order rows, purchase order header, supplier, and part is also loaded. Data from purchase orders can only be loaded if the supplier invoice is linked to a purchase order/arrival. The date refers to the voucher date. This means you can in this view see which invoices we have received from our suppliers and how much money it concerns. Only supplier invoices that are final recorded will be included in the statistics.

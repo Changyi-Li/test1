@@ -1,0 +1,11 @@
+### Report delivery
+- This procedure replaces the procedures Delivery Reporting, Pick List Delivery Reporting, and Delivery List in G4.
+- There is a selection tab to make it easier to delivery report multiple customer orders.
+- There are two list types depending on if you want to base the delivery reporting on a pick list or on an order.
+- It is possible to enter which person who is performing the delivery reporting.
+- If the delivery reporting is made based on a pick list, then the quantity and the location will be suggested as the same as on the pick list.
+- If the delivery reporting is made based on a customer order the quantity will be suggested according to a setting under the Selection tab, and the location will be suggested according to which order applies for withdrawal (primarily by pick location and secondarily by age).
+- When delivery reporting order rows with linked serial numbers it is possible to select which serial number you deliver (primarily used for partial deliveries).
+- In this procedure you can also add linked text rows (underlying rows of row type 4) to order rows in connection with the delivery reporting.
+- The documents that are possible to print after you save the delivery reporting are Delivery note, delivered, Comprehensive delivery note, Transport label, and Product description including certificate. The final document can only be printed if the part you deliver has traceability at batch level or at serial number level. The certificates originates from linked documents on included/incorporated material for the serial number/batch which is delivery reported.
+- When delivery reporting orders with invoicing plan, a proportionate deduction is always made of payments made in advance/in arrears.

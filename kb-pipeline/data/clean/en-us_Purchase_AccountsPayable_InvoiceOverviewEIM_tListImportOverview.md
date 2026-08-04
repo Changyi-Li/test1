@@ -1,0 +1,3 @@
+### The Import overview list type
+This list is available in systems with the EIM and EIM Workflow options. It displays information concerning the invoices imported on, for example, a selected day/period. If you work using automatic imports of supplier invoices, the information in this list can be used to get a better overview of invoices that have entered the system automatically. Invoices manually registered from a PDF inbox are not displayed in the list.
+You will, for example, see information about which type of invoice has been imported (E-invoice, Monitor-to-Monitor, from CrossState API), as well as to which inbox (if such information is available). The invoice format as well as the current status of the invoice are also shown in the list.

@@ -26,7 +26,7 @@ The field called Maximum qty on M-order describes the maximum quantity of the pa
 The field called Maximum quantity on purchase order describes the maximum quantity of the part on a purchase order before the it is divided into multiple purchase orders. The default value is zero, then maximum quantity is not applied.
 
 #### ABC code
-Here you select ABC ABC codes are used to classify the range of parts by the volumes you sell. The codes are used as a scale for the parts that turn over the most money. The turnover is calculated by multiplying the price of the part by the annual volume. Parts that turn over the most money are called "A-parts", and after that, "B-parts", etc. code for the parts in this template.
+Here you select ABCABC codes are used to classify the range of parts by the volumes you sell. The codes are used as a scale for the parts that turn over the most money. The turnover is calculated by multiplying the price of the part by the annual volume. Parts that turn over the most money are called "A-parts", and after that, "B-parts", etc. code for the parts in this template.
 
 #### Forecast deduction
 Here you select the forecast deduction for the parts in this template.
@@ -35,7 +35,7 @@ Here you select the forecast deduction for the parts in this template.
 Here you select deduction method for the parts in this template.
 
 #### Interval setting
-If Periodic intervals has been selected as deduction method, you should here choose an interval setting for the parts in this template. You create interval settings under the Forecast deduction tab in the Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part procedure.
+If Periodic intervals has been selected as deduction method, you should here choose an interval setting for the parts in this template. You create interval settings under the Forecast deduction tab in the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part procedure.
 
 #### Lead time
 Here you enter a lead time for the parts in this template. This applies to the part types Purchased, Fictitious, and Service.

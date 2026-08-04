@@ -1,5 +1,5 @@
 ### Exclude schedule
-This box is shown if the work center you selected in the box above, have the time precision Capacity via schedule or Hourly planning Hourly planning refers to when planning per work center is done per hour. Hourly planning is activated with a system setting. Period is then entered as date and time. You can view loading on hour basis.. You can select more than one work center to Include (as long as they have the same time precision) and then mark muliple days in the calendar view, and in a quick and easy way update these if an exception schedule should apply for certain days.
+This box is shown if the work center you selected in the box above, have the time precision Capacity via schedule or Hourly planningHourly planning refers to when planning per work center is done per hour. Hourly planning is activated with a system setting. Period is then entered as date and time. You can view loading on hour basis.. You can select more than one work center to Include (as long as they have the same time precision) and then mark muliple days in the calendar view, and in a quick and easy way update these if an exception schedule should apply for certain days.
 
 #### Current schedule
 Each schedule which is registered for a selected day in the calendar view, will be shown as a separate row.

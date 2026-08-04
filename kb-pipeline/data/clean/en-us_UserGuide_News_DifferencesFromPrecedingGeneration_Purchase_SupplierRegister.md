@@ -1,0 +1,27 @@
+### Supplier register
+- Update Supplier and Supplier Info have been merged into one procedure.
+- The supplier name field has been increased from 50 to 100 characters.
+- Country code per address instead of per supplier. This way the country code for IntrastatIntrastat is the system which gathers statistics relating to trade in products within the European Union. Gathering of Intrastat statistics is handled in the same way by all EU member states. is on address level.
+- You can enter a visiting address.
+- Better handling of stray/occasional suppliers.
+- More types of Recipient of for e-mail addresses.
+- It is possible to enter multiple bank accounts per supplier.
+- Clearing number is a new field in the bank account register.
+- A validation is made to make sure the OBAN account has a valid length.
+- Format settings for outgoing payments (for example fees, etc.) does not have to be entered per supplier. It can instead be set as default per payment format. However, exceptions are possible to enter per supplier.
+- All contact information is gathered under one tab and the settings under another tab.
+- All buttons in G4 which have shown "current state" have now been replaced with a side panel.
+- Import and EU is not on supplier level. This is now determined by the country selected on the supplier.
+- You can choose what to copy when you create a supplier via Save as.
+- You can create a new customer by using Save as on a supplier.
+- Decimal limiter and UTV (time zone) can be entered.
+- Type of supplier: Material, Subcontract, or Shipping agent. Determines validations and replaces the procedure Update Shipping Agent in G4.
+- VAT code has been removed. VAT on orders/invoices is instead determined by a VAT group. A default VAT group can be set based on country.
+- For suppliers within the EU, you can check if the VAT registration number is valid via a search function linked to VIES (the VAT Information Exchange System).
+- You can enter days of grace for order confirmations and deliveries which will decide when reminders should be sent.
+- When exception accounts are entered you see what you are making exceptions from, by showing the standard account.
+- There is a new field where you can enter a default offset account (cost account) for the accrual account.
+- You can link a currency to the supplier's bank account.
+-   
+New field for Number of employees. The field can be used as a selection term for statistics, etc. Number of employees is entered within a range of intervals, and these intervals are registered in the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – SRM procedure.
+- Possible to enter if reference number should be entered when registering an invoice. It is possible to enter a fixed reference number for the supplier. The reference number may have a different name depending on the country. It is OCR number in Sweden, KID number in Norway, FA number in Denmark, and reference number in other countries.

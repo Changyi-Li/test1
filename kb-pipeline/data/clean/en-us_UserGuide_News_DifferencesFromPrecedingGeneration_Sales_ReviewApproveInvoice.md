@@ -1,0 +1,13 @@
+### Review/Approve invoice
+- This is a new procedure in G5 used to review and approve invoices before they are sent to the customer. In G4 the invoice is printed or e-mailed and after that you approve it. In G5 this is done in reverse order to make sure all invoices are OK and updated prior to sending to customer. When approving invoices you can finish by e-mailing or printing invoices. This is done by linking to/going to the procedure Print invoice.
+- The above mentioned change makes it possible for multiple users to work at the same time in the procedure since the invoice number series will not be locked.
+- The procedure also handles interest invoices.
+- When reviewing invoices you can change if the invoice should be pending.
+- Certain information can be edited under a separate tab, for example you can adjust prices, posting items, and add rows.
+- View a complete posting for the invoice before you approve it.
+- It is possible to enter a fixed due date under the Selection tab.
+- You can enter if invoices via e-mail should also be printed on paper and in how many copies.
+- You can charge interest by inserting the interest on regular invoices instead of charging the interest separately on an interest invoice.
+- When the order has an invoicing plan the invoice shows information about the invoice number of the advance invoice.
+- On the invoice document you will now also see information about the cash discount date.
+- If option for E-invoice is activated in the system, then you can for e-invoice customers select if the e-invoice should be exported or not.

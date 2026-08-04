@@ -1,0 +1,2 @@
+### The Log list
+This list type shows a log of write-downs and write-ups calculated via the above list types. You can see by whom and when the calculations were done for each part and project. Here you can also delete calculations (write-ups and write-downs) by checking the Delete checkbox and then saving, if a record has already been printed via journal, a new journal with a reversal voucher is created.

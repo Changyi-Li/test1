@@ -7,7 +7,7 @@ Here you determine if receiving inspection should be applied for the part.
 - No – With this option, no receiving inspection is made.
 
 #### Inspection template
-Here you see which inspection template is used. Inspection templates are created in the Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part procedure and is registered by clicking the Inspection settings button. This is found under the Purchase tab in the Part register procedure.
+Here you see which inspection template is used. Inspection templates are created in the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part procedure and is registered by clicking the Inspection settings button. This is found under the Purchase tab in the Part register procedure.
 
 #### Level
 Here you see the number of the level. This field is numerical and cannot be edited. A new row will by default be assigned the next available number. The table/list is sorted by this column.

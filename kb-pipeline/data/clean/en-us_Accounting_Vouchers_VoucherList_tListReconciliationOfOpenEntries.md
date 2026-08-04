@@ -1,0 +1,4 @@
+### The list type Reconciliation of open entries
+This list type is used for reconciliation to see open records on the balance sheet accounts, for example accounts receivable or accounts payable. The list can be used as basis for reconciliation of unpaid invoices in the ledger.
+Only accounts with Specification selected in the chart of accounts will be included. The transactions of the accounts are matched with the same specification. The records where the total of debit and credit differ are presented in the list.
+On for example accounts receivable accounts, the invoice number is saved in the specification field. If an analysis is made for this account type, the unpaid invoices with balances on the debit side will be shown in the list. When the invoice is recorded as paid, the same value (with the same specification) will be posted against on the credit side. The record will then disappear from the list.

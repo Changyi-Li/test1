@@ -1,0 +1,4 @@
+### Sub-object
+The Sub-object tab is available if the fixed asset has been entered as a main object. The purpose of the top box is to mark which sub-objects should be included at the sale/retirement.
+When selling a sub-object this way it means the sales price of the sub-objects is always set to 0 (zero) even though the actual main object has a sales price. If you choose to sell the main object but you will not sell any of the sub-objects, then the sub-objects should be disconnected from the main object.
+In the Sub-object box you see the connected/linked sub-objects. You can mark the row for a fixed asset and then go to ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_link.png) the procedure Register fixed assets object with the asset loaded. For the marked row you will also see the posting regarding the sales in the lower box.

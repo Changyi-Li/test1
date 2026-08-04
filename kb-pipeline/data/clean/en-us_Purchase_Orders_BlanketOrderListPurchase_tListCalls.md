@@ -1,0 +1,3 @@
+### List type Calls
+This list shows purchase order rows that call off each specific blanket order row. You cannot update the information in this list.
+In the Blanket order – Purchase box, blanket orders are listed. When a blanket order row is marked, the calling/deducting purchase orders are shown in the Deducting purchase order rows box. In this box, information is shown about the purchase order. The information shown is: Order number, Supplier – Purchase order, Supplier name – Purchase order, Supplier's order number, Supplier number – Blanket order, Part number, Part name, Quantity, Arrival reported quantity, Remaining quantity, and Delivery date.

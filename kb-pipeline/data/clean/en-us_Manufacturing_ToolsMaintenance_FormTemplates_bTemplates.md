@@ -13,7 +13,7 @@ By using the button Translations ![](https://help.monitorerp.cn/CN-MONITOR_G5/en
 Here you see/select the type of field that should exist on the sub-row. The available options are Decimal, Text, CheckBox, and Date. If you select Decimal, the following columns are activated.
 
 #### Unit
-Here you see/select unit for decimal values. You can select among the units registered in the Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part procedure.
+Here you see/select unit for decimal values. You can select among the units registered in the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part procedure.
 
 #### Minimum tolerance
 Here you see/enter the minimum allowance for decimal values. This is the minimum allowance for the tool during control measurement.

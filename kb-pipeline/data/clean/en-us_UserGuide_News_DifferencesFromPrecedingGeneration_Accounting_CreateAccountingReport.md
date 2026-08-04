@@ -1,0 +1,19 @@
+### Create accounting report
+- The procedure which in G4 was called Report Generator is in G5 called Create accounting report and is now only a procedure used to create reports. In G5 you print the report in the procedure Print accounting report.
+- When constructing a report, all texts for headings, totals, etc. are translatable so it is possible to create a report which can be printed in different languages.
+- It is possible to mark a report as inactive. Then it will not be available for printing.
+- For the report you use a setting to decide if it should be in landscape format or in portrait format.
+- When constructing/designing report columns you use the "drag and drop" function from a gross list containing all columns which can be shown in the list.
+- It is easier to create more advanced columns for calculations, index, and row comparison.
+- You can show balance divided into debit and credit.
+- Rolling period columns for time passed.
+- Via the user right you can decide which users should be able to show/print reports.
+- Under the Selection tab, where you define the rows of the report, many new functions have been added.
+- The different elements of the report are structured in different sections. The sections and their sub-levels are shown and created in a clearly arranged list.
+- A preview of the report is shown while you are creating the report.
+- Each section can have a header, data contents, and a footer. The header and the footer can contain texts, totals, lines, and charts.
+- In G4, accumulators were used to total rows. In G5 it is easier to create totals. For example you can choose what to total via a chart where you click the sections to total. Or you can enter that you want to total the entire section.
+- It is possible to configure that an entire section (heading/contents/total) should be hidden when printing, if it does not have any contents.
+- It is possible to temporarily inactivate a section without having to delete it.
+- It is possible to have different groups of accounts and dimension intervals within the same section.
+- It is possible to override the column contents in a section by using "column exceptions". This makes it possible to total different contents in one and the same column in a section.

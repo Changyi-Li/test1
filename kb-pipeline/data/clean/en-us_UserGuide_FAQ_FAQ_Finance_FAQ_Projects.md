@@ -1,0 +1,12 @@
+### FAQ – Projects
+What are projects and project accounting in Monitor ERP?
+Project is a general term for different orders, income, costs, and hours. There are different types of projects, for example development projects, reconstruction projects, or manufacturing projects. You can enter a project number on a manufacturing order, when posting customer orders, etc. in order to link these records to a project. You can also register/manage activities in the project accounting.
+[![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/FAQ_Snippet_Images/ProjectBasics.png)](../../../../Resources/Images/FAQ_Snippet_Images/ProjectBasics.png)
+The costs/income and hours of the project can then be followed-up on using cost types according to the image above. These are loaded from different modules in the system. Budget, planned/ordered, result, expected result, and forecast, can all be managed for each cost type/income type.
+The project also manages phases and activities as seen in the image above. Planned time, reported time, and remaining time, can be managed for each activity. Activities can also be linked to cost types, which means that the reported time will also be regarded as a cost in the project.
+In the Lead timeNumber of days between ordering date and delivery date. Normally used for purchased parts. chart of the project you can create a graphic display and planning of project activities. The lead time chart is based on the phases and activities in the projects. At the bottom of the chart you also see linked manufacturing orders, customer order, and purchase orders, if any.
+What’s the difference between planned cost/income and result on a project?
+Planned values are loaded from customer orders, purchase orders, and manufacturing orders. Whereas result is loaded from invoiced, linked to invoice, and reported values.
+What does percentage of completion method on projects mean?
+The Percentage of completion method (PCM) is the method supported in Monitor ERP for managing work in progress in projects at year-end closing. This means income is registered at the time services are being performed and material is consumed, which means income is accrued and costs recognized as expenses when resources are consumed.
+Income is accrued based on the stage of completion, which refers to the percentage of a commission deemed to be completed the balance sheet date.

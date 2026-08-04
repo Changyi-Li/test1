@@ -1,0 +1,6 @@
+### Voucher number series/Journals
+- The procedure has been renamed and was previously called Voucher Number Series.
+- Here you enter how to use journal numbers, determine links to voucher number series, and activate integration settings, all in the same procedure.
+- It is possible to enter letters as voucher number series, for example A-XXX instead of 1-XXX.
+- It is possible to record all vouchers in the same series. For journal number series this is only possible when using total integration.
+- In G4, when using total, the voucher got the same number as the journal. In G5 the journal and the voucher number get individual numbers. Journal number series continue over the year-end, but the voucher number series start over from 1 when a new year begins. Via the setting Detailed posting, the invoices and their payments are transferred "one by one" to the voucher's rows in the accounting and will not be totaled with many invoices on the same posting row. It is then possible to – on each posting row – trace which invoice/consecutive number a certain posting refers to. This for example makes it possible to in the General ledger see the transactions on the bank account detailed per invoice/consecutive number.

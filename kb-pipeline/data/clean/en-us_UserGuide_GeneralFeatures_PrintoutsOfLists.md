@@ -1,0 +1,9 @@
+### Printing of lists
+A list in Monitor ERP can be printed directly via the Print button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_print.png) (Ctrl + P) on the function menu in the list. The printout will then take place using the default settings.
+Under Settings and the Printouts heading in the backstage of the desktop, you can configure a few default settings for printouts. You can configure if the selection and/or chart should be included when printing a list (report). These settings are saved to your own user.
+You can also configure settings for each printout you make of a list. This can be done when you preview the list using the Preview button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_preview.png) (Ctrl + Shift + P) on the function menu in the list. See the settings you can configure below:
+- Orientation – Configure if the paper orientation should be portrait or landscape for the entire printout.
+- Adjust to width of paper – With this setting you decide if the entire printout should be adjusted to the full width of the paper.
+- Insert page break after grouping – If the list is grouped, a page break will be inserted for each grouping record in the list.
+- Show filter – If you filtered the list, you can here decide if you want that filter to be printed at the top of the list.
+For the sections called Selection, List, and Chart, you can configure if they should be printed and if they should be printed on a separate page. The selection is in that case printed in the beginning of the list. Charts are printed at the end of the list. It is possible to expand these sections by using the ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_drill_down.png) button to override the above settings, where it is possible, for each of the sections.

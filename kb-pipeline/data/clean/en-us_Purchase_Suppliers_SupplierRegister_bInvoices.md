@@ -1,0 +1,4 @@
+### Invoices
+In this box you see an invoicing log with all final recorded invoices to the supplier. You can also see the total number of records and the total invoice amount.
+Using the buttons in the function menu, you can go to the Register supplier invoice procedure or choose to only show invoices with remaining amounts. Under the More info ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_more_info.png) button you find additional information about the invoice. If you have installed the option Electronic invoice management (EIM), you can use a button to display the scanned paper invoice.
+By using the Show all invoices button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_goto_critical_op.png) you can choose to also show invoices that do not have a remaining amount.

@@ -34,10 +34,10 @@ Here you enter/see the setup price in the currency of the price list. The setup 
 Here you see the price list’s currency.
 
 #### Contribution margin
-Here you can see the contribution margin (CM The contribution margin (CM) is the difference between the standard price and the sales price.) in the company currency. It is the difference between the sales price and the standard price.
+Here you can see the contribution margin (CMThe contribution margin (CM) is the difference between the standard price and the sales price.) in the company currency. It is the difference between the sales price and the standard price.
 
 #### Contribution ratio
-Here you can see the contribution ration (CR The contribution ratio (CR) is the portion of the invoice amount (sales price) that the contribution margin represents. CR is entered as a percentage.) in percent. It is the relation between the sales price and the standard price. For example, if the standard price is 20 SEK and the sales price is 30 SEK, the CR will be 33 %. That is, CR = ((30-20)/30)*100 = 33 %,
+Here you can see the contribution ration (CRThe contribution ratio (CR) is the portion of the invoice amount (sales price) that the contribution margin represents. CR is entered as a percentage.) in percent. It is the relation between the sales price and the standard price. For example, if the standard price is 20 SEK and the sales price is 30 SEK, the CR will be 33 %. That is, CR = ((30-20)/30)*100 = 33 %,
 
 #### Price comment
 Price comment in the price list is displayed when a customer order and an invoice are created for the part or the customer, in case the price is loaded from the price list.

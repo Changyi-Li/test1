@@ -1,0 +1,2 @@
+### Calculation information – Total
+This list shows total information about calculation costs and a comparison of these against the invoiced value and CM The contribution margin (CM) is the difference between the standard price and the sales price.. On invoice row level you can see the same information as in the [detailed list](tListCalculationInformationDetailed.htm). The list can also display values in chart form.

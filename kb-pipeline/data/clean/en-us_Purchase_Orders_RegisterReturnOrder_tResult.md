@@ -1,0 +1,9 @@
+### Result (Register return order)
+Under this tab you find information about the return order that was created when you saved in the procedure.
+By using the button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_expand_row.png) to the far left you can expand/minimize the return order to show included purchase order rows.
+For each purchase order row you see purchase order number and position, as well as information about the part. You also find information about arrival reported quantity, quantity to return, and the amount for the quantity to return, By clicking the More info button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_more_info.png) you find additional information from the order row in question.
+At the bottom of the tab you see the total quantity to return and the total amount for that quantity.
+By using the Find button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_search.png) (Ctrl + B) on the function menu, you can open a search field where you can perform exact match searches in the list under the tab.
+By using the Go to procedure button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_link.png) you can go to related procedures for the return order.
+With the button called Register shipment for the loaded supplier ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_add_shipping.png) you can create a shipment for the return order to the supplier. The loaded supplier is used as source of information in Register shipment.
+With the button called Register shipment ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_add_shipping.png) you can create a shipment for the loaded return order. The selected return order is used as source of information in Register shipment.

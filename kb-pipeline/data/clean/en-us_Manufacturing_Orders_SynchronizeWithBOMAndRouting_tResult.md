@@ -51,26 +51,12 @@ Changing of part type means that nodes, operations, and/or material/tools are de
 In certain cases, existing operations' setup times and unit times will also be updated. Terms for when these times can be updated are found under Change of operation/subcontract.
 | From | To | What happens in BOM and routing? | Synchronization | Note: |
 |---|---|---|---|---|
-| Manufactured | Purchased | The node disappears and becomes a material row. | Deletion of node.
-The material row remains. | - |
-| Manufactured | Fictitious | - | Deletion of node.
-Addition of material.
-Addition of operations.
-Updating of operation times. | A |
-| Purchased | Manufactured | The material row becomes node. | Addition of node.
-The material row remains. | - |
-| Purchased | Fictitious | The material row becomes fictitious node. | Deletion of material.
-Addition of material.
-Addition of operations.
-Updating of operation times. | A |
-| Fictitious | Manufactured | - | Addition of node.
-Deletion of material.
-Deletion of operations.
-Updating of operation times. | B |
-| Fictitious | Purchased | Fictitious node disappears. | Deletion of material.
-Addition of material.
-Deletion of operations.
-Updating of operation times. | B |
+| Manufactured | Purchased | The node disappears and becomes a material row. | Deletion of node. The material row remains. | - |
+| Manufactured | Fictitious | - | Deletion of node. Addition of material. Addition of operations. Updating of operation times. | A |
+| Purchased | Manufactured | The material row becomes node. | Addition of node. The material row remains. | - |
+| Purchased | Fictitious | The material row becomes fictitious node. | Deletion of material. Addition of material. Addition of operations. Updating of operation times. | A |
+| Fictitious | Manufactured | - | Addition of node. Deletion of material. Deletion of operations. Updating of operation times. | B |
+| Fictitious | Purchased | Fictitious node disappears. | Deletion of material. Addition of material. Deletion of operations. Updating of operation times. | B |
 Note:
 1. The material rows of the fictitious part are added and/or existing material's quantity is updated. The operation rows of the fictitious part are added and/or existing operations' times are updated.
 2. The material rows of the fictitious part are deleted and/or existing material's quantity is updated. The operation rows of the fictitious part are deleted and/or existing times are updated.
@@ -111,8 +97,8 @@ It is possible to change:
 - Delivery address (subcontract)
 - Setup time
 - Unit time
-- Overlap Overlap is abbreviated to OL, and is entered as a percentage. This allows two operations to overlap in time when a manufacturing order is created. Overlap is entered as a value that indicates how much of the current operation should remain when the next operation can begin. Any queue time on the subsequent operation means that overlap is ignored.
-- Queue time Queue time refers to time which is added to create a gap between two operations when the manufacturing order is created. It is normally stated in days, where 1 means the rest of the commenced day will be the "gap". 2 means the rest of the commenced day plus 1 full day will be the gap. For work centers with hourly planning, the queue time is instead entered in hours. The entered queue time will be added before the operation which has a value entered.
+- OverlapOverlap is abbreviated to OL, and is entered as a percentage. This allows two operations to overlap in time when a manufacturing order is created. Overlap is entered as a value that indicates how much of the current operation should remain when the next operation can begin. Any queue time on the subsequent operation means that overlap is ignored.
+- Queue timeQueue time refers to time which is added to create a gap between two operations when the manufacturing order is created. It is normally stated in days, where 1 means the rest of the commenced day will be the "gap". 2 means the rest of the commenced day plus 1 full day will be the gap. For work centers with hourly planning, the queue time is instead entered in hours. The entered queue time will be added before the operation which has a value entered.
 - Fixed lead time
 - End customer on order
 - Instruction
@@ -170,7 +156,7 @@ Changing of tools
 -   
 No replanning of Quantity per cycle
 -   
-No replanning of Cycle time Cycle time is the productive time in the operation in which the unproductive time is not included. Cycle time plus Ineffective time adds up to the unit time for an operation.
+No replanning of Cycle timeCycle time is the productive time in the operation in which the unproductive time is not included. Cycle time plus Ineffective time adds up to the unit time for an operation.
 On a tool row it is possible to change:
 - Quantity
 - For operation

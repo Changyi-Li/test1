@@ -12,7 +12,7 @@ This setting is available if you have the option Product configurator. Then it i
 The option No is suitable if each selected part in the configuration should have its own calculation.
 
 #### Comparative price
-Here you can select a price alternative in order to compare the result of the calculation to another price for the parts. It is the same price that is used to calculate CM The contribution margin (CM) is the difference between the standard price and the sales price. and CR The contribution ratio (CR) is the portion of the invoice amount (sales price) that the contribution margin represents. CR is entered as a percentage. % in relation to the actual costs per unit.
+Here you can select a price alternative in order to compare the result of the calculation to another price for the parts. It is the same price that is used to calculate CMThe contribution margin (CM) is the difference between the standard price and the sales price. and CRThe contribution ratio (CR) is the portion of the invoice amount (sales price) that the contribution margin represents. CR is entered as a percentage. % in relation to the actual costs per unit.
 
 #### Price list
 Select a price list for comparative price. This field will become available if you have selected Price list as comparative price.

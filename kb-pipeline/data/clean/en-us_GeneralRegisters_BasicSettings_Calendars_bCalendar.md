@@ -1,0 +1,3 @@
+### Calendar view
+In the calendar view you will find day boxes from Monday to Sunday for six weeks at a time. By using the navigation buttons at the top you can skip ahead or go back one week or one month.
+In each calendar box you can, if needed, change the default day type, determining if the day should be a Work day, Weekend (Saturday-Sunday) or Holiday (for example, vacation days, "major holidays", or other days off). If you want add a day off in your calendars, you need to use the day type called Holiday. Work days, weekends, and holidays are by default displayed according to the calendar type selected in the header.

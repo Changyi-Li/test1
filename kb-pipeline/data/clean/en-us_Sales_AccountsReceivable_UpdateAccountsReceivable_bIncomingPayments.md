@@ -1,0 +1,3 @@
+### Incoming payments
+In this box you can see information about paid amount, amount written off, and remaining amount. These are displayed both in the currency of the invoice and in the company currency.
+Under the Incoming payments button, you can see a list of the payments registered for the invoice. However, canceled payment records are not shown. It is possible to link to the Cancel incoming payment and Cancel set-off list types in the Incoming payments procedure, in order to cancel a payment selected in the list, if needed. The information under the button is the same as in the Payments list in the Accounts receivable list procedure.

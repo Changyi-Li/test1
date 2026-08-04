@@ -1,7 +1,7 @@
 ### Settings
 
 #### Report quantity
-In the Quick reporting Quick reporting means that the entire manufacturing order becomes reported as finished in one single step, including deletion of remaining quantity, if any. list you report operations on all levels with the quantity entered to be reported in the list. Material is reported as planned included quantity on all levels multiplied by the quantity entered to be reported in the list.
+In the Quick reportingQuick reporting means that the entire manufacturing order becomes reported as finished in one single step, including deletion of remaining quantity, if any. list you report operations on all levels with the quantity entered to be reported in the list. Material is reported as planned included quantity on all levels multiplied by the quantity entered to be reported in the list.
 In the Report remaining list you report operations on all levels with the remaining quantity in the list. Material is reported as planned included quantity on all levels multiplied by the remaining quantity in the list.
 
 #### Report time

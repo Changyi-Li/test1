@@ -1,0 +1,15 @@
+### VAT settings
+- This is a new procedure which in part replaces the procedure which in G4 was called VAT Codes in the Global Settings module.
+- The first tab is the table VAT groups. VAT group replaces the fields Trade area and VAT code which in G4 was entered for customers/suppliers. Instead you enter the field VAT group. The VAT group decides which VAT code should be used on order/invoice.
+- The difference from trade area is that VAT group is a separate table which can be defined by the user. VAT group can be adjusted on order level/invoice level.
+- VAT codes, which you enter under the next tab, is now a separate table without limitations regarding number of VAT codes.
+- For a VAT code it is possible to enter that it, when being used in the Purchase module, should handle reversed liability for payment. You enter the percentage to use for reversed liability for payment in a separate column.
+- Which standard account that should apply for input and output VAT for each VAT code, is entered directly for the VAT code in this procedure. In G4 this was entered in a separate procedure: Standard Accounts.
+- The system now contains more VAT codes than G4 as standard. There are separate VAT codes for different types of intra-community trade, export/import, construction services, three-party trading, etc.
+- A new feature is that the VAT codes are of significance for the VAT report. In G4 this was determined by VAT row in the chart of accounts. In G5 you enter VAT row for the VAT codes, one column for VAT row for sales, and another column for VAT row for purchase. This feature is added to make it possible to perform VAT accounting which is not determined by the account used.
+- The VAT information shown on the invoice document is a new field in the VAT code table. In G4 these were entered in the Language procedure.
+- There is a new field where you enter if VAT code is linked to EC sales list.
+- The final tab, Exception per product group, is a matrix where you can define which VAT code should be used on order rows based on a combination of VAT group and product group.
+- Country package Estonia: For the VAT code it is possible to enter a connection to INF A and INF B, and to select special codes for INF A and INF B with the purpose of showing these in the KMD reports.
+- Changes made in the VAT codes are now logged under the button Log under the tab VAT codes in the VAT settings procedure.
+- You can enter a deductible percent for VAT codes, and you can also enter an account for the non-deductible VAT.

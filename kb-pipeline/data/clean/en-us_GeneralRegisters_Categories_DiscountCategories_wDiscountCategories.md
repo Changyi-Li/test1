@@ -1,0 +1,6 @@
+## Discount categories
+In this procedure you register discount categories that can be used for customers and suppliers. However, they are mostly applied to customers.
+When you start up the system for the first time, there are no discount categories registered. By using a button on the function menu you can add new discount categories. You also find a button that is used to copy a discount category. Then all information will be loaded to the right table. There is also a button that is used to delete a discount category. It is possible to delete a discount category provided that it is not used for customers and suppliers. A check is made when deleting.
+To each discount category you add one or more part groupings and enter discount rates for the part grouping. You can use part grouping on product group, part code, and part category. This is determined by the system setting Part grouping term for discount categories.
+The system setting Manage staggered discount rates in the procedure Discount categories determines if staggered discount categories should be used. You can then enter up to ten different limit values in quantity or amount.
+The discount given to a customer depends on to which discount category the customer belongs, which part is sold, and which quantity is sold.

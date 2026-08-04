@@ -1,0 +1,5 @@
+### Result
+In this box you see one row per Journal number. You also see the Voucher date. Voucher number is shown if the journal has integration with the accounting. The Period column displays the accounting period to which the journal belongs.
+The column W (Warning) has a button with a warning symbol ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/warning.png) if there are any records which can not be posted (posting method is missing for the transaction). These record will then be shown under the Warnings tab. It is not possible to approve ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_approve_document.png) a journal number after making a printout which contains warnings.
+If you select a journal, it will be shown in the box Preview to the right.
+When you choose to print ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_print.png) in the procedure, one printout will be created for each journal number.

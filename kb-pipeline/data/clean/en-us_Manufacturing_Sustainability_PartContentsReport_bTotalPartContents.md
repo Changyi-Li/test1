@@ -2,7 +2,7 @@
 Here you see the total of the part contents. Using the Export button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_export.png) you can export the list to Excel.
 
 #### Type
-Only the parts entered as Part contents ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/PartTypeContents.png) in the Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Sustainability procedure will be displayed in this list.
+Only the parts entered as Part contents ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/PartTypeContents.png) in the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Sustainability procedure will be displayed in this list.
 
 #### Classification
 Here you enter the classification of the chemical according to REACH. The available classifications are Green, Yellow, and Red, where Green is the least harmful and Red is the most harmful.

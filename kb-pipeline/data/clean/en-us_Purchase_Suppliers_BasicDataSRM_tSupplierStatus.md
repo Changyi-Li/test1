@@ -1,0 +1,3 @@
+### Supplier status
+Under the Supplier status tab you can define status codes that will be possible to select for suppliers.
+The supplier status describes the status/relationship that you currently have with the supplier in question. For example it can be an actual supplier (orders can be registered) or a potential supplier. When you start the system for the first time, there are some examples of supplier statuses already registered in the program. You can modify the name of these and translate them, if needed. You can also delete a supplier status that you do not need. Supplier status 1 is reserved for actual suppliers for which orders can be registered. You cannot delete this status.

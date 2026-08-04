@@ -11,7 +11,7 @@ Here you see/enter the part's loading meters. The unit is meter.
 Does not apply to packaging parts. Here you indicate the quantity of the part that fits in a package when the part is sold. This field is empty by default. This means that one transport label is printed for the entire order quantity. If you enter a quantity/package, one transport label will be printed for each package that has been delivery reported on the customer order. The quantity is displayed in the unit selected on the main row, but it will be saved in the standard unit. The quantity meant when linking a packaging part is the quantity/package that fits in the inner packaging. It is overridden by the quantity/package of the customer link in the box Customer links. This field is not available for parts of type Service.
 
 #### Packaging part
-Does not apply to packaging parts. Here you can link a general packaging part to the part link. By using the Lookup The Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature you can select among the parts for which the setting The part is a packaging part has been activated.
+Does not apply to packaging parts. Here you can link a general packaging part to the part link. By using the LookupThe Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature you can select among the parts for which the setting The part is a packaging part has been activated.
 You can also link a packaging part to the part in the customer link. It will then override the general packaging part.
 
 #### Packaging template
@@ -21,7 +21,7 @@ When you have selected a packaging template, the packaging part used to pack the
 You can also link a packaging template to the part in the customer link. It will then override the general packaging template.
 
 #### Goods type
-Does not apply to packaging parts. Here you see/select the goods type of the part. This information is printed on shipping documents. Goods types are handled in the procedure Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part.
+Does not apply to packaging parts. Here you see/select the goods type of the part. This information is printed on shipping documents. Goods types are handled in the procedure Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part.
 
 #### Default transport label
 Does not apply to packaging parts. The default label type determines the type of transport label selected by default for the printout when the part is delivery reported on a customer order. This setting applies for all part types, except for Fictitious. The None option is selected by default. The options available as default transport label in the field are: None, Transport label – A4, Transport label – A5, Label, or Transport label – Grouped.
@@ -51,7 +51,7 @@ The packaging type you select here determines how packaging structures should be
 With this checkbox you decide if the packaging part should be assigned a package number (an internal consecutive number for packages). The packaging types Outer packaging, Inner packaging, and EUR pallet, will by default be given package numbers. Package number is used if you apply packing in Monitor ERP. This is a step between delivery planning and delivery.
 
 #### Package type
-Here you can select the package type of the packaging part. Package type Package type describes what kind of package that is used, such as "pallet" for EU pallets, "box" for cardboard boxes etc. is used to classify the packaging to the shipping agent. You can select among the package types that have been set as active in the Basic data– Part procedure..
+Here you can select the package type of the packaging part. Package typePackage type describes what kind of package that is used, such as "pallet" for EU pallets, "box" for cardboard boxes etc. is used to classify the packaging to the shipping agent. You can select among the package types that have been set as active in the Basic data– Part procedure..
 
 #### Package volume consists of
 There are two alternatives to choose from regarding how the volume of the package should be calculated. You either use only the packaging part's volume, or you use the packaging part's volume and the part's volume, in the volume calculation on the order row/delivery.

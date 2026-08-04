@@ -1,0 +1,2 @@
+### Detailed/account
+Under this tab there is a report which – for each VAT row – displays the balance of the account linked to the VAT row. You can click the account numbers in the report to open the account. You can also click the amounts on the VAT rows to see the data on which they are based. This tab is available in systems where the system setting called Basis for VAT report is loaded from is set to the VAT code in chart of accounts option.

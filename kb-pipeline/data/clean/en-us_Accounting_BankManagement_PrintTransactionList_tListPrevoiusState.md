@@ -1,0 +1,2 @@
+### The list type Change status to resend
+This list type is used when you need to put payments back in the transaction lists. This can be useful if a mistake has been made or if a payment file needs to be sent again. The list is grouped by transaction lists. On the rows you can check the box Change status for the payments that should be put back. This is executed for the selected rows when you save.

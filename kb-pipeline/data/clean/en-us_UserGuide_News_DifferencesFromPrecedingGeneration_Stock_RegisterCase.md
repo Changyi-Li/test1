@@ -1,0 +1,12 @@
+### Register case
+- You can work with templates containing phases, activities, and costs, which are then linked to a case type. But it is possible to change for an individual case.
+- All activities belong to a phase. How long a case has come in the process is on phases level shown in a phase view on the heading row.
+- You get more help filling in information about a case. For example when you enter a serial number, the part number, initial customer order, invoice number, initial manufacturing order, etc. will also be filled in automatically. This takes place if the information is available on the serial number.
+- It is possible to add an unlimited amount of communication addresses related to a case.
+- The costs are calculated from activities with an entered time, linked manufacturing orders, operations, and other additional costs.
+- There is support to manage 8D reports in the Register case procedure. There is also a case type called "8D report". There are relevant activity templates for 8D as standard.
+- There is support to connect/add multiple parts/serial numbers/batches to one case.
+- A "Finish date" field has been added to provide a better overview of when the case is actually finished (when the status has automatically reached the status "Finished"). This field is also possible to update manually.
+- There is system support to register multiple parts in a case.
+- All comments entered on rows in Register nonconformity in G4 are now gathered under the Comments button under the Costs tab in the Register case procedure, when you convert from G4.
+- Finish date in G5 is loaded from nonconformity date in Register nonconformity when converting from G4.

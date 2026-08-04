@@ -4,7 +4,6 @@ Web客户端被用于在 Monitor ERP。它可以在常规的浏览器中运行�
 设置已配置管理员在 安全 标签页卡中的 用户 Windows客户端中的程序。
 ![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/UserGuide/SettingsWebUser.png)
 - 激活 允许登录Web客户端 设置。当已激活该设置时，还必须输入以下设置一。
-允许登录Web客户端
 - 在中输入密码 密码 字段。然后用于该密码登录Web客户端。
 - 使用以下方式将 Windows 中的科目链接到用户 Windows账户 设置。然后你不在密码字段中输入密码。在这种案件下，日志Web客户端时将使用Windows账户的密码。
 安装Web服务器

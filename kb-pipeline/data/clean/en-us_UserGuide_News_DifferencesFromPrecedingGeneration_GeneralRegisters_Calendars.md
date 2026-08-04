@@ -1,0 +1,4 @@
+### Calendars
+- Several calendar types are included in the system, for example with Swedish holidays, US holidays. It is also possible to create own calendars where you select which calendar type to base your calendar on, and then per date decide which days are work days.
+- Calendars regarding non payment days have been moved to this procedure. In G4, this was a separate procedure. Which calendar should apply for bank holidays should in G5 be defined via the system settings Calendar for calculation of payment date in Purchase, and Calendar for calculating due date in Sales.
+- When performing the year change in G5, the calendar will automatically continue to next year and no new calendar needs to be created. In G4 you had to create a new calendar for each year. Read more about [change year](../../../Using/ChangeYear/ChangeYear.htm).

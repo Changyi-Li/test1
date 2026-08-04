@@ -1,0 +1,2 @@
+### The list Detailed per invoice (output VAT)
+This list is used to display a specification of which invoices and vouchers that form the basis for report of output VAT. If the net amount should be reported in the VAT report, you will also see the net amount and gross amount for each record. In the list it is also checked if the posted VAT amount differs from the VAT amount on the invoice. Under More info you can also see the invoices' amounts in foreign currency (that is, currency other than the company currency).

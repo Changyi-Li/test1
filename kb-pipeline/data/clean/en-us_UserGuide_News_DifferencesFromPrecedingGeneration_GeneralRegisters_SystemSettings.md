@@ -1,0 +1,4 @@
+### System settings
+- Certain system settings are removed from G5 and can instead be found as settings in procedures. This has been done in order to create a greater flexibility than in G4. One example is the system setting for random stock location which has been moved to the part register. This means that it is now possible to use this setting per part. Another example is the system settings which control functions for BOM and routing in the Manufacturing module. These have been moved to the BOM and routing procedure.
+- A tab with system settings for the mobile client has been added, as well as a tab for the Agent, if that option is used.
+- A tip window is inserted next to certain system settings to provide useful tips and information regarding the setting. This window is possible to minimize if you prefer not to see it.

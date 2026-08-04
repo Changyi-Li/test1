@@ -1,0 +1,2 @@
+### The list type Delivery reliability – Detailed
+This list shows detailed information about arrival reported order rows and if they were delivered on time or not. The list also shows the number of days that differs between the selected delivery date and the actual deliver date. The list shows a sub-total in percent, the quantity per grouping alternative and as a total for the entire list, of order rows that have been arrival reported too early, on time or too late.

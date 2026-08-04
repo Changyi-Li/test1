@@ -3,7 +3,7 @@ In this box you add one row for each batch/serial number from which you want to 
 
 #### Serial number/Batch
 Here you can manually enter the serial number/batch number for the material which should be withdrawn from stock for the reporting or you can load it via a bar code scanner. This field is mandatory. Only serial numbers/batches which at present have material in stock, can be reported. If the part has been set to create serial numbers at withdrawal, then you do not use this procedure for reporting.
-The serial numbers/batch numbers you see in the Lookup The Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature, are the ones which at the moment have material in stock.
+The serial numbers/batch numbers you see in the LookupThe Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature, are the ones which at the moment have material in stock.
 
 #### Location
 Here you see the location from which the batch number/serial number is taken. Material which belong to a serial number only exists in one location. That is why this field cannot be edited for rows with serial numbers. It only shows on which location the serial number exists.

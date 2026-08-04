@@ -1,0 +1,5 @@
+### Result
+In the Result box you see the outgoing payment journals that will be generated when you click the Approve button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_approve_document.png) in the toolbar of the procedure. A separate journal with a new journal number will be created for each voucher date.
+If you apply integration to the accounting and there is at least one journal belonging to a closed period in the Result box, this journal row will be displayed in red text in the Period column. In that case, it is not possible to approve any of the journals in the box, even if there are journals belonging to open periods. The exception is if you manually under the Selection tab have entered a voucher date which belongs to an open period.
+If you do not apply integration to the accounting, no check will be made against closed periods. A journal that belongs to a closed period is then not displayed in red either, and it is possible to print and approve it.
+In the section to the right, you can preview the documents Outgoing payment journal and Total accounting order.

@@ -1,0 +1,2 @@
+### The list Alternative delivery addresses
+In this list you can see alternative delivery addresses for customers. A customer can have multiple alternative delivery addresses registered. These are handled in the Delivery address box in the Customer register procedure. In the list you can also see which of these delivery addresses that is the default address. It is possible to edit the address rows. However, you can only change the rest of the delivery information for rows that are not default delivery addresses.

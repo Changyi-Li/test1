@@ -1,0 +1,3 @@
+### The Detailed list
+This list type can be grouped by quote number or customer. It contains expandable rows that are grouped according to the selected presentation. In each grouping you will see the quote rows. If the list is grouped by customer, each grouping will show the quote rows per customer, even if they belong to different quotes. If the list is grouped by quote number, the list will display the quote rows under the respective grouping.
+It is also possible to show information in a chart at the bottom of the list. With the function button Chart ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_chart.png) you access settings used to handle the chart.

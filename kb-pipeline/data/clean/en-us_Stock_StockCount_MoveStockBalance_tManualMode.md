@@ -2,7 +2,7 @@
 Under this tab you can manually search for the parts for which you want to move a stock balance.
 
 #### Search for parts
-At the top of the tab you can search for parts using the following terms: Part number, Batch A batch is the set of components/products manufactured at the same time and made from the same original material., Serial number A serial number is a number that is used for traceability for parts on entity level., and Location name. You can combine multiple terms. For example, you can enter a part name in the Part number field and a name for a location in the Location name field.
+At the top of the tab you can search for parts using the following terms: Part number, BatchA batch is the set of components/products manufactured at the same time and made from the same original material., Serial numberA serial number is a number that is used for traceability for parts on entity level., and Location name. You can combine multiple terms. For example, you can enter a part name in the Part number field and a name for a location in the Location name field.
 When you leave a filled-in field, the parts you searched for are displayed in the [Selected parts](bSelectedParts.htm) section, from where you then specify a number of the parts to move or choose to move the entire balance of parts.
 These parts are then displayed in the [Quantity to move](bPartsToMove.htm) section, where you select location to move to and can make additional settings on those locations.
 
@@ -29,4 +29,4 @@ In this field you can select a maximum number of rows to display in the list. Th
 
 #### Use records from Clipboard
 - Part – Determines if parts should be used from clipboard.
-- Serial number/Batch number A batch number is a number that is used for traceability for a set of or a batch of parts. A purchased material can have a batch number that should be able to be traced back to a certain charge number from a supplier. – Determines if serial number/batch number should be used from clipboard.
+- Serial number/Batch numberA batch number is a number that is used for traceability for a set of or a batch of parts. A purchased material can have a batch number that should be able to be traced back to a certain charge number from a supplier. – Determines if serial number/batch number should be used from clipboard.

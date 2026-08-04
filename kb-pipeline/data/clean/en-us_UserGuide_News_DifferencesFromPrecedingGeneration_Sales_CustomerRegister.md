@@ -1,0 +1,34 @@
+### Customer register
+- Update Customer and Customer Info have been merged into one procedure.
+- The customer name field has been increased from 50 to 100 characters.
+- Country code per address instead of per customer. This way the country code for IntrastatIntrastat is the system which gathers statistics relating to trade in products within the European Union. Gathering of Intrastat statistics is handled in the same way by all EU member states. is on address level.
+- You can enter a visiting address for the customer.
+- The address field is Increase from 35 to 50 characters.
+- It is possible to decide number of copies of invoice and payment reminder, on customer level.
+- Delivery days (week days) on customer can be entered in G4, but there is no built-in functionality. In G5 this is linked to functionality in for example Register customer order.
+- Days of graceThe term days of grace (or grace period) is used at requirements planning in order to calculate rescheduling of actual orders that cover the requirement but that are too late in time, instead of suggesting a new order. for payment reminder on customer level.
+- Better handling of stray/occasional customers.
+- All contact information is gathered under one tab and the settings under another tab.
+- The Seller field is moved to the CRM tab.
+- A field for probability has been added. This can be used before the customer is an actual customer.
+- Fields for Responsible for customer and for Reseller, have been added.
+- You can see the date when a customer became an actual customer, that is, no longer a potential customer.
+- Regional formats have been implemented. The decide date formats, decimal limiters, and time zones.
+- Delivery rules for customers – makes it possible to calculate orders ready for delivery with clearance + rules for allowed partial deliveries. Here you also enter if you use comprehensive delivery note to the customer.
+- Export and EU is not on customer level. This is now determined by the country selected on the customer.
+- You can choose what to copy when you create a customer via Save as.
+- You can create a new customer by using Save as on a supplier, and that way include applicable information.
+- VAT code has been removed. VAT on orders/invoices is instead determined by VAT group.
+- For Customers within the EU, you can check if the VAT registration number is valid via a search function linked to VIES (the VAT Information Exchange System).
+- For the alternative delivery addresses you can now enter more information, for example delivery method and transport time.
+- A customer can be marked as a private person via a setting. In that case you enter the personal identity number instead of corporate ID number. On documents for this type of customer all prices are shown including VAT.
+- By using a button to the right of the entered credit limit you can access current information about total order backlog, accounts receivable, overdue invoices, etc.
+- It is possible to enter that interest should be charged on the next regular invoice, as an alternative to separate interest invoices.
+- You can set a priority for the customer. The affects the priority of the customer order.
+- You can decide if discount should be hidden on pro forma invoice.
+- The text log you write under the CRM tab has separate heading and body text. You can also search the content of that log.
+- A new tab called Overview shows all current quotes, customer orders, and invoice bases for the customer. It also shows all invoices and shipments and different types of statistics in chart form. These are all used to get a general view regarding the customer.
+- It is possible to configure default Rounding for new customers via the system setting Default rounding for new customer.
+- If the option for E-invoice is activated in the system, there is now fields for the E-invoice address (EIA) and the E-invoice address ID (EAID).
+- For e-mail addresses you will in the Recipient of field also find the options Delivery note and Product description including certificate.
+- New field for Number of employees. The field can be used as a selection term for statistics, etc. Number of employees is entered within a range of intervals, and these intervals are registered in the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – CRM procedure.

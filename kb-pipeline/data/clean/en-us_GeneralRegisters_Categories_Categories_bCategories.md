@@ -1,0 +1,21 @@
+### Category types and category items
+In the left section you find the category types that are supported by the system. Here you select the category type for which you want to add or change category items. This is made in the right section. Below you will find a description of each column in the right section.
+
+#### Length
+Here you enter a numerical value (1-20) that indicates how many characters the category item can consist of. The total Length for all category items can also not be longer than 20 characters. It is the maximum number of characters allowed in category fields.
+> Tip! Use as short length as possible for each category item. If you enter length 1, you can use up to 20 different category items per category type.
+
+#### Type
+There are three available alternatives:
+- Optional – If you select this alternative, no selection list will be created. This alternative means that users can enter any characters directly in a category field when a category is registered. The value specified in the Length field determines how many characters you are allowed to enter.
+- Selection list – If you select this alternative, you can create a selection list by using the plus sign ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_drill_down.png) in the Length column. This alternative means that users can, via the Category selection button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_more_info.png) found next to a category field, choose among the values in the selection list. Users can also enter any value when a category is registered for a record. The value specified in the Length field determines how many characters you are allowed to enter.
+- Selection list (mandatory) – If you select this alternative, you must create a selection list by using the plus sign ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_drill_down.png) in the Length column. This alternative means that the users can enter a value or select a value from the selection list via the Category selection button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_more_info.png) next to a category field. If you enter a value, it must be a value available in the selection list, otherwise a warning ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/warning.png) will appear in the category field.
+
+#### Description
+Here you enter a descriptive text for the category item. The text will be displayed when a user selects category item to a category field. By using the button Translations ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_translate.png) you can translate the text to the different active languages registered in the system. Read more about [language management](../../../UserGuide/GeneralFeatures/GeneralFeatures.htm#LanguageManagement) for translatable texts.
+
+#### Selection lists
+If Type has been set to Selection list it means you can create a selection list consisting of different values for the category item. This is done by clicking the plus button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_drill_down.png) in the Length field.
+If Type has been set to Selection list (mandatory) it means you must create a selection list as outlined above.
+The Value field contains the value that the user can select in the category item. The value is alphanumerical. The number of entered characters must be the same as the quantity entered in the Length field for the category item. You should preferable not use underscores "_" or percent "%" since these can be used as wildcard characters in selections made for lists.
+The Description field is an descriptive text for the value and it is mandatory to enter. The description/text will be displayed when a user selects one of the values in the selection list. By using the button Translations ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_translate.png) you can translate the text to the different active languages registered in the system. Read more about [language management](../../../UserGuide/GeneralFeatures/GeneralFeatures.htm#LanguageManagement) for translatable texts.

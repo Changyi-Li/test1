@@ -1,0 +1,3 @@
+### Uploading progress
+In this box you see all progresses after you have started the upload of the SQL Anywhere database. The progresses are backups (if you have chosen to run the backup now), anonymization* of personal data in the database copy, compression of the database copy, and finally uploading to Monitor's file server. In the bottom field you see the result of the entire progress. The upload will be aborted/canceled if it takes more than 15 hours.
+* During anonymization, all personal data in all registers in the entire database will be replaced (names, addresses, phone numbers, e-mail addresses, etc.) with anonymized texts (so-called "dummy" texts). This is according to the regulations in GDPR.

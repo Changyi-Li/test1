@@ -27,4 +27,4 @@ The planned events shown are:
 - Purchase (receiving inspection).
 - Manufacturing
 - Sales.
-At the bottom of the tab you see a summary of the total amounts for cost, income, and contribution margin (CM The contribution margin (CM) is the difference between the standard price and the sales price.) and a total percentage for contribution ration (CR The contribution ratio (CR) is the portion of the invoice amount (sales price) that the contribution margin represents. CR is entered as a percentage.).
+At the bottom of the tab you see a summary of the total amounts for cost, income, and contribution margin (CMThe contribution margin (CM) is the difference between the standard price and the sales price.) and a total percentage for contribution ration (CRThe contribution ratio (CR) is the portion of the invoice amount (sales price) that the contribution margin represents. CR is entered as a percentage.).

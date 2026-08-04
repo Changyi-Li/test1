@@ -1,0 +1,4 @@
+## Automatic allocations
+In this procedure you can create a register for automatic allocations. By using automatic allocations you can allocate an amount for example to different cost centers and cost units. These automatic allocations will be made in connection with transactions being recorded in the system. You define the terms needed to make the allocations take place and also to determine which postings they should result in.
+In connection with posting in the system you can temporarily deactivate the automatic allocation for a specific posting row in for example Register vouchers. Uncheck the Automatic posting active checkbox on the posting row before you enter the amount on the row. The Automatic posting active checkbox is by default placed under button the More info on the row.
+You can test the automatic allocation by using a button on the toolbar. It is also possible to copy an automatic allocation by using the button Save as....

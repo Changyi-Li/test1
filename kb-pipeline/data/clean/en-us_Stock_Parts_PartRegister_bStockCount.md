@@ -2,7 +2,7 @@
 This box displays information from the stock count log of the part. The balances are displayed in the unit selected on the main row.
 
 #### Stock count interval
-The default stock count interval is loaded from the part's ABC ABC codes are used to classify the range of parts by the volumes you sell. The codes are used as a scale for the parts that turn over the most money. The turnover is calculated by multiplying the price of the part by the annual volume. Parts that turn over the most money are called "A-parts", and after that, "B-parts", etc. code and is shown in this field. However, you can override this for the part in question by activating the setting called Override inherited interval.
+The default stock count interval is loaded from the part's ABCABC codes are used to classify the range of parts by the volumes you sell. The codes are used as a scale for the parts that turn over the most money. The turnover is calculated by multiplying the price of the part by the annual volume. Parts that turn over the most money are called "A-parts", and after that, "B-parts", etc. code and is shown in this field. However, you can override this for the part in question by activating the setting called Override inherited interval.
 When the part has been stock counted it gets a "stock count due date", that is, a date by which the part's next stock count should be performed. This "stock count due date" then makes it possible to automate creation of stock count lists using agent tasks. You can then choose a suitable interval in the agent task, e.g., weekly, monthly, or yearly.
 
 #### Override inherited interval

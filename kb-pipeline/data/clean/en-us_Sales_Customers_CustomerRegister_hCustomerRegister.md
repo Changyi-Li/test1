@@ -1,0 +1,17 @@
+### Header row
+
+#### Customer
+In this field you enter the customer number. By using the Lookup The Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature you can search the customer register. You can also enter a customer number that does not yet exist, whereby a new customer will be created.
+If the customer you enter is blocked, the customer number will be displayed in red in bold font. You will also see a red padlock ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/RedPadlock.png) after the field. If a message has been entered for the customer, you will also see a speech bubble ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_comment_17x17.png). If the customer's status is not Actual customer, you will see a warning symbol ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/warning.png).
+
+#### Name
+Here you will see the name of the selected customer. The name can be modified in this field. If you modify the name, a question will appear asking if the new name should be copied to all the customer’s addresses. You will also get to choose if the new name should be copied to the Customer name when searching field.
+
+#### EDI connected
+In this field you will see a Yes if the customer in question is connected to EDI EDI is the acronym of Electronic Data Interchange. EDI is about exchanging electronic business documents with your business partners, e.g. customers and suppliers. The EDI concept can be wide and a bit unclear, and can many times be used about all types of documents which are sent electronically, even if it might be PDF files sent via e-mail or publishing business documents on a website. What we refer to as EDI – and what is traditionally meant by EDI – is structured business documents following given standards, electronically sent or received and which are compiled and interpreted automatically and that is integrated with the customer's/supplier's ERP system., otherwise the word No is shown. When the customer is connected to EDI, it is possible to use the button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_more_info.png) to see which transaction types and directions that apply for the customer in question.
+
+#### Internal (stock order)
+This setting is available if you have installed the option Warehouse. The setting determines if the customer is an internal customer used on stock orders for sales, where the receiving warehouse is the customer. All settings that are not relevant for a warehouse will be deactivated on an internal customer, for example payment terms, currency*, and VAT group.
+The internal customer can be linked to its warehouse in the Company information procedure. In the Register stock order – Sales procedure you create stock orders for the warehouse that perform the selling (doing the delivery).
+> * The currency on an internal customer must be the same as the company currency.
+> Bear in mind: If you uncheck the Internal checkbox, it will not be possible to deliver registered stock orders. If you want to register an invoice to an internal customer, it is better to register a new customer and register the invoice for the new (not internal) customer. If there are already registered customer orders for a customer, it is not possible to mark the customer as internal.

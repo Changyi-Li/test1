@@ -1,0 +1,3 @@
+### Planning formulas
+- The access to the procedure Planning formulas is determined by user rights and does not require an option (supplement) as in G4, to be able to create edit formulas.
+- As in G4, a number of formulas for order quantity, safety stock, stock refill – purchase, and stock refill – manufacturing, are included in G5 and you can create your own formulas. In G5 you can create own manual variables to use for your custom/own formulas. The variables can be constants with fixed values or variables which loads data from extra fields (of the types decimal number and integer) for the parts.

@@ -1,0 +1,3 @@
+### Preview
+In the Preview box under the Document tab you can preview the document in question before printing it. If the printout consists of several pages, it is possible to scroll in the box. You can zoom the document by using Ctrl + the scroll wheel or the scroll percent in the lower right part of the box.
+In the documents you can click the link on the invoice number and see the entire invoice in a separate window. If you wish to edit the posting on any of the incoming payments in the journal, you can click the link [Edit posting](bEditCoding.htm) in the preview. In the Document settings procedure you can configure if postings and VAT code should be displayed on the journals.

@@ -1,0 +1,2 @@
+### The list Alternative customer number
+In this list you can see alternative customer numbers for customers. A customer can have multiple alternative customer numbers registered. This is an alternative identity for a place or a company, for example a GLN (Global Location Number). These are handled in the Alternative customer number box in the Customer register procedure. In the list you can also see which of these customer numbers that is the default customer number.

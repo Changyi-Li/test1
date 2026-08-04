@@ -1,0 +1,3 @@
+### Whitelist
+Under this tab you can enter different names, words, or parts of word, which you consider OK, even though they might occur on any of the sanctions lists. This means that if a whitelisted word is included in for example a note/remark on a customer reference, then that entire record will be exempted from the list.
+The tolerance (measured in number of characters) for example for misspelled words, configured as Levenshtein distance in the Sanctions list plugin in the procedure Settings for export/import, applies both to whitelisted words and information on customers, suppliers, and personnel.

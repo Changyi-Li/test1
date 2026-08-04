@@ -1,0 +1,34 @@
+### Project register
+- A project calculation is automatically made in the background when you load a project.
+- New field for how long the project is in days.
+- It is possible to move planned times for activities when modifying the project’s end date.
+- Communication box to enter external and internal contact information for a project.
+- There is a new text box where you can enter a short description of the project.
+- The comment for project is now divided in internal and external comment. You can also see customer comment in the project.
+- An overall of costs/income is presented under a separate tab. Income items are in G5 specified per income type and not in total. It is possible to drilldown in the information about orders/vouchers etc. which is the basis of the values shown.
+- You can work with activity templates which you link to project type, but are possible to changed for individual projects.
+- The project can consist of phases with activities, but can also consist of only activities. How far a project has come in the process is shown on the heading row.
+- Under the tab Phases/Activities you can create dependencies between activities. It is also possible to create dependencies between phases.
+- When you add project templates or insert them in the project’s activity list, it is possible to enter start or end date for the activities added/inserted.
+- It is possible to enter remaining time for activities.
+- You can via a system setting select if the project’s status should be set to finished when all activities have been finished.
+- Via the tab Manufacturing/Stock you can see an outline of manufacturing orders, cases, and parts linked to the project.
+- Via the Purchase tab you can see an outline of inquiries, purchase orders, invoice bases, and supplier invoices belonging to the project.
+- Via the Sales tab you can see an outline of quotes, customer orders, invoice bases, and invoices belonging to the project.
+- Under the Time check tab you handle the expected result. Here the system can show result + remaining time for manufacturing order and activities. Each row contains a drilldown where you can see the manufacturing orders/activities which are the bases of the time shown per cost type.
+- The lead time chart can also display manufacturing order, purchase order, and customer order linked to the project in question. Here you can also show and maintain dependencies between activities or between phases.
+- The Budget and Forecast tabs have been merged into one tab. Here you can show and register budget and forecast in parallel. Here you can also see the expected result as a support for the registration of forecast.
+- You can copy expected result to forecast.
+- The project report has been divided into two document types: External project report and Internal project report.
+- You can select which sections you want to show in the project report.
+- In the Activities section on the project report you can choose how to display the information; phases/activities, only phases, or only activities.
+- In the section Cost/Income on the project report it is possible to show an extended layout which shows both budget, planned, result, expected result, and forecast.
+- The Time check section on the project report supports display of the same columns as the section Cost/Income, for example planned/ordered, expected result, etc.
+- You can see costs and income on an aggregate basis via so-called cost/income groups.
+
+#### The Percentage of completion method (PCM)
+- The revenue calculation can be performed on top level or an underlying level on projects.
+- You can undo printing of the revenue calculation journal.
+- It is possible to create exceptions from mark-up on cost level.
+- You can cancel the revenue calculation journal.
+- It is possible to use automatic update of forecast on project when you work with Percentage of completion method with the option Continuous price with profit mark-up.

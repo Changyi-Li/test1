@@ -1,6 +1,6 @@
 ### Table of contents
 To be able to manufacture sustainable products, all dangerous chemicals and part contents of the product must be registered. This registration provides you with a better control over how to handle and take care of the product during its entire life cycle.
-In this box, you register the chemicals and contents included in the product. You then use this data in the calculation of part contents. The chemicals must first be registered in the Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Sustainability procedure.
+In this box, you register the chemicals and contents included in the product. You then use this data in the calculation of part contents. The chemicals must first be registered in the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Sustainability procedure.
 
 #### Code
 The code of the chemical/contents. Chemicals must first be registered in the Part contents box in the Basic data – Sustainability procedure.

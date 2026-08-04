@@ -5,7 +5,7 @@ This tab is used to register multiple parts for the same case. It is also used t
 Here you enter which part is the main part in the case. The information entered on this row is reflected in the other tabs in the case.
 
 #### Part
-Here you enter the part number of the product which the claim concerns. You can either enter it or manually select it, or it is automatically entered/completed if you start by selecting a serial number in the Serial number A serial number is a number that is used for traceability for parts on entity level. field. If the part has an active revision, this is automatically entered/completed in the Revision field.
+Here you enter the part number of the product which the claim concerns. You can either enter it or manually select it, or it is automatically entered/completed if you start by selecting a serial number in the Serial numberA serial number is a number that is used for traceability for parts on entity level. field. If the part has an active revision, this is automatically entered/completed in the Revision field.
 
 #### Name
 Here you see the part name.

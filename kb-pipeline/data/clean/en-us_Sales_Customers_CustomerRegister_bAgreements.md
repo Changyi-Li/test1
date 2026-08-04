@@ -1,0 +1,6 @@
+### Customer agreement
+In this box you will by default see all active agreements with a total amount for each agreement amount. This box is only displayed if adaptation 196 is used in the system to show the Customer agreements box. Otherwise, the Shipments box is shown.
+Using the button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_link.png) you can go to the Register customer agreement procedure or the Customer agreement list procedure for the marked agreement in the box.
+By using the Show document button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_form_viewing.png) you can view the actual document for the selected row in the box.
+By using the button called Show closed and historic agreements ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_goto_critical_op.png) you can activate/deactivate to also display all closed agreements and historic agreements.
+By using the button called Include invoiced agreement bases in total ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/StatusInvoice.png) you can activate/deactivate to also show and include invoiced agreement bases in the total.

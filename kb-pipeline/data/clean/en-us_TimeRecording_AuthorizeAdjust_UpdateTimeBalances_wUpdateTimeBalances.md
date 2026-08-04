@@ -1,0 +1,18 @@
+## Update time balances
+In this procedure you can in a list update accumulated time balances in different time banks for employees.
+You can reconcile with minimum and maximum values for time banks. Using the checkbox Create salary transaction in the list you can create Additions for the balance change in the procedure Authorize/Adjust recording. These additions can then be transferred to the payroll program. What is required is that the parameter group has a salary type entered in the fields called Salary typeSalary types are used to create salary bases for worked time and absence. Different salary types are used, for example, for work during regular working hours, flex, overtime, shorter working hours, and sick leave. The salary bases are used to manage salaries in a payroll system. Salary types are linked to absence codes in addition to work schedules and overtime schedules. for increasing balance and Salary type for decreasing balance.
+In the Settings box you select in which time bank you wish to update balances. Only employees with access to the time bank in question (configured via the parameter group) or with a balance in the time bank, will be included in the list. It is possible to update both current and historical balances.
+List types
+There is only one list type included as standard, it is called Update time balances. It is used to modify the balance in a certain time bank. You select which time bank in the settings for the list.
+Presentations
+The presentations determine how the selected list should be displayed/presented. For example if it should be presented as grouped or as total. There are some standard presentations included in the program.
+In most procedures where you can load lists, you are also able to create your own presentations.This is done under Presentations in the backstage of the procedure in question. If you create your own presentation you can for example choose if it should have a drilldown function and a drilldown filterering.
+You can select which columns the list should consist of, and for each of the columns you can configure grouping, sorting, aggregation, and if the column should be shown in chart form and if it should be printed. Additionally you can also make printout settings, chart settings, and settings regarding extra aggregation.
+Read more about this in [Presentations](../../../UserGuide/GeneralFeatures/Presentations.htm).
+Selection rows
+In a list procedure there is always a tab called Selection where you can select data records in different intervals from the database. The data records are then loaded by using the Load button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_display_list.png) in the toolbar of the procedure.
+Under Selection rows in the backstage of the procedure, you can choose which selection rows that each list type should have, under the Selection tab in the procedure. In the List type field you select for which list type you want to customize the selection rows.
+One table shows selection rows possible to select and one one table shows the selected selection rows. You can add, delete, or move selection rows by dragging and dropping the selection rows with your mouse pointer.
+Using the Save button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_save.png) you save the selected selection rows.
+Read more about this in the [Selection](../../../UserGuide/GeneralFeatures/Selection.htm) topic.
+> You can automate the running of this procedure with the Agent option. Read more about [The Agent](../../../UserGuide/Options/Agent.htm) can help make your processes more efficient.

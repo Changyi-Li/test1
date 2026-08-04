@@ -1,0 +1,12 @@
+### General information about projects
+- The handling of the three "fixed" cost types Material, Subcontract, and Work, is changed. In G4 these could gather costs from different sources (the result in the project):
+- Material on manufacturing order
+- Directly registered costs
+- Recorded material costs (if the system setting Purchase on project was activated)
+- Material costs from customer order (if the system setting Purchase on project was activated).
+- In G5 the fixed cost types are more specific and they only take costs from manufacturing orders. Recorded and directly registered costs are now handled via other cost types. If you do not want to load costs from manufacturing order, this can be deactivated for the project type.
+- For readings of material costs from customer orders, a forth fixed cost type called Material – Customer order is used by the system. It is optional, per project type, if this reading should take place.
+- The system setting Purchase on project does not exist in G5 and is instead activated latent in the system. The function is now available to use on part level in the Part register.
+- It is possible to create a cash flow forecast per project.
+- The procedures Project Journal and Project General Ledger have been removed. These functions are now instead found in the procedures Voucher list and General ledger.
+- Support for managing main and sub-projects. Projects can be linked to a superior main project and you can also follow up on them separately or aggregated by main project.

@@ -1,0 +1,7 @@
+### Stock
+Here you find a description of basic data and settings to be registered and controlled by qualified personnel in the Stock module after installation of Monitor ERP.
+Explanations regarding actions and settings are included in the online help function for the respective procedure.
+| Actions | When | Affected procedures | Explanation |
+|---|---|---|---|
+| Register basic data for parts | First-time start | Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part | Register basic data which will be used for parts. This is activities, units, part codes, CN codes, ABCABC codes are used to classify the range of parts by the volumes you sell. The codes are used as a scale for the parts that turn over the most money. The turnover is calculated by multiplying the price of the part by the annual volume. Parts that turn over the most money are called "A-parts", and after that, "B-parts", etc. codes, alloy codes/mark-ups, package types, goods types, and codes for other part identities. A few units are included as examples. |
+| Import parts | First-time start | Part import | Import parts from another ERP system. The import is performed using a text file which is tab-separated or comma-separated. In the import procedure you configure the format template to make it correspond with what should be imported to the part register. Please review all settings for the parts. |

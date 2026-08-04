@@ -2,7 +2,7 @@
 
 #### Balance alternative
 Here you select the balance, at different times, on the parts' locations, on which the stock value will be based. Explanation of the different alternatives:
-- Current balance Current balance is the part balance at this moment on the locations. – If you select this option, the balance at this very time will be loaded.
+- Current balanceCurrent balance is the part balance at this moment on the locations. – If you select this option, the balance at this very time will be loaded.
 - Last stock count date – With this option, the balance at the time of the last stock count date will be loaded. The parts might have been stock counted on different dates, so the date from which the balance origins may differ from part to part.
 - Optional stock count date – With this option, the balance used for valuation is the balance at the selected stock count date. Only the parts and locations which were stock counted on the selected date will be included in the list. A date must be selected in the date field.
 - Historical balance (log date) – With this alternative the balance from the selected log date will be loaded. The log date in the stock transaction log is the date on which a log record is created. A date must be selected in the date field. Fictitious parts with a value are also shown in the list.

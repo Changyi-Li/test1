@@ -5,7 +5,7 @@ Here you can configure settings regarding how to select and display the parts on
 Here you can select a date interval using the fields From date and To date. It is within this date interval the stock count in the list should be performed. The dates are calculated as last stock count date plus the part's stock count interval.
 
 #### Show
-With this setting you decide which columns to show on the document: Balance, Revision, Standard price, Batch number A batch number is a number that is used for traceability for a set of or a batch of parts. A purchased material can have a batch number that should be able to be traced back to a certain charge number from a supplier., and Serial number A serial number is a number that is used for traceability for parts on entity level..
+With this setting you decide which columns to show on the document: Balance, Revision, Standard price, Batch numberA batch number is a number that is used for traceability for a set of or a batch of parts. A purchased material can have a batch number that should be able to be traced back to a certain charge number from a supplier., and Serial numberA serial number is a number that is used for traceability for parts on entity level..
 
 #### Part's unit
 Here you select the unit in which the parts should be stock counted; the stock count unit or the standard unit. This unit will be shown on the document.
@@ -30,7 +30,7 @@ Explanation of suitability for stock count (1–4):
 If you activated Analyze suitability, you can choose to filter by suitability, according to the above scale.
 
 #### Name stock count basis
-Here you enter a name for the stock count basis. Here you enter a name for the the stock count basis. The number and the name is shown on heading rows of the actual Stock count basis document. The name can also be used when using the Lookup The Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature.
+Here you enter a name for the stock count basis. Here you enter a name for the the stock count basis. The number and the name is shown on heading rows of the actual Stock count basis document. The name can also be used when using the LookupThe Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature.
 
 #### Responsible
 The logged-on user is entered here by default, but can be changed.

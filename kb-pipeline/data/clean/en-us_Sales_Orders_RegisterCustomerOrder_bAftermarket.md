@@ -1,0 +1,7 @@
+### Aftermarket
+
+#### Serial number
+If the customer order which you register concerns aftermarket (that is, that the order contains for example accessories/supplements to a main product sold earlier), then you should enter the serial number of the main product in this field. This is done to create a link between the customer order's parts and the main product which has been sold at an earlier occasion.
+By using this link, you will be able to see this customer order (with the accessory parts etc.) for the serial number on the main part in the Serial number A serial number is a number that is used for traceability for parts on entity level./Batch A batch is the set of components/products manufactured at the same time and made from the same original material. procedure, under the Aftermarket tab.
+If a serial number has been entered, you will see this in the order header (in this procedure and in Register invoice directly) of the Order confirmation document under the heading Linked to serial number, on the delivery note (both before and after delivery), on the Customer agreement document, and on the invoice.
+A validation takes place to make sure the owner of the entered serial number is the customer on the customer order. If the owner is someone else than the customer on the order, a dialog will open. There you can choose to perform a change of owner, from the current owner of the serial number to the customer on the order. You can also choose to update the delivery address of the serial number with the delivery address of the order.

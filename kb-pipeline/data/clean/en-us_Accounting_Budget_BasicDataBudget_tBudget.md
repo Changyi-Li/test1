@@ -1,0 +1,3 @@
+### Budget
+Under this tab you define which types of budgets should be handled in the accounting. There is support in the system to work with several budgets in parallel, for example that you have a fixed budget which is locked for the entire year. In parallel with this you can also register a flexible budget or a forecast which you adjust throughout the year. You can enter any name for a budget, except for the first budget.
+From the start the budget number 1 (Budget) is already registered. It is to this budget that conversion from Monitor G4 takes place. It is not possible to delete this budget or any other budget which are in use.

@@ -1,0 +1,2 @@
+### The list type Delivery reliability of subcontract – Total
+This list shows total information per grouping alternative, if order rows for subcontracts have been arrival reported on time, too late, or too early. The information is displayed both in quantity and in percent for arrivals that were delivered on time or too late. At the bottom of the list you will see a total for the entire list. If you expand the list, you will see the same information per order row as in the detailed list.

@@ -1,0 +1,2 @@
+### Settings for incoming e-mail
+- The procedure Settings for incoming e-mail, is used to configure which e-mail server should be used and from which accounts e-mails should be possible to load in different cases. One of these cases is Monitor-to-Monitor, where e-mail is loaded to the inbox so you can load it in for example the Register customer order procedure. Other cases might for example be import of e-mail message from customers in CRM.

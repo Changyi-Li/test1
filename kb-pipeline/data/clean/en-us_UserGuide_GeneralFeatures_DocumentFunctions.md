@@ -1,0 +1,15 @@
+### Functions in document templates
+Monitor ERP contains document templates for different purposes, for example inquiry, quote, different orders, invoice, and different reports. A complete set of document templates are included and they cover the needs of most manufacturing companies. These templates are ready to be used from the start.
+Create custom document variants
+Even though Monitor ERP contains a complete set of document templates, you also have the opportunity to create customized document variants based the templates for your company's specific needs. For example, customer-specific documents. To create a document variant you copy a finished document template to a new variant. This is done in the procedure called Document templates.
+It is also possible to create custom document variants based on the document templates for the manufacturing order documents Traveler, Operation document, and Material document. This is done in the same way in the procedure Document templates – Manufacturing order.
+You can also order customized document variants from Monitor ERP System AB. These are given an adaptation number, which is shown in the Document templates procedure as well as related procedures where you can preview the documents.
+DevExpress Report Designer
+Using the built-in report designer tool – DevExpress Report Designer – you can customize the document variant which you have copied, e.g. Invoice. You can modify the design, font, layout, formulas in fields, etc. Read more about that program here: [https://documentation.devexpress.com/#XtraReports/CustomDocument8546](https://documentation.devexpress.com/#XtraReports/CustomDocument8546).
+> Creating custom document variants requires certain specialist knowledge. If you need help with this, you should primarily contact a consultant/instructor at Monitor ERP System AB. Assistance regarding adaptation of document variants is not included in the support and update agreement.
+Elements in the document template
+A document template has a layout which consists of different document components, for example header, address, terms, and footer. These document components can also be copied to new variants and be modified in the above mentioned report design tool.
+Settings of the document template
+Each document template has a set of basic settings which determine certain aspects of the document template's contents. The purpose of these settings is that a system administrator, an ERP manager, or a person with equivalent user rights and skills, is able to configure what each document template should contain or show, without having to open a report design tool and create custom variants of document templates. You find these settings in the Document settings procedure.
+Temporary settings
+Some settings can also be configured by the user, this will then override the basic settings. These are temporary settings which will apply to for example a certain order or at a specific printout. An example might be when the user chooses not to show the total amount on a specific customer order.

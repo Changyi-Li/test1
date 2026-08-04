@@ -1,6 +1,6 @@
 ### 结构
 您可使用按钮![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/button_maximize_section.png)最大化此框，也可最小化![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/button_minimize_section.png)。在这里，您可看到已登记工单中包含/合并的组件结构。订单号显示在顶层。
-通过键盘的箭头键↓和↑在结构中包含/合并的组件（称为节点 节点是组件结构中某个级别上包含/合并的生产件。结构组件中的一个级别可以包含多个节点。The node on the highest level is called the main part (order).）之间移动。
+通过键盘的箭头键↓和↑在结构中包含/合并的组件（称为节点节点是组件结构中某个级别上包含/合并的生产件。结构组件中的一个级别可以包含多个节点。The node on the highest level is called the main part (order).）之间移动。
 如果您在结构中标记组件节点，您会看到有关组件中包含的工序和物料的信息。这显示在工序和物料框中。
 通过使用功能菜单上的全部展开按钮![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/button_expand_collapse.png)（Shift+F8），您可展开和最小化结构中所有级别的所有节点。
 通过使用转到程序按钮![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/button_link.png)，您可转到相关程序并加载结构中标记的订单/组件。

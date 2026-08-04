@@ -1,0 +1,7 @@
+## Calendars
+In this procedure you can create calendars that will be used as company shared calendars. These calendars affect payments, production, time recording, etc.
+There is a basic calendar which is linked to the company. In the Company information procedure you select calendar for the company. In the standard calendar you will find information about the country's national holidays. This calendar can be modified and other holidays or days off can be added, if needed.
+Production days (actual workdays), payment date, and due date are based on the standard calendar. If you have added other days off (e.g. vacation days) in the standard calendar, you can add a calendar which should apply when calculating payment date (outgoing payment) and due date (invoicing). This calendar can then be selected in the system settings Calendar for calculation of payment date and Calendar for calculation of due date.
+Calendars are also used in the Schedule cycle procedure in the Time recording module. There the calendar determines which days will be set as holidays in different schedules in schedule cycles.
+You can create calendars to use to determine delivery dates regarding suppliers in different countries as well. You then link the calendar in question to the supplier. This is done in the Supplier register procedure.
+When performing the year change, the calendar will automatically continue to next year and no new calendar needs to be created. Read more about [change year](../../../UserGuide/Using/ChangeYear/ChangeYear.htm).

@@ -1,0 +1,9 @@
+### Stock transaction log
+- It is possible to get a valued list also when the list is the detailed, not only in total lists.
+- You can see the calculation information for manufactured parts-
+- There is an actual date shown in the stock transaction log, for example when you modified the actual delivery date. You can also see and group by this date in the list.
+- You can choose to value the list according to reported price or current price.
+- In G5 transaction type is handled as a selection instead of as a procedure.
+- Both arrival reported price and standard price are shown in the list.
+- There is a setting which results in showing only arrival records corresponding to current balance. It is easier to reconcile FIFOFIFO is calculated via the old stock log records existing in the system. All records have a price which is saved during the arrival reporting. However, for a purchase order the price will be updated when the supplier invoice becomes linked to the arrival reported items. This means that the FIFO value can change even though no stock transaction has taken place after the most recent inventory value list was created. Stock count and direct stock reporting will have the standard price as value. Other transactions such as negative reporting of material via manufacturing order, gets the standard price and also affect the FIFO. When FIFO is to be calculated, the part's balance is first checked. Then the program will find as many (positive) transactions as needed to be able to valuate these parts. The most recent transactions will then be used first. Example: If you have a balance of 100 units and the most recent transactions are: first a purchase of 80 units for EUR 10 each and then a purchase of 20 units for EUR 20 each, then the FIFO will be: 80 × EUR 10 + 20 × EUR 20 = EUR 1200, that is EUR 12 per unit. price.
+- There is a setting where you decide if arrival reported price should include SO mark-up for purchased parts.

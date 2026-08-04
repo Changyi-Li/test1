@@ -1,0 +1,12 @@
+### Stock count in list
+- This procedure replaces the procedure called Physical Inventory List and Physical Inventory List Reporting in G4.
+- You select which parts to stock count first via the Selection tab but also in a list where you can select among the parts you chose under the Selection tab.
+- When you save the stock count basis, the list is given a stock count number which is also used when the result of the stock count is reported.
+- There is a list type which shows the stock counts in progress. In this list type it is possible to delete and reprint.
+- You can add locations in the reporting in the list.
+- When selecting by location all locations of the part will be shown if you get a hit on any of the locations.
+- It is possible to select by last stock count date. It will then load from the stock count log instead of from the parts' locations.
+- You can enter which person who is creating the stock count basis and who performs the reporting.
+- The stock count is primarily made in the part's stock count unit, but it is possible to shift to the part's standard unit.
+- Each stock count basis should be named. This makes it easier for the person who is performing the stock count to understand which parts are included in the basis, for example "Bar material, cold storage".
+- When the part is being stock counted it is shown as a warning in all places where stock reporting is made for the part for example in Report arrival. This is to make the person who is performing stock reporting aware that the part is being stock counted right now.

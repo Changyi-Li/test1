@@ -10,7 +10,7 @@ With this setting you determine if only cleared material will be displayed under
 This setting is used if you are not going to perform clearance but still wish to make a balance check without including material with shortages in the pick list. Only material with zero or a greater value in disposable balance is displayed under the List tab and can thereby be included in the pick list. This setting is not available if you have activated the setting Only cleared material.
 
 #### Only material with traceability
-With this setting you determine if only material with traceability at Batch A batch is the set of components/products manufactured at the same time and made from the same original material. level or at Serial number A serial number is a number that is used for traceability for parts on entity level. level will be displayed under the List tab and can thereby be included in the pick list.
+With this setting you determine if only material with traceability at BatchA batch is the set of components/products manufactured at the same time and made from the same original material. level or at Serial numberA serial number is a number that is used for traceability for parts on entity level. level will be displayed under the List tab and can thereby be included in the pick list.
 
 #### Include included order oriented M-parts
 This setting determines whether included manufactured parts in the nodes in the order structure will be displayed under the List tab and can be included in the pick list.

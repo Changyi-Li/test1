@@ -46,10 +46,10 @@ The top row shows the quantity which has already been cleared. On the following 
 Expired quantity of the material is also shown here.
 
 #### Current balance
-Here you see the current balance Current balance is the part balance at this moment on the locations. of the material in the selected warehouse. You select warehouse in the toolbar of the procedure.
+Here you see the current balanceCurrent balance is the part balance at this moment on the locations. of the material in the selected warehouse. You select warehouse in the toolbar of the procedure.
 
 #### Available balance
-In this column you see the available balance Available balance is the current part balance on the locations minus the cleared quantity. of the material.
+In this column you see the available balanceAvailable balance is the current part balance on the locations minus the cleared quantity. of the material.
 
 #### Material requirement
 Here you see the material requirement for the order in question. It is the remaining material quantity of the order.
@@ -62,10 +62,10 @@ Shows the disposable balance of the material, meaning the current stock balance 
 There is a checkbox you can use to mark the material you wish to change to. The following information is displayed about the alternative material:
 - Part number
 - Part name
-- Current balance Current balance is the part balance at this moment on the locations.
-- Available balance Available balance is the current part balance on the locations minus the cleared quantity.
+- Current balanceCurrent balance is the part balance at this moment on the locations.
+- Available balanceAvailable balance is the current part balance on the locations minus the cleared quantity.
 - Material requirement
-- Disposable balance The disposable balance is the current part balance on the locations at a given time minus reserved quantity plus ordered quantity. after change of material
+- Disposable balanceThe disposable balance is the current part balance on the locations at a given time minus reserved quantity plus ordered quantity. after change of material
 - Reserved
 - Available balance within lead time
 - Disposable balance within lead time – Check this balance to see if you can use the alternative material.

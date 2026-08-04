@@ -1,0 +1,5 @@
+## Export of salary basis
+This procedure is a part of the option called Export of salary basis in Monitor ERP. Here you export salary basis to the external payroll program used by your company.
+You export salary bases containing recording items (attendance, absence, overtime) in a date interval. In connection with the export it is set as default that recording items in the selected date interval will be locked, and cannot be adjusted.
+Before you can perform an export at least one export setting must have been registered in the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Attendance procedure. In the export setting you enter the file format for the payroll program you use. The export setting also determines in which path the file will be saved and the name of the file.
+The settings configured for each salary type determine how the salary type is handled during the export. The settings concerned are Export, Attendance/Absence, and Alias at export, in the Basic data – Attendance procedure.

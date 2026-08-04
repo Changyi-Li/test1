@@ -1,7 +1,7 @@
 ### The list type Picking in progress
 
 #### Reprint
-Check this box if you wish to reprint the pick list. When you save, the Pick list A pick list is a list of parts/products which should be picked from stock for a manufacturing order or a customer order. tab opens, and there it is possible to reprint the list. You thereby get a pick list containing the remaining material rows (the rows that have remaining quantity greater than zero).
+Check this box if you wish to reprint the pick list. When you save, the Pick listA pick list is a list of parts/products which should be picked from stock for a manufacturing order or a customer order. tab opens, and there it is possible to reprint the list. You thereby get a pick list containing the remaining material rows (the rows that have remaining quantity greater than zero).
 
 #### Delete
 Check this box if you wish to delete the picking in progress. This means that the pick list becomes deleted without any reporting of the material being made. The deletion is executed when you save.

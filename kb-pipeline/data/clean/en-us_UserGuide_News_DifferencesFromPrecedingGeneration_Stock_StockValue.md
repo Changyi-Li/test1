@@ -1,0 +1,13 @@
+### Stock value
+- Total by date makes it possible to get a total stock value per day, week, month, quarter, and year. In G4 you can only see a historical development of the value per month.
+- You can see the stock value for a certain stock count date.
+- You can see the stock value based on actual stock transaction log date.
+- The stock value on parts in other currencies can be converted according to any rate type.
+- If you value the stock according to other cost factor alternative than the calculation is based on, only the work cost will be affected (no redistribution is made as in G4).
+- Separate columns for SO and SC when calculation information is shown.
+- Total lists for part code and product group also show calculation information. In G4 it is only in the list grouped by part you can see calculation information.
+- You can select an optional number of warehouses in the list. In G4 you can only select one or all.
+- Separate totals are shown for small values, both positive and negative. In G4 it is a row showing the net of these small values. The new design in G5 is created with the purpose not to sweep negative stock balances under the rug when these are only small. The end result is the same but negative values are shown in a more noticeable way.
+- It is possible to reconcile the stock value with the booked stock value by using the list type Reconciliation.
+- There is a special list type you can use to display the stock value of reusable tools used in manufacturing orders in progress.
+- Inventory Value List - Project was a separate procedure in the Accounting module in G4, but in G5 it is a list type called Project in the Stock value procedure. In G5 this list can also display negative balance for projects.

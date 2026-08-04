@@ -15,7 +15,7 @@ This column is only shown if you have the option Work recording installed and th
 In this column you see the operation's priority in the priority plan.
 
 #### New finish
-Here you see the new finish date calculated by the net requirement calculation. This requires that the setting New finish is activated in the Net requirement calculation You use the net requirement calculation to perform requirements planning based on the customer order backlog, as well as any existing sales forecasts. procedure.
+Here you see the new finish date calculated by the net requirement calculation. This requires that the setting New finish is activated in the Net requirement calculationYou use the net requirement calculation to perform requirements planning based on the customer order backlog, as well as any existing sales forecasts. procedure.
 
 #### Diff. (days)
 This column shows the difference between Planned finish and New finish. This requires that the setting New finish is activated in the Net requirement calculation procedure.

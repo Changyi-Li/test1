@@ -1,0 +1,2 @@
+### Manufacturing
+This tab is only available if there are any linked manufacturing orders to the customer order rows. The tab is designed in the same way as in the Manufacturing order info procedure, and it also show the same data. If there are multiple manufacturing order linked to the customer order, these manufacturing orders will be shown in the structure map. If you want to review the manufacturing order documents, you can from the Structure box use a link and go to the Print manufacturing order procedure.

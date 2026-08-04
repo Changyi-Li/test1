@@ -46,7 +46,7 @@ Calculation:
 If you have activated the system setting Show annual budget, annual volume, and order quantity with current pace, it is possible to use Annual volume or Annual volume, current pace when calculating order quantity. Annual volume is selected by default. If the system setting is not activated, you can only use Annual volume.
 
 #### Daily pace
-If you have activated the system setting Show annual budget, annual volume, and order quantity with current pace, it is possible to use Daily pace Daily pace is the consumption per day of a specific part. or Daily pace, current pace in calculations with Max. and Min. number of consumption days. Daily pace is selected by default. If the system setting is not activated, you can only use Daily pace.
+If you have activated the system setting Show annual budget, annual volume, and order quantity with current pace, it is possible to use Daily paceDaily pace is the consumption per day of a specific part. or Daily pace, current pace in calculations with Max. and Min. number of consumption days. Daily pace is selected by default. If the system setting is not activated, you can only use Daily pace.
 
 #### Save to
 If the system setting Show annual budget, annual volume, and order quantity with current pace has been activated, you can choose to save the result to Order quantity or to Order quantity, current pace. Order quantity is selected by default. If the system setting is not activated, you can only save to Order quantity.

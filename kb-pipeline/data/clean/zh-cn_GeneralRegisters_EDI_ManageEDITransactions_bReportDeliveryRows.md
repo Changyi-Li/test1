@@ -1,0 +1,6 @@
+### 行
+在此框中，你可以看到来自在 Monitor的交货日程表页眉的数据从，同时，你可以看到来自导入文件中的交货日程表页眉的数据从。导入之后你还可以查看组件状态是否OK ![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/StatusFinished.png)。从这里你可以链接到已选择订单行的相关程序。
+如果需要，你可以在此处选择跳过一或多个订单行，方法是复选框名为 跳过订单行。在早期事务中被跳过的订单行可以稍后包含在补充事务中。这是通过取消激活复选框并单击重新运行事务来完成的 开始事务 按钮 ![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/button_run.png) 你可以在标签页列表的功能菜单中查询它。
+如果订单行出现错误（例如，一或多个组件无法已匹配），你还可以更正商业事务。如果有任何错误，错误符号 ![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/error.png) 出现部件的状态以及发生错误的位置。当你将鼠标悬停在符号上时，工具提示会以文本表格显示错误。然后，你可以行上选择组件并使用 行动 按钮 ![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/button_more_info.png) 选择添加另一个组件标志或客户链接。
+如果导入文件中的某个组件的单位错误的和/或在 Monitor不存在该单位，则可能会显示为错误 ![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/error.png) 或警告 ![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/warning.png)。该单位也可以被忽略。这是由设置决定的 在组件行检查单位 在与客户已链接的EDI 行为中。如果导入文件中不存在该组件单位，则将使用在 Monitor该零件的默认单位。你无法在这里调整单位。必须将其已添加到组件登记中的组件中（用途 客户订单）。
+你可以取消固定该框并将其用作浮动窗口。这是通过使用名为 浮动的 ![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/button_float_window.png) （Ctrl + U）。这样，表格将会更大，你可以更好地概览订单行。

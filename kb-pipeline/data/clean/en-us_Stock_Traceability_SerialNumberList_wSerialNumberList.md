@@ -1,6 +1,6 @@
 ## Serial number list
 In this procedure you can see information in a list about serial numbers and batches. In the standard list you can select between different presentations which display information about for example the customer orders or delivery addresses for the serial numbers/batches.
-The lists and presentations load information from the register in the Serial number A serial number is a number that is used for traceability for parts on entity level./Batch A batch is the set of components/products manufactured at the same time and made from the same original material. procedure. In most cases it is only possible to view the information in the list, not to modify it.
+The lists and presentations load information from the register in the Serial numberA serial number is a number that is used for traceability for parts on entity level./BatchA batch is the set of components/products manufactured at the same time and made from the same original material. procedure. In most cases it is only possible to view the information in the list, not to modify it.
 List types
 
 #### Standard

@@ -23,8 +23,6 @@ Here you see to which section (scope) of the report this code belongs.
 Determines how the emission will be reported. The following methods are available:
 - Invoices and vouchers – used to register carbon dioxide emissions related to the company’s purchases by linking the code to the posting on supplier invoices and vouchers. This takes place directly in the procedures Register supplier invoice, Authorize supplier invoice, Register vouchers, or it can be done after the fact in the Sustainability list procedure. CO2e will then be calculated automatically via Amount x Emission factor.
 - Manual – used in the procedure Report emissions manually to perform manual reporting.
-Manual
-Report emissions manually
 - This is used for emissions that cannot be directly related to the value on purchase.
 - This could, for example, be emissions from the company’s official cars.
 - The personnel’s trips to and from work.

@@ -1,0 +1,2 @@
+### Confirmation
+This list contains information about all supplier invoices, including credit invoices, that have been sent in payment files to the bank and should be confirmed as paid. If you load the list without making any selections, then all invoices that have been sent to the bank will be displayed in the list. That is why it is appropriate to select by the payment date for which you want to confirm invoices. The default “To” date is today's date. This is made in the selection rows, and not in the setting called Payment date.

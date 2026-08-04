@@ -1,0 +1,8 @@
+## Customized reports
+> This procedure is mainly used by the Adaptation department at Monitor ERP System AB as well as trainers/consultants to create customized reports for customers.
+It is possible for our customers to order customized reports for Monitor ERP. These reports are created by trainers/consultants or the Adaptation department. The reports are uploaded to MonitorWS distribution server. You can then download and install the ordered reports in this procedure.
+But you can also use this procedure to create customized reports yourself. Please read more about this in the online help.
+In the main window you create a customize report that will become a separate procedure of the type list procedure. The procedure contains the customized report. It can also consist of one or several list types. Each list type can be a list or a document in a free-format layout. Layout, selection rows, settings, and SQL queries are edited for each list type you create.
+> If you want to create customized reports yourself, you must have knowledge about names of Monitor's database tables and columns. You must also be able to write SQL queries. You must also have knowledge about the report design tool DevExpress Report Designer if you want to create a so-called free-format layout for a report.
+Regardless of if you have ordered and downloaded a customized report or if you have created it yourself, you must select in which sub-module you want to place the report as a separate procedure. The procedure will then be added at the end of the sub-module. You also choose which users, groups, or roles should have access to the new customized report procedure.
+![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_log.png)

@@ -1,0 +1,2 @@
+### API
+- In G5 there is an API which all systems can access, making it possible to develop own integrations to Monitor G5. A read-only API license is included as a separate user license in the system. If you require additional communication with G5 via the API, you need to purchase that functionality. Read more about the API here [api.monitor.se](https://api.monitor.se/) or contact the Monitor Support Center for further information.

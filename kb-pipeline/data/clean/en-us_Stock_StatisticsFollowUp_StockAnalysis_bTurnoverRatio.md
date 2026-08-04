@@ -1,5 +1,5 @@
 ### Turnover ratio
-This list type calculates the selected parts' turnover ratio. This is displayed as a quantity. The information in the list – except for part number, name, part type, and ABC ABC codes are used to classify the range of parts by the volumes you sell. The codes are used as a scale for the parts that turn over the most money. The turnover is calculated by multiplying the price of the part by the annual volume. Parts that turn over the most money are called "A-parts", and after that, "B-parts", etc. code – is described below.
+This list type calculates the selected parts' turnover ratio. This is displayed as a quantity. The information in the list – except for part number, name, part type, and ABCABC codes are used to classify the range of parts by the volumes you sell. The codes are used as a scale for the parts that turn over the most money. The turnover is calculated by multiplying the price of the part by the annual volume. Parts that turn over the most money are called "A-parts", and after that, "B-parts", etc. code – is described below.
 
 #### Include
 Mark this checkbox for the parts for which you want to save the turnover ratio. The selected turnover ratio (Actual or Calculated) in the settings under the Selection tab, is what will be saved for the parts.

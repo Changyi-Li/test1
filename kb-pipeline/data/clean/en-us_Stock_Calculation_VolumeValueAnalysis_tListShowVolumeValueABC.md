@@ -1,5 +1,5 @@
 ### The list type Show volume value grouped by ABC code
-The list is grouped by ABC ABC codes are used to classify the range of parts by the volumes you sell. The codes are used as a scale for the parts that turn over the most money. The turnover is calculated by multiplying the price of the part by the annual volume. Parts that turn over the most money are called "A-parts", and after that, "B-parts", etc. code.
+The list is grouped by ABCABC codes are used to classify the range of parts by the volumes you sell. The codes are used as a scale for the parts that turn over the most money. The turnover is calculated by multiplying the price of the part by the annual volume. Parts that turn over the most money are called "A-parts", and after that, "B-parts", etc. code.
 
 #### Part type (T)
 This column shows a symbol for the type of part loaded on the row.

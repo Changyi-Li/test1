@@ -8,7 +8,7 @@ Location A-18-10-01 is a location in Zone A, Aisle 18, Section 10, and Level 1. 
 [![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/SubProjects/StockLocationChart.png)](../../../../Resources/Images/SubProjects/StockLocationChart.png)
 In the table, the abovementioned zone in the location register would be defined with four coordinates (plus three separators) according to the image below. The zone consists of nine aisles, ten sections, and nine levels. The zone is the first coordinate. This definition generates 810 unique location names.
 ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/SubProjects/StockLocationDefinition.png)
-Storage types with linked location coordinates are loaded from the Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Advanced stock management procedure.
+Storage types with linked location coordinates are loaded from the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Advanced stock management procedure.
 
 #### Coordinate
 Here you see/enter the number of the coordinate.

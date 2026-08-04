@@ -1,0 +1,2 @@
+### Description
+In this box you can enter a text describing the report. The text is then shown under the Report information heading in the Print accounting report procedure. By using the button Translations ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_translate.png) you can translate the text to the different active languages registered in the system. Read more about [language management](../../../UserGuide/GeneralFeatures/GeneralFeatures.htm#LanguageManagement) for translatable texts.

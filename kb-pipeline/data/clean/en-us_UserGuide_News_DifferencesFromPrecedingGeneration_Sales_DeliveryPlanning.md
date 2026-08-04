@@ -1,0 +1,12 @@
+### Delivery planning
+- This procedure replaces Print Pick Lists, Delivery List, and the list type Delivery list in the Order List - Sales procedure in G4.
+- The procedure has a list type called Picking plan which aims to facilitate the planning of deliveries. You see suggestions of orders ready for delivery and you as user select which ones you want to print pick lists for.
+- There is also a list type called Picking in progress which shows the created pick lists where delivery have not yet been reported.
+- You can delete and reprint in the list type for picking in progress.
+- There is a list type called Pick listA pick list is a list of parts/products which should be picked from stock for a manufacturing order or a customer order. by order. It is a more simple pick list variant which is grouped by customer order. In this list there is no clearing function and the printouts do not generate pick list numbers.
+- There is a list type called Loading plan which show the number of deliveries to perform over time. There you can see the number of orders, the number of order rows, weights, volumes, and an estimated picking time. You can show the information in a chart.
+- You can enter which person who is creating the pick list.
+- When creating the pick list, the system will suggest locations from which to pick, but you can manually adjust location.
+- When creating a pick list clearance is performed on location level. This is done to make the delivery reporting on location level easier.
+- The pick list is a document where you can edit the layout.
+- The pick list is sorted by location in order to facilitate rational picking.

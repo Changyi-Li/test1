@@ -1,0 +1,5 @@
+### Extra fields
+- The application of extra information fields in G4 is in G5 called "Extra fields". A separate procedure is available in G5 where all extra fields for all registers are handled.
+- The option to add extra fields is not determined by a system setting per register as in G4. If you have created an extra field in this procedure for, for example, the Part register procedure, the field will then automatically appear in that procedure.
+- In G5 it is very easy to create different types of extra fields and to assign headings and content to fields and field groups (boxes), for example, extra fields consisting of option lists.
+- Extra fields which you have created can also be added in selections and in own presentations for lists. Extra fields can also be added in own presentations of the LookupThe Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature.

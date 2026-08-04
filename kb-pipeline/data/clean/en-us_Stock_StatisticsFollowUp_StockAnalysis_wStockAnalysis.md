@@ -8,10 +8,10 @@ This list type shows the parts which have been stock counted. In the list you se
 - How much is planned to stock count per month and per year, and how much has been stock counted.
 - The part value out of what is planned to stock count and what has been stock counted.
 - What is positive and what is negative stock count difference, shown both as quantity and stock value.
-- How much has been stock counted and what is left to stock count, shown both as quantity and percent, per responsible user and per ABC ABC codes are used to classify the range of parts by the volumes you sell. The codes are used as a scale for the parts that turn over the most money. The turnover is calculated by multiplying the price of the part by the annual volume. Parts that turn over the most money are called "A-parts", and after that, "B-parts", etc. code.
+- How much has been stock counted and what is left to stock count, shown both as quantity and percent, per responsible user and per ABCABC codes are used to classify the range of parts by the volumes you sell. The codes are used as a scale for the parts that turn over the most money. The turnover is calculated by multiplying the price of the part by the annual volume. Parts that turn over the most money are called "A-parts", and after that, "B-parts", etc. code.
 
 #### Safety stock/Reorder point
-This list type is used to get an overview of the stock status for the current balance accuracy Balance accuracy is a metric that indicates the extent to which the recorded stock balance matches the actual physical quantity in stock.. It could be that the update of stock balances has fallen behind. The list shows each part's ABC code and both negative values (reorder points) and positive values (excess balances).
+This list type is used to get an overview of the stock status for the current balance accuracyBalance accuracy is a metric that indicates the extent to which the recorded stock balance matches the actual physical quantity in stock.. It could be that the update of stock balances has fallen behind. The list shows each part's ABC code and both negative values (reorder points) and positive values (excess balances).
 
 #### Turnover ratio
 This list type calculates the selected parts' turnover ratio. This is displayed as a quantity.

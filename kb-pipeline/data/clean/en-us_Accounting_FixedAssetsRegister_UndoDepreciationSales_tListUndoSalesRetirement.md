@@ -1,0 +1,3 @@
+### The list Undo sales/retirement
+This list shows only fixed assets which have sales/retirement records (can be one or more for partial sales). It is the most recent sale/disposal (according to the log) which is shown and can be undone. In case you want to undo multiple sales made on the same fixed asset you need to reload the list after each sale you undo.
+When selling a main object you will automatically see the linked sub-objects under the main object in the list. When the main object is sold, its sub-objects will automatically be included in the sale. It is possible to only sell the sub-object without selling the main object. The sub-object will then become disconnected from the main object.

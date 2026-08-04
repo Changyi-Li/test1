@@ -1,0 +1,6 @@
+## EIM Workflow settings
+This procedure is included in the option EIM Workflow. In this procedure you handle settings for EIM Workflow.
+> To make sure everything works as it should, these settings should be configured together with your consultant from Monitor ERP System AB.
+You configure general settings regarding allowed differences in days and amounts. You also configure general exceptions for handling extra invoice rows that the supplier often adds on invoices. This can be rows used for freight, packaging, alloy costs, setup costs, etc. You then link these exceptions to parts in the part register or directly to accounts in the chart of accounts.
+You also activate the service for EIM Workflow in the procedure. You enter a time interval that determines how often the service for EIM Workflow should handle incoming invoices in the inboxes. This way the invoices will be included in the invoice flow – from registration/preliminary entry/authorization to final recording.
+In the Supplier register procedure under the EIM Workflow tab, you can decide allowed differences and configure exceptions. These apply to a specific supplier and override general settings and exceptions that you enter here. In that procedure you can also choose to not allow automatic final recording for invoices from a specific supplier.

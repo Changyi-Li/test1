@@ -1,0 +1,4 @@
+### Copy to Clipboard
+When using the button Copy records to Clipboard ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/UserGuide/button_copy.png) on the function menu in a list, you can select which type of record to copy. The types have the same name as the registers in the Clipboard. When you select type, all records of that type in the list will be copied to the corresponding register in Clipboard. The same option is available in the context menu (right-clicking).
+![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/UserGuide/ClipBoard3.png)
+You can then see the records which have been copied. You do this by opening the [Clipboard](ClipBoard.htm) window on the title bar ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/UserGuide/Clipboard2.png) in Monitor ERP and in that window select the corresponding register.

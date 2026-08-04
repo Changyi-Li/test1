@@ -1,0 +1,2 @@
+### Shipping
+Under this tab you see the shipments which are linked to the customer order, that is, the shipments that have the customer order as source of information in the procedure Register shipment. This also applies to shipments which are based on pick lists where the customer order is included, that is, if Pick list A pick list is a list of parts/products which should be picked from stock for a manufacturing order or a customer order. is selected as source of information.

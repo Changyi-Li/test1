@@ -1,7 +1,7 @@
 ### Header row
 
 #### Pick list number
-Here you enter the number of the pick list. You can use the Lookup The Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. function (F4) to find the correct list.
+Here you enter the number of the pick list. You can use the LookupThe Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. function (F4) to find the correct list.
 
 #### Type
 Here you see if the pick list concerns material or tools.

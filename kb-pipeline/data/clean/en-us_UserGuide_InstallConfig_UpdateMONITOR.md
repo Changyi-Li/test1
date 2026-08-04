@@ -1,0 +1,30 @@
+### Update Monitor ERP Server
+Monitor ERP Installation Manager is used to update the software for Monitor ERP Server. There is a shortcut to the program on the desktop of the server.
+The update of Monitor ERP Server is completely automated. How long the update takes depends on how many databases you have in the system and the size of these databases.
+> Please note the following before you start an update! No users can be logged in to Monitor ERP when you run the update! If you have installed options, such as, MI, Webshop, WMS Integration, or TimeCard, you must update these according to the instruction for each separate option/product in connection to when you update of the Monitor ERP Server. These options are NOT updated via Monitor ERP Installation manager. If the Monitor ERP server is installed for SQL Anywhere, with a separate database server, you update the SQL Anywhere component in the Monitor ERP Installation manager. The update packet for SQL Anywhere can be found under Other components in the installation manager. If Monitor ERP Server is installed for Microsoft SQL Server, you must make sure you have a current and updated backup of the databases before you update the Monitor ERP Server. As of Monitor ERP version 24.6, the server must have Microsoft Windows Desktop Runtime 8.0.3 (x64) or later and Microsoft ASP.NET Core 8.0.3 (x64) – Shared Framework or later on the server computer before the update of Monitor ERP starts.
+Install an update of Monitor ERP Server
+1.    
+Start Monitor ERP Installation manager and select the Installed versions tab. Your installed (current) version is shown at the top of the tab. Click the button called Change version.
+[![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/UserGuide/InstallationManagerTab2.png)](../../../Resources/Images/UserGuide/InstallationManagerTab2.png)
+2.      
+In the next step you see if there is a newer version to download and install. If there are more than one newer version to install under Other versions, you can choose the latest version under Latest version. Make sure that the version is compatible with your installed version. Then a green check mark ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/StatusFinished.png) is shown in the Compatibility column.
+[![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/UserGuide/UpdateMONITOR.png)](../../../Resources/Images/UserGuide/UpdateMONITOR.png)
+If there is no newer version you will see your current version under Latest version and it is empty under Other versions.
+[![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/UserGuide/NoUpdateMONITOR.png)](../../../Resources/Images/UserGuide/NoUpdateMONITOR.png)
+If the version is not compatible with your installed version this is shown in the Compatibility column with an error symbol ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/error.png). A tooltip over to the error symbol will let you know what is not compatible. As a rule it is a component which you first need to update, for example, SQL Anywhere or Document Server.
+[![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/UserGuide/UpdateMONITORCompabilityIssue.png)](../../../Resources/Images/UserGuide/UpdateMONITORCompabilityIssue.png)
+To update a component you use the Install button under Other components. This must be done before you go ahead with the update of the Monitor ERP Server in the next step seen below.
+3.   
+Click the Install button in order to install the version. You can also click the button Download if you only want to download a version. After the download, a filled checkbox shows that the version is downloaded. You should then click the Install button in order to install the version.
+4.      
+When you click Install, a dialog window will show the packages that will be installed. Click OK to confirm.
+![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/UserGuide/UpdateMONITORConfirmBackup.png)
+From here, the update is completely automated. The databases are migrated to the new version, with backup copies also made. By clicking the hyperlink "[Click here](DatabaseBackupUpdate.htm)" in the dialog window, you can find out how the migration, and this backup, are carried out. You see the processes for backup and migration in separate windows.
+> Please note that copying of the databases as backup can only be done if the databases are on SQL Anywhere. If you have the databases on SQL Server, a dialog box appears to inform you that backup must be run manually. Then, run a backup of the databases in Microsoft SQL Server Management Studio, if this has not already been done, before you go ahead with the update. You then write "YES" in a field in the dialog box in order to confirm you have taken a backup. Then, click OK to go ahead with the update.
+5. Once you have clicked OK, a dialog window will appear where you can select which test databases should be excluded from migrating and backup. Once you have made your choice, click OK to start the installation. Excluded test databases receive the status Database file does not exist when migrating.
+6. When the updates is completed you will be directed back to the tab Installed versions. At the top of the tab you now see the version you have updated to, as your installed version. It takes approximately 30 to 60 seconds for the server service to start after an update.
+7. Close the installation manager. If you have installed any options (optional products), you should update these separately, see below.
+8. The users can do a first startup of their Monitor ERP client after the update is completed. The clients will update automatically during the startup.
+Update options
+If you have installed options, such as, MI, Webshop, WMS Integration, and TimeCard, you also need to update these after you have updated the Monitor ERP Server.
+1. Follow the instructions regarding how to update each option.

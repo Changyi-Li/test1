@@ -1,0 +1,11 @@
+### Register manufacturing order
+- The procedures Register Manufacturing Order and Adding / Replanning have been merged into one procedure. This means that you can replan the structure directly when the order is registered.
+- On the order information is saved about by who and when the order was created, modified, and printed.
+- More checks/validations at order registration, for example to see that work center exist.
+- There are two order types: Stock driven and Customer order oriented.
+- When a manufacturing order is linked to customer order, many fields are not possible to edit, for example revision, since it cannot be different revision on customer order and manufacturing order.
+- Orders that are confirmed as delayed can also be coded with cause of delay and have a comment regarding the delay.
+- A manufacturing order can have several main parts, if maximum quantity or coordinated processing is applied.
+- A transport label for the first operation can be printed directly when you register the order. This is done to be able to mark the pallet before any reporting is made.
+- If the manufacturing order is linked to a customer order you will see more information about the customer order on the actual manufacturing order document.
+- If the manufactured part has traceability at Serial numberA serial number is a number that is used for traceability for parts on entity level. level it means that serial numbers will be created when you register the manufacturing order. The serial number can also be inherited from linked customer order row.

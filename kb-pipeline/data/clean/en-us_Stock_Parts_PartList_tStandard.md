@@ -15,7 +15,7 @@ Each part can have one current standard price per unit. The standard price is al
 The part category is used as a selection term and grouping term in lists.
 
 #### Part code
-The part code is used as a selection term and grouping term in lists. Part codes are handled in the procedure Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part.
+The part code is used as a selection term and grouping term in lists. Part codes are handled in the procedure Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part.
 
 #### Product group
 The product group determines the part's posting and VAT. Product groups are handled in the Posting matrix procedure.
@@ -27,7 +27,7 @@ With this setting you decide if the part should be stock updated. Stock update i
 This checkbox determines if purchased parts should be purchased on project and manufactured parts should be manufactured on project.
 
 #### Country of origin
-Here you can see the part's country of origin (applies to Intrastat Intrastat is the system which gathers statistics relating to trade in products within the European Union. Gathering of Intrastat statistics is handled in the same way by all EU member states.).
+Here you can see the part's country of origin (applies to IntrastatIntrastat is the system which gathers statistics relating to trade in products within the European Union. Gathering of Intrastat statistics is handled in the same way by all EU member states.).
 
 #### Random stock location
 With this setting you decide if random stock location should be applied for the part. Random stock location is activated by default for new parts. This means that if the balance of the location becomes zero (0), the location will be deleted for the part. This is done automatically when you report withdrawals from the stock which empty the location.

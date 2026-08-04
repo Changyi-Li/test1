@@ -1,0 +1,3 @@
+### List type Calls
+This list shows customer order rows that call off each specific blanket order row. You cannot update the information in this list.
+In the Blanket order – Sales box, blanket orders are listed. When a blanket order row is marked, the calling/deducting customer order rows are shown in the Deducting customer order rows box. In this box, information is shown about the customer order, such as Order number, Customer – Customer order, Customer name – Customer order, Customer's order number, Customer number – Blanket order, Part number, Part name, Quantity, Delivered quantity, Remaining quantity, and Delivery date.

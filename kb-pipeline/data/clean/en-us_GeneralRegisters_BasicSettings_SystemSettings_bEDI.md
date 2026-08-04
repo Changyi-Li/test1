@@ -1,0 +1,5 @@
+### EDI
+
+#### Default warehouse for EDI
+Here you select which warehouse should be set in the order header on new customer orders when using EDI EDI is the acronym of Electronic Data Interchange. EDI is about exchanging electronic business documents with your business partners, e.g. customers and suppliers. The EDI concept can be wide and a bit unclear, and can many times be used about all types of documents which are sent electronically, even if it might be PDF files sent via e-mail or publishing business documents on a website. What we refer to as EDI – and what is traditionally meant by EDI – is structured business documents following given standards, electronically sent or received and which are compiled and interpreted automatically and that is integrated with the customer's/supplier's ERP system. import. For the order rows on the customer order, the warehouse is set based on the setting for the parts called Default warehouse on customer order found in the part register. If no warehouse is selected in that setting, the warehouse in the order header will be used.
+The system setting exists if you have installed both the options EDI and Warehouse.

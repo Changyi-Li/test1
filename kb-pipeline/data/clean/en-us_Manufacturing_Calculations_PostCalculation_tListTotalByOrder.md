@@ -79,10 +79,10 @@ The difference in percent is shown here between the planned cost and the reporte
 In this column you see the selected price to compare with. The name of the column is dependent of which comparative price you have selected. If you have chosen, for example, Post-calculated mean price, then the column heading will be Post-calculated mean price.
 
 #### CM
-Order’s contribution margin (CM The contribution margin (CM) is the difference between the standard price and the sales price.).
+Order’s contribution margin (CMThe contribution margin (CM) is the difference between the standard price and the sales price.).
 
 #### CR
-Order's contribution ratio (CR The contribution ratio (CR) is the portion of the invoice amount (sales price) that the contribution margin represents. CR is entered as a percentage.).
+Order's contribution ratio (CRThe contribution ratio (CR) is the portion of the invoice amount (sales price) that the contribution margin represents. CR is entered as a percentage.).
 
 #### Existing price
 The existing price from the part register which is corresponding to the price alternative which you under Saving under the Selection have selected to save to (on the first row in the table). A tooltip is shown when you hover over the field, displaying the price alternative you have selected. This column is only shown if you have chosen to save to one or several prices alternatives.

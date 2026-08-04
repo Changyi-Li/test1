@@ -2,7 +2,6 @@
 Here you create structures of maintenance types or maintenance categories for your tools and machines. You can add rows in several levels and create the structures as you want them, for example, according to SS-EN 133306. The maintenance structure will then be the basis of the statistics over performed maintenance.
 Below you find an example of how you can create structures of maintenance types:
 - Preventive maintenance  
-Preventive maintenance
 - Preset
 - Scheduled
 - Cyclical
@@ -11,7 +10,6 @@ Preventive maintenance
 - Continuous
 - Requested
 - Corrective maintenance  
-Corrective maintenance
 - Urgent
 - Restoring
 - Deferred

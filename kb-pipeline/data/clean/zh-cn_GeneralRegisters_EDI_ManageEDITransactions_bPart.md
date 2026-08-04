@@ -1,0 +1,8 @@
+### 组件
+在此框中你可以看到有关交货日程表中每个调用的信息。导入之后你还可以查看组件状态是否OK ![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/StatusFinished.png)。你可以将在 Monitor的组件与导入文件中的组件进行比较，以确保组件号、名称和单位对应。在列 调用的汇总数量 你可以看到该组件的总数量。你还可以看到卸货点、卸货点描述和仓储。
+如果组件行出现错误（例如，一或多个组件无法已匹配），你在此处调整商业事务。然后你会看到一个错误符号 ![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/error.png) 或警告符号 ![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/warning.png) 在组件状态列以及存在问题的列。当你将鼠标悬停在符号上时，工具提示会以文本表格显示错误。然后，你可以行上选择组件并使用按钮 行动 ![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/button_more_info.png) 选择添加另一组件标志或客户链接。
+当组件无法已匹配时是否显示错误符号或警告符号由设置决定 商业事务导入原则 在与客户已链接的EDI 行为中。如果设置已已配置为仅完成业务事务，则会显示错误符号。如果设置已已配置为允许业务事务的组件，则会显示警告符号。
+如果导入文件中的某个组件无法与在 Monitor的任何组件已匹配，你可以选择忽略该组件，方法是选中复选框 忽略组件 在行上 .也有可能由于某种原因，交货日程表中有些组件不应该已匹配。如果你已将已配置设置为仅完成业务事务，则必须人工的完成此操作。当你检查该框时，该行上的警告符号将会消失。事务行状态然后显示一个信息符号 ![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/button_information.png)。如果你已将已配置设置允许业务事务的组件，则该框将被自动选中。然后就会显示一个警告符号。
+如果导入文件中的某个组件的单位错误的和/或在 Monitor不存在该单位，也会显示错误符号 ![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/error.png) 或警告符号 ![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/warning.png)。这是由设置决定的 在组件行检查单位 在与客户已链接的EDI 行为中。如果导入文件中不存在该组件单位，则将使用在 Monitor该零件的默认单位。你无法在这里调整单位。必须将其已添加到组件登记中的组件中（用途 客户订单）。
+在功能菜单上有一个名为 转到程序 ![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/button_link.png)。通过使用它，你可以转到已加载受影响组件的相关程序。
+你可以取消固定该框并将其用作浮动窗口。通过使用按钮 浮动的 ![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/button_float_window.png) （Ctrl + U）。这样，表格将会更大，你可以更好地概览各个组件。

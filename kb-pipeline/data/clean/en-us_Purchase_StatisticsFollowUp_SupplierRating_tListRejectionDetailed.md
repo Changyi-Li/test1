@@ -1,0 +1,2 @@
+### The list type Rejection – Detailed list
+This list shows detailed information about arrival reported order rows, and whether or not these order rows had a rejected quantity at the receiving inspection. The list shows orders rows per grouping alternative with arrived quantity, approved and rejected quantity, rejection code, rejection comment, and external files linked to the rejection. At the bottom you see the delivered and inspected quantity in total, and approved and rejected quantity, also displayed in percent.

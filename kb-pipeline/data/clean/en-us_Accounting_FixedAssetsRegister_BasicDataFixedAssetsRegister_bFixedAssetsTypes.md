@@ -1,0 +1,2 @@
+### Fixed assets types
+In this box you can register different fixed assets types which then can be selected for the fixed assets groups. The fixed assets type is shown on fixed assets which are linked to a group where a fixed assets type is selected. Fixed assets types might for example be machines and buildings. When you start the system for the first time, there are some fixed assets included in the program as examples.

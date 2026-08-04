@@ -1,0 +1,4 @@
+### Delivery performance, delivery reliability, and supplier rating
+The system also allows you to measure the key ratio "delivery performance" to customers and from suppliers, respectively. You can also view these values in chart form. The system also allows you to create supplier rating for subcontracts.
+In the procedures Delivery reliability (customer) and Supplier rating, you can see key ratios used to measure your own delivery performance to your customers, or the delivery performance from your suppliers. In the Supplier rating procedure, you can base the delivery performance on either regular purchase orders or subcontracts.
+[![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/TrainingMaterial/BasicData_Case14.png)](../../../../Resources/Images/TrainingMaterial/BasicData_Case14.png)

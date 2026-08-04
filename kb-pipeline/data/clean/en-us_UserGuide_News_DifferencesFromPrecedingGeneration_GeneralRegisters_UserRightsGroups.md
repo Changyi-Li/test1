@@ -1,0 +1,2 @@
+### User rights groups
+- This procedure corresponds to the User Rights procedure in G4. However, a user rights group does not need to contain a setting for each user right that exists in the system. Each user rights group only contains what it adds or denies among the user rights. The idea is that the user rights group is combined with role and other user rights groups in order to get a total of resulting user rights for the user.

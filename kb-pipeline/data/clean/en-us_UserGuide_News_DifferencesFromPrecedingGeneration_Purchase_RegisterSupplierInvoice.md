@@ -1,0 +1,37 @@
+### Register supplier invoice
+- The invoice is given a consecutive number when you save it.
+- You can load supplier via giro number in the same field as supplier number.
+- You load supplier by entering the order number. Certain information about the invoice which you want to register can then be loaded from the purchase order instead of from the supplier.
+- A separate field for OCR number. In G4 this field was shared with Supplier invoice no..
+- VAT code in the invoice header has been replaced with VAT group. VAT group determines VAT amount, VAT posting, and VAT code on the posting rows (when dealing with expense invoice).
+- In G5 it is possible to enter multiple bank accounts per supplier. When registering supplier invoices you can then select to which of the registered accounts you should pay.
+- New field: Country. Primarily loaded from purchase order and secondarily from supplier. Used for IntrastatIntrastat is the system which gathers statistics relating to trade in products within the European Union. Gathering of Intrastat statistics is handled in the same way by all EU member states. reporting.
+- The coding buttons (posting) have been removed in G5. Instead you see an open coding/posting box at the bottom of the procedure. When coding/posting you will therefore have complete access to other parts of the system.
+- Final coding/recording takes place if you check a checkbox for this. If you code/post without this checkbok marked, a pre-coding of the invoice will take place.
+- Coding/posting can either be done as before, amounts in debit/credit, or by only entering an amount. Positive amount is booked on debit, negative amount is booked on credit. Amount is entered in external currency, this will automatically be converted to company currency (debit–credit) according to the current exchange rate. Transfer of the external amount to the general ledger only takes place for currency accounts.
+- You can per coding/posting row enter if automatic posting/automatic allocation should be active. This function is used when you temporarily want to record items without triggering automatic posting.
+- When accrual accounting a row a special accrual accounting window will open in the procedure, that is, no link to the Register accrual accounting procedure will open. The accrual accounting is not saved until you save the invoice.
+- Offset account for the accrual account can be set automatically based on a supplier setting.
+- New column in the coding/posting box: Accrual accounting. Information field showing the accrual accounting number of the row.
+- New column in the coding/posting box: VAT code. VAT code is meaningful when then VAT report is set to do a reading on transaction level instead of via the chart of accounts setting.
+- It is possible to go to the Chart of accounts, Balance information, etc. from the coding/posting box.
+- Under the Order link tab, more information is shown in the list for the arrival reported orders, for example Supplier's order number, Delivery note number, Delivery date.
+- The buttons Link and Preliminary link have been removed. Instead you enter per row if the order is linked. It is possible to adjust the link as long as the invoice has not reached status Final recorded.
+- When canceling the invoice, it will not be deleted from the database. It will remain but with status Canceled.
+- New button: Outgoing payments. This is used to see which payments are registered for the invoice in question.
+- New button: Bookkeeping list. It is used to see an overall picture of all coding/posting items made for the invoice in question, from preliminary entry to payment.
+- Warning or block can be shown if giro information or bank account information is missing for the supplier.
+- New field: Supplier group on the invoice. The supplier group determine the standard accounts and can also be used to generate new coding/posting of order row.
+- Function to see the supplier's most recent invoices. Shown in a new tab where you can see the invoices as well as the coding/posting items. Coding/posting items can be copied to the invoice in question.
+- Bank account will be suggested based on the currency entered on the supplier invoice. This is done based on the currency which has been linked to the supplier's bank account in the Supplier register.
+- When recording price differences during supplier invoice registration (which is configured using the system setting Record price differences during invoice registration), then you can compare the invoice price with the standard price excluding expenses. The comparison is configured with the system setting Price difference should compare the invoice's price with.
+- It is possible to handle up to three levels of cash discounts for invoices. But then you first have to have the payment term registered with these levels.
+- With the new system setting called Check against recurring invoice numbers it is possible to choose if there should be a block or a warning if an existing invoice number is entered for a new supplier invoice registered for the same supplier.
+- The system supports import of e-invoice in the Peppol BIS 3.0 format.
+- Country package Estonia: It is possible to enter reference number.
+- A warning is shown if the invoice is already credited.
+- On the credit invoice it is possible to see an image of the debit invoice being credited (if EIM is activated in the system).
+- When crediting an invoice linked to order, then it is possible to enter both credited price each and new price each.
+- When crediting an invoice regarding subcontract, this cost will be adjusted in the manufacturing order's post-calculation/WIP value.
+- It is possible to get your invoices automatically registered by using a connection to an invoice interpretation solution.
+- You can show the current balance and new balance for the account you post on.

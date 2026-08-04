@@ -1,0 +1,12 @@
+## Analyze EDI transactions
+In this procedure you can load lists showing the delivery schedules which contain parts that have not been matched and because of it they have automatically (if the EDI EDI is the acronym of Electronic Data Interchange. EDI is about exchanging electronic business documents with your business partners, e.g. customers and suppliers. The EDI concept can be wide and a bit unclear, and can many times be used about all types of documents which are sent electronically, even if it might be PDF files sent via e-mail or publishing business documents on a website. What we refer to as EDI – and what is traditionally meant by EDI – is structured business documents following given standards, electronically sent or received and which are compiled and interpreted automatically and that is integrated with the customer's/supplier's ERP system. behavior has been set to allow parts business transactions) or manually been skipped during the EDI import.
+- This procedure is only available if the EDI option is installed.
+- Only EDI transactions of the type called Delivery schedules G5 will be analyzed and shown in the list.
+- Only EDI delivery schedule transactions where the customer was matched are shown in the list.
+Selection rows
+In a list procedure there is always a tab called Selection where you can select data records in different intervals from the database. The data records are then loaded by using the Load button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_display_list.png) in the toolbar of the procedure.
+Under Selection rows in the backstage of the procedure, you can choose which selection rows that each list type should have, under the Selection tab in the procedure. In the List type field you select for which list type you want to customize the selection rows.
+One table shows selection rows possible to select and one one table shows the selected selection rows. You can add, delete, or move selection rows by dragging and dropping the selection rows with your mouse pointer.
+Using the Save button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_save.png) you save the selected selection rows.
+Read more about this in the [Selection](../../../UserGuide/GeneralFeatures/Selection.htm) topic.
+> You can automate the running of this procedure with the Agent option. Read more about [The Agent](../../../UserGuide/Options/Agent.htm) can help make your processes more efficient.

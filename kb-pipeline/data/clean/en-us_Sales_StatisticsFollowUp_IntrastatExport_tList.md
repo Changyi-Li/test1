@@ -1,0 +1,10 @@
+### The List tab
+In the upper box, the amount of the goods records is summarized per combination of Country, CN code, and Transaction type. It is the information on the rows in the upper box which you should report for Intrastat Intrastat is the system which gathers statistics relating to trade in products within the European Union. Gathering of Intrastat statistics is handled in the same way by all EU member states..
+VAT registration number is loaded from the customer register. If VAT registration number is missing on the customer, a warning is shown under the Warnings tab and you can enter a VAT registration number in the Customer register.
+Data in the upper box is loaded from:
+- Customer invoices – Data is loaded from the invoicing log/invoice rows with links to parts, delivery addresses, accounts receivable, and other tables. The date selection under the Selection tab is made by the invoice date. Please note! The date in the customer invoice journal is taken into consideration if the voucher date has been changed manually.
+- Stock order – Data is loaded form delivery rows in the database. The date selection under the Selection tab is made against the delivery date on the rows (the actually entered date, not the log date).
+- Subcontract shipment – Here the data is loaded from the manufacturing order log. It is records concerning shipments of subcontract. The date selection under the Selection tab is made by the shipment date in the log. The amounts that should be reported is loaded from a special calculation.
+- Adjustment log – The data is loaded from the Instrastat adjustment log. In this simplified log you find time, adjustment date, CN code, country, transaction type, and amount, etc.
+In the lower box you see the detail records (order rows) included in the row selected in the upper box.
+When needed you can also change the Intrastat information directly in the invoicing log. This is done by using the "go to" function on the row to open the Invoicing log procedure.

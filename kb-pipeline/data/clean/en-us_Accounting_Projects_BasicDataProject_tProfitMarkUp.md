@@ -1,0 +1,2 @@
+### The Profit mark-up tab
+This tab becomes activated when you use Percentage of completion method with the pricing option set to Continuous with profit mark-up on any of the project types. Here you can then enter Exception from profit mark-up per cost type, and Income type for forecast calculation which will result in an automatic update of the project forecast. If you have not entered any exceptions, it is the project's profit mark-up that will apply. If you enter 0.00 percent for a cost type, no profit mark-up will be calculated for this cost type.

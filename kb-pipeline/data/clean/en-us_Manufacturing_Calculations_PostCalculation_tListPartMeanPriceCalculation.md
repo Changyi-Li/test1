@@ -58,10 +58,10 @@ The difference in percent is shown here between the planned cost and the reporte
 In this column you see the selected price to compare with. The name of the column is dependent of which comparative price you have selected. If you have chosen, for example, Post-calculated mean price, then the column heading will be Post-calculated mean price.
 
 #### CM
-The part's contribution margin in orders (CM The contribution margin (CM) is the difference between the standard price and the sales price.).
+The part's contribution margin in orders (CMThe contribution margin (CM) is the difference between the standard price and the sales price.).
 
 #### CR
-The part's contribution ratio in orders (CR The contribution ratio (CR) is the portion of the invoice amount (sales price) that the contribution margin represents. CR is entered as a percentage.).
+The part's contribution ratio in orders (CRThe contribution ratio (CR) is the portion of the invoice amount (sales price) that the contribution margin represents. CR is entered as a percentage.).
 
 #### Save price
 This checkbox determines whether or not the price that has been calculated will be saved for the part.

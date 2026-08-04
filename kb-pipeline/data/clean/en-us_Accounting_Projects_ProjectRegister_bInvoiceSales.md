@@ -1,0 +1,7 @@
+### Invoices
+In this box you see invoice which have been approved and received their invoice number in the accounts receivable, on the project in question. Deleted accounts receivable records are not shown. Credit invoices are displayed with a negative amount in red.
+Using the button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_link.png) you can go to the procedures Register invoice directly, Invoicing log, or Update accounts receivable, for the selected invoice in the box. Via the same button you can select to credit or set-off the invoice.
+When you credit an invoice, a credit invoice is created in the procedure Register invoice directly. This only works for invoices which are not credit invoices.
+It is possible to set-off a credit invoice against other debit invoices for the same customer. When you choose to set-off the invoice, then the procedure Incoming payments opens and the credit invoice is loaded for set-off.
+Using the Show document button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_form_viewing.png), you open the document in a separate window. There you can also reprint the document or attach it to an e-mail message.
+By using the Show all invoices button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_goto_critical_op_15x15.png) you can choose to also show invoices that do not have a remaining amount.

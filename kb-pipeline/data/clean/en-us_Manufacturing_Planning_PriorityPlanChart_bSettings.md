@@ -1,7 +1,7 @@
 ### Settings
 
 #### Sorting
-With this setting you decide how the work centers should be sorted in the chart. The following sorting alternatives are available: Work center A work center is a part of the factory. It can be a single machine or a group of machines, a single workstation or a group of workstations., Department, Planner, and Category.
+With this setting you decide how the work centers should be sorted in the chart. The following sorting alternatives are available: Work centerA work center is a part of the factory. It can be a single machine or a group of machines, a single workstation or a group of workstations., Department, Planner, and Category.
 
 #### Show on row 2
 With this setting you decide if Part number and/or Part number should be shown on row 2 in the horizontal bars.

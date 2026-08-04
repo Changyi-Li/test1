@@ -13,7 +13,7 @@ Here you select the type of the variable. The different variable types are: Text
 (Number) Here you enter how many decimals which should be used for values for the variable. If you enter zero (0), you will only be able to enter the variable as integers in configurations.
 
 #### Unit
-(Number) Here you enter the unit of the variable. The units you can select among are the ones registered in the procedure Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part.
+(Number) Here you enter the unit of the variable. The units you can select among are the ones registered in the procedure Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part.
 
 #### Multiple
 (Number) Multiple of value. The value you enter here determine that values entered for the variable in formulas only can be multiples of this value.

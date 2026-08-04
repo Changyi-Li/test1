@@ -1,0 +1,13 @@
+### Calculate annual volume
+- It is possible to add several types of calculations to each other, for example order backlog, consumption statistics, etc.
+- There is a field where you can manually enter a factor to multiply with the result.
+- You can see purchase volume per supplier.
+- It is possible to select future costs for the work centers.
+- Under the Selection tab you can choose SO and SC.
+- Ordered quantity is taken from the order backlog (not only the remaining quantity).
+- Deducted quantity is taken from forecasts (only the initial quantity).
+- The calculation of annual volume for main parts and explosion for calculation of included/incorporated parts are divided into separate calculations.
+- If you select to load annual volume from Order backlog, only actual order rows will be included in the calculation. All other row statuses, except for actual order rows, will be handled if you instead select to load annual volume from Sales forecast – Customer.
+- The procedure has a new list type called Calculate expenses. It is intended to be used as a basis in connection with budget work. From the list you can start a calculation which explodes the selected parts and totals the annual volume for all incorporated/included purchased parts. The total annual volume is used to calculate total expenses per expense type on each part. Furthermore, the number or orders is also calculated, as well as number of packages and number of kg for the calculated volume.
+- A list type called Reset annual volume where you can reset the annual volume for the selected parts.
+- You can see the date for the most recent calculation of annual volume.

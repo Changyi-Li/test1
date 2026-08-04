@@ -1,0 +1,3 @@
+## Price lists
+In this procedure you register price lists that should be used in the system. When you start up the system for the first time, a price list already exists called Sales price. This price list has the same currency code as the company currency.
+You can change the name and currency of an existing price list. You can also delete existing price lists that are not used or has not been used. If you delete a price list, a check is made to make sure that the price list is not linked to a customer or order type. It also checks if there is a logged value for a part in the price list. If so, it is not possible to delete the price list in question.

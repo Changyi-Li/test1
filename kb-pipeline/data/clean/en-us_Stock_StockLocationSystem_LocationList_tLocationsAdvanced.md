@@ -33,7 +33,7 @@ Here you can block and unblock locations.
 Here you can enter a cause regarding why the location is blocked.
 
 #### Storage type
-Here you can select which storage type should be applied for the location. The storage type must first be defined in the Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Advanced stock management procedure.
+Here you can select which storage type should be applied for the location. The storage type must first be defined in the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Advanced stock management procedure.
 
 #### The Coordinates button
 By clicking the Coordinates button you can see the coordinate structure.

@@ -1,0 +1,3 @@
+### Drilldown in lists
+In lists with total data you can display the detailed information by using a drilldown function. On these rows there is a button with a plus sign ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_drill_down.png). If you click the button you will see an increased level of detail for that particular row.
+In own presentations it is possible to add these detail levels. In the column called Drilldown list type you select which of the standard presentations the increased detail level should consist of. Using the Drilldown filter you can decide which separate columns should be included in the detailed level.

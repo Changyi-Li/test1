@@ -26,7 +26,7 @@ Emissions from the own production. This is shown in kg CO2e/unit.
 Here you see emissions from subcontracting in kg CO2e/unit. When calculating this value, the emission value entered for the subcontract part will primarily be used. If you have not entered a value for the subcontract part, the value entered under Other emissions for the work center will be used instead as a fallback.
 
 #### Overhead
-Overhead refers to the company's other emissions which have not been distributed to the other categories. This is based on values in the column called Distribute as OH in the Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Sustainability procedure.
+Overhead refers to the company's other emissions which have not been distributed to the other categories. This is based on values in the column called Distribute as OH in the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Sustainability procedure.
 
 #### Warnings (W)
 If warnings exist after the calculation, you can click the Warnings button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/warning.png) to view the warnings, if any. Go to each of the procedures and records in the warnings to enter the missing information. This way you rectify the problems causing the warnings and you will get a complete calculation.

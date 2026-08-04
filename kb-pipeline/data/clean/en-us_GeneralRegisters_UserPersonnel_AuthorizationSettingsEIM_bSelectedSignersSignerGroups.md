@@ -1,0 +1,7 @@
+### Selected signers/signer groups
+In this box you see all signers and signer groups that you have added to the authorization list. The authorization list describes an authorization flow.
+A signer can appear several times in an authorization list, but not in a row. For example, the signer should make the first approval/authorization and then also the last approval after other signers have approved their portion.
+You can also remove signers and signer groups from the list by using the button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_goto_previous.png) or by using the "drag and drop” function. You can change the order of the signers in the authorization list by using the buttons ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_goto_up.png) and ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_goto_down.png)
+
+#### Parallel authorization (P)
+Here you can activate parallel authorization on selected signers in the authorization list. Parallel authorization is activated by default for all signers if parallel authorization has been activated for the authorization list in the Authorization lists box. If you activate parallel authorization for one or multiple signers in the list, this means the parallel signers will get to do their authorizations first, and then the rest of the signer will authorize in the order of the authorization list.

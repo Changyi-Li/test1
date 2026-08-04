@@ -1,0 +1,5 @@
+### Dimension groups
+In this box you can, per dimension, create dimension groups and name them and enter a description of the groups.
+In the table of dimension codes you can choose which codes should be included in a dimension group. In the Dimension codes box you can then link the codes that should be included in the specific dimension group, to determine under which group they should be reported.
+This way you do not have to create a logic in how you name the dimension codes if you need to create reports based on a selection of dimension codes. Dimension groups can be used as selection terms when you create accounting reports.
+Dimension groups for the Project dimension can be linked to the relevant project in the Project register to determine which group they are to be reported under. The dimension group can be set by default when you create new projects if you enter a default dimension group per project type in the Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Project procedure.

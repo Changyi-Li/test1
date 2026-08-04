@@ -1,0 +1,9 @@
+### Grouping
+
+#### Seller
+The responsible seller. The seller selected for the customer is loaded by default, but this can be changed for the blanket order in question. By using the More info button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_more_info.png) you can see information about the selected seller.
+If you enter a seller on the order, you create a basis for statistics for sellers. Seller is also available as selection term in different lists,
+
+#### Category
+Here you can enter a customer order category. By clicking the Category selection button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_more_info.png), you can select a category if categories have been registered in the Categories procedure. If no categories are registered, you can type as you please in this field. Categories can be used as a selection term in different lists. Read more about how categories can be created/constructed in the online help function for the [Categories](../../../GeneralRegisters/Categories/Categories/wCategories.htm) procedure.
+Customer order categories can be of help when you for example load statistics from the order register.

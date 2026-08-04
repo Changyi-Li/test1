@@ -3,7 +3,7 @@ In Monitor ERP, the following rules apply regarding how locations are suggested 
 If the system setting Apply pick location is activated and a pick location or a pick location for work center is selected, all reporting of non-traceable materials will be reported from the pick location, regardless of the balance.
 1. Locations with cleared balance.
 2. Project balance. (Part traceability is required)
-3. Location that is a pick location for work center with high priority in the Work center A work center is a part of the factory. It can be a single machine or a group of machines, a single workstation or a group of workstations. register.
+3. Location that is a pick location for work center with high priority in the Work centerA work center is a part of the factory. It can be a single machine or a group of machines, a single workstation or a group of workstations. register.
 4. Location that is not a pick location for work center with high priority in the Work center register.
 5. Location that is entered as pick location in the Part register.
 6. Locations that are not entered as pick location for work center in the Part register.

@@ -1,5 +1,5 @@
 ### Safety stock below reorder point
-In this list you see the parts selected under the Selection tab. The information in the list – except for part number, name, part type, and ABC ABC codes are used to classify the range of parts by the volumes you sell. The codes are used as a scale for the parts that turn over the most money. The turnover is calculated by multiplying the price of the part by the annual volume. Parts that turn over the most money are called "A-parts", and after that, "B-parts", etc. code – is described below.
+In this list you see the parts selected under the Selection tab. The information in the list – except for part number, name, part type, and ABCABC codes are used to classify the range of parts by the volumes you sell. The codes are used as a scale for the parts that turn over the most money. The turnover is calculated by multiplying the price of the part by the annual volume. Parts that turn over the most money are called "A-parts", and after that, "B-parts", etc. code – is described below.
 
 #### Required reorder, safety stock
 Here you see the quantity required to order to reach the safety stock level.

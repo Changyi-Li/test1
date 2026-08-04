@@ -1,0 +1,11 @@
+### WIP value
+- Clearer warnings and better support for analyses, comparisons, and detailed information.
+- The settings under the Selection tab are divided for internal operations and subcontracts.
+- It is possible to value reported subcontracts at the purchase order price until the invoice is linked.
+- It is possible to value setup time at planned time/cost (setup and unit can also have different cost factors).
+- It is possible to have different rate types for material, valued in another currency.
+- There are dynamic choices for which columns you wish to show in the list.
+- It is possible to enter a minimum value. This means that manufacturing orders with value lower than the minimum will not be accounted for on separate rows in the list, instead they are shown as one total value for small records.
+- In the WIP value procedure it is possible to choose if the cost for rejection on operation should be included or not.
+- If the option Management accountingManagement accounting is an option in Monitor ERP. It is used as a complement to the standard function called Stock accounting. The function means that all transactions on manufacturing orders (WIP value) are posted and transferred to the general ledger in the Accounting module in Monitor G5. The hours worked are recorded in the income statement, and provide a financial follow-up, for example, made per department and cost factor. Calculation differences are posted and these can be followed up per product, per order, etc. This function also contains extended management of cost of goods sold. is installed, the list type Reconciliation is available. This list is used to reconcile the WIP value with the accounting. In this list you see the opening and closing WIP value of the selected period, as well as its change. The list reconciles this with the corresponding recorded change. If there is a difference, you are able to see details about it.
+- When there is no status selected in the WIP list, it will still filter on manufacturing order statuses that are valid.

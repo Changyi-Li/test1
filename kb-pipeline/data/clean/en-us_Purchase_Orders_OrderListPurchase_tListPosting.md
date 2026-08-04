@@ -1,0 +1,2 @@
+### The Posting list
+This list type is used with the purpose of reviewing and updating posting items for purchase orders. Only order rows that have a remaining quantity are shown in the list. You can update both account and dimensions in the list if you make the list Updateable![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_edit_list.png) (Ctrl + U) on the toolbar. It may be useful to mass update accounts, for example, when making the shift to begin recording your stock on a stock account in the balance sheet, rather than on a cost account.

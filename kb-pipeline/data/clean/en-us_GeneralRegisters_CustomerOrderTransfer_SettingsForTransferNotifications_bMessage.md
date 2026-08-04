@@ -1,0 +1,5 @@
+### Message
+Under the heading for each event you see a default message text for the notification. The text also contains different tags which are variables for different values such as order number, customer name, database number, etc. The text is constructed to suit each event. It is possible to edit and translate this text.
+By using the button Insert phrase ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_add_phrase.png) you can add a phrase from the phrase register to the message text.
+By using the button Translations ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_translate.png) you can translate the text to the different active languages registered in the system. Read more about [language management](../../../UserGuide/GeneralFeatures/GeneralFeatures.htm#LanguageManagement) for translatable texts.
+> However, you should not change the text within a tag. Then the tag will stop working. You should for example not change the text "sourceOrderNumber" in the tag [[sourceOrderNumber]].

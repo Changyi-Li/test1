@@ -1,0 +1,16 @@
+### Requirement calculation
+- Selection by supplier only gives you hits on the part's main supplier.
+- The setting regarding if forecasts should be included has been divided in two settings. One for forecasts on customer order and one for forecasts in the Stock module.
+- Orders are created directly from the list, not via the lists for order suggestions.
+- Rescheduling out and excess orders are handled in the procedure.
+- Shortages which cannot be covered is another issue you can address. This was not possible in G4.
+- It is possible to determine which order types should be assigned to purchase orders and manufacturing orders at generation.
+- There are three list types which all group the list in different ways: Standard, Grouped by supplier, and Grouped by administrator.
+- The throughput time which is shown and determines the start date on a new manufacturing order suggestion is always calculated based on suggested quantity. In G4 the part's calculated quantity was used against the EOQ quantity.
+- A lot is new in the list's user interface. The major differences are:
+- The top part of the list is a total list with one part per row showing parts with shortages.
+- The middle section of the list shows the number of order suggestions where you can filter.
+- The bottom section shows the planning window for the part which is marked in the total list.
+- In the planning window you select which order suggestions should be turned into orders.
+- It is possible to modify quantity and date directly in the planning window.
+- It is possible to modify under a button, for example change supplier, or change a posting.

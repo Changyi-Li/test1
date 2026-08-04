@@ -7,7 +7,7 @@ Here you select which type of record you wish to import: standard price, supplie
 If you have selected Price list under Type, here you select which price list you want to import.
 
 #### Supplier/Customer
-If you have selected Supplier price or Customer price under Type, you here select to which supplier or customer you want to import price by using the Lookup The Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature.
+If you have selected Supplier price or Customer price under Type, you here select to which supplier or customer you want to import price by using the LookupThe Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature.
 
 #### Match part number with
 This is available if you have selected Supplier price or Customer price under Type. Here you configure with what the part number in the import file should be matched in Monitor ERP. The options are:

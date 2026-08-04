@@ -24,7 +24,7 @@ By clicking the button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Conten
 
 #### Material enough for
 By clicking this button you access a dialog where you see how many of the part in question (the part number selected in the procedure) that can be manufactured, based on the available stock balance of the included material (current balance minus cleared quantity).
-In the Enough for column you see how many parts can be manufactured based on the materials’ available balance. Please note! If an included/incorporated material has 0.00 as the entered quantity in the BOM and routing, this will be shown as an infinity sign ∞ in that column. You also see the Lead time Number of days between ordering date and delivery date. Normally used for purchased parts. of the material and whether or not it is Ordered.
+In the Enough for column you see how many parts can be manufactured based on the materials’ available balance. Please note! If an included/incorporated material has 0.00 as the entered quantity in the BOM and routing, this will be shown as an infinity sign ∞ in that column. You also see the Lead timeNumber of days between ordering date and delivery date. Normally used for purchased parts. of the material and whether or not it is Ordered.
 You can also show or hide included/incorporated parts of the Fictitious types. This is done using the Show/hide fictitious parts button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/PartTypeFictitious.png) on the function menu in the dialog. This is done in order to see how many parts the material will suffice to when you include the incorporated materials used in the fictitious parts as well.
 
 #### Included in

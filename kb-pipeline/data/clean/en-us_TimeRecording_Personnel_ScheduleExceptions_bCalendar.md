@@ -1,0 +1,7 @@
+### Calendar
+In this box you see a calendar showing the schedule which applies at the moment for the different dates in the calendar. At the top of the box you see the name of the person you have selected in the table containing employees.
+In the calendar you see the regular schedule for the person/employee you have checked in the table.
+By marking one or several days in the calendar you can enter schedule exceptions for those days. You can only enter schedule exceptions for today and for future dates. You can mark more than one day by holding down the mouse button and drag the pointer across the days. It is also possible to select more than one day by pressing the Shift or Ctrl key and click on the days.
+In the field in the middle of a day box in the calendar you can select a schedule exception to save for the person. If you have checked the Include box for one or several employees in the table, then it is not possible to change schedule exceptions directly in the calendar. Then you instead have to enter the schedule exception in the box called Schedule exceptions to the left.
+In that box you then select which schedule exception should apply for the marked days. In the field in the middle of the day box in the calendar, you will then see the name of the schedule exception in question.
+The regular schedule's name is shown in italics in a day box when there is a schedule exception entered for that day.

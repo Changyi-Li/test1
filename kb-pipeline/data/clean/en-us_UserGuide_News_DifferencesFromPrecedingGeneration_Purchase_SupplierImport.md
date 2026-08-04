@@ -1,0 +1,3 @@
+### Supplier import
+- The function in Supplier import and other import procedure for basic data (e.g. Part import and Customer import) is basically the same as in G4. What is new is Format template, which in G4 was called Configure field. Using format templates you configure which fields should be imported an in which sequence these are placed as columns in the import file. It is also easier to configure address fields and its included row fields in format templates.
+- Symbols on loaded records show if it is a new or an existing record which has been imported, with validation for errors in imported data.

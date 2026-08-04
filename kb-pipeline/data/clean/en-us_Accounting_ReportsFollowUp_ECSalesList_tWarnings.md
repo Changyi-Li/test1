@@ -1,0 +1,10 @@
+### Warnings
+Under this tab all warnings are collected, if any warnings have occurred. The system performs different types of checks/controls and presents the inaccuracies, if any, under this tab in connection with the printout. By using the Preview (Ctrl + Shift + P) button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_preview.png) under the List tab you can also print the list of warnings.
+
+#### Warning
+Different warnings can occur.
+- Incorrect VAT registration number – This warning will occur if there is not a valid VAT registration number. The value is shown correctly in the VAT report but is missing in the EC sales list. Columns with information about customer number, customer name, and VAT registration number are displayed. The link takes you to the Customer register procedure.
+- Link to customer invoice is missing on voucher – This warning means that the link to the invoice number is missing on the voucher. The journal might have been transferred "in a lump" or a manual voucher has been created using posting rows which affect the EU sales. The VAT report is not complete and will not be included in the EC sales list. In a column you see information about to which voucher numbers this applies. The link takes you to the Register vouchers procedure.
+- Delivery outside the EU – This warning means that the delivery address on the invoice basis is not located in a country in the EU. This will not cause a difference between the VAT report and the EC sales list. However, this sale should probably not be included in any of the two reports. Columns with information regarding customer, customer name, VAT registration number, country code, and voucher number are shown. The link takes you to the Register vouchers procedure.
+- There are customer invoice journals left to record. – This warning means that reporting of VAT and EC sales list might be missed. The link will take you to the Print customer invoice journal procedure.
+- There are preliminary vouchers left to record – This warning occurs if all vouchers have not been recorded. The link takes you to the Voucher list procedure.

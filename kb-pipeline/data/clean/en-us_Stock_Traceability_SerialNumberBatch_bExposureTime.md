@@ -2,7 +2,7 @@
 In this box you can see the Code, Exposure time, Remaining time, and Number of cycles for the selected batch. The Exposure time box is displayed if the system setting called Exposure time is activated.
 
 #### Code
-This is loaded from the Part register where you’ve selected the code for the part. New codes are registered in Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part.
+This is loaded from the Part register where you’ve selected the code for the part. New codes are registered in Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part.
 
 #### Exposure time
 Here you see, in hours, how long the selected batch can be exposed before any action must be taken.

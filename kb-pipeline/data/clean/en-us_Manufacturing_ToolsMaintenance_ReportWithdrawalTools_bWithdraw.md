@@ -9,7 +9,7 @@ In this column you see a symbol representing the traceability level of serial nu
 In this column you find a symbol for the basic type of the tool. If you place the cursor over the symbol, a tooltip will appear displaying an explanation of the symbol.
 
 #### Serial number/Batch number
-For tools to withdraw that are registered with serial number or batch number in the Serial number A serial number is a number that is used for traceability for parts on entity level./Batch A batch is the set of components/products manufactured at the same time and made from the same original material., you can enter this number here to facilitate the reporting.
+For tools to withdraw that are registered with serial number or batch number in the Serial numberA serial number is a number that is used for traceability for parts on entity level./BatchA batch is the set of components/products manufactured at the same time and made from the same original material., you can enter this number here to facilitate the reporting.
 
 #### Part number
 For tools to withdraw that are not registered in the Serial number/Batch procedure, you can here enter the part number.

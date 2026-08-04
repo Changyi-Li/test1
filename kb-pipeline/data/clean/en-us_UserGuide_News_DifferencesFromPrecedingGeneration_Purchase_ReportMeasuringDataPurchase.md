@@ -1,0 +1,4 @@
+### Report measuring data – Purchase
+- A separate procedure where you report measuring data connected to purchase. To report values you enter the purchase order number, position, and number of details you will check. You will then see the planned measuring for these details and you can report your measuring values. Instructions and tolerances for the measuring in question are show in a separate section to the right. Previous reporting items can be seen via a button on the toolbar.
+- For parts with traceability it is now mandatory to enter batch or serial number when you report measuring data. You select among the batches or serial numbers which are linked to the purchase order.
+- When measuring of the type First and Last you can now enter the number of details to measure. This means it is possible to configure to measure, for example, the first 5 or the last 3 details. This was not possible in G4.

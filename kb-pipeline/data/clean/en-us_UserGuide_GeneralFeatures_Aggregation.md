@@ -1,0 +1,3 @@
+### Aggregation of columns
+You can select aggregation of columns to a list type for which you have created an own presentation. This is done in the table Selected. For example you can show total amount, quantity, minimum value, maximum value, and average value, on all rows in one column. The value of the aggregation is shown in bold font under the column in question in the list.
+For the presentation you can also create an extra aggregation. This is done under the Extra aggregation button. Some lists have a built-in and pre-defined extra aggregation which provides total calculations. You can then choose if you want the aggregation to be shown in the grouping footer. An example where aggregation is used is the order lists which show total per currency.

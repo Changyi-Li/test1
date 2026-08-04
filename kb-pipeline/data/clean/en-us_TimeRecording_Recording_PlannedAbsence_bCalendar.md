@@ -1,0 +1,5 @@
+### Calendar
+In this box you see a calendar. As heading of the box you see the name of the person you have selected in the table containing employees.
+In the calendar you see the regular schedule and planned absence for the person/employee you have marked in the table.
+By marking one or several days in the calendar you can enter planned absence for those days. This is done in the box Planned absence.
+Absence codeAbsence code is used in order to be able to link causes to recorded absence. Salary types can be linked to absence codes and thereby the system can link the different types of absences to the correct salary type. Examples of some of the most common reasons for absence are illness, parental leave, leave of absence, late arrival, etc. Furthermore, absence codes can be linked to time balances so that the absence recording automatically reduces the balance for flex time, comp or makeup time. and number of hours absence are shown in bold font in a day box if there is a planned absence registered for that day.

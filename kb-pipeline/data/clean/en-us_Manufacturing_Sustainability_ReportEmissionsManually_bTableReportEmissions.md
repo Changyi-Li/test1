@@ -1,7 +1,7 @@
 ### The Report emissions manually table
 
 #### Emission code
-The code for the emission. The code must first registered in the Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Sustainability procedure.
+The code for the emission. The code must first registered in the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Sustainability procedure.
 
 #### Quantity
 The quantity in the unit for the emission code.

@@ -1,0 +1,5 @@
+### Settings – Selection (Picking in progress)
+EDI
+
+#### "No" by default for EDI export
+This is only available in systems with the EDI EDI is the acronym of Electronic Data Interchange. EDI is about exchanging electronic business documents with your business partners, e.g. customers and suppliers. The EDI concept can be wide and a bit unclear, and can many times be used about all types of documents which are sent electronically, even if it might be PDF files sent via e-mail or publishing business documents on a website. What we refer to as EDI – and what is traditionally meant by EDI – is structured business documents following given standards, electronically sent or received and which are compiled and interpreted automatically and that is integrated with the customer's/supplier's ERP system. option. When this setting is activated it means the column for EDI export in the Result box by default will be set to No. This setting can be of use in order to avoid unintentional EDI export when you list the results, for example when you want to reprint a document.

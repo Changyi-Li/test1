@@ -1,0 +1,10 @@
+### Documents
+Under this tab you can view and print the report document you have loaded. Here you find buttons for printing and exporting the report. You can also send the report via e-mail. Under the Selection tab you can with the setting Show choose if charts and/or rows should be shown. When exporting to Excel (in both formats) the columns headings will also be included.
+When the setting Activate links has been checked under the Selection tab, then you can click your way from a balance in the report to the underlying vouchers in the general ledger. From the general ledger you can then continue from each voucher and see it in detail. You can also open the vouchers in the procedure Register vouchers.
+
+#### Document configuration
+- General ledger (drilldown, standard) – The report displays information about voucher number, specification, debit, credit, and balance.
+- General ledger, detailed (drilldown, standard) – This report displays more detailed information about the transactions than what the General ledger (drilldown, standard) do. The report is in landscape format and also shows information about which dimensions the transaction has been recorded on. You also see order number.
+If there are multiple variants registered for General ledger (drilldown) and Voucher (drilldown) in the Document templates procedure, then it is also possible to select which document configuration to use. If you have clicked your way to the general ledger or the vouchers, then you also find a button with an arrow here. This is used to go back to the report.
+From amounts on accounts it is possible to go to Search stock accounting/Search management accounting in cases when the transaction is linked to stock accounting/management accounting.
+> Tip! By holding down the Ctrl key on your keyboard and clicking on a link on a balance in the report you can open the "drilldown" to the general ledger in a separate window. This might be useful if you for example want to see both the report and the transactions on screen at the same time.

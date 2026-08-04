@@ -1,0 +1,3 @@
+### Scanned images
+In the section to the left, you can see thumbnail images of the files in the selected inbox. The file formats supported are PDF and TIFF.
+In the section to the right there is a viewer where you preview the selected thumbnail image. There is a toolbar with functions where you can print, browse between pages, search for text, zoom, rotate, add and delete documents (attachments) to and from the selected image file. Read more about this viewer in the section [Invoice viewing window – EIM](../RegisterSupplierInvoice/bInvoiceViewingWindow.htm) in the help function for the Register supplier invoice procedure.

@@ -1,0 +1,4 @@
+### File Pay (ISO)
+File Pay (ISO) is the more traditional platform for bank integration, where the underlying technology makes payments using ISO files. The difference is that you don’t need to upload the files manually to your bank as this is done automatically via the Bank integration. When this payment method is used, you are required to sign the payment file via online banking. This solution must be used when payments are made from currency accounts, as these are not supported via Open Banking (for most banks currently).
+[![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/TrainingMaterial/BankIntegration_FilePayISO_Flow.png)](../../../../Resources/Images/TrainingMaterial/BankIntegration_FilePayISO_Flow.png)
+> To see which services are supported for your bank please see the feature overview [here](../../Options/BankIntegration.htm#Funktionsöversikt).

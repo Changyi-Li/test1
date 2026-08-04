@@ -1,5 +1,5 @@
 ### Export/Import
-In this box you, for example, enter information for Intrastat Intrastat is the system which gathers statistics relating to trade in products within the European Union. Gathering of Intrastat statistics is handled in the same way by all EU member states. reports used for import and export between two EU countries.
+In this box you, for example, enter information for IntrastatIntrastat is the system which gathers statistics relating to trade in products within the European Union. Gathering of Intrastat statistics is handled in the same way by all EU member states. reports used for import and export between two EU countries.
 
 #### Net weight
 The part's net weight can be entered by using two to five decimals. The unit is always kg. This field does not exist for parts of the Service type.
@@ -11,7 +11,7 @@ By activating this setting you decide that the part's net weight should be fixed
 However, for a part where Fixed weight is activated it is possible to calculate the weight and save it in the Calculate weight procedure.
 
 #### CN code
-Here you can choose a CN code (goods code) for the part. These codes are handled in the procedure Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part. This filed is shown depending on the warehouse in which the logged in user is working. Since CN code is only used for trading between two EU countries, the logged in warehouse must be an EU country in order for the field to appear. It also determines if the CN code should be included in different environmental/sustainability report, for example, CBAM.
+Here you can choose a CN code (goods code) for the part. These codes are handled in the procedure Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part. This filed is shown depending on the warehouse in which the logged in user is working. Since CN code is only used for trading between two EU countries, the logged in warehouse must be an EU country in order for the field to appear. It also determines if the CN code should be included in different environmental/sustainability report, for example, CBAM.
 
 #### Country of origin
 In this field you can choose a country of origin for the part, that is, the country in which the part was made The name of the country is shown to the right of the field. Country of origin can then be selected to be displayed on the following documents: delivery note, invoice, and pro forma invoice (if the document setting in the Customer register procedure has been set to show country of origin).

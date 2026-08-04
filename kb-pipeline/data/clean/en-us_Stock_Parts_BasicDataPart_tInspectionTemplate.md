@@ -1,6 +1,6 @@
 ### Inspection templates
 Under this tab you register different inspection templates which can be used for receiving inspection on part. The inspection templates are used to trigger receiving inspection when different nonconformities occur, for example, if a part gets a new revision, if a case is registered for the part, or if previous receiving inspections have resulted in rejected material.
-Changes made for inspection templates in the Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part and Basic data – SRM procedures will not affect parts/suppliers which have already been assigned the inspection template in question.
+Changes made for inspection templates in the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part and Basic data – SRM procedures will not affect parts/suppliers which have already been assigned the inspection template in question.
 That is, if you have assigned an inspection template to a part and you then make changes to, for example, the frequency for that template in the Basic data – Part procedure, these changes will not affect that part.
 
 #### Template code

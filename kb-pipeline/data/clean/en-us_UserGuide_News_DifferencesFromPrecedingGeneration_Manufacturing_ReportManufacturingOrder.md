@@ -1,0 +1,13 @@
+### Report manufacturing order
+- This procedure is most similar to Comprehensive Reporting in G4, but with quite a lot new functionality.
+- You can report on an operation by entering the report number or you can report on order level by entering the order number.
+- It is possible to shift between list and detailed operation reporting by clicking on the operation in the structure. The advantage is that you in the operation mode now can see the operation in a context (the structure tree) and also access to make adjustments of the material consumption. In the same way it is easy from the list select a specific operation which you need to report more in detail than just quantity and time.
+- In the list variant you can affect which reporting columns should be visible from the start.
+- It is now easier than before to add material and operations since you only have too add them in the list.
+- It is easier to correct/adjust the remaining quantity of material.
+- A document tab is available in the same procedure as where you perform the reporting. The tab opens when you save.
+- Transport label for rejection is also available in addition to the regular transport labels.
+- When the manufactured part has a serial number and material for the operation is traceable, a dialog box will be shown where you can enter which traceable material is included in each manufactured serial number. This is done to achieve individual traceability.
+- Now you can configure settings which makes the system suggest best-before date when transfer to stock takes place for a manufacturing order. In a new field in the Part register procedure, you can enter number which should be suggested, starting from the reporting date. You can also activate that the system should check the shortest best-before date of material withdrawn for the order, and suggest it as best-before date.
+- When reporting operations you will receive a warning if planned measuring has not been reported. This check is not made when reporting in the Recording terminal.
+- Instead of opening a reporting window, there are links which will take you to the Report measuring data.procedure.

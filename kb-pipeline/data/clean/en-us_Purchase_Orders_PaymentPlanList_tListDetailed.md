@@ -1,0 +1,4 @@
+### The Detailed list
+This list shows detailed information about the purchase orders you selected that have a payment plan. The detailed list displays a total for Left to invoice and Invoiced, as well as a total in each currency if the setting Show external currency has been checked under the Selection tab.
+You can release advance rows and/or in arrears rows for linking by checking the Include checkbox and clicking the Release payment plan button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_run.png). After this, you will be prompted to link the rows to supplier invoices in the Register supplier invoice procedure.
+The list is loaded and displayed based on the selection and settings you have chosen. As in all lists in Monitor ERP, you can drag and drop in order to change the column to group by.

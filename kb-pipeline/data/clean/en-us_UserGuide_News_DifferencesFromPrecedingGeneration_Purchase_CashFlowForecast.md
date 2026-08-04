@@ -1,0 +1,13 @@
+### Cash flow forecast
+- The procedure has been renamed and is now called Other cash flows. In G4 it was called Payment Forecasts.
+- You can include quote backlog, preliminary customer orders, limit for bank credit in the forecast.
+- Invoice bases are shown in separate columns in the forecast. In G4 they were included in the order backlogs.
+- The forecast takes holiday into consideration.
+- The forecast can make a difference between ordered and not ordered outgoing payments.
+- The forecast can be shown in external currency.
+- It is possible to convert according to rate type.
+- The forecast window is divided in two, where the upper section as before shows the flow of payments per period. The bottom section shows a detailed list of the orders/invoices etc. which the information in the upper section is based on.
+- It is possible to go to orders, invoices, etc. from the forecast.
+- It is possible to deselect separate records from being included in the forecast. This is done for simulation purposes.
+- Customer order can now be based on the order rows' New finish instead of on Delivery date. This choice is made via the setting Base customer on under the Selection tab. New finish is a delivery date which has been calculated via the Net requirement calculationYou use the net requirement calculation to perform requirements planning based on the customer order backlog, as well as any existing sales forecasts. procedure.
+- You can take both your own or your customers’ payment history into account. You can also determine how the payment history will be affected by entering a payment date in the past (inclusive) from which it should be calculated.

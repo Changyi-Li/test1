@@ -11,7 +11,7 @@
 - 已盘点量以及左边至仓库盘点，以数量和百分比两者，每负责用户和ABC 代码。
 
 #### 安全库存 / 再订购点
-此列表类型用于获取当前库存状态的概览 余额精度 Balance accuracy is a metric that indicates the extent to which the recorded stock balance matches the actual physical quantity in stock.。可能是库存余额的更新已经落后了。该列表显示每个部分的ABC 代码以及两者（再订购值）和值低于（余额） 。
+此列表类型用于获取当前库存状态的概览 余额精度Balance accuracy is a metric that indicates the extent to which the recorded stock balance matches the actual physical quantity in stock.。可能是库存余额的更新已经落后了。该列表显示每个部分的ABC 代码以及两者（再订购值）和值低于（余额） 。
 
 #### 周转率
 此列表类型计算已选择组件的周转率。这显示为数量。

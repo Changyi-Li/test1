@@ -1,0 +1,2 @@
+### The Reconciliation list
+This list type is used to reconcile the balance in the accounts payable with the balance in the general ledger. The list is totaled by accounts payable account. In the list you see the remaining amount, general ledger amount, as well as the difference between these. Accounts with 0 in all columns will not be shown in the list, that is, the Remaining amount, General ledger balance, and Difference columns.

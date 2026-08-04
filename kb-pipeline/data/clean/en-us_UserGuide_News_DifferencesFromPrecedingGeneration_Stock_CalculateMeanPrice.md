@@ -1,0 +1,5 @@
+### Calculate mean price
+- You can select by last calculation date for mean price. You first have to add the selection row in backstage.
+- It is possible to make exceptions from mean price calculation per purchase order/supplier invoice. Since the procedure is similar to the mean price calculation in Post-calculation, it is possible to make exceptions for the purchase orders which are used as basis for the parts' purchase statistics.
+- In G4 it was only possible to enter an oldest purchase date to limit the basis for the mean price calculation. The calculation was then made from that oldest purchase date to today's date. In G5 you can enter an interval so you can calculate a mean price for example for last year.
+- Setup price and Discount will now affect both purchase statistics and supplier price. In G4 the setup price only applied to purchase statistics, and the discount affected the supplier price. This means, the setup price on the supplier ink could never be included in the mean price based on supplier price.

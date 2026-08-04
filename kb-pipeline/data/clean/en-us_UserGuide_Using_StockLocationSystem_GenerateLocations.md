@@ -1,0 +1,12 @@
+### Generate locations
+In Generate locations you create location names and save them in a register.
+Location names that later are entered on locations during stock transactions (transfer to stock) in different procedures, can be validated against the location names in the register to make sure they are valid. The validation is inactivated by default, but it can be configured to warn or block for incorrect entered location names. This is determined by the setting Check location name.
+
+#### The Definition tab
+Under the Definition tab, you create the location name based on coordinates on separate rows. You can separate these by using separators (special characters and spaces) which is entered on own rows between the coordinate rows. You can also choose to load a Storage type with linked location coordinates as a basis when generating locations. The storage type must first be created in the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Advanced stock management procedure.
+Under Default setting, you can choose whether a location may contain one or more part numbers and you can also choose a Default location template to make it easier to decide the size of the locations, as well as decide on a maximum weight for the locations.
+
+#### The Results tab
+When you have generated the location names, you can review them under the Result tab. You can modify the name and settings for each location name before you save. A check is also made to make sure that the generated location name does not already exist in the register (in the current warehouse see below).
+When you start using the location register, you probably have a number of existing locations. In the Location list procedure, list type Generate locations, location names can be generated based on these existing locations and saved to the location register.
+> The location register applies per warehouse. If the option Warehouse is installed, the same location name can be registered in different warehouses. Then you must first select in which warehouse you want to register the location names by using the warehouse selector in the toolbar of the procedure.

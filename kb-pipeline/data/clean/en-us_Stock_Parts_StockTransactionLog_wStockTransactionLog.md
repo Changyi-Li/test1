@@ -8,7 +8,7 @@ Examples of the type of data saved in the log are:
 - Order number
 - Location
 - Balance change
-- Current balance Current balance is the part balance at this moment on the locations. after reporting
+- Current balanceCurrent balance is the part balance at this moment on the locations. after reporting
 > Please note! Parts that are not Stock updated, as well as parts of the type Fictitious or Service are not displayed in the stock transaction log. If you select the Grouped by actual date presentation, the field Balance (after rep.) is not updated. Instead the current balance per log date, which is equal to when the transaction was made in real time, is displayed.
 List types
 

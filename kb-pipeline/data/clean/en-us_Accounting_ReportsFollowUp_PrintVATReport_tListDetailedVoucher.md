@@ -1,0 +1,2 @@
+### The list Detailed per voucher
+This list displays the vouchers which have affected the VAT report. The list is grouped by voucher and only shows the voucher rows that affect the VAT report. For each row you find information about VAT code and information about on which VAT row the value is displayed in the VAT report. If the system is configured to report VAT based on the VAT code in general ledger transactions, you can also update the VAT code for the transactions directly in the list.

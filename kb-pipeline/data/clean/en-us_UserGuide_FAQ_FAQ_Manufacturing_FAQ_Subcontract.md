@@ -1,0 +1,13 @@
+### FAQ – Subcontract
+What is a subcontract?
+A subcontract is an operation in a manufacturing order that is purchased by an external supplier. The work center linked to the operation must be classed as Subcontract. The supplier linked to the work center must be assigned the Subcontract supplier role. Material supplier is standard, although a supplier can be configured to be both a material supplier and subcontractor.
+To create Subcontract­ purchase orders, the subcontract documents/Shipped is used. Here, you can select which operations should be grouped with order rows on a purchase order. For example, operations belonging to the same project with the same shipment date should be grouped on the same purchase order.
+The order can be printed or e-mailed to the supplier.
+When printing subcontract purchase orders and delivery notes, you can choose to print the shipped quantity in the document, rather than the planned quantity. This is controlled via a document variant. This document variant can also be set as default for the supplier (supplier-specific documents).
+Orders relating to subcontract purchases are confirmed in the same way as regular material purchases. If the date is updated in connection with confirmation of the purchase order, the system asks whether the entire manufacturing order should be re-planned in accordance with the new delivery date for the operation to which the subcontract purchase refers.
+When the goods are to be sent to the supplier, the shipment can be reported, in order to keep track of what has been sent, and not returned.
+How do I report subcontracts? It can’t be done in the Report manufacturing order/Report operation or in the Recording terminal.
+On the subcontracts row, there is a purchase order which is created in the Subcontract documents/Shipped procedure. After you have reported arrival of this purchase order, the subcontracting is reported with the quantity you have selected to report.
+> You can go to Register purchase order via the link and from there you can go to Reporter delivery and select quantity to deliver.
+I have already linked a supplier invoice for work completed by subcontractors but have received a freight invoice. How do I add this cost to the manufacturing order?
+Via the Report subcontracting cost procedure you can adjust/correct the cost for subcontracts. The Report subcontracting costs list type is used when you do not link a supplier invoice for work that has been carried out. The Report miscellaneous costs list type is used to add e.g. freight or customs fees that arise in addition to the usual supplier invoice.

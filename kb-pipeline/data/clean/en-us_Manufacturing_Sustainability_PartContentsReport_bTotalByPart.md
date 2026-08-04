@@ -1,5 +1,5 @@
 ### Total by part
-Here you see the part contents as total per part. Calculations will only be made for the parts entered as Part contents ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/PartTypeContents.png) in the Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Sustainability procedure. Using the Export button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_export.png) you can export the list to Excel.
+Here you see the part contents as total per part. Calculations will only be made for the parts entered as Part contents ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/PartTypeContents.png) in the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Sustainability procedure. Using the Export button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_export.png) you can export the list to Excel.
 
 #### Concentration
 The concentration is calculated by dividing the part's weight by the part content's weight. The unit of the concentration is percent.

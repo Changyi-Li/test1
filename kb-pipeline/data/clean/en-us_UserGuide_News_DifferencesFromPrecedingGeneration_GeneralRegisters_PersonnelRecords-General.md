@@ -1,0 +1,4 @@
+### Personnel records – General
+- In G4 there is information about the personnel scattered over many registers: References, Sellers, and Employees, and to a certain degree also in Users (if a user is one single person). In the personal records you register a person once and there you enter if he/she should be a reference, seller, which employee number the person has, and whether or not it should be linked to a certain user.
+- You find all information about the person in the Personnel records, for example phone number, address, signature, photo, etc. Information which is specific for a seller is updated in the Seller procedure, for example budget and district.
+- Since you can link person information to reference and user, you can in G5 see more information about the reference person on a customer order, for example if the person is logged in to Monitor ERP and if it is possible to send a message to that user.

@@ -1,0 +1,11 @@
+### Register quote
+- The order type "Quote" is now implemented and it determines certain settings and it also functions as a selection term.
+- It is possible to do a simple calculation on row type 2.
+- It is possible to run a linked calculation on row type 1.
+- It is possible to show calculation information on the quote document.
+- It is possible to link external files (documents) and calculation summary in the printout you make, but primarily in the PDF file you e-mail. External files, quote documents, and the calculation together form a single PDF file. However, linked drawings, if any, are attached separately.
+- The sub-number management is now replaced with the ability to create related quotes.
+- More settings available when using Save as and when then quote is being turned into a customer order.
+- The total for standard price is also shown for the quote. This makes it easy to trace income, costs, contribution margin, and contribution margin.
+- You can choose if the quote should be included in the requirement calculation and the net requirement calculation. This is determined by a setting on the order type quote in the Order types procedure.
+- On the quote row you can select if it should be included in the invoicing plan or not.

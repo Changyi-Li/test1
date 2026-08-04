@@ -1,0 +1,2 @@
+### Activity log – Detailed
+This list shows detailed information about the reporting items you have made for the activity. The information is taken from reporting items in the procedures Direct project reporting and Report activity – Project. The list can be grouped by reporting date, project, who is responsible for activity, reference, cost type, who is responsible for phase, phase, and main project.

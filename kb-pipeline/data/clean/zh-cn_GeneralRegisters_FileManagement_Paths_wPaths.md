@@ -1,0 +1,6 @@
+## 路径
+在此程序中，你可以登记MONITOR服务器上的本地路径、网络上共享目录的 UNC路径以及SharePoint 在线 URL路径。使用这些路径是订单用户可以预览新建文件和现有的文件并将链接到在 Monitor的不同记录。
+文件路径功能与 文件 按钮 ![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/button_file_link.png) 在程序中。该功能可以在单记录程序的不同位置找到。使用该按钮时，会出现一个窗口，你可以在其中链接文件到不同的记录。也可以在文件阅读器中预览文件。
+用户可以从你在此程序中添加并设置为激活的路径（及其子目录）链接文件。周三建议你仅登记网络中其它用户总是可以访问的计算机上的共享目录的路径。
+用户可以使用拖放功能链接新建文件，例如通过 Windows 资源管理器或Email程序（Email中的附件）。你把文件放到按钮上 文件 ![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/button_file_link.png) 或在表格中 已链接文件 在按钮下方的文件链接窗口中。然后你必须选择将文件复制到哪个已登记路径。
+> 关于 UNC路径，保持记住以下几点： 如果你UNC路径，登记在程序服务器（MONITOR服务器）上运行服务器服务的Windows账户必须对已保存在 Monitor使用的文件/文档的共享目录具有“完全控制”权限。 用户的Windows账户必须具有UNC路径的阅读许可订单视图和浏览文件。 即使用户的Windows账户在UNC路径中不许可，也可以已打印和预览已经已链接的文件。 关于SharePoint 在线 URL路径，保持记住以下几点： 仅支持 SharePoint Online，不SharePoint On-Premises。 订单登记SharePoint 在线 URL路径，必须首先在 Azure门户网站和在 Monitor已配置SharePoint的设置。看 [本指南](https://help.monitor.se/英语/Monitor_G5/PDF/Setup_Sharepoint_Azure_Monitor.pdf) （用英语）。 对于不同类型的文件，保持记住以下几点： 按照标准，你可以链接全部类型的文件。但是，你仅预览PDF文件。如果用户需要预览和打印Word、Excel、CAD文件等文件类型， 扩展的文件阅读器 选项为必填项。[点击此处阅读更多](../../../UserGuide/Options/ExtendedFileViewer.htm) 关于扩展的文件阅读器的工作原理以及支持哪些文件类型。

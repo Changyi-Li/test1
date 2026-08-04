@@ -19,7 +19,7 @@ Here you select the number of copies that should be printed of the document. The
 With this setting you can determine whether or not linked external files also should be printed together with the other documents.
 
 #### Show internal subcontract part number
-Here you decide if the internal subcontract part number should be displayed. This number is used for Intrastat Intrastat is the system which gathers statistics relating to trade in products within the European Union. Gathering of Intrastat statistics is handled in the same way by all EU member states. reporting within the EU.
+Here you decide if the internal subcontract part number should be displayed. This number is used for IntrastatIntrastat is the system which gathers statistics relating to trade in products within the European Union. Gathering of Intrastat statistics is handled in the same way by all EU member states. reporting within the EU.
 
 #### Show total amount
 With this setting you decide that a total of the amounts on all subcontracts is shown at the bottom of the document.

@@ -15,9 +15,9 @@ If you have installed the Tools & Maintenance option, a separate pick list will 
 This list type loads all pick list numbers which contains not reported material rows. Under the List tab you then select if you wish to reprint pick lists or delete a picking in progress. When you save, the pick list is then reprinted or deleted, according to the choice you made.
 
 #### Split pick list
-This list type is used to split pick lists into Order, Manufactured part, Operation, or Work center A work center is a part of the factory. It can be a single machine or a group of machines, a single workstation or a group of workstations.. Under Settings you decide how to split the pick list. When you have loaded the list you can choose to create pick lists with fully cleared material, with partially cleared material, or with not cleared material.
+This list type is used to split pick lists into Order, Manufactured part, Operation, or Work centerA work center is a part of the factory. It can be a single machine or a group of machines, a single workstation or a group of workstations.. Under Settings you decide how to split the pick list. When you have loaded the list you can choose to create pick lists with fully cleared material, with partially cleared material, or with not cleared material.
 Presentations
-Here you can see the presentations that are available for the list type Pick list A pick list is a list of parts/products which should be picked from stock for a manufacturing order or a customer order.. You can with these presentations choose how to group the pick list. The grouping affects the appearance of the pick list.
+Here you can see the presentations that are available for the list type Pick listA pick list is a list of parts/products which should be picked from stock for a manufacturing order or a customer order.. You can with these presentations choose how to group the pick list. The grouping affects the appearance of the pick list.
 There are also three different documents for the pick list, based on the grouping alternatives below. In the Document settings procedure you can determine whether position number, part revision, report number, and the material's additional name, should be displayed or not on those documents.
 
 #### Grouped by order

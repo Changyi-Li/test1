@@ -2,7 +2,7 @@
 In this box you can create, edit, and delete customer links for the part. The number of links here is unlimited. At the bottom of the box you will see the number of customer links.
 
 #### Customer
-Here you can select a customer from the customer register by using the Lookup The Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature.
+Here you can select a customer from the customer register by using the LookupThe Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature.
 
 #### Price
 Here you enter the customer price of the part. It should be entered in the currency of the customer. A minimum of two and a maximum of six decimals will be saved/displayed for the price.
@@ -39,10 +39,10 @@ Here you can enter a discount of the price in the link. It can override the disc
 The date when the price was entered.
 
 #### Contribution margin
-Here you can see the contribution margin (CM The contribution margin (CM) is the difference between the standard price and the sales price.) in the company currency. It is the difference between the customer price and the standard price.
+Here you can see the contribution margin (CMThe contribution margin (CM) is the difference between the standard price and the sales price.) in the company currency. It is the difference between the customer price and the standard price.
 
 #### Contribution ratio %
-Here you can see the contribution ration (CR The contribution ratio (CR) is the portion of the invoice amount (sales price) that the contribution margin represents. CR is entered as a percentage.) in percent. It is the relation between the sales price and the standard price. For example, if the standard price is 20 SEK and the sales price is 30 SEK, the CR will be 33 %. That is, CR = ((30-20)/30)*100 = 33 %,
+Here you can see the contribution ration (CRThe contribution ratio (CR) is the portion of the invoice amount (sales price) that the contribution margin represents. CR is entered as a percentage.) in percent. It is the relation between the sales price and the standard price. For example, if the standard price is 20 SEK and the sales price is 30 SEK, the CR will be 33 %. That is, CR = ((30-20)/30)*100 = 33 %,
 
 #### Net
 Here you will see the net customer price. It is the customer's price minus discount, if any.
@@ -85,7 +85,7 @@ Here you see/enter the future setup price in the customer's currency. A minimum 
 Here you see/enter the future setup price (including VAT) in the currency of the customer.
 
 #### Lead time
-Here you see/enter the lead time to the customer. It is shown in work days. This is the lead time that applies to the part for the customer in the link. A check will be made against this date at order registration. This filed overrides the general Lead time Number of days between ordering date and delivery date. Normally used for purchased parts. to customer entered for the part in the Miscellaneous box under the Sales tab.
+Here you see/enter the lead time to the customer. It is shown in work days. This is the lead time that applies to the part for the customer in the link. A check will be made against this date at order registration. This filed overrides the general Lead timeNumber of days between ordering date and delivery date. Normally used for purchased parts. to customer entered for the part in the Miscellaneous box under the Sales tab.
 
 #### Quantity for lead time
 Here you enter the quantity of the part on the order for lead time to customer. It overrides the general lead time quantity entered for the part.
@@ -109,7 +109,7 @@ The Packaging template rows button ![](https://help.monitorerp.cn/CN-MONITOR_G5/
 If the part is a packaging part you can here connect a document variant for Transport label – Package structure to the customer link. It overrides the general document variant for the transport label, if such has been selected for the part in the Shipping box.
 
 #### Deviation model
-The deviation model is used to analyze delivery schedules. Deviation models are created in the Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Delivery schedules procedure. [Read more](../../../Sales/DeliverySchedules/BasicDataDeliverySchedules/bDeviationModel.htm) on how deviation models are prioritized.
+The deviation model is used to analyze delivery schedules. Deviation models are created in the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Delivery schedules procedure. [Read more](../../../Sales/DeliverySchedules/BasicDataDeliverySchedules/bDeviationModel.htm) on how deviation models are prioritized.
 
 #### Deviation model definition
 Here you can see the deviation model that you've selected.

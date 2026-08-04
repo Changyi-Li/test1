@@ -22,7 +22,7 @@ The lot sizing rule determines the suggested order quantity when shortage occurs
 - Linked requirement – the control method is set to Order oriented and the setting Allow to create order is deactivated. This lot sizing rule means that linked order suggestions are generated where the quantity matches the quantity of each requirement/shortage. Structure explosion will take place. Only the linked order will form a supply, that is, a customer order can only be delivered after its generated order has been reported as finished or arrival reported. When using this lot sizing rule the user will receive a warning in case the part already has a balance or orders, such as manufacturing orders or purchase orders, in the planning window. These balances and orders will not be considered as a supply, which makes it not suitable to use with linked requirement.
 - Fixed order quantity – the control method is set to Stock driven and the setting Allow to create order is activated. This lot sizing rule means that order suggestions are generated based on the part’s order quantity.
 - Period requirement – the control method is set to Stock driven and the setting Allow to create order is activated. This lot sizing rule means that a common/mutual order suggestion is generated for all shortages within the period.
-- No requirement calculation – the planning method is set to Physical and the setting Control method is deactivated. The setting Lot sizing rule The lot sizing rule determines the suggested order quantity when a shortage occurs of a part. Lot sizing rules are used for parts for which requirement planing is performed. will also be deactivated This means that no requirement calculation will be made for the part.
+- No requirement calculation – the planning method is set to Physical and the setting Control method is deactivated. The setting Lot sizing ruleThe lot sizing rule determines the suggested order quantity when a shortage occurs of a part. Lot sizing rules are used for parts for which requirement planing is performed. will also be deactivated This means that no requirement calculation will be made for the part.
 
 #### Period length
 The period length describes the planning horizon in work days which the requirement calculation will take into consideration. The period length column is available when the lot sizing rule is set to Period requirement.
@@ -42,7 +42,7 @@ The rounding quantity is often used to describe a package size or a bar length. 
 For parts with the planning method Stock refill, you can enter a reorder point for the part in question. The reorder point defines the balance at which it is time to place an order. The reorder point is not applied if the lot sizing rule has been set to Linked requirement.
 
 #### Safety stock
-What is entered here will be the definition of when a shortage occurs. Available balance Available balance is the current part balance on the locations minus the cleared quantity. less than the safety stock = shortage. The safety stock is not applied when the lot sizing rule has been set to Linked requirement.
+What is entered here will be the definition of when a shortage occurs. Available balanceAvailable balance is the current part balance on the locations minus the cleared quantity. less than the safety stock = shortage. The safety stock is not applied when the lot sizing rule has been set to Linked requirement.
 
 #### Safety time
 The safety time creates a gap (in number of work days) between the time of shortage and the suggested delivery date/finish date.
@@ -51,7 +51,7 @@ The safety time creates a gap (in number of work days) between the time of short
 This column describes the maximum quantity of the part on a manufacturing order. If you create a manufacturing order and for example enter 12 as quantity of the part when the part has a maximum quantity of 5, then the manufacturing order will divide the quantity into two main part rows (nodes), each with 5 as quantity, and one main part row with 2 as quantity. The node number will also be displayed on the main part rows as well as on the manufacturing order documents. In the example mentioned above, these documents will be printed and called node 1/3, 2/3 and 3/3.
 
 #### Lead time
-You can enter a general Lead time Number of days between ordering date and delivery date. Normally used for purchased parts.. However, the lead time in the supplier links of the part will override it.
+You can enter a general Lead timeNumber of days between ordering date and delivery date. Normally used for purchased parts.. However, the lead time in the supplier links of the part will override it.
 
 #### Forecast deduction
 You can configure if forecast deduction should be made, and in that case when it should take place. The following options are available:
@@ -70,7 +70,7 @@ By selecting one of the following methods, you determine how sales forecasts sho
 The annual volume is the expected annual consumption registered for the part.
 
 #### ABC code
-Here you select which classification for the volume value to use. The ABC ABC codes are used to classify the range of parts by the volumes you sell. The codes are used as a scale for the parts that turn over the most money. The turnover is calculated by multiplying the price of the part by the annual volume. Parts that turn over the most money are called "A-parts", and after that, "B-parts", etc. codes are handled in the procedure Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part.
+Here you select which classification for the volume value to use. The ABCABC codes are used to classify the range of parts by the volumes you sell. The codes are used as a scale for the parts that turn over the most money. The turnover is calculated by multiplying the price of the part by the annual volume. Parts that turn over the most money are called "A-parts", and after that, "B-parts", etc. codes are handled in the procedure Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part.
 
 #### Refill from warehouse
 Here you select if the part should be refilled internally from another warehouse. An empty field indicates that you manufacture the part yourself or buy it from a supplier.

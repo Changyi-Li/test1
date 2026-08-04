@@ -1,0 +1,3 @@
+### The Detailed list
+Here the vouchers are displayed in detail, both with voucher headers and postings. In the presentation of this list type you can select by what the list should be grouped. You can group the records by voucher or by date. There is also a presentation where the records are shown in detail per transaction. This is a suitable list type to use when searching for transactions.
+The VAT code can be updated when the system setting called Basis for VAT report is loaded from has been set to "VAT code in general ledger transactions". For you to be able to update the VAT code, the voucher must belong to an open period and the voucher number series cannot be locked. Also, the account on the voucher row must have a linked VAT type.

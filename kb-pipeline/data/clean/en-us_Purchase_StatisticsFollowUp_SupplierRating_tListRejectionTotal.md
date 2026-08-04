@@ -1,0 +1,2 @@
+### The list type Rejection – Total list
+This list shows total information, per grouping alternative, about the approved and rejected quantity. The information is displayed both in quantity and in percent. The list also shows, per grouping alternative, the arrival reported and inspected quantity. At the bottom of the list you will see a total for the entire list. If you expand the list, you will see the same information per order row as in the detailed list.

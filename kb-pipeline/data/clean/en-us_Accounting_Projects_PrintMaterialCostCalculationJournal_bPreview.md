@@ -1,0 +1,4 @@
+### Preview
+In the Preview box under the Document tab you can preview the document in question before printing it. If the printout consists of several pages, it is possible to scroll in the box. You can zoom the document by using Ctrl + the scroll wheel or the scroll percent in the lower right part of the box.
+Under Type in the document you can see whether the post relates to a write-down, write-up, or cancellation.
+It is possible to change the posting in the journal before it is approved (not for reprints). In the Preview box, there is a link you can use to open the Edit posting window. This is useful if you find posting errors that you wish to correct. It is not possible to modify rows that in the chart of accounts have been marked with Block for manual postings. The journals in this list show the postings in detail per entry and a total at the bottom (total accounting order) shows the posting totaled by posting string.

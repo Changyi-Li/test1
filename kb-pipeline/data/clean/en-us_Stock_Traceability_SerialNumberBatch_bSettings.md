@@ -11,5 +11,5 @@ This setting determines if linked certificates should be included in the printou
 #### Show info about origin
 To make it easier to understand the content of the PDF file with "Product description incl. certificate", you can choose to mark the pages with a watermark text with information about its origin. The text shown is:
 Used in serial no./batch: XXX
-Main part "Main part" is the term used for the part in the top node (highest level) in a structure of parts. number: YYY
+Main part"Main part" is the term used for the part in the top node (highest level) in a structure of parts. number: YYY
 Part number: ZZZ

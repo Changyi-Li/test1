@@ -1,0 +1,4 @@
+### Register supplier invoice
+If you receive an invoice with cash discount you should select a payment term which handles cash discounts (see [Settings](Settings.htm)).
+[![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/TrainingMaterial/RegisterSupplierInvoiceCashD.png)](../../../../Resources/Images/TrainingMaterial/RegisterSupplierInvoiceCashD.png)
+Via the button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_more_info.png) to the right of the due date you see which cash discount date and cash discount % were suggested. These can be adjusted, if needed. However, the cash discount date must be earlier than the due date. If there is more than one cash discount limit on the invoice, you must use a payment term which handles this. The cash discount date is automatically calculated based on the invoice's invoice date with an addition of number of days for the cash discount.

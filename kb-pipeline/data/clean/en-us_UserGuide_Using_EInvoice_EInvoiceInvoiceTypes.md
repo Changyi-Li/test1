@@ -1,0 +1,10 @@
+### Invoice types and how they are handled
+
+#### Invoice type Expense invoice
+For invoices sent to the e-mail address for expense invoices, only the data in the invoice header will be interpreted. This means no data for parts/invoice rows on the invoice will be interpreted. The Verification field is by default set to Monitor. This means that interpreted data will be verified/checked in Monitor ERP, not in CrossState.
+If you only have Electronic Invoice Management (EIM), the e-mail address for this invoice type is used for all PDF invoices as order matching is performed manually in Monitor G5. We recommend EVERYONE who uses Electronic invoice management (EIM) to verify and check interpreted data in Monitor ERP.
+> If the company already has an inbox to where supplier invoices arrive using e-mail, we recommend you to set up an automatic forwarding from that inbox to the e-mail address for interpretation. This automatic forwarding should be configured in your e-mail program. Please note! Suppliers who can send invoices using Monitor-to-Monitor should send the invoices to the e-mail address you use for Monitor-to-Monitor. These invoices are compatible between all companies using Monitor, and you will thereby avoid the cost for interpretation of these supplier invoices. See the e-mail settings for [E-mail settings](../../GeneralFeatures/M2M.htm#E-postinställningar)
+
+#### If you change the Verification field to CrossState then it is MANDATORY that you have had CrossState training before you start verifying/checking invoices in that application. It means you must log in to the CrossState application to approve the invoice interpretation. We DO NOT recommend customers who only use EIM to do the verification in CrossState.
+Invoice type Order invoice
+> Invoices sent to this address will get data interpreted from both the invoice header and the parts/invoice rows. Interpreted data from the invoice rows will later be used by EIM Workflow to match with purchase order rows in Monitor ERP. Please note! Verifications will ALWAYS take place in CrossState for this invoice type. This is because, at present, this data cannot be verified in Monitor.

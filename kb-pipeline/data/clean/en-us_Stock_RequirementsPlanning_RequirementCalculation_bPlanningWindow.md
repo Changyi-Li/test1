@@ -30,7 +30,7 @@ Here you can see the reserved quantity on the existing orders.
 In this column you will see a C if the record on the row is already fully cleared. If the record is partially cleared, you will see a P here.
 
 #### Disposable balance
-In this column you see the disposable balance for each row. When you check the Apply checkbox, the order suggestion's quantity will be included in this balance. If you make changes to the Ordered column, the Disposable balance The disposable balance is the current part balance on the locations at a given time minus reserved quantity plus ordered quantity. field will also be affected.
+In this column you see the disposable balance for each row. When you check the Apply checkbox, the order suggestion's quantity will be included in this balance. If you make changes to the Ordered column, the Disposable balanceThe disposable balance is the current part balance on the locations at a given time minus reserved quantity plus ordered quantity. field will also be affected.
 
 #### Start date
 Here you can see the manufacturing start date for a manufacturing order suggestion or the order date for a purchase order suggestion. On a manufacturing order it is possible to change the start date. The suggested date is a calculated value dependent of the finish date and the quantity.

@@ -1,0 +1,5 @@
+### The Standard list
+This list shows information on shipment level, showing one reference number per row. The columns show reference number, shipment number, type, status, date (of shipment), freight payer, package (how many), total weight, shipping agent, shipping agent – name, warehouse, receiver's city, receiver's reference, sender's reference.
+If the shipping agent in the shipment has Other selected as plugin for export (configured in the supplier register), then it is possible to change Status between Registered, Booked/Printed, and Shipped for a saved shipment. The purpose is to be able to manually change status when shipments are to be exported via a software other than nShift Delivery or nShift Web-TA. When using nShift Delivery or nShift Web-TA, the status in the shipments is assigned automatically.
+The function menu contains the regular functions available for lists.
+> If you create your own presentation for this list, you can access more columns with additional information.

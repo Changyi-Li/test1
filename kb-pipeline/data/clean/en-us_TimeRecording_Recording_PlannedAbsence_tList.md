@@ -1,0 +1,3 @@
+### The Standard list
+In this list you see the days of the month for which planned absence is registered for the selected employees. In the list you see employee number and name, as well as day columns for the selected date interval. The list shows a question mark on days for which planned absence is applied for, a green check for days with approved planned absence, and a red X on days with denied planned absence. If absence is planned for part of day, an asterisk * is shown as well. A tooltip is shown when you hover over the X, displaying the name of the absence.
+The day columns in the list are compact making more columns fit on paper when printing.

@@ -1,0 +1,3 @@
+### Inquiry
+In this box you can see the inquiries to the supplier. Only inquiries with status 1 (Registered), 2 (Printed), 3 (Responded), or 7 (Partial order) are shown. You can also see the total number of records and the total amount.
+Using the buttons in the function menu you can go to the Register inquiry procedure or show the document for the selected inquiry. By using the button Include finished inquiries![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_goto_critical_op.png), you will also see inquiries with status 6 (Finished), 8 (Order via related inquiry), and 9 (Order).

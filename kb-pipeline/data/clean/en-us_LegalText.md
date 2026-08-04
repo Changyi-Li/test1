@@ -1,0 +1,2 @@
+## Legal information
+All material used on this website is protected by copyright law in accordance with Swedish and international regulations. If you wish to use material on this website, you are welcome to contact us at Monitor ERP System AB in order to obtain permission. Permission can only be granted explicitly in writing. Any trademarks and other distinguishing marks belonging to other parties are copyright-protected and trademark-protected by the respective holders/proprietors.

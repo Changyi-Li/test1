@@ -1,0 +1,2 @@
+### The Ledger – Detailed list
+This list is a detailed list of invoices with invoice amount, and remaining amount per a certain ledger date. These amounts are also shown in foreign currency. By activating a setting under the Selection tab, you can also choose to include fully paid invoices. The list can be grouped by customer number, customer name, and due date.

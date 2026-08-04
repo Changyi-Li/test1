@@ -13,7 +13,7 @@ Example of an emission calculation.
 | Emissions, transport (CO2e) | 160 g/tkm |   |
 | Transport emissions | 0.004 tonnes x 150 km x 160 g/tkm | 0.096 kg CO2e/tkm |
 | Manufacturing |   |   |
-| Work center A work center is a part of the factory. It can be a single machine or a group of machines, a single workstation or a group of workstations.’s energy consumption | 1500 kW |   |
+| Work centerA work center is a part of the factory. It can be a single machine or a group of machines, a single workstation or a group of workstations.’s energy consumption | 1500 kW |   |
 | Setup time | 6 min |   |
 | Unit time | 0.12 min |   |
 | Quantity | 250 pcs |   |

@@ -1,0 +1,3 @@
+### Arrival dialog
+In the procedures where an arrival can take place, there is an arrival dialog available. It is available in cases where the part is reported for arrival in unusual/deviating packaging and requires additional handling to choose the correct location. You can change the measurements of the part which will be arrival reported. You can manually fill in the measurements fields, or use a location template for easier management.
+If the system suggests a location, but you need to use another, you can easily choose a different location in the list of selectable locations that have a suitable size.

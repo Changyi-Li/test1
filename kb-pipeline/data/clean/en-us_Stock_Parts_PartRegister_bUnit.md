@@ -9,7 +9,7 @@ When changing the default unit you can choose if the price should be adjusted fo
 > Please note! Rounding errors might occur on the last decimal when changing default unit. If you use the option Product configurator, formulas for included quantities will not be recalculated if the unit is changed for a main part.
 
 #### Unit
-You can register as many units as you want for a part. The units that are not marked to be the standard unit becomes alternative units. Units are selected from a list, and they must first be registered in the Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part procedure.
+You can register as many units as you want for a part. The units that are not marked to be the standard unit becomes alternative units. Units are selected from a list, and they must first be registered in the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part procedure.
 
 #### Conversion factor
 In this column you enter a conversion factor. It is used to show the relation between the alternative unit and the standard unit. The factor is entered as "standard unit divided with alternative unit". Default conversion factor is 1.00 and can be entered using a maximum of six decimals. The conversion factor cannot be negative.

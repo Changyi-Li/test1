@@ -1,0 +1,7 @@
+### Preview
+In the Preview box under the Document tab you can preview the document in question before printing it. If the printout consists of several pages, it is possible to scroll in the box. You can zoom the document by using Ctrl + the scroll wheel or the scroll percent in the lower right part of the box.
+Using the hyper link Edit posting on the journal documents, you can modify the posting of the outgoing payment, if needed. Read more about this by clicking the heading below.
+Edit posting
+You can adjust errors in postings of outgoing payments, if any. You can e.g. add or delete account rows in the table. However, there are some restrictions on what you can modify in a posting. For example, you cannot modify rows that include accounts that in the Chart of accounts are configured as blocked for manual postings.
+Other than that, it is the same posting window as, for example, in the journal in the Print outgoing payment journal procedure.
+There are document settings regarding the outgoing payment journal that are good to know. Show postings (activated by default) – With this setting you determine if each invoice’s postings should be shown in the journal. Show VAT code (not activated by default) – With this setting you determine if the VAT code of the posting row will be shown. This setting is mainly useful for companies that use the VAT code of the transaction to determine the VAT report, instead of using the chart of accounts setting.

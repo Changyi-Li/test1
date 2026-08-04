@@ -1,0 +1,2 @@
+### Posting
+In this box you enter the posting which to accrual account. The posting window works in the same way as other posting windows in the system, e.g. the one in the Register vouchers procedure. The account you select in the Invoice/Voucher box is automatically added in this box and cannot be changed in the posting window. When using reversal voucher, the entire posting of the voucher number you selected will be reversed, and then it is not possible to make any changes.

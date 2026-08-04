@@ -1,0 +1,12 @@
+### Material withdrawal for manufacturing order
+When it comes to material withdrawal for manufacturing orders when traceability is used, withdrawals are not made automatically as standard. You manually have to configure which parts should have automatic withdrawal. This is done in the Part register procedure. There are different levels of what has to be fulfilled in order for automatic withdrawal to be allowed, for example, the material should be cleared for the order, or be at a pick location.
+
+#### Traceability at batch level
+There are several procedures where you can report material withdrawal. These are Report material, Report manufacturing order, Report pick list, and Report traceable material. Which procedure you use is a matter of taste.
+In the first three procedures the location window is loaded for material withdrawal, and the quantity is entered on the row required. One row per location and batch number is shown in that window. If the material is set to apply best-before date (configured in the Part register), this date is shown for the batch in question. Here you see the charge number from supplier, if any, which was entered during arrival reporting.
+[![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/TrainingMaterial/MaterialWithdrawalManufacturingOrder1.png)](../../../../Resources/Images/TrainingMaterial/MaterialWithdrawalManufacturingOrder1.png)
+In the Report traceable material procedure you can carry out reporting via bar code. There you firstly enter the material’s report number, for example, by scanning a bar code on a traveler or pick list and then entering the batch number either by scanning or entering it manually. The correct location is automatically selected based on the entered batch number. It is possible to report more than one batch in the same reporting. The reported quantity for the batch is suggested as the lowest of the remaining quantity and the balance of the batch.
+[![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/TrainingMaterial/MaterialWithdrawalManufacturingOrder2.png)](../../../../Resources/Images/TrainingMaterial/MaterialWithdrawalManufacturingOrder2.png)
+
+#### Traceability at serial number level
+The same principles apply as regards material withdrawal for batches. For material with traceability level set to Serial numberA serial number is a number that is used for traceability for parts on entity level., one row is displayed per serial number when you open the location window for the material.

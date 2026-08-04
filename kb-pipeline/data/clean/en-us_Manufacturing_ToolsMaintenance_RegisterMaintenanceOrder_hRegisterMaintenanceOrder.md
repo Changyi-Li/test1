@@ -2,7 +2,7 @@
 
 #### Order number
 Here you can load an order number for an existing maintenance order. For a new maintenance order the order number is assigned when you save the order. This is loaded from the next available number in the number series for manufacturing orders. A maintenance order is a manufacturing order which is based on a separate order type of the basic type Maintenance.
-> Please note! In the Lookup The Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature you also see regular manufacturing orders. If you load a regular manufacturing order in this procedure, it is not possible to make any changes to that order.
+> Please note! In the LookupThe Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature you also see regular manufacturing orders. If you load a regular manufacturing order in this procedure, it is not possible to make any changes to that order.
 
 #### Serial number/Batch number
 You create a new maintenance order for a serial number you first select here. When reporting maintenance orders, this serial number is suggested and then reported.

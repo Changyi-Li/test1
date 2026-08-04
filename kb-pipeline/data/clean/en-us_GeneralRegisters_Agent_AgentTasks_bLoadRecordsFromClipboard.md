@@ -1,0 +1,3 @@
+### Load records from Clipboard
+You can here add that the agent task should load records from Clipboard to the selection, and this will apply for the procedure marked in the Selected procedures box. You can add multiple clipboards from where to load records. Load records from Clipboard is only used for runs that consist of more than one step. You can then load records from a clipboard which you have created in an earlier step in the run.
+It is also possible to use Exclude for records in a clipboard that is loaded. Exclude means that all other records in the selection, except for those in the clipboard in question, will be used in the agent task.

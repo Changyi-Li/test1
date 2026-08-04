@@ -1,0 +1,3 @@
+### The Total list
+You can total this list by quote number, customer, date, and status. For the presentation Total by date you can also select which type of date grouping to be used in the list. You can expand the rows to show the detailed information about the quotes.
+At the bottom of the list you can see a chart of the quotes’ value. The presentation Total by date (log date) displays additional information in the chart, such as contribution margin and contribution ratio. You access settings for the chart using the function button Chart ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_chart.png).

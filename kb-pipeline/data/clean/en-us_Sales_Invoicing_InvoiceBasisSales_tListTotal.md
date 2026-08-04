@@ -1,0 +1,2 @@
+### The Total list
+This list type shows total information about the grouping term. The list can show total by order number, customer, or delivery note number. You can expand the rows in the list to see detailed information about the orders. At the bottom of the total list you can see a chart showing the amount, the contribution margin, and the contribution ratio. You can configure the layout of the chart using the function button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_chart.png) next to the list.

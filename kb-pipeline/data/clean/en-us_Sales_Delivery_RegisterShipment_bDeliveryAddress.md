@@ -1,0 +1,6 @@
+### Delivery address
+The delivery address is loaded from the customer order selected in the Source of information box. By using the button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_change_settings.png) you can change the delivery address. You can choose an address from supplier, customer, or the company.
+
+#### Purchaser's address
+By default, the purchaser's address is the same as the Delivery address above. By clicking the button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_more_info.png) you see the purchaser's address of the customer. By using the button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_change_settings.png) you can change the purchaser's address. You can choose an address from supplier, customer, or the company. It is possible to enter a different purchaser's address if it should not be the same as the delivery address at the customer, for example if you have a retailer/reseller who should pay the freight costs.
+The purchaser's address can be exported in the shipment when the service nShift Web-TA is used. This is determined with the setting Purchaser's address in the shipment template in the Shipping services procedure.

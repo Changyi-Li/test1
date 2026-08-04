@@ -9,7 +9,7 @@ The default transport label type determines the type of transport label selected
 By clicking the button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_more_info.png) next to the field you can select which type of Transport label, purchase should be the default for the part when it is being arrival reported, rejected, or returned. You can also select from you own transport label variants created in the Document templates procedure. If you choose a transport label under this button, this will override the transport label selected, if any, in the Default transport label field.
 
 #### Alloy code/Mark-up
-In this field you enter the alloy cost that applies when purchasing the part. The alloy code/mark-ups are handled in the Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part procedure. This field does not exist for parts of the Service type.
+In this field you enter the alloy cost that applies when purchasing the part. The alloy code/mark-ups are handled in the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part procedure. This field does not exist for parts of the Service type.
 
 #### Alloy quantity
 Here you enter a quantity of the mark-up included in the part. The unit is loaded from the Basic data – Part procedure.

@@ -1,0 +1,2 @@
+### Log out
+By clicking on Log out in the backstage of the desktop you will become logged out of Monitor ERP. The [log on window](../Interface/LogIn.htm) will then open where you can choose to change company and/or log in as another user. If you want to close Monitor ERP just click the Close button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_close.png) at the top right corner of the log in window.

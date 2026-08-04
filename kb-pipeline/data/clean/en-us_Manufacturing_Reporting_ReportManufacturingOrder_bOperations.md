@@ -17,9 +17,9 @@ For the final operation this field is instead called Transfer to stock, see belo
 
 #### Transfer to stock
 (This field is available for the final operation) For the last operation you report the transfer to stock for a location (the number of parts that is reported and will be transferred to stock). If you enter a negative quantity, this will be shown with a minus symbol in the Reported quantity on Transport label, manufacturing, transfer to stock. Under the button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_more_info.png) you can see the locations registered for the part. You can select a location and add new locations. The selected location will be printed on the transport label for transfer to stock.
-If the part has traceability at batch level you will in the field called Batch A batch is the set of components/products manufactured at the same time and made from the same original material. see a suggested batch number, but you can change this number. How the batch number should be designed is decided in the Number series procedure.
+If the part has traceability at batch level you will in the field called BatchA batch is the set of components/products manufactured at the same time and made from the same original material. see a suggested batch number, but you can change this number. How the batch number should be designed is decided in the Number series procedure.
 If the setting Apply best-before date is activated in the part register, you must enter such a date in the field Best-before date. In the part register you can also configure if the best-before date should be suggested based on two different criteria.
-If the part has traceability level Serial number A serial number is a number that is used for traceability for parts on entity level., then you must also select serial number for the location, one serial number for each entity of the part.
+If the part has traceability level Serial numberA serial number is a number that is used for traceability for parts on entity level., then you must also select serial number for the location, one serial number for each entity of the part.
 You can also enter charge number for the location and you can link a certificate file.
 
 #### Quantity to reject

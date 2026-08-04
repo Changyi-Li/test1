@@ -1,0 +1,2 @@
+### Crediting advance and in arrears invoices
+You cannot create a credit invoice from the Payment plan tab in Register purchase order. This can instead by done by registering the credit invoice in the Register supplier invoice, procedure, and referring to the debit invoice (consecutive number) to be credited. When the credit invoice is registered and linked to the credit invoice basis created, the status reverts to the status registered on the advance/in arrears invoice in the payment plan. The basis can then be released once again.

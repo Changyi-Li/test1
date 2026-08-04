@@ -1,0 +1,12 @@
+### Print VAT report
+- Selected by date instead of by period which makes it possible to use VAT reporting for companies which have accounting periods not following the calendar months.
+- Better support for quarterly VAT.
+- It is possible to have separate accounts for VAT clearing and VAT recoverable.
+- Under the Selection tab you see information about when the most recently recorded VAT report was printed, which period it refers to, and the number of the VAT report.
+- Each VAT report gets a number and can be reprinted.
+- You do no longer choose voucher number series. This is in G5 automatically decided by a setting in the procedure Voucher number series/Journals in the General registers module.
+- Instead of different list types you will instead see different tabs in parallel to the VAT report, displaying information about VAT control, find difference, accounting order, and warnings.
+- In the VAT report you can use a drilldown function to access the values accounted for on the VAT rows. You then see accounts and their balances on which the value in the report is based. From each account you can use the drilldown to go on to general ledger transactions for the account in question. There is also a link to Register vouchers and ability to review invoice and journal.
+- An important change regarding the VAT report is that the used sales or purchase account no longer have to be what determines how the values is displayed in the VAT report. This is a system setting which you can activate. In this case it is the VAT code for the transaction which determines how the purchase/sales are recorded. In their turn, the VAT codes are determined by the VAT group entered for customer and supplier. When using the drilldown in the VAT report, it is not the account balances you see, but instead the unique transactions which is the basis in the report.
+- It is possible to delete an already recorded VAT report if you for example have missed to record transactions for that period. When deleting, an automatic voucher will be created to remove the initial VAT record.
+- Detailed list types allow you to view the specification for the invoices and vouchers that form the basis for reporting of input and output VAT. There is also a warning function if the posted VAT amount differs from the VAT amount on the invoice.

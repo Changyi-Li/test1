@@ -1,0 +1,6 @@
+### Work in progress
+If you have a work item in progress or work on standby, this is shown in the box Work in progress.
+Type refers to the recording type. Here you see a symbol representing which type of work it is: setup work ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/StatusOpStarted_15x15.png), direct work ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/gridDirectImage.png), indirect work ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/gridIndirectImage.png), or project activity ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_add_project.png). Here you also see a symbol if a work item is standby ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/StatusOpPaused.png).
+B stands for batch recording. In this column you will see the following symbol ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/gridPileImage.png) if it is a batch recording.
+The Last activity column (Last act.) shows the date and time when an activity was last reported for the work item in question, for example, a partial reporting.
+The rest of the information in the table is the same as in the stop work mode. Read more about [Stop work](../../Recording/RecordingTerminal/bStopWork.htm).

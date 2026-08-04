@@ -1,6 +1,6 @@
 ### Activities
 There are function buttons you can use to add/remove activities and to show activities which have the status Finished.
-With the button Add activity template ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_add_template.png) you can add an activity template in the list. When you use this function a dialog will open where you enter which template to use. Activity templates must first be registered in the Activity template table in the Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part procedure.
+With the button Add activity template ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_add_template.png) you can add an activity template in the list. When you use this function a dialog will open where you enter which template to use. Activity templates must first be registered in the Activity template table in the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part procedure.
 
 #### Number
 Each activity will be given a consecutive number. The first activity is always given number one (1).

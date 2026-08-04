@@ -24,7 +24,7 @@ This list type shows detailed information about the internal delivery reliabilit
 This list type shows total information about the internal delivery reliability, grouped by part. In this list you only see the delivery reliability on the last/final operation on each part.
 
 #### Future delivery reliability – Detailed
-This list type displays detailed information about the future internal delivery reliability when a new New finish date has been calculated via the Net requirement calculation You use the net requirement calculation to perform requirements planning based on the customer order backlog, as well as any existing sales forecasts.. You can group the list by work center or by actual (reporting) date.
+This list type displays detailed information about the future internal delivery reliability when a new New finish date has been calculated via the Net requirement calculationYou use the net requirement calculation to perform requirements planning based on the customer order backlog, as well as any existing sales forecasts.. You can group the list by work center or by actual (reporting) date.
 
 #### Future delivery reliability – Total
 This list type displays total information about the future internal delivery reliability when a new New finish date has been calculated via the Net requirement calculation. You can group the list by work center or by actual (reporting) date. The list can also be presented as a chart in the lower part of the window.

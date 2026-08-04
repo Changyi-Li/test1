@@ -86,7 +86,7 @@ Here you determine if the balance should be excluded during net requirement calc
 > Please note! Excluded balance does not apply to clearance, picking, stock count, and stock valuation. If, for example, a user registers a manufacturing order, the quantity on the order will be reserved against the balance even though this setting has been configured.
 
 #### Best-before date
-If traceability on Batch A batch is the set of components/products manufactured at the same time and made from the same original material. or Serial number A serial number is a number that is used for traceability for parts on entity level. is activated as well as the Apply best-before date, the best-before date is shown for the batch's or serial number's balance.
+If traceability on BatchA batch is the set of components/products manufactured at the same time and made from the same original material. or Serial numberA serial number is a number that is used for traceability for parts on entity level. is activated as well as the Apply best-before date, the best-before date is shown for the batch's or serial number's balance.
 For parts which use best-before date, the locations with the closest best-before date appear at the top in connection with stock withdrawals.
 If the best-before date has passed, it is shown in red. If Block has been selected in the system settings for Check best-before date, the balance is both red and crossed out, and is also not included in the available balance.
 

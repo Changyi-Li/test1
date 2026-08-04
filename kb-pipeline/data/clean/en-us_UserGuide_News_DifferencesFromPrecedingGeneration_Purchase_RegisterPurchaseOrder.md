@@ -1,0 +1,33 @@
+### Register purchase order
+- Order type is a new term. It determines certain information on the order and functions as a selection term. The two basic types are Material purchase and Subcontract.
+- You find the Supplier's part number under the More info button under the Rows tab.
+- New field: Order priority, is set as the lowest number of priority on supplier and order type.
+- It is possible to add communication addresses for individual orders (no limit on number pf addresses).
+- Confirmed which in G4 was a status, is in G5 a checkbox which is not a part of the status stages.
+- The Confirmed checkbox becomes automatically checked when the field Supplier's order number is entered.
+- Internal and external additional texts as well as external and internal files have been divided. Possible to print external additional texts on order documents.
+- The delivery date has been removed from the order header.
+- Goods label which in G4 was two rows with 2 × 30 characters is now two rows which can contain 2 × 40 characters.
+- The name shown on the order row is always shown in the user's language. Is then translated into the language of the mailing address on the documents.
+- It is possible to unlock the field for the part name if you want to change name, but then no special translation will be made for the documents.
+- It is possible to lock the price field so it will not change when you for example enter another quantity.
+- When you mark Confirmed as delayed it is also possible to enter a cause and a comment.
+- Less information about the part is shown as row type 4 (text) and is instead moved to document settings. Please note! The part's additional name can be shown as row type 4 (system setting) and as document setting. These settings should not be activate at the same time.
+- The handling of main row and sub-row (fictitious parts, alloy cost, and texts) makes it possible for you to minimize the order rows and only show the main rows to get a better general view.
+- Manages more account levels (not only cost center, cost unit, and project).
+- Position numbers consist of two digits and start at 10, and then 20 etc. This makes it easier to insert positions.
+- VAT is determined by the VAT group on the order.
+- It is possible to enter a specification on order row coding/posting items which will be included in the accounting.
+- The part's weight is shown on the rows.
+- Row type 4 is handled as text blocks and it is possible to enter color, font, and paste images.
+- Row type 6 does not exist in G5 since structures (main row/sub-row) are created on the order rows.
+- The choice of text types is done separately for each document type, not in a list of combinations of these.
+- There are validations to see if order quantity is less than the minimum quantity for the part and a multiple of the part's quantity/package.
+- Receiving inspection in the order header (G4) has been moved to order row and it is now possible to enter an inspection instruction for individual order rows.
+- There is a button for price comment on order rows. By clicking the button you see the standard price of the part and all of the supplier's supplier links on the part.
+- Better handling to hide prices on documents. The choices are saved on the order.
+- The order's total amount is shown both for the ordered quantity and the remaining quantity on the order.
+- If you have activated the system setting Apply check delivery times, then you will in the Register customer order procedure find three columns showing Requirement date, Diff. in relation to delivery date, and a button you can use to view the details for the check of delivery times.
+- In G4 there is a system setting called Check supplier link during order registration? which determine if a warning should appear at order registration in case there is no supplier link for the part, and a question asking if the supplier should be added in a supplier link on the part. In G5 there is a corresponding system setting and you can also block for order registration on the part if a supplier link is missing. When supplier link is missing it is possible to add a supplier link to the part. This is done by using one of buttons Update price or Create/update supplier link on the function menu.
+- In the Rows tab you can enter if the row should be included in the payment plan.
+- You can distribute purchase per order among two or more suppliers.

@@ -1,6 +1,6 @@
 ### The Overhead tab
 Overhead
-In the Overhead box, you can register multiple overhead types. The overhead types must first be registered in the Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Sustainability procedure. Having multiple emission types means that you can use different overheads when calculating different product groups.
+In the Overhead box, you can register multiple overhead types. The overhead types must first be registered in the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Sustainability procedure. Having multiple emission types means that you can use different overheads when calculating different product groups.
 
 #### Overhead types
 Here you select the Overhead types.

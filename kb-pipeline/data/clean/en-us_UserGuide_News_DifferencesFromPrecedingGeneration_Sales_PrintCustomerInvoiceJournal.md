@@ -1,0 +1,11 @@
+### Print customer invoice journal
+- The journal is now a document which can be redesigned using the new document concept in G5.
+- A validation makes sure that the period is open. This is done at an earlier stage than what was done in G4.
+- More information in the journal, for example amount in external currency and displaying voucher date on each row when using detailed integration.
+- It is possible to review the invoice document directly in the journal.
+- It is possible to adjust certain data in the coding/posting prior to approval.
+- A check that all coding/posting items are OK is made prior to approving the journal instead of as before when it ended up in Load Vouchers.
+- It is now possible to reprint old journals (ledgers).
+- Always a separate journal type for cancellation of customer invoices. In G4 this was determined by a system setting.
+- Clearer function to manually steer the journal to optional voucher date in the selection. Can also be done using detailed integration.
+- Interest invoices are printed via the customer invoice journal.

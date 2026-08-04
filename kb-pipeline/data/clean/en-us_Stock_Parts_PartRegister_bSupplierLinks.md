@@ -5,7 +5,7 @@ In this box you can create, edit, and delete supplier links for the part. The nu
 In this column you will see/indicate which supplier link will be selected by default. The first link created will be the default one, but this can be changed if several links have been created.
 
 #### Supplier
-Supplier number is selected from the supplier register. By using the Lookup The Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature you can search the supplier register. The name of the supplier is shown in the Name field.
+Supplier number is selected from the supplier register. By using the LookupThe Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature you can search the supplier register. The name of the supplier is shown in the Name field.
 
 #### Receiving inspection
 If receiving inspection is entered on the supplier link, it will override any receiving inspection entered on the part and on the general receiving inspection entered on the supplier in the Supplier register. The following options are available:
@@ -18,7 +18,7 @@ Here you configure settings receiving inspection settings if you have receiving 
 - From – If Receiving inspection is set to Yes or Interval, on the supplier link, this field becomes available and today's date is suggested. Here you can select a date from when the receiving inspection should be applied for the part.
 - To – If the Receiving inspection is set to Yes or Interval, on the supplier link, this field becomes available. Here you can select a date to when the receiving inspection should be applied for the part.
 - Instruction – If the Receiving inspection is set to Yes or Interval, this button becomes available. Here you enter an instruction regarding the receiving inspection. The text you enter here will be shown to the person performing the inspection. By clicking this button you access a text editor where you can write and format text, insert images and signature, and hyperlinks, etc. When a comment/text exists, the symbol on the button will change from an empty speech bubble ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_no_comment.png) to a filled speech bubble ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_comment.png).
-- Inspection template – By selecting an Inspection template, you configure settings regarding variable receiving inspection. Inspection templates first have to be created in the Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part procedure.
+- Inspection template – By selecting an Inspection template, you configure settings regarding variable receiving inspection. Inspection templates first have to be created in the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Part procedure.
 - Level – Level shows the current inspection level of the inspection template. By using the ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_add.png) and ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_reject.png) buttons you can step up/step down the current level in the inspection template. You can see the settings on each level in the inspection template.
 - Number of arrivals – Here you can see the number of reported arrivals.
 - Completed inspections – Here you can see the number of performed inspections on the part. By using this button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_refresh.png) you can reset the number of performed inspections to 0.00. If an inspection template is selected, the value for Frequency is loaded from the first row in the template. This cannot be updated. When the next level in the template has been reached, the value is loaded from the inspection template.
@@ -69,7 +69,7 @@ The net price displays the comparative price in the supplier’s currency.
 Here you will see the purchase price in the company currency and in the standard unit. The formula for comparative price is: Purchase price converted to the standard unit - Discount + Setup price ∕ Order quantity. The purpose of the comparative price is to be able to compare the price per piece from different suppliers.
 
 #### Supplier's part number
-Here you enter the supplier's part number for the part. This will be printed on the inquiry and order. The supplier's part number is also used when grouping the part on delivery schedules you can send to the supplier.
+Here you enter the supplier's part number for the part. This will be printed on the inquiry and order. The supplier's part number is also used when grouping the part on delivery schedules you can send to the supplier.
 
 #### Brand
 Here you see/enter the part's brand. This is displayed under the Price alternative ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_more_info.png) button on inquiry rows and purchase order rows.

@@ -1,0 +1,7 @@
+## Posting matrix
+In this procedure you can create tables with customer groups, supplier groups, product groups, and posting groups in order to register different types of posting matrices to sales, purchase, and direct stock reporting.
+These matrices define the posting during different combinations of product group and customer group per posting group, product group and supplier group per posting group, as well as product group and cause for direct stock reporting (stock withdrawal).
+When you start up the system for the first time, there are a number of groups in each table. The names are displayed in the user's language in Monitor ERP. The names can be translated into all languages available in the system. You must register the additional customer groups, supplier groups, product groups, and any posting groups that you need in your system.
+Customer groups are linked to customers in the Customer register procedure. Supplier groups are linked to suppliers in the Supplier register procedure. Product groups are linked to parts in the Part register procedure.
+You can also delete a group provided that it is not used/has accounts in a selected matrix. You cannot delete a group that is used. Any changes made in the matrices are logged in the Accounting procedures applied procedure.
+> A check is made to make sure added dimensions and projects have not been deleted by a different user during the time you have had the posting matrix open.

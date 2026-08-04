@@ -1,0 +1,3 @@
+### The Addresses list
+In this list you can see address information such as address rows, zip codes, cities, regions, and countries. This information can be shown for mailing addresses, delivery addresses, invoice addresses, and visiting addresses. The information corresponds to the information registered in the Contact information tab in the Customer register procedure.
+It is possible to update mailing addresses and delivery addresses directly in the list. To be able to edit invoice addresses and visiting addresses, you must first activate the setting Use separate address for the address in question in the customer register.

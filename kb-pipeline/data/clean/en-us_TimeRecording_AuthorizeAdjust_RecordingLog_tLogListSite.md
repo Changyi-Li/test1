@@ -1,0 +1,2 @@
+### The list type Log list – Site
+This list is available if site recording has been activated. This is done with the system setting called Activate site recording. This list shows all attendance recording (In) and recording of breaks together with the site recorded. The recording items are displayed in chronological order, day by day. The list is grouped by employee and displays day, date, time of recording as well as the site selected when recording.

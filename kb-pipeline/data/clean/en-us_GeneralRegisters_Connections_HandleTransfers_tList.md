@@ -1,0 +1,5 @@
+### The List tab
+In this list you see transfers that have been made between companies based on the selections made.
+In the Status column you see the status of the transfer. If the status is Error, you can check the Include box and then restart that transfer by using the Transfer button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_run.png) on the toolbar of the procedure.
+If a transfer was run and something went wrong, the button Log ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_more_info_have_data.png) will be activated on the row in the list. Below the button, you find a window where you can see information about the transfer such as time and the beginning of the error message. You can see the entire error message if you click the ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_more_info_have_data.png) button in that window.
+In other columns in the list you can see number of transfer attempts, type of transfer, number, created by, created when, and most recent transfer attempts.

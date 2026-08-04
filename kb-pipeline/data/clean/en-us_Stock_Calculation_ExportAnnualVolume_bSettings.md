@@ -11,7 +11,7 @@ Suppl. reference – The person suggested in the Supplier’s reference field is
 #### Show
 - Price – With this setting you decide if "price each" and "setup price" should be shown in the list.
 - Discount – If price is shown in the list you can with this setting choose to also show discount.
-- Lead time Number of days between ordering date and delivery date. Normally used for purchased parts. – With this setting you determine if lead time should be shown in the list.
+- Lead timeNumber of days between ordering date and delivery date. Normally used for purchased parts. – With this setting you determine if lead time should be shown in the list.
 - Only parts where supplier is default – With this setting you exclude the parts where the supplier link is not marked as default.
 - Date for import as forecast – If you activate this setting, it becomes possible to import the file as a sales forecast if the receiver also uses Monitor ERP. This does not affect the ability to import it as annual volume.
 - Annual volume, current pace – If the system setting Show annual budget, annual volume, and order quantity with current pace is set to Yes, then you can base on "Annual volume, current pace" when exporting annual volume. Current pace is mostly applied during seasonal fluctuation in the consumption and when the planning is made according to stock refill.

@@ -1,0 +1,7 @@
+## Report measuring data – Purchase
+In this procedure you report measuring data for arrived parts manufactured by subcontractor or purchased from other supplier.
+Reporting of measuring data for arrived parts can be used in combination with receiving inspection of the parts. From the Receiving inspection procedure you can go here by using the Go to procedure button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_link.png) in connection with reporting the receiving inspection.
+For the rest, the procedure is identical to the [Report measuring data](../../../Manufacturing/Reporting/ReportMeasuringData/wReportMeasuringData.htm) procedure in the Manufacturing module.
+
+#### Handling of traceable parts with mandatory measuring
+For traceable parts that have mandatory measuring, you will see a warning in the Receiving inspection procedure. After this you must report receiving inspection to create batches or serial numbers. Once this is done, batches and serial numbers will be blocked if there are mandatory measurements to be made. When you have reported these measurements, the block will automatically be removed regardless if the measurement results in an OK or a Not OK on the rows. If needed, you can also change the status in the Serial number A serial number is a number that is used for traceability for parts on entity level./Batch A batch is the set of components/products manufactured at the same time and made from the same original material. procedure.

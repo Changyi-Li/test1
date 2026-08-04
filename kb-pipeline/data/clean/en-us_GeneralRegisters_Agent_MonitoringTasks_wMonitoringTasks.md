@@ -1,0 +1,10 @@
+## Monitoring tasks
+This procedure is part of the option Agent. Here you can create own monitoring tasks for different types of events in the system.
+The monitoring tasks you create in this procedure only apply to your own user. If you belong to one of the roles Financial assistant, Purchaser, Seller, or, Planner, you have permission to create own monitoring tasks. If you belong to one of the roles System administrator, ERP manager, Financial manager, Purchasing manager, Marketing executive, or Production manager, you can also access other users' monitoring tasks.
+To a monitoring task, you add one or more monitoring tasks with respective monitoring terms and message. A monitoring task is active by default until further notice. However, it is possible to enter a time interval when the monitoring task should be active. You can also configure that the monitoring task should be deactivated when specific monitoring term has been fulfilled. You can also add one or more notification types. Here you determine to which user/users you want to send notifications, as well as if they should be sent via notification or e-mail when a monitoring task has been fulfilled.
+It is also possible to create monitoring tasks by accessing this procedure via "go to" in other procedures where different events occur. However, these events/procedures must be supported by the monitoring task. The events that currently are supported by monitoring tasks are:
+- Balance check – part. To see if the balance is equal to or less than zero, to see if the balance falls below the safety stock, to see if the balance exceeds, falls below or is equal to the entered value.
+- Arrival reporting of part and arrival reporting or purchase order row.
+- The operation on the manufacturing order is started, reported, or finished.
+- The activity is started or finished. You can create monitoring tasks for all activities in the system, except for project activities.
+![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_log.png)

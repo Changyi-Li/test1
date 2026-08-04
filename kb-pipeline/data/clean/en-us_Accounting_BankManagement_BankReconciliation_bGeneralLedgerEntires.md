@@ -1,0 +1,2 @@
+### General ledger entries
+Here you see the entries in the general ledger which are recorded on the account in question and within the period of time entered in the Settings box. Matched entries are displayed in green. New entries in the general ledger can be added by marking the Post checkbox for the entries/records concerning fees and such in the Bank statement rows box. On the function menu for this box you find button you can use to delete all matches or to delete match for the marked row.

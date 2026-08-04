@@ -4,7 +4,7 @@ In this box you find settings connected to the Product configurator option in Mo
 #### Configuration group
 You can here select the configuration group which should apply for the part. The selected configuration group's name is shown to the right of the field. For a configured part, different terms apply as described below:
 - The part should have a basic BOM and routing which you create in the BOM and routing procedure, if it is of the type Manufactured.
-- The part should have traceability at Batch A batch is the set of components/products manufactured at the same time and made from the same original material. level or at Serial number A serial number is a number that is used for traceability for parts on entity level. level. A warning will be displayed if traceability is not activated for the part.
+- The part should have traceability at BatchA batch is the set of components/products manufactured at the same time and made from the same original material. level or at Serial numberA serial number is a number that is used for traceability for parts on entity level. level. A warning will be displayed if traceability is not activated for the part.
 - The part should have lot sizing rule Linked requirement in all warehouses. A warning will be displayed if traceability is not activated for the part.
 
 #### Open automatically

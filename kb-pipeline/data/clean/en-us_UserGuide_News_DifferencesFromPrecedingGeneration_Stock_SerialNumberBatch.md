@@ -1,0 +1,9 @@
+### Serial number/Batch
+- In addition to serial numbers, batch number are also saved in this register.
+- Changes made in meter readings for a serial number are logged. In the log you can see changes made via manufacturing order and manually made.
+- You can see on which locations the serial number or batch exist at the moment, and with which balances.
+- It is possible to link a certificate to a serial number or batch which will be printed when the finished part is delivered to customer, if automatic printout is activated.
+- It is possible to search in included batches/serial numbers or you can search up in the structure under the TraceabilityTraceability in Monitor ERP is all about being able to trace a specific serial number or a batch in each step it is being processed, as of when a part or a material arrives with you from a supplier. Traceability is also about stating what is withdrawn from and what is added to stock, so it is then possible to trace from customer order, via manufacturing order to purchase order. But it is also about being able to trace the other way around; from purchase order via manufacturing order to customer order. tab.
+- The same serial number/batch number is allowed on multiple records as long as the part numbers are not the same.
+- In the procedure called Serial numberA serial number is a number that is used for traceability for parts on entity level./BatchA batch is the set of components/products manufactured at the same time and made from the same original material. you can also handle warranties by Number of cycles, Operation time, and Meter reading, in addition to the date interval used earlier.
+- For serial numbers you use the Report button to update the Meter reading, in the same way as with Operation time and Number of cycles. These updates of the Meter reading will also be saved in the same log as the other readings.

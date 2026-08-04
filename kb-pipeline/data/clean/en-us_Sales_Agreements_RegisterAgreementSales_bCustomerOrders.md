@@ -1,0 +1,6 @@
+### Customer order
+In this box you can add the customer orders which in any way are connected/related to this agreement. For example, if the agreement is a service agreement for a machine sold, the customer order of the machine can be added making it easy to see that customer order.
+When you register a new agreement, this box is empty. By using the ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_add_row.png) button, you can add the customer orders which belong to this agreement. Using the ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_delete_row.png) button, you can delete customer orders from the the agreement.
+By using the Go to procedure button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_link.png) you can go to the Register customer order procedure for the marked order in the box.
+By using the Show order confirmation button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_form_viewing.png) you can review the order confirmation for the marked order in the box.
+Conversely, you can in the Register customer order add the agreement to the customer order. This is done in the Agreement field in the Grouping/Posting box. You can then link from there to the agreement in this procedure.

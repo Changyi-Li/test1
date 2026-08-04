@@ -1,0 +1,6 @@
+### Pick-up address
+By default, the pick-up address will be the same as Seller's address which you find under the button below. This is determined by the warehouse of the firstly selected order/pick list if the Warehouse option is used. It is possible to enter a different Pick-up address if it should not be the same as the seller's address. By using the button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_change_settings.png) you can change the pick-up address. You can choose an address from supplier, customer, or the company.
+
+#### Seller's address
+By clicking the button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_more_info.png) you will see the seller's address. The address information is loaded from the company information for the current warehouse by default. By using the button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_change_settings.png) you can change the seller's address. You can choose an address from supplier, customer, or the company. Normally, you don't change the seller's address.
+The seller's address can be exported in the shipment when the service nShift Web-TA is used. This is determined with the setting Seller's address in the shipment template in the Shipping services procedure.

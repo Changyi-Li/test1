@@ -1,0 +1,13 @@
+### Register invoice directly
+- Credit invoice is a checkbox next to invoice type.
+- When checking the credit invoice box a window will open where you can on row level can enter which rows to credit, and also if the crediting concerns price crediting.
+- It is also possible to credit interest invoices.
+- With a system setting you decide which payment term should be suggested on credit invoices.
+- Printing method and e-mail recipient can be entered on invoice level.
+- VAT group is a new field in the invoice header. It determines which VAT codes will be used on the invoice rows.
+- With a checkbox on each row you select if the stock should be affected.
+- If you have activated the affect balance feature you can also enter location.
+- New field where you can enter a fixed due date.
+- The procedure contains a posting box where you see how the invoice will be recorded.
+- There is a button you can use to approve the invoice prior to printout. When you approve the invoice it get an invoice number and the accounts receivable and the statistics become updated.
+- There is a new field under the Header tab where you see the invoiced exchange rate.

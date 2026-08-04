@@ -1,5 +1,5 @@
 ### Warranty
-In this box you enter information regarding the warranty of the product. You can also update the information on several serial numbers/batch numbers at a time by using the list type Warranty in the Serial number A serial number is a number that is used for traceability for parts on entity level. list procedure.
+In this box you enter information regarding the warranty of the product. You can also update the information on several serial numbers/batch numbers at a time by using the list type Warranty in the Serial numberA serial number is a number that is used for traceability for parts on entity level. list procedure.
 
 #### The product is covered by warranty
 With this checkbox you decide if the product is included in any type of warranty. You must activate this setting in order for the other fields in the box to become available.

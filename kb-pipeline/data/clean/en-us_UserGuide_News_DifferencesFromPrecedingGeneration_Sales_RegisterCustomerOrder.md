@@ -1,0 +1,48 @@
+### Register customer order
+- Order type is a new term which determines how some fields are entered and how prices are used. It also functions as a selection term.
+- New field: Order priority, is set as the lowest number of priority on customer and order type.
+- New button: Pro formaPro forma is a type of customs document which is used during export of goods. It is used to show information regarding the value of what is to be exported (customs cleared). Pro forma documents are also used in other contexts, for example much earlier than the time of delivery when contacting banks to arrange bank guarantees.. Here you see if a pro forma has been printed for the order (pro forma via customer order).
+- Discount , if any, is not calculated on the setup price.
+- It is possible to add communication addresses for individual orders (no limit on number pf addresses).
+- Internal and external additional texts as well as external and internal files are now separated. It is possible to print external additional texts on order documents.
+- The delivery date has been removed from the order header.
+- Current exchange rate is always shown. Not only when forward rate is used.
+- Goods label which in G4 was two rows with 2 × 30 characters is now only one field which can contain 80 characters. This is done to facilitate searching.
+- Preliminary customer order is not a part of the status stages. It is a separate checkbox.
+- Preliminary customer orders can be printed, but with a clear marking that they are preliminary (watermark).
+- The delivery rules in the order header determine if the order is included in the delivery planning and also how partial deliveries should be allowed.
+- Ordering of fictitious parts is done via a small selection form when you have entered the part number. There you enter quantity, date, and variant code. That is, information which can affect the included/incorporated parts. The sub-rows become inserted when you click OK. If the setting Show structure when registering orders is activated for the fictitious part in the Part register, you will also see another window where the order structure is shown before you click OK. This primarily apply to such fictitious parts which consist of other fictitious parts.
+- Row type 6 does not exist in G5. It is not needed since structures (main row/sub-row) are created on the order rows.
+- The name shown on the order row is always shown in the user's language. This is the translated into the language of the order confirmation and in to the language of the delivery address on the delivery note.
+- It is possible to unlock the field for the part name if you want to change name, but then no special translation will be made for the documents.
+- It is possible to lock the price field so it will not change when you for example enter another quantity.
+- Less information about the part is shown as row type 4 (text) and is instead moved to document settings. Please note! The part's additional name can be shown as row type 4 (system setting) and as document setting. These settings should not be activate at the same time.
+- The handling of main row and sub-row (fictitious parts, alloy cost, and texts) makes it possible for you to minimize the order rows and only show the main rows to get a better general view.
+- Manages more account levels (not only cost center, cost unit, and project).
+- Position numbers consist of two digits and start at 10, and then 20 etc. This makes it easier to insert positions.
+- VAT is determined by the VAT group on the order.
+- The part's weight is shown on the rows.
+- It is possible to order confirm on row level by hiding price and/or delivery date on individual rows. Then a special text about this will be shown under the part row on the order confirmation.
+- Choose to create manufacturing orders and purchase orders per row instead of using settings in the order header.
+- Serial numberA serial number is a number that is used for traceability for parts on entity level. is not a separate row with row type 5. Instead it is saved directly on the order row accessed by a button.
+- It is possible to generate automatic serial numbers for parts (setting for the part). Manual generation of serial numbers can only be done when the part has not been set to automatically generate serial numbers.
+- Row type 4 is handled as a text block and it is possible to enter color, font, and paste images.
+- The choice of text types is done separately for each document type, not in a list of combinations of these.
+- Forecast status is suggested to be the same as the preceding row.
+- There are validations to see if order quantity is less than the minimum quantity for the part and a multiple of the part's quantity/package.
+- Better handling to hide prices on documents. The choices are saved on the order.
+- The order confirmation can either be based on the ordered or the remaining quantity on the order. Determined by a document setting.
+- Better support for three-party trading since there are now settings for the alternative delivery addresses, for example customer group.
+- It is possible to enter a specification on order row coding/posting items which will be included in the accounting.
+- In G5 the shipping information is always calculated when you save. It is a document setting which determines if it should be shown. Manual adjusting of the shipping information is allowed.
+- The field Construction VAT does not exist in G5. There will be a specific VAT code for Sale of construction services. That VAT code is determined via the VAT group.
+- In G5 you can use Find & replace on order rows. This applies to columns for quantity, price, discount, setup price, and delivery date. It is valid for all types of order rows (also for quotes, purchase orders, etc.).
+- The order's total amount is shown both for the ordered quantity and the remaining quantity on the order.
+- On order rows you can enter if the row should be included in the invoicing plan.
+- You can access and modify certain information under the Invoicing plan tab also when the order has status 9.
+- Under the Invoicing plan tab you see more information about each partial invoice in the invoicing plan, for example invoice number, invoiced amount, left to invoice. You can also review invoice here.
+- Under the Invoicing plan tab you can see which order rows are included in the invoicing plan.
+- A new row type for totals and sub-totals has been added in the system. It is called Total row (row type 3). This row type can also be used in the procedures Register quote and Register invoice directly.
+- In G4 it is possible to create purchase orders from customer orders for purchased parts with the lot sizing rule LL (Lot-for-lot). A connection is then created between purchase order and customer order. This way, when you update one of the orders, the other one will automatically become updated. In G5 it is also possible to create purchase orders from customer orders for order oriented purchased parts. New in G5 is that you can, from customer order, also create purchase order for stock driven purchased parts (you allow this on the stock driven purchased part by using a setting in the Part register). The equivalent to this in G4 is purchased parts with other lot sizing rules F, B and P. In G5 you will then see the purchase order number on the customer order row, but there is no link/connection between the orders. If the customer order is modified, the purchase order will not become updated and vice versa. When you arrival report the purchase order, the quantity will not be cleared to the customer order. It can be used for any customer order.
+- A new system setting called Check customer link for part during order registration has been added. With this setting you decide if a warning should appear at order registration in case there is no customer link for the part.
+- You can choose if sales forecasts should be deducted from the quantity or not. This is decided per customer order row.

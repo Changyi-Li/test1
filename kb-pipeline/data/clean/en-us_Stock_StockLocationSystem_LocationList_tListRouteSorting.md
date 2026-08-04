@@ -1,5 +1,5 @@
 ### The Route sorting list
 In this list you can create and update route sorting number for the location names, making the numbering of the locations match the physical or geographic picking route in the warehouse. This is useful when the regular location name cannot be used to describe in which order parts should be picked from the locations.
 In the list you see the existing/new route sorting numbers and the sort order of these numbers for the locations.
-Route sorting numbers can be used in the Pick list A pick list is a list of parts/products which should be picked from stock for a manufacturing order or a customer order. procedure where you can configure sorting of the material rows based on the locations' route sorting numbers.
+Route sorting numbers can be used in the Pick listA pick list is a list of parts/products which should be picked from stock for a manufacturing order or a customer order. procedure where you can configure sorting of the material rows based on the locations' route sorting numbers.
 > Saved (existing/current) route sorting number for the locations can be loaded and presented in the Locations list if you have created a presentation of your own where you have added the Sort order column. You can also edit the route sorting numbers in that column in the list.

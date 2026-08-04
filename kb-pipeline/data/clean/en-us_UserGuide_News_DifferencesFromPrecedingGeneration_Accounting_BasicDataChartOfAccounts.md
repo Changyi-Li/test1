@@ -1,0 +1,2 @@
+### Basic data – Chart of accounts
+- New procedure where you register chart of accounts headings and SRUAll accounts in the chart of accounts are linked to an SRU code. (SRU is an abbreviation of the Swedish term for standardized accounting statement.) The code is used to transfer information from the accounting to the accounting schedule in the tax return. Information regarding the SRU coding is exported in the chart of accounts information in the SIE file. codes. These tables were previously located under a separate tab in the Chart of accounts procedure.

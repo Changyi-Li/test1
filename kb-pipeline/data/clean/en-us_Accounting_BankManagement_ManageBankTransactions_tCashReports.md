@@ -1,0 +1,3 @@
+### Cash reports
+Here you register cash reports with start date and end date for the report. Select the Payment method for the cash report you want to register. Then enter From date and To date. Mark the Active checkbox on the cash reports in which you want it to be possible to register payments. You can use the Show cash report button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_form_viewing.png) to also be able to view and print Cash receipt (cash reports) with a compilation of the transactions registered in the cash book.
+Transactions in the cash book are registered via the Payments tab, using the payment method linked to the cash book.

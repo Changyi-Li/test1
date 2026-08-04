@@ -11,7 +11,7 @@ If this setting is activated, the calculated order quantity is rounded up to a m
 
 #### Annual volume
 If you have activated the system setting Show annual budget, annual volume, and order quantity with current pace, it is possible to use Annual volume or Annual volume, current pace in the calculations. Annual volume is selected by default. If the system setting is not activated, you can only use Annual volume.
-The annual volume is also used to get a value for Daily pace Daily pace is the consumption per day of a specific part., which is: Annual volume ∕ Number of work days per year. The number of days worked per year that applies in the company is determined by the system setting Number of work days per year. Under Value you will see: daily pace × standard price.
+The annual volume is also used to get a value for Daily paceDaily pace is the consumption per day of a specific part., which is: Annual volume ∕ Number of work days per year. The number of days worked per year that applies in the company is determined by the system setting Number of work days per year. Under Value you will see: daily pace × standard price.
 
 #### Total annual volume from all warehouses
 This setting is available if you have installed the option called Warehouse. If you activate this setting, the selected annual volume (Annual volume or Annual volume, current pace) will be totaled for all warehouses in the system when calculating daily pace. The result is saved to the order quantity in the warehouse you are working in. This setting is not selected by default.

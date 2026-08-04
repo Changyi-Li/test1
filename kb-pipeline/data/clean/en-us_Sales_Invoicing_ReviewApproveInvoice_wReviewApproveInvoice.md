@@ -1,0 +1,23 @@
+## Review/Approve invoice
+In this procedure you can review and approve invoice bases in order to print invoices. Invoice bases are created when delivery reporting customer order rows. They can also be created by directly registering invoices. When approving an invoice created from an agreement, where the agreement is marked with Accrual accounting, an accrual accounting record will automatically be generated in the Register accruals procedure. You can also review and approve interest invoices. The invoice bases for interest invoices are created via the Interest charge basis procedure.
+Interest
+If there is interest to charge on the next regular invoice for a customer, this is shown in the procedure with the button Add interest being available at the top of the Result box. This button is only available if the next invoice for the customer is in the same currency as the interest to charge. You can then click the Add interest button to open a dialog window where you can add interest to the regular invoice basis for the customer. Read more about this function under [Charge interest on the next regular invoice](../../../UserGuide/Using/InvoicingAccountsReceivable/InterestInvoicing.htm).
+Comprehensive invoice
+In this procedure the system suggests how delivered order rows should be invoiced. All rows with the same order number will be gathered in one invoice, containing the invoice header and the rows. All customer orders which have the Comprehensive invoice checked can be gathered in one comprehensive invoice per customer. In order to be able to create a comprehensive invoice there are some prerequisites. You can read more about these under the heading Comprehensive invoice in the section [Invoicing](../../Customers/CustomerRegister/bInvoicing.htm) in the online help function for the Customer register procedure.
+Relevant system settings
+There is also a few system settings which affect the invoicing. You can read more about these in the section [Invoicing](../../../GeneralRegisters/BasicSettings/SystemSettings/bInvoicing.htm) in the online help function for the System settings procedure.
+Select and approve invoice basis
+You select which invoice basis to include in the invoicing. It is possible to make changes in the header and on the rows of the invoice bases before you approve them. You can also review the invoice documents before you approve and register them as invoiced. When all the invoices are OK, you can save and then approve the entire invoicing. You approve the invoice bases by using the button Approve ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_approve_document.png) in the toolbar of the procedure. Then an invoice number will be given to each invoice basis which has become an invoice. An update of, for example, accounts receivable, journals, statistics, will then be made.
+Printout
+After you have clicked Approve, a dialog window opens. There you can either approve and request printout, or approve and choose to print at a later occasion. If you request printout, the procedure Print invoice will open to print the invoices. The approved invoices are then automatically to this procedure in order to be sent to the customer via e-mail or printed to a printer. You can also choose to print the invoices later in that procedure.
+List types
+
+#### Standard
+In this procedure there is only a standard list. It loads regular invoices for review/approval.
+Selection rows
+In a list procedure there is always a tab called Selection where you can select data records in different intervals from the database. The data records are then loaded by using the Load button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_display_list.png) in the toolbar of the procedure.
+Under Selection rows in the backstage of the procedure, you can choose which selection rows that each list type should have, under the Selection tab in the procedure. In the List type field you select for which list type you want to customize the selection rows.
+One table shows selection rows possible to select and one one table shows the selected selection rows. You can add, delete, or move selection rows by dragging and dropping the selection rows with your mouse pointer.
+Using the Save button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_save.png) you save the selected selection rows.
+Read more about this in the [Selection](../../../UserGuide/GeneralFeatures/Selection.htm) topic.
+> You can automate the running of this procedure with the Agent option. Read more about [The Agent](../../../UserGuide/Options/Agent.htm) can help make your processes more efficient.

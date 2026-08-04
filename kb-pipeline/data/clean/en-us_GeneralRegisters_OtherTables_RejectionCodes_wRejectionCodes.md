@@ -1,0 +1,4 @@
+## Rejection codes/Cause codes
+In this procedure you register rejection codes/error codes that should be used in the system. There are no rejection codes/error codes when you start up the system for the first time. Rejection codes/error codes are also used in the Machine Integration option.
+Rejection codes/error codes are used in different places in the system to enter a cause to rejection and then follow up volumes and costs related to these rejection codes/error codes.
+You can deactivate rejection codes/error codes that are not used. This code will then be hidden and the users cannot choose it during rejections. However, it will remain in the statistics. You can also delete a rejection code/error code. A validation is then made to make sure it is not used in any work centers, manufacturing order logs, rejection logs, etc. If so, it is not possible to delete the rejection code/error code in question.

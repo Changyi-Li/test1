@@ -1,0 +1,3 @@
+### The list type Loading plan
+In this list you can see loading plans for the number of planned arrivals and shipments for each delivery day. It can be either regular purchase orders for material, shipment of subcontract, arrival of subcontract, or a combination of these. This is determined by a setting under the Selection tab.
+In the upper portion you see the arrivals in a list and in the lower portion you see data in a bar chart. You can configure what should be shown under the function button Chart ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_chart.png).

@@ -1,0 +1,56 @@
+### Part register
+- This procedure replaces the procedures Update Part - Purchase/Sales/Inventory and Part Info.
+- Number of characters for part numbers has been increased from 16 to 20.
+- You can enter an unlimited number of alternative units. The settings determine which unit will be used by default for specific applications. One application of alternative units is that you can decide which unit should be used for statistics. Then you can choose to use this in many statistics reports.
+- If you change unit on the heading row it will affect all unit fields for the part. This made it unnecessary to Show in Alternate Unit in the planning information, that is why this option it is not included in G5.
+- There is a function to change default unit for part. When this is used, all logs, orders, material rows in BOM and routing, etc. will be recalculated so that the values corresponds with the new unit.
+- The system checks that the part has the unit required for reporting IntrastatIntrastat is the system which gathers statistics relating to trade in products within the European Union. Gathering of Intrastat statistics is handled in the same way by all EU member states..
+- You can compare supplier prices for different suppliers in the supplier links. The comparative price shows the price in the company currency per standard unit (setup price/EOQ, discount, unit, etc. can differ).
+- Different price units for purchase price and sales price.
+- In G4 there is a limitation of 80 character for Comment on customer. In G5 this is instead a button called Price comment which is a comment with unlimited number of characters.
+- Purchase comment and sales comment linked to supplier and customer. These override the general comment and can also be managed in different languages.
+- You can have multiple drawing numbers for a part.
+- Separate revision for drawing number and part. That is, it is possible to have different revisions for part and drawing.
+- New field to link part to project.
+- Manages coordinated processing of multiple parts. This means that when you register an order of one part, other parts will be registered as well. This applies only to manufacturing orders.
+- Packaging is not a part type any more. This is instead a setting under the Sales tab. This is to support that you can both purchase packaging and manufacture it. That is, packaging can be part type Manufactured or Purchased.
+- For fictitious parts you can activate a setting so you can see and have ability to affect the part structure before it is added as an order row. A type of simplified configuration.
+- More information for packaging parts, for example measurements.
+- SO, SC, Sales OH, and Profit, are always entered for the parts in the same way as SO mark-up exceptions in G4.
+- For the part it is possible to decide if serial number should be generated at customer order registration/delivery reporting.
+- A field only exists under one tab in G5. You find fields which concern multiple tabs (for example Administrator and Intrastat information) under the General tab.
+- Accumulated values are shown under the Budget tab.
+- The general setup price for purchase and sales has been removed. It is only available in supplier link and customer link. Setup price on supplier link and customer link are always shown (no setting required).
+- The fields VA-code and Optional value do not exist in G5.
+- Maximum quantity is a field always shown for manufactured parts.
+- There is only one type of own manufacturing parts: Manufactured. Stocked (stock driven) parts in G4 will in G5 also be of the type Manufactured. The lot sizing rule decide the structure explosion.
+- Separate field for the part's requirements planning: Planning method, if a part should be subject to requirements planning or if it should be handled physically. Control method, if the part should be order oriented or stock driven. Lot sizing ruleThe lot sizing rule determines the suggested order quantity when a shortage occurs of a part. Lot sizing rules are used for parts for which requirement planing is performed., the part's lot sizing rule based on the selected control method.
+- Planning settingsA number of different settings in the part register, such as reorder point and safety time. These settings function as information about the part and are used during requirement calculations in the system. in number of work days and value are always shown.
+- The service register is not included in the part register. Service is a new part type. This way the part can have much of the functionality which in G4 was missing for services, such as customer links.
+- You can select level of traceability; BatchA batch is the set of components/products manufactured at the same time and made from the same original material. or Serial numberA serial number is a number that is used for traceability for parts on entity level..
+- Bucket part has been replaced by the lot sizing rule No requirement calculation. This is available when Physical has been selected as planning method.
+- It is possible to activate ability to create manufacturing order and purchase order when you register customer order, even though the part is stock driven Information about quantity, finish date etc. is included to the manufacturing order/purchase order. However, the information can be modified if you for example already have a certain quantity of the part in stock, meaning that you do not have to manufacture the entire quantity sold on the customer order. No link is created to the customer order, this is just another and more direct way to create order, in comparison to awaiting a requirement calculation.
+- The option Days of graceThe term days of grace (or grace period) is used at requirements planning in order to calculate rescheduling of actual orders that cover the requirement but that are too late in time, instead of suggesting a new order. has been removed for parts (and also as system setting). The lists for order suggestions and requirements calculations will always suggest rescheduling – in, if possible, before new orders will be suggested.
+- Certain information items which previously were system settings have now been moved to the part, for example Random stock location and Forecast deduction.
+- More options to define (on part level) how forecast deduction should take place (Deduction method).
+-   
+When deducting forecasts from customer orders via Periodic interval, you can choose to do a forecast deduction for a different part number than the part number the order was registered for.
+- The field Product engineer (in G4 called "Prepared by") is possible to edit and is not the person who most recently saves the BOK and routing.
+- Additional name is no linger limited to four fields. It is now entered in a text box with no limitation of number of rows.
+- In the Planning window it is possible to perform requirement calculation and release suggestions to directly become actual orders.
+-   
+The date in the Planning window is shown in italics if the order has been changed which resulted in the current date not being the same as the initial date. In G4, it was the Order number which was displayed in italics.
+- The box with the planning window can be unpinned to a floating window.
+- Four alternatives are available in the TraceabilityTraceability in Monitor ERP is all about being able to trace a specific serial number or a batch in each step it is being processed, as of when a part or a material arrives with you from a supplier. Traceability is also about stating what is withdrawn from and what is added to stock, so it is then possible to trace from customer order, via manufacturing order to purchase order. But it is also about being able to trace the other way around; from purchase order via manufacturing order to customer order. field: None, Batch, Serial number, and Serial number (only withdrawal). These options determine which level of traceability to apply for the part and makes it mandatory to enter batch number/serial number in the different stock reporting items. Serial number (only withdrawal) only applies for purchased parts. These serial numbers are not created until the withdrawn material is linked to the manufactured part's serial number, which is done in connection with reporting the operation on the manufacturing order.
+- It is possible to activate Best-before date if traceability is set to Batch. Then it becomes mandatory to enter a best-before date when the part is transferred to stock. This date will then be shown for the batch.
+- Best before-date and charge number are now shown in most location boxes for withdrawal of parts with traceability.
+- It is not possible to rename a location which already has a balance. Location name can contain a maximum of 20 characters.
+- If the option Product configurator is used, then it is possible to also enter a Price formula on the main part (that part that should be configured).
+- It is possible to pre-calculate a purchased part directly in the part register to calculate the purchase expenses of the part and you can also see the total cost and the sales price. It is possible to save – from standard price, cost price, sales price, or net price – to standard price, future standard price, price list, or future price list. You can configure to save to one or multiple prices in the same calculation. Which purchase expenses should be used and how they should be distributed, is configured in the Calculation mark-up procedure. It is possible to use more expense types than in G4. If data necessary for the calculation is missing, you will see a warning in connection with running the calculation. In G5 there is also a new procedure called Pre-calculation – Purchased parts, where you can pre-calculate several purchased parts at the same time. In the Part list procedure you can use the list type Material costs to perform a mass update of expenses/costs for parts.
+- You can simulate the effect of deleting order rows in the Planning window. This can be done using buttons on the function menu: Simulate deletion of row (F6) and Return from simulation mode (Shift + F6).
+- The Swedish date format (YYWWD) is available to select in the Planning window. If you want to save the date format you must use the function save own layout.
+- By checking the Stock count request checkbox you can demand stock count for a part. The part then gets a date and time stating when you requested the stock count. The actual stock count is done in the Stock count in list procedure.
+- There is now a new column called Alternative standard price based on the conversion factor. This will supply an overview of alternative prices.
+- In the Planning window it is possible to add a column from More info which shows the name of a supplier/customer or the name of the main part.
+- The area for geometrical forms are shown in mm2.
+- For parts with traceability, you can configure for the country of origin on Intrastat export to be loaded from the purchase (via the supplier linked to the serial number/batch).

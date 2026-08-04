@@ -1,0 +1,3 @@
+### Synchronize customer order
+- New procedure used to synchronize the price each on existing customer order rows based on price changes made on the part. In this procedure you can also update information in existing customer order headers based on changes made in the customer register. In G4 that has to be done in two procedures: Price Change and Order List – Sales, via the list type Synching order header.
+- In addition to what can be update on customer order in G4 it is also possible to update Currency, Customer name, Seller, Print order via, Print invoice via, and Invoice is pending, on customer order headers. On customer order rows you can also update Discount, Setup price, Posting, and VAT code.

@@ -1,7 +1,7 @@
 ### Header row
 
 #### Part number
-The part number is the primary information in the Part register and in the BOM and routing procedures. In this field you will see the part number that was most recently loaded. By using the Lookup The Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature, you can select another part number. If the selected part is blocked, the part number is displayed in red.
+The part number is the primary information in the Part register and in the BOM and routing procedures. In this field you will see the part number that was most recently loaded. By using the LookupThe Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature, you can select another part number. If the selected part is blocked, the part number is displayed in red.
 A new record is highlighted by a green dot ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/green_dot.png) shown in the field. This dot will disappear when the record is saved for the first time.
 You can enter a new part number (alphanumerical, with a maximum of 20 characters) and leave the field using Tab or Enter in order to create a new part. You can also click the Create new button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_new.png) or press (Ctrl + N) to create/register a new part. If you leave the field empty, the next available part number will be loaded from the number series for part numbers in the Number series procedure when you save in the procedure.
 > Part number can be shown as a bar code on different documents in Monitor ERP. If you plan to use extended characters in your part numbers (for example, Å, Ä, and Ö), please remember that these characters are not supported by certain bar code types.
@@ -12,7 +12,7 @@ Here you can see the name of the part. For new parts, you enter the name in the 
 #### Configuration group
 You can here select the configuration group which should apply for the part. The selected configuration group's name is shown to the right of the field. For a configured part, different terms apply as described below:
 - The part should have a basic BOM and routing which you create in the BOM and routing procedure, if it is of the type Manufactured.
-- The part should have traceability at Batch A batch is the set of components/products manufactured at the same time and made from the same original material. level or at Serial number A serial number is a number that is used for traceability for parts on entity level. level. A warning will be displayed if traceability is not activated for the part.
+- The part should have traceability at BatchA batch is the set of components/products manufactured at the same time and made from the same original material. level or at Serial numberA serial number is a number that is used for traceability for parts on entity level. level. A warning will be displayed if traceability is not activated for the part.
 - The part should have lot sizing rule Linked requirement in all warehouses. A warning will be displayed if traceability is not activated for the part.
 
 #### Open automatically

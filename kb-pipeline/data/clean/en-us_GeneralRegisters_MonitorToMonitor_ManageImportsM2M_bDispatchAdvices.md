@@ -1,0 +1,3 @@
+### Dispatch advice
+Here you will find a row for each M2M file contained in the e-mail that you have chosen to import. All files in the Include column are checked by default. To exclude a file, you uncheck Include. The File name column displays the file name of the attached file. If there are warnings or errors related to the file, this icon will be shown ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/warning.png).
+By using the Show e-mail message button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_preview.png) you can view the e-mail message in a floating window.

@@ -1,0 +1,14 @@
+### Calendar
+Under the Calendar tab you see a calendar with the calendar weeks as rows (with week the numbers) and the calendar days in columns. Each calendar day is displayed as a square in the calendar.
+Using the navigation button above the calendar you can skip ahead one week at time (Alt + Page Down) or go back one week (Alt + Page Up). You can also skip ahead one month at a time (Shift + Page Down) or go back one month (Shift + Page Up). You also see the month currently open in the calendar.
+In the calendar you see the recording items made by the person selected in the list in the left section of the window. You see the times of when the employee clocked in and out on the square in question. Absence is shown in hours using two decimals. Flex time and overtime is shown as a total in number of hours. The difference is calculated as: attendance + absence − scheduled time. The result is shown in red. Under the info button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_information.png) you find information regarding the schedule, who performed the authorization, recording items, overtime, absence, and comments for the recording items.
+At the top of every day square, you see the date of the month. Here different symbols might be shown, with the following meaning:
+- ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/CalendarMessage.png) – A comment exists.
+- ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/CalendarAuto.png) – Automatic clock out.
+- ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/modified_image.png) – Adjusted.
+- ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/CalendarApproved.png) – Authorized.
+- ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/CalendarWarning.png) – Warning.
+- ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/CalendarError.png) – Error.
+If you place the cursor over the symbol in question, a tooltip will appear displaying an explanation of the symbol.
+The tabs Adjust attendance and Adjust work becomes available if you have selected one or more day squares (which has passed or today) in the calendar. You can also double-click on a square in the calendar to open that day directly in the adjustment tabs. If you have selected multiple day squares in the calendar, you can navigate between these days using the navigation buttons at the top of the tabs. The arrows of these buttons are then shown in orange. If you have only selected one square in the calendar you can use the navigation buttons to move around and reach the previous or next day up to today's date.
+Time balances are shown at the bottom of the window. If any of the values exceeds/falls below the maximum limits and minimum limits, then this is shown in red digits.

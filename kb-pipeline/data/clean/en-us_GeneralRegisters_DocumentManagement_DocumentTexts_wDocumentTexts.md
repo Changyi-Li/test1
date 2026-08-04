@@ -1,0 +1,9 @@
+## Document texts
+In this procedure you can translate/modify document phrases (heading texts) for different languages. You can also write additional texts to different documents as well as payment reminder texts in different languages in document groups.
+In the additional texts you can also insert images and tags, that is, variables for the name of the reference, phone number, etc.
+When you install the system, a document group containing phrases for each language available in Monitor ERP is included. For a language not included, you can add document groups and translate the phrases into the language in question.
+Language variants, for example British/American English, Castilian/Latin American Spanish, are managed by using document groups. To make it easier to translate language variants you use the button Save as, on the toolbar in the procedure, and save a copy of an existing document group and rename it.
+The country selected on the recipient's different addresses will determine which language will be set on each respective address by default. The language will in its turn determine which default document group will be set on each respective address. The default document group per language is set in the Languages procedure.
+The selected document group of the recipient's mailing address will determine the language on e-mailed/printed documents (for example, quotes, inquiries, orders, and invoices).
+The selected document group on the recipient's delivery address will determine the language on documents printed and sent along with the goods (for example, delivery notes and transport labels).
+Rename![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_rename.png) – This button is used to rename the code of the document texts. This may be necessary to do if you create your own document groups in combination with the Customer order transfer option.

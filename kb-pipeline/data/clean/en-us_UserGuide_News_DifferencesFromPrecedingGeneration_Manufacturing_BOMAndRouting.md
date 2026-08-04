@@ -1,0 +1,16 @@
+### BOM and routing
+- Navigation in the structure list to the left in the procedure.
+- New field in G5, possible to edit: Production engineer.
+- New field i G5: Alternative work center. You can add alternative work centers which are primarily used when you run the CDTCDT is short for check delivery times and it is a function on order rows which calculates when the order row in question can be delivered, taking lead times and throughput times into consideration. CDT also checks if existing orders and suggestions can cover material shortages, if any, and affects when the order row can be delivered.. CDT can suggest to run the order in an alternative work center, if that work center results in an earlier delivery date/finish time.
+- Ability to link to the current standard price calculation.
+- New alternative for delivery address from subcontract: end customer on linked customer order.
+- New validations:
+- Warning for same position number used on multiple materials.
+- Warning on material which point to an operation that does not exist.
+- Staggered unit prices on subcontracts.
+- Freight charge on subcontracts.
+- A subcontract part is created for each subcontract where data is saved. This makes it possible for you to activate receiving inspection, enter weight, perform price import, etc. also for subcontracts.
+- Weight can be entered for subcontracts (for reporting to IntrastatIntrastat is the system which gathers statistics relating to trade in products within the European Union. Gathering of Intrastat statistics is handled in the same way by all EU member states. export).
+- Operations and materials can be marked that they are only included in calculations, not on orders.
+- You can enter mark-ups on main part (SC, Sales OH, Profit).
+- You can see the main part's and the material's traceability level.

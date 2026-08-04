@@ -20,7 +20,7 @@ To the far left there is a bar which you can add a color to for each work center
 - Red – Problem which must be addressed.
 - Blue – Service or maintenance.
 - Gray – (default) A neutral status.
-If you mark a work center in the component, the other components in the view will only display information for the marked work center. This applies to components related to work centers, that is, Priority plan, Capacity, Rejections, Lag The term "lag" refers to the total sum of the planned setup time and unit time that has not yet been reported as finished for a planned finish period., Internal delivery reliability, and Efficiency.
+If you mark a work center in the component, the other components in the view will only display information for the marked work center. This applies to components related to work centers, that is, Priority plan, Capacity, Rejections, LagThe term "lag" refers to the total sum of the planned setup time and unit time that has not yet been reported as finished for a planned finish period., Internal delivery reliability, and Efficiency.
 In the settings ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_settings.png) for the component you can change the title.
 Priority plan
 This component displays the priority plan for the work center selected in the Work centers component. If no work center is marked in that component, the priority plan will show the first work center of the work centers added in the settings of the view. You can only have one priority plan per view.

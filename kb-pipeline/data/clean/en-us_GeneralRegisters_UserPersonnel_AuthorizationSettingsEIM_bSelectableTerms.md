@@ -1,0 +1,2 @@
+### Selectable terms
+Here you enter the central rules regarding priority which determine who should be the signer/head signer of the row if there are multiple persons responsible for the same posting row for expense invoices. Please note! Head signer also applies to order invoices. For example, that authorized signer for the account is carry more weight than the authorized signer for the cost center.

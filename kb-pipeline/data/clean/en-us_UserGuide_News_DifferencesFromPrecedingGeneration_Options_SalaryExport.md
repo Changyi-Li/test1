@@ -1,0 +1,3 @@
+### Export of salary basis
+Export of salary basis is an option in G5.
+- You will find settings regarding salary export in the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Attendance procedure. There you find the tab Export settings. Under this tab you for example select file name and where to save the file. So far it is possible to export in the format PAXml (supported by e.g. Kontek, and Crona Lön), and to AGDA, Visma Lön (Sweden), Bluegarden (Denmark), Huldt & Lillevik (Norway), V10 (Finland), Comarch Optim (Poland), HogiaLön, and HogiaLön Plus. The export is done in the procedure called Export of salary basis.

@@ -1,0 +1,6 @@
+### The Work settings list
+In this list you will find information about how the work settings are configured for start and stop of work items, for the personnel. The list is sorted by employee number. If you make the list possible to update ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_edit_list.png) (Ctrl + U) you can change the information described below for each presentation of the list.
+Presentations:
+- Settings for Start work – In the list you can update: work method, allowed method to select work and which should be selected by default, print (according to employee or work center). You can also activate/deactivate printout of transport label and automatic printout. For work centers of the Manual work type, you can also activate "Capacity for" (the work center on the row). You must also enter a percent for availability (for the work center on the row).
+- Settings for Stop work – In the list you can activate/deactivate: suggest remaining, show goods location, show location, show material rows, material reporting, material addition, default filter, and lock filter.
+All of these settings can also be modified per person in the procedure Personnel records – Time recording. There you also find these settings described in the help function.

@@ -1,0 +1,3 @@
+### The Project list
+In this list you can make printouts of the general ledger per project. The list is grouped by project.
+Transactions which are recorded without a project number are not included in the list, that is, there is no grouping for transactions without a project. Projects are displayed even though there are no transactions for them for the selected period of time. However, there must be a balance brought forward for the projects in question. If there are no transactions for the project for the specified period of time, and there is no balance brought forward, then the project in question will not be shown at all.

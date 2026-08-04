@@ -1,0 +1,6 @@
+## Schedule cycles
+In this procedure you can create schedule cycles. A schedule cycle is a combination of schedules. The schedule cycle is based on which day of the week it is, not the date.
+In the upper table you add schedules to the schedule cycle. You create a schedule cycle per week or for several weeks, and that is why the number of days must be divisible by 7. To create a simple schedule cycle, you can on the first row enter 5 days on a work schedule for the work days (Monday to Friday). On the second row you then enter 2 days on an overtime schedule for the weekend (Saturday–Sunday).
+A schedule used in a schedule cycle is given its holidays (such as Christmas and Easter) according to a calendar you select and must be registered in the Calendars procedure. For a schedule you can also select a specific overtime schedule used for holidays.
+In the lower table it is possible for you to add general schedule exceptions for each schedule in the schedule cycle (for example for the dates concerning a specific national holiday). These exceptions will then apply to all persons who use the schedule cycle. In the Schedule exceptions procedure you can instead enter schedule exceptions per person.
+![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_log.png)

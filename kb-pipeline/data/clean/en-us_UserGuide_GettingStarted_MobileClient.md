@@ -5,7 +5,6 @@ Settings on user
 Settings which need to be configured by the administrator under the Security tab in the Users procedure in the Windows client.
 ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/UserGuide/SettingsWebUser.png)
 - Activate the Allow login to Monitor Mobile setting. When the setting is activated, one of the following settings must also be entered.
-Allow login to Monitor Mobile
 - Enter a password in the Password field. The password is then used when logging into Monitor Mobile.
 - Link an account in Windows to the user with the Windows account setting. Then you do not have to enter a password in the password field. In this case, the Windows account password is used when logging into Monitor Mobile.
 Installation of web server for Monitor Mobile
@@ -21,7 +20,7 @@ When you start the app for the first time you are directed to the page for setti
 Procedures in Monitor Mobile
 Monitor Mobile client currently contains the below procedures that are suitable for use on smartphones and tablets. You have the same user rights in these procedures as you have in the corresponding procedures (and warehouse) in the Windows client.
 Manufacturing
-- Pick list A pick list is a list of parts/products which should be picked from stock for a manufacturing order or a customer order.
+- Pick listA pick list is a list of parts/products which should be picked from stock for a manufacturing order or a customer order.
 Purchase
 - Report arrival
 - Approve purchase order

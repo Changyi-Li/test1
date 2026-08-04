@@ -1,0 +1,37 @@
+## Activate digital invoice flow
+The E-invoice function enables you to easily setup a digital invoice flow to send e-invoices to your customers and receive e-invoices from your suppliers. Using the e-invoice platform, the recipient can have the invoice registered automatically in its accounting system. This function reduces the manual handling of invoices. E-invoice is a standard feature in Sweden, Norway, Denmark, Germany, and Finland.
+You activate the services yourself for outgoing and incoming invoice in Monitor ERP. In the following help topic you can read about the settings you need to configure in Monitor ERP to digitalize the invoice flow.
+- When activation of e-invoice takes place, an account is automatically created for you with our partner, Crediflow. Crediflow is the operator that manages the underlying distribution of customer and supplier invoices.
+- When you create an account with Crediflow for export of e-invoices you will automatically become registered in the NemHandels register. When you create an account for the import of e-invoices you are able to choose whether you want to register it in the NemHandelsregister by checking the Register my party in Nemhandelsregister box when registering the account.
+- Please note! The function for incoming e-invoice requires the option called Electronic invoice management (EIM).
+- Monitor ERP System AB has entered into a partnership agreement with Crediflow, so you don’t need to have your own agreement with an operator.
+- Monitor ERP System AB will charge your company on a monthly basis according to the volume of invoices that are sent and received. Using a service for paper invoice, you can also transfer all distribution of customer invoices, including to those recipients unable to receive e-invoices.
+- Current terms and price information for import of e-invoice can be found here ([Swedish](https://www.monitorerp.com/sv/villkor-och-priser-foer-e-fakturahantering-med-tolkning/) and [English](https://www.monitorerp.com/terms-and-prices-for-e-invoice-management-with-interpretation/)) or export of e-invoice here ([Swedish](https://www.monitorerp.com/sv/villkor-och-priser-foer-e-fakturering/) and [English](https://www.monitorerp.com/terms-prices-for-e-invoicing/)). You can also contact our sales department at sales@monitorerp.com for additional information.
+- The account registration and activation of e-invoice takes place in two steps since you must register two separate accounts to be able to send e-invoice to customers (via Crediflow) and receive e-invoice from suppliers (via CrossState). By using CrossState for incoming supplier invoices, you can add scanning and data capture/interpretation* of paper invoice and interpretation of PDF invoice, to the e-invoice format. This means that regardless the format of the supplier invoice, it is a way in to Monitor ERP via CrossState.
+- * Interpretation of supplier invoices is activated via CrossState. The interpreter loads data from the invoice (paper/PDF) using CrossState. This will result in the invoice fields being automatically pre-filled before the invoice is sent for authorization.
+- Please note! Distribution of supplier invoices via letter also works from other countries, but in that case you must notify us at Monitor so we can make sure a sender is configured in that country. Otherwise it will be sent from Sweden.
+Sending e-invoices
+When the service to send e-invoices is activated, you can check whether the customer is able to receive e-invoices in the customer register. Here you will get an instant reply if this is possible or if you first have to send an invitation to the customer. These invitations are automatically distributed to the customer via the system.
+> Receiving e-invoices
+Once the facility to receive e-invoices is activated, all suppliers will be able to start sending you e-invoices. Incoming e-invoices will automatically be registered by the system. If automatic registration can not take place, the invoice will be sent to the Register supplier invoice procedure to be checked or for further action. You can also allow incoming e-invoices from suppliers to be automatically sent for authorization. This takes place if there is an authorized signer selected for the supplier in the Supplier register procedure.
+Tip! If you need help getting started with a digital invoice flow, you can contact the Monitor Support Center for assistance.
+Current terms and price information for import of e-invoice can be found here ([Swedish](https://www.monitorerp.com/sv/villkor-och-priser-foer-e-fakturahantering-med-tolkning/) and [English](https://www.monitorerp.com/terms-and-prices-for-e-invoice-management-with-interpretation/)) or export of e-invoice here ([Swedish](https://www.monitorerp.com/sv/villkor-och-priser-foer-e-fakturering/) and [English](https://www.monitorerp.com/terms-prices-for-e-invoicing/)). You can also contact our sales department at sales@monitorerp.com for additional information.
+The account registration and activation of e-invoice takes place in two steps since you must register two separate accounts to be able to send e-invoice to customers (via Crediflow) and receive e-invoice from suppliers (via CrossState). By using CrossState for incoming supplier invoices, you can add scanning and data capture/interpretation* of paper invoice and interpretation of PDF invoice, to the e-invoice format. This means that regardless the format of the supplier invoice, it is a way in to Monitor ERP via CrossState.
+[Settings for import of e-invoice and invoice interpretation](SettingsEInvoiceImport.htm)
+[Settings for supplier](SettingsSupplier.htm)
+[Invoice types and how they are handled](EInvoiceInvoiceTypes.htm)
+[Settings for export of e-invoice](SettingsEInvoiceExport.htm)
+[Settings for customers](SettingsCustomer.htm)
+[Other settings](EInvoiceOtherSettings.htm)
+> * Interpretation of supplier invoices is activated via CrossState. The interpreter loads data from the invoice using CrossState. This will result in the invoice fields being automatically pre-filled before the invoice is sent for authorization.
+
+#### Sending e-invoices
+When the service to send e-invoices is activated, you can check whether the customer is able to receive e-invoices in the customer register. Here you will get an instant reply if this is possible or if you first have to send an invitation to the customer. These invitations are automatically distributed to the customer via the system.
+You then proceed as normal, and the invoices are distributed electronically to the customers who have registered to receive e-invoices.
+[Sending e-invoices](SendingEInvoices.htm)
+[Monitoring of sent invoices](EInvoiceMonitorSentInvoices.htm)
+
+#### Receiving e-invoices
+Once the facility to receive e-invoices is activated, all suppliers will be able to start sending you e-invoices. Incoming e-invoices will automatically be registered by the system. If automatic registration can not take place, the invoice will be sent to the Register supplier invoice procedure to be checked or for further action. You can also allow incoming e-invoices from suppliers to be automatically sent for authorization. This takes place if there is an authorized signer selected for the supplier in the Supplier register procedure.
+[Changes in the Navigation panel](EInvoiceRegisterSupplierInvoice.htm)
+> Tip! If you need help getting started with a digital invoice flow, you can contact the Monitor Support Center for assistance.

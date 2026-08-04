@@ -1,0 +1,2 @@
+### The list type Reconciliation by accrual
+This list type displays the remaining value per accrual and it corresponds to the recorded value based on bookkeeping transactions. This way it is possible to find if a specific accrual is causing a difference. This is done by the system saving the accrual number in all transactions taking place against the accrual accounts. This list cannot be used for accruals registered in the previous generation of Monitor ERP. One row is shown per accrual number.

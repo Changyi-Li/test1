@@ -1,0 +1,3 @@
+### Customer status
+The Customer status tab is used to define status codes that will be selectable for customers.
+The customer status describes the status (relationship) that you currently have with the customer in question. For example it can be an actual customer (orders can be registered) or a contact made at an exhibition/trade fair. A few examples of customer statuses are included in the system. You can modify the name of these and translate them, if needed. You can also delete a customer status that you do not need. Customer status 1 is reserved for actual customers for which orders can be registered. You cannot delete this status.

@@ -1,0 +1,17 @@
+### Basic data – Project
+- More fields can be entered for project types, for example Priority, Status inactive.
+- Per project type you can select if costs from customer order should be loaded or not. This is then shown as a separate cost type called Material – Customer order.
+- Internal and external comment/linking of files, can be entered per project type.
+- In the basic tables with Phases and Activities you can link a person responsible for the phase/activity.
+- It is possible to enter comments and to link files for activities, both in general for the activity and for the activity template.
+- You can create exceptions for activities so they will not be possible to use in certain project types.
+- It is possible to create more than one template (default values) for the same project type.
+- Activity templates can only contain activities without phases.
+- Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. for costs and income have been merged into one single tab. Cost type can carry both income and costs.
+- It is possible to, per cost type, select from where planned/ordered and expected result should load values. This was entered via a system setting in G4.
+- Planned/ordered for other cost types can load values from planned times on activities in the project.
+- Exceptions for hourly cost per project type.
+- Project calculation can be scheduled via a built-in function.
+- It is possible to change the numbering on activities and costs/income.
+- In G5 it is possible to enter a specific mark-up for a cost type. Earlier, the mark-up was general for all cost types on the project.
+- It is possible to group cost types and income types in cost and income groups. For example, it could relate to similar types of costs that you wish to total in one and the same row in the project register.

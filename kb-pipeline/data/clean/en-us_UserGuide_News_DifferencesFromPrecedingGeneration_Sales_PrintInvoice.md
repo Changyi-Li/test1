@@ -1,0 +1,13 @@
+### Print invoice
+- This procedure has a different function in G5 than what it had in G4. It is only used to print/send invoices via e-mail. Approving/updating invoice and accounts receivable etc. takes place in the [Review/Approve invoice](ReviewApproveInvoice.htm) procedure.
+- The procedure Reprint Prior Invoices does not exist in G5. Old invoices are instead printed using this procedure.
+- All reprints of invoices classed as archive quality and always show the exact same information as was shown on the original. This is possible since the system saves an image of the invoice in a print log for reprints.
+- A new layout of the window with document preview on the same level as the result list.
+- It is possible to change distribution method in the result list.
+- You can enter if invoices sent via e-mail should also be printed and in how many copies.
+- On invoices it is possible to show an OCR number (determined with a document setting).
+- The system supports export of e-invoice in the Peppol BIS 3.0 format
+- Country package Estonia: It is possible to show reference number on the invoice.
+- Country package Finland: It is possible to show a bar code on the invoice.
+- Country package Finland and Estonia: Multiple bank accounts can be displayed in the footer (applies to all documents).
+- You can choose if linked files should be attached together with the invoice.

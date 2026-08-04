@@ -2,7 +2,7 @@
 On the header row you will find the basic settings for a work center, e.g. type, and the department and warehouse it belongs to.
 
 #### Work center
-The work center is the most important information in this register. In this field you will see the most recent work center that has been loaded. By using the Lookup The Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature, you can select another work center. You can enter a new work center code (alphanumerical, with a maximum of 8 characters) and leave the field using Tab in order to create a new work center. You can also click the Create new button or press (Ctrl + N) in order to create a new work center.
+The work center is the most important information in this register. In this field you will see the most recent work center that has been loaded. By using the LookupThe Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature, you can select another work center. You can enter a new work center code (alphanumerical, with a maximum of 8 characters) and leave the field using Tab in order to create a new work center. You can also click the Create new button or press (Ctrl + N) in order to create a new work center.
 A new record is highlighted by a green dot ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/green_dot.png) shown in the field. This dot will disappear when the record is saved for the first time.
 
 #### Name

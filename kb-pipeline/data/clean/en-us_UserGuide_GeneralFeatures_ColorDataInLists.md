@@ -1,0 +1,6 @@
+### Color range and data bars in lists
+In columns in lists in Monitor ERP it is possible to display values using colors and/or data bars. This can be used in some columns which for example display different amounts. You use it after you have sorted it ascending or descending. This function in available via the context menu (right-clicking) in the columns.
+There are three different color ranges. These are Green-yellow-red, Green-white, and White-red. The highest value is shown in green or white color depending on the selected color range. In the example the color range Green-yellow-red is used in the CMThe contribution margin (CM) is the difference between the standard price and the sales price. column.
+![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/UserGuide/ColorRange.png)
+There are two different data bars. The option is Blue or Green. If there are negative values in a column, these are always displayed with a red data bar on the opposite side of a dashed zero line. In the example the data bar Blue is used in the CRThe contribution ratio (CR) is the portion of the invoice amount (sales price) that the contribution margin represents. CR is entered as a percentage. column.
+![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/UserGuide/DataBars.png)

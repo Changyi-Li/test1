@@ -1,0 +1,2 @@
+### Activity log – Total
+This list shows total information regarding reporting performed for the activity. Using the drilldown functionality on the rows you can access the detailed information. The information is taken from reporting items in the procedures Direct project reporting and Report activity – Project. The list can be total by reporting date, project, who is responsible for activity, reference, cost type, who is responsible for phase, phase, and main project.

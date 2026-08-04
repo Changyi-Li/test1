@@ -1,6 +1,6 @@
 ### Result
 In this box you can see the pick lists that you have selected and created. The pick list you mark here is shown in the Preview box.
-Using the button Go to procedure ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_link.png) you can go straight to different procedures. If you have selected the list type Pick list A pick list is a list of parts/products which should be picked from stock for a manufacturing order or a customer order. you can go to the procedure Report pick list. If you have selected the list type Split pick list you can go to the procedures Part register and Manufacturing order info.
+Using the button Go to procedure ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_link.png) you can go straight to different procedures. If you have selected the list type Pick listA pick list is a list of parts/products which should be picked from stock for a manufacturing order or a customer order. you can go to the procedure Report pick list. If you have selected the list type Split pick list you can go to the procedures Part register and Manufacturing order info.
 
 #### Include
 The rows that are checked in this column are the pick lists that will be printed.

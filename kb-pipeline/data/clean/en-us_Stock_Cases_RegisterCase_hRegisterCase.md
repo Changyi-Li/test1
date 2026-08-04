@@ -2,7 +2,7 @@
 The header row is different depending on the case type you have selected.
 
 #### Case number
-This number is unique for each case. You either load the number by using the Lookup The Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature or you enter a new one. If you enter a case number that does not yet exist, you will be creating a new case.
+This number is unique for each case. You either load the number by using the LookupThe Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature or you enter a new one. If you enter a case number that does not yet exist, you will be creating a new case.
 You can link cases together by using the Link the case to other cases ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_test_call.png) button. This can be useful to keep track of cases that are related or where there are dependencies. You can, for example, link multiple customer cases to a supplier case and vice versa, which provides a clear overview.
 
 #### Name
@@ -12,7 +12,7 @@ Here you can write a descriptive text as a name. You enter name texts in the com
 If there are linked cases, the button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_connected.png) is displayed to the right of the case number. You can use the button to see which other cases this case is linked to. You can also add cases that should be linked to the active case, or remove existing linked cases.
 
 #### Case type
-Here you select case type. The case type that you have set as default in your user account, will be suggested. If you have not configured a default case type there, then the case type you used on the most recent case will be suggested. A few case types are included in new MONITOR systems to use as examples. Other case types that you need must first be registered in the Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Cases procedure. The case type determines prefix, priority, and which fields that will be displayed in the procedure.
+Here you select case type. The case type that you have set as default in your user account, will be suggested. If you have not configured a default case type there, then the case type you used on the most recent case will be suggested. A few case types are included in new MONITOR systems to use as examples. Other case types that you need must first be registered in the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Cases procedure. The case type determines prefix, priority, and which fields that will be displayed in the procedure.
 By using the Change case type button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_change_record.png) you can change the case type for an existing case.
 
 #### Template

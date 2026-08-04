@@ -1,7 +1,7 @@
 ### Phases/Activities
 In this box you enter information about all planned activities for the case. The default phases and activities depend on the template entered in the header. Some activities are conditional for the specific case. E.g. It might be an activity to return parts to the supplier that you only activate for the specific case.
 An activity always belongs to a phase. Phases and activities can be inserted, deleted, and modified after the case has been saved. You can either report the activities in this procedure or in the Tasks view in the Message center (on the title bar of the program window). You can use drag and drop to change the phase order.
-With the Insert activity template button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_add_template.png) you can add an activity template in the list. Activity templates are handled in the Basic data With "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Case procedure.
+With the Insert activity template button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_add_template.png) you can add an activity template in the list. Activity templates are handled in the Basic dataWith "basic data" we refer to the static records in a database, for example parts, customers, users, work centers, etc. – Case procedure.
 The following fields must be entered for a phase
 
 #### Dependency types

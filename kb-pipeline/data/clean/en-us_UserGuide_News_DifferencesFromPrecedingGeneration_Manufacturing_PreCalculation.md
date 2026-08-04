@@ -1,0 +1,17 @@
+### Pre-calculation
+- The procedures Pre-Calculation and Pre-Calculation Selection from G4 have been merged into one procedure.
+- It is possible to save the same calculation with several different prices in the same run.
+- The system saves a complete calculation with all its elements. This makes it possible to show an existing calculation in full which is useful if you want to compare different calculations.
+- SC, sales OH, and profit can be entered for manufactured part. This will then override the general mark-ups. SO mark-up and exceptions are handled for purchased parts.
+- New calculation components exist:
+- Freight charge on subcontracts.
+- A mark for both operation and material meaning that the row is only included in the calculation (not on the order).
+- The staffing factor does not only affect the loading but will also affect the calculation. This takes place by having a certain cost factor being dependent of the staffing factor (via settings).
+- The staffing factor on an operation can be separately entered for unit and setup.
+- Different cost factors for unit and setup can be entered for the work centers.
+- Staggered subcontract prices can be entered for the subcontract operation in the BOM and routing which will be taken into consideration in the calculation.
+- Unlimited number of alternative cost factors for work centers makes it possible to get a more precise calculation.
+- When you decide which cost factors should be included in the calculations you can also choose not to include any cost factor. This can be done in cases where you want to calculate a price which does not comprise work, and then save to a price list.
+- The Summary tab shows a document for which the users can modify the design.
+- From warnings on parts you can go to a list displaying the warnings.
+- The calculations on included S-parts will be shown if these are marked to be recalculated. Warnings on these are shown on the main part.

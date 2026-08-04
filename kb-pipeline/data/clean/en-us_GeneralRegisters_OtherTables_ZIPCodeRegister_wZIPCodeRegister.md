@@ -1,0 +1,5 @@
+## Zip code register
+In this procedure, you can create and/or edit zip code tables for different countries linking zip codes to cities/provinces, and to states/regions in countries where these are in use.
+By using the button Import zip codes ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_import.png) you can import a file with a zip code table for the selected country. This way you do not need to add each zip code manually. The import file should be a tab-separated text file, with coding in UTF-8. The file should be sorted in zip code order, and a zip code can only occur once in the file. The file cannot contain special characters such as ? / ( ) * etc. However, hyphens - are allowed. The file should preferably consist of the same three columns as the table in the procedure. However, it is possible to only use the first two columns Zip code and City/Province.
+Here you find examples of different [adress formats](../Countries/bCountries.htm#Adressformat).
+For zip codes in Sweden you can order a zip code file from [Postnummerservice](https://www.postnummerservice.se/).

@@ -1,0 +1,3 @@
+### The Total list
+The list is loaded and displayed based on the selection and settings you have chosen. As in all lists in Monitor ERP, you can drag and drop in order to change the column to group by.
+This list shows total information about the value of all orders as well as CM The contribution margin (CM) is the difference between the standard price and the sales price. and CR The contribution ratio (CR) is the portion of the invoice amount (sales price) that the contribution margin represents. CR is entered as a percentage. per total term. The list can be expanded so that it shows the same information on blanket order row level as the detailed list.

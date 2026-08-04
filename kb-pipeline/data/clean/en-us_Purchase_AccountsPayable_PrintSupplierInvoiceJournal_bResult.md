@@ -1,0 +1,4 @@
+### Result
+In the Result box, you will see one row per journal number. The accounting period to which the journal number belongs is displayed in the next column. For the reprints, you will see when the journal was approved and by whom. In the box to the right, you see a preview of the journal selected in the list.
+For journals loaded via the list type Supplier invoice journal, you can via the link Open posting open the window where you can edit the posting. This is useful if you find posting errors in the journal and wish to adjust them. Validations are made to make sure that you do not make any modifications that result in different amounts for posting rows for VAT and accounts payable.
+When previewing reprints, the voucher numbers are linked to the Register vouchers procedure where you can see more information about the postings per account shown in the journal.

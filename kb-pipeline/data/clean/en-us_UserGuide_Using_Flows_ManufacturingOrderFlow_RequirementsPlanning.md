@@ -1,0 +1,5 @@
+### Requirements planning
+What should we manufacture? There must be a way to find out if there is a need (requirement) to manufacture a part. This is called Requirements planning and here we describe three ways to find the requirements for our manufacturing. For more detailed information, please see [Requirements planning](../../RequirementsPlanning/RequirementsPlanning.htm).
+- Requirement calculation – A "shortage list" that shows parts with shortages. Used as a basis to then register a manufacturing order.
+- Net requirement calculationYou use the net requirement calculation to perform requirements planning based on the customer order backlog, as well as any existing sales forecasts. – A net requirement calculation will calculate the requirements and create a manufacturing order suggestion. This can be released to become actual orders.
+- Customer orders – There is a feature that automatically creates manufacturing orders from customer orders for manufactured parts. This is used for parts that are always manufactured directly for/to customer order.

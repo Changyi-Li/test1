@@ -1,0 +1,2 @@
+### 已选条款和优先级
+在这里你从中选择条款 可选条款 使用表格 ![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/button_goto_previous.png) 和 ![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/button_goto_next.png) 并帮助 ![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/button_goto_down.png) 和 ![](https://help.monitorerp.cn/CN-MONITOR_G5/zh-cn/Content/Resources/Images/button_goto_up.png) 纽扣。

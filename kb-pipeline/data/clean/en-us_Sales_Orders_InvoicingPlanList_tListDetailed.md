@@ -1,0 +1,4 @@
+### The Detailed list
+This list shows detailed information about the customer orders you selected that have an invoicing plan. The detailed list displays a total for Not invoiced and Invoiced, as well as a total in each currency if the setting Show external currency has been checked under the Selection tab.
+You can release advance rows and/or in arrears rows for invoicing by checking the checkbox Include and clicking the button Release for invoicing ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_run.png). After this, the procedure Review/Approve invoice procedure will open where you can review and approve the invoices which have been created. Then you print the invoices and send them to the customers.
+The list is loaded and displayed based on the selection and settings you have chosen. As in all lists in Monitor ERP, you can drag and drop in order to change the column to group by.

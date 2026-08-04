@@ -1,0 +1,2 @@
+### The list type WIP value
+In this list you can see the result presented as in the WIP value procedure in the Stock module. The list is total per project and there are also tabs with detailed information for each transaction reported for the project. The list is selected by date, that is, it is periodic and does not load data from the saved values. Only results regarding costs/income and time in the projects, will be loaded. This can be used to study in detial all transactions for the projects and also see the date for each result record.

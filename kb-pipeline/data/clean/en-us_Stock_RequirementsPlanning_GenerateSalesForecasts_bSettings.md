@@ -2,7 +2,7 @@
 
 #### Forecast codes
 This table is available for the list types called Create new forecasts and Add/Remove parts in forecast. Here you can add rows with new forecast codes. You must enter a forecast code and a name for the forecast code. Forecasts are generated for entered forecast codes in the table by using the ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_run.png) button on the toolbar in the procedure.
-In the Forecast code column you enter a new forecast code or load an existing code by using the Lookup The Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature (F4).
+In the Forecast code column you enter a new forecast code or load an existing code by using the LookupThe Lookup feature is a powerful search tool which allows you to search and load information from large registers. You open the Lookup feature by clicking on the dropdown button or by using F4 on your keyboard. feature (F4).
 In the Name column you see/enter a descriptive text. The name text is entered in the company language and is displayed in the user’s language.
 By using the button Translations ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_translate.png) you can translate the text to the different active languages registered in the system. Read more about [language management](../../../UserGuide/GeneralFeatures/GeneralFeatures.htm#LanguageManagement) for translatable texts.
 With the Active checkbox you determine if the sales forecast should be active or not. An inactive forecast will not be included in the requirement calculation.
@@ -28,7 +28,7 @@ With the Calendar setting you select which calendar you want to use for the calc
 With the setting called Consider lead time you decide if the forecast calculation should take the lead time into consideration or not. The following options are available:
 - No
 - Part's lead time.
-- Lead time Number of days between ordering date and delivery date. Normally used for purchased parts. to customer
+- Lead timeNumber of days between ordering date and delivery date. Normally used for purchased parts. to customer
 The calculation for lead time is always based on today's date. If you for example select the Part's lead time option and a part has three days lead time and the start date for the forecast is today, then the first three days will not be included in the calculation since they are within the part's lead time.
 
 #### Load quantity from

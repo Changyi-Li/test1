@@ -23,7 +23,7 @@ Here you see the discount, if any.
 Here you see the current price alternative.
 
 #### Price type
-Here you see the price type, for example Price each and Staggered price Staggered price means the part has one price for one sales volume/purchase volume (quantity) and another price for another sales volume/purchase volume, etc. Staggered prices can also be called a "price ladder". each.
+Here you see the price type, for example Price each and Staggered priceStaggered price means the part has one price for one sales volume/purchase volume (quantity) and another price for another sales volume/purchase volume, etc. Staggered prices can also be called a "price ladder". each.
 
 #### Staggered quantity
 Here you see the staggering limits.

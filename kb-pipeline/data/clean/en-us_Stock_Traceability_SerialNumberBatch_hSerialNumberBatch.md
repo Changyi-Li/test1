@@ -13,7 +13,7 @@ By using the Split batch button ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-
 Here you see an existing part number which is linked to, or which should become linked to, the serial number/batch number. Name, part type, and location are automatically loaded from the part register.
 
 #### Location
-This field is used both for tools and for regular serial numbers. The purpose of it is to show where the serial number (the entity) is placed/located. For serial numbers that you sell, you can see at which customer the serial number is located. For serial numbers that you perform maintenance on, you can see where in the company it is located. The same information is displayed in the Serial number A serial number is a number that is used for traceability for parts on entity level. location list procedure.
+This field is used both for tools and for regular serial numbers. The purpose of it is to show where the serial number (the entity) is placed/located. For serial numbers that you sell, you can see at which customer the serial number is located. For serial numbers that you perform maintenance on, you can see where in the company it is located. The same information is displayed in the Serial numberA serial number is a number that is used for traceability for parts on entity level. location list procedure.
 Explanation of information shown in the Location/Site field.
 What is displayed in the field depends on a combination of what it says in the Location/Site section, the Current owner field, and in the Location field.
 The information in the field can consist of up to four section: Section 1>Section 2>Section 3>Section 4, separated by the character ">".
@@ -22,5 +22,5 @@ The information in the field can consist of up to four section: Section 1>Sectio
 - Direct from Department if you have selected this as location/site.
 - From Department on work center.
 - From Department on employee.
-- The third section of the field is Work center A work center is a part of the factory. It can be a single machine or a group of machines, a single workstation or a group of workstations. or Employee number from Location/Site. This section is only shown if you have entered work center or employee in the Location/Site section.
+- The third section of the field is Work centerA work center is a part of the factory. It can be a single machine or a group of machines, a single workstation or a group of workstations. or Employee number from Location/Site. This section is only shown if you have entered work center or employee in the Location/Site section.
 - The fourth section of the field is Location (the stock location). Location is only shown if the serial number is in stock.

@@ -2,7 +2,7 @@
 In this procedure you can load lists to see and update data in existing work centers.
 For the list types that are possible to update, you can activate this function by using the button Updateable ![](https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Resources/Images/button_edit_list.png) on the toolbar.
 It is not possible to add new rows in the form of schedule cycles or cost factors.
-The validation from the Work center A work center is a part of the factory. It can be a single machine or a group of machines, a single workstation or a group of workstations. register is also included in the list. It makes sure for example that the number of machines per order cannot exceed the number of machines in the work center.
+The validation from the Work centerA work center is a part of the factory. It can be a single machine or a group of machines, a single workstation or a group of workstations. register is also included in the list. It makes sure for example that the number of machines per order cannot exceed the number of machines in the work center.
 List types
 
 #### Standard

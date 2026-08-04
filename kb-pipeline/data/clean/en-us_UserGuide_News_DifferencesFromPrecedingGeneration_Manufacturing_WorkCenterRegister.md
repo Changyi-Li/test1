@@ -1,0 +1,16 @@
+### Work center register
+- A new field for work center type: Machine, Manual work, and Subcontract. The type you select here determine how the procedure will behave and which fields will be shown. A new type called Pool makes it possible for you to handle pool planning with related work centers. This is done in a separate procedure: Pool planning.
+- It is possible to block/notify work centers for different reasons.
+- There is a new way to define capacity via schedule cycles when you apply hourly planning.
+- The procedure has a footer where you find a changelog.
+- Ability to use separate costs for setup and unit (alternatives for the cost factor).
+- Unlimited number of exceptions for cost factors (no system setting).
+- Via a system setting it is possible to pinpoint staffing affected cost factors. The staffing factor will then affect both planning and calculation.
+- Ability to use a queue time (gap/play) before the start day of the subcontract.
+- Default transport cost on subcontract.
+- It is possible to copy work centers to Clipboard.
+- Many fields have new names, for example Efficiency factor → Simulation factor.
+- Exceptions from basic time and schedules can be made for individual days. These can be entered directly on the work center in this procedure or via a calendar for one or several work centers in the Production calendar procedure.
+- A field for calendar has been added. Via the calendar it is thereby possible to determine which days should be considered work days in the concerned work center.
+- The capacity of a work center can now be handled automatically via linked employee numbers and their planned absence.
+- It is possible to make exceptions per work center for the settings Exclude from automatic reporting of tools and Exception from Suggest withdrawal of tools at start of operation. These can also be seen an updated in the Work centerA work center is a part of the factory. It can be a single machine or a group of machines, a single workstation or a group of workstations. list procedure. This applies to systems with the Tools & Maintenance option installed.
