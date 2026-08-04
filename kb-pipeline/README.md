@@ -35,6 +35,29 @@ sitemap 下载/修复 → en HEAD 校验 → zh 同路径镜像扫描（含 `Mob
 完整管道（en 保真层 + zh 参考层）→ 图片验证 → 例外表 → 数据集自检。删除检测仍以完整 sitemap 为准，
 范围外曾入库页不被误标墓碑。`--topic-path` 与 `--limit` 可叠加（先按前缀过滤再取前 N）。
 
+### RAGFlow 导入工具与检索实测
+
+把 RAG-ready 数据集的 clean md 导入 RAGFlow（v0.26.x，naive 上传、单数据集双语混合、
+文档级元数据标注语言/质量/配对），并用 `docs/questions-fixture.md` 做检索实测。
+api_key 由环境变量 `RAGFLOW_API_KEY` 或 `--api-key` 提供，不落盘。
+
+    py scripts/import_ragflow.py [--dry-run] [--language en-us|zh-cn] [--module M] [--topic-path PREFIX] [--limit N] [--no-wait]
+    py scripts/retrieval_probe.py [--top-k N] [--limit N] [--dataset-name NAME]
+
+- 导入（`import_ragflow.py`）：幂等建数据集 `monitorerp-help` → 全量对账（content_hash
+  未变跳过 / 变更删除重建 / 清单外文档删除）→ 分批上传 clean md（文档名=文件名）→
+  写文档级 `meta_fields`（topic_id/url/language/quality/topic_path/version/source/
+  paired_topic_id/lastmod/content_hash）→ 触发解析 → 轮询至 DONE/FAIL。
+  `--dry-run` 只预览清单范围不连 RAGFlow；`--no-wait` 触发后不轮询。
+- 导入状态写 `state/ragflow-import.jsonl`（gitignore）：每主题 content_hash，供对账
+  判定与幂等重跑；重复运行全部 SKIP 即幂等。
+- 检索实测（`retrieval_probe.py`）：逐条跑问题清单，映射回 topic_path/quality/url
+  打印 top-k 命中并判定是否命中预期主题（全路径比对）；退出码 0=全中、2=有未命中。
+  注：RAGFlow 检索的 `top_k` 是候选池（默认 1024），返回条数由 `page_size` 控制，
+  探针用 `page_size=top_k` 限制打印条数。
+- 配置 `config/ragflow.json`：base_url / dataset_name / chunk_method /
+  parser_config（naive + chunk_token_num 512）/ 批大小 / 轮询参数。
+
 ### 合规口径
 
 - help.monitorerp.cn 无 robots.txt：可识别 UA `MonitorERP-KB-Bot/1.0`，主动节流。默认节奏在

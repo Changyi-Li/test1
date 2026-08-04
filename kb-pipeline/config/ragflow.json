@@ -1,0 +1,15 @@
+{
+  "base_url": "http://localhost:80",
+  "dataset_name": "monitorerp-help",
+  "chunk_method": "naive",
+  "embedding_model": "",
+  "permission": "me",
+  "parser_config": {
+    "chunk_token_num": 512,
+    "delimiter": "\n"
+  },
+  "batch_upload": 20,
+  "batch_parse": 50,
+  "poll_interval_seconds": 10,
+  "parse_timeout_seconds": 3600
+}

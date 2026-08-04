@@ -25,3 +25,6 @@
 - **同步状态（Sync state）**：增量同步与对账的运行时记录（每 URL 的 ETag/Last-Modified/内容 hash/状态/时间戳），存于仓库内 gitignore 的 JSONL 文件，不进入数据集产物。
 - **例外表（Exception log）**：对账发现的结构性例外清单（未翻译/缺失页、已知重命名映射、失效图片 URL、删除事件），与数据集产物一起入库，供审计与下游使用。
 - **墓碑（Tombstone）**：已从站点删除的 URL 在同步状态中的留存记录（删除时间与最后已知指纹）；数据集构建不包含墓碑页。
+- **RAGFlow 数据集（RAGFlow dataset）**：RAGFlow 中的知识库容器，检索实测时把 RAG-ready 数据集灌入的**具体实例**（`monitorerp-help`）；区别于平台无关的 RAG-ready 数据集中间产物。单数据集双语混合、文档级元数据标注语言与质量层。
+- **导入工具（import tool）**：把 RAG-ready 数据集导入 RAGFlow 的 CLI（`kb-pipeline/scripts/import_ragflow.py`）；按文档 `content_hash` 做全量对账（跳过未变/重建变更/清除消失），导入状态存 `state/ragflow-import.jsonl`。
+- **检索实测（retrieval test）**：RAG 系统落地后，用中文问题清单夹具（questions-fixture）对 RAGFlow 数据集跑检索的验收环节；命中判定按主题全路径比对。
