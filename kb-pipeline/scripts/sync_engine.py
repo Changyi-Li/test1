@@ -53,7 +53,9 @@ ERROR_REPORT_REL = "state/sync-error-report.jsonl"
 
 LANGS = ("en-us", "zh-cn")
 _TOPIC_URL_RE = re.compile(
-    r"^/(.+?)/(en-us|zh-cn)/Content/Topics/(.+)/([^/]+\.htm)$"
+    # 主题路径段可选：根级主题（Glossary/LegalText/Modules/Resources/Search）无目录段，
+    # 形如 .../Content/Topics/Search.htm（票 #58）。
+    r"^/(.+?)/(en-us|zh-cn)/Content/Topics/(?:(.+)/)?([^/]+\.htm)$"
 )
 
 # 429/5xx 视为服务器侧瞬时可重试错误（规格 §5.4）；其余状态不重试。
@@ -135,7 +137,7 @@ def _build_topic_id(language: str, topic_path: str, page: str) -> str:
     先解码百分号编码（sitemap 用字面非 ASCII，--url 可能带 %XX），再按段转写
     为 ASCII，保证两种输入产出同一 M2 合法 id。
     """
-    path_parts = unquote(topic_path).split("/")
+    path_parts = unquote(topic_path).split("/") if topic_path else []
     stem = unquote(Path(page).stem)
     parts = _ascii_safe(path_parts + [stem])
     return "/".join([language] + parts)
@@ -233,6 +235,7 @@ def parse_topic_url(url: str) -> TopicTarget:
             f"得到 {url!r}"
         )
     site_segment, language, topic_path, page = m.groups()
+    topic_path = topic_path or ""   # 根级主题无目录段（票 #58）
     return TopicTarget(
         url=url,
         site=f"{parsed.scheme}://{parsed.netloc}/{site_segment}",
@@ -249,7 +252,7 @@ def _topic_id_of_url(url: str) -> str:
     if m is None:
         raise ValueError(f"不是主题 URL: {url!r}")
     _site, language, topic_path, page = m.groups()
-    return _build_topic_id(language, topic_path, page)
+    return _build_topic_id(language, topic_path or "", page)
 
 
 def _en_topic_path(url: str) -> str:

@@ -363,6 +363,15 @@ def test_md_stats_link_regex_no_false_positive_across_newline():
     assert links == []
 
 
+def test_parse_root_topic_url_without_path_segment():
+    """根级主题（无 <主题路径> 目录段）URL 可解析，id 为 en-us/Glossary（票 #58 回归）。"""
+    url = "https://help.monitorerp.cn/CN-MONITOR_G5/en-us/Content/Topics/Glossary.htm"
+    t = sync_engine.parse_topic_url(url)
+    assert t.topic_id == "en-us/Glossary"
+    assert t.topic_path == ""
+    assert sync_engine._topic_id_of_url(url) == "en-us/Glossary"
+
+
 def test_clean_markdown_keeps_loose_callout_inside_list():
     """ul 内 <li> 之间的游离 <p class=note> 不得丢失，转 blockquote（票 #41 回归）。"""
     html = ('<html><body><div id="contentBody"><h1>Licenses</h1><ul>'
