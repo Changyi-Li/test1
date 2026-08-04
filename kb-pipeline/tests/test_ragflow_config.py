@@ -12,7 +12,7 @@ import ragflow_config
 
 def test_loads_real_default_config():
     cfg = ragflow_config.load_ragflow_config()
-    assert cfg.base_url == "http://localhost:80"
+    assert cfg.base_url == "http://127.0.0.1:80"
     assert cfg.dataset_name == "monitorerp-help"
     assert cfg.chunk_method == "naive"
     assert cfg.embedding_model == ""

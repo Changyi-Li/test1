@@ -1,5 +1,5 @@
 {
-  "base_url": "http://localhost:80",
+  "base_url": "http://127.0.0.1:80",
   "dataset_name": "monitorerp-help",
   "chunk_method": "naive",
   "embedding_model": "",
@@ -10,6 +10,6 @@
   },
   "batch_upload": 20,
   "batch_parse": 50,
-  "poll_interval_seconds": 10,
-  "parse_timeout_seconds": 3600
+  "poll_interval_seconds": 30,
+  "parse_timeout_seconds": 21600
 }

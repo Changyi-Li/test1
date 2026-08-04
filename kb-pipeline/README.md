@@ -57,6 +57,8 @@ api_key 由环境变量 `RAGFLOW_API_KEY` 或 `--api-key` 提供，不落盘。
   探针用 `page_size=top_k` 限制打印条数。
 - 配置 `config/ragflow.json`：base_url / dataset_name / chunk_method /
   parser_config（naive + chunk_token_num 512）/ 批大小 / 轮询参数。
+  注：base_url 用 `127.0.0.1` 而非 `localhost`——Windows 上 urllib 解析
+  `localhost` 每次请求会慢 ~21s（IPv6/DNS 解析问题），IP 直连 <0.05s。
 
 ### 合规口径
 
