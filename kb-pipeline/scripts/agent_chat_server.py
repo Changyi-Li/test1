@@ -153,6 +153,21 @@ function splitThink(content){
   const answer = content.replace(/<think>([\s\S]*?)<\/think>/g, (m, body)=>{ thinking.push(body); return ''; });
   return { thinking: thinking.join('\n\n'), answer };
 }
+function normalizeChunks(raw){
+  // RAGFlow 原始 chunk 字段是 docnm_kwd/content_with_weight，归一到渲染用的字段
+  const out = {};
+  if(!raw) return out;
+  for(const [cid, c] of Object.entries(raw)){
+    if(!c || typeof c !== 'object') continue;
+    out[cid] = {
+      content: c.content_with_weight || c.content || '',
+      doc_name: c.docnm_kwd || c.document_name || '',
+      url: c.url || '',
+      similarity: c.similarity,
+    };
+  }
+  return out;
+}
 const CITE_RE = /\[(?:ID\s*:\s*)?(\d+)\]/g;
 function inline(md){
   let s = esc(md);
@@ -260,9 +275,25 @@ async function send(){
     }
     const reader = resp.body.getReader();
     const decoder = new TextDecoder();
-    let buf='', content='', answerLive='', chunks={}, started=false, inThinking=false;
-    // 流式期间只显示思考块之外的回答；思考内容完全隐藏，结束时作为折叠块出现
-    const show = ()=>{ mdEl.textContent = answerLive; scrollBottom(); };
+    // 两个区域: 思考折叠块(默认收起，点击可看实时思考) + 回答实时区(带打字指示)
+    const zone = document.createElement('div'); zone.className='answer-zone';
+    zone.innerHTML='<span class="typing"><span class="t">●</span><span class="t">●</span><span class="t">●</span></span>';
+    mdEl.appendChild(zone);
+    let thinkEl=null, typingShown=true;
+    const ensureThink = ()=>{
+      if(!thinkEl){
+        thinkEl=document.createElement('details'); thinkEl.className='think';
+        thinkEl.innerHTML='<summary>💭 思考过程</summary><div class="think-body"></div>';
+        mdEl.insertBefore(thinkEl, zone);
+      }
+      return thinkEl;
+    };
+    const showAnswer = (txt)=>{
+      if(typingShown){ typingShown=false; zone.innerHTML=''; }
+      zone.textContent = txt;
+      scrollBottom();
+    };
+    let buf='', content='', answerLive='', chunks={}, inThinking=false;
     while(true){
       const {done, value} = await reader.read();
       if(done) break;
@@ -277,14 +308,19 @@ async function send(){
         if(ev.error) throw new Error(ev.error);
         if(ev.session_id) sessionId=ev.session_id;
         const d=ev.data||{};
-        if(d.start_to_think){ inThinking = true; content += '<think>'; }
-        if(d.end_to_think){ inThinking = false; content += '</think>'; }
+        if(d.start_to_think){ inThinking=true; content+='<think>'; ensureThink(); }
+        if(d.end_to_think){ inThinking=false; content+='</think>'; }
         if(d.content){
           content += d.content;
-          if(!inThinking){ answerLive += d.content; started = true; }
+          if(inThinking){
+            const tb = thinkEl ? thinkEl.querySelector('.think-body') : null;
+            if(tb) tb.textContent += d.content;  // 思考折叠块里实时更新
+          } else {
+            answerLive += d.content;
+            showAnswer(answerLive);
+          }
         }
-        if(d.reference && d.reference.chunks) chunks = d.reference.chunks;
-        if(started) show();
+        if(d.reference && d.reference.chunks) chunks = normalizeChunks(d.reference.chunks);
       }
     }
     const { thinking, answer } = splitThink(content);
