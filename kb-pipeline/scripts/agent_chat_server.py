@@ -260,8 +260,9 @@ async function send(){
     }
     const reader = resp.body.getReader();
     const decoder = new TextDecoder();
-    let buf='', content='', chunks={}, started=false;
-    const show = ()=>{ mdEl.textContent = stripThink(content); scrollBottom(); };
+    let buf='', content='', answerLive='', chunks={}, started=false, inThinking=false;
+    // 流式期间只显示思考块之外的回答；思考内容完全隐藏，结束时作为折叠块出现
+    const show = ()=>{ mdEl.textContent = answerLive; scrollBottom(); };
     while(true){
       const {done, value} = await reader.read();
       if(done) break;
@@ -276,9 +277,12 @@ async function send(){
         if(ev.error) throw new Error(ev.error);
         if(ev.session_id) sessionId=ev.session_id;
         const d=ev.data||{};
-        if(d.start_to_think){ content += '<think>'; }
-        if(d.content){ content += d.content; started=true; }
-        if(d.end_to_think){ content += '</think>'; }
+        if(d.start_to_think){ inThinking = true; content += '<think>'; }
+        if(d.end_to_think){ inThinking = false; content += '</think>'; }
+        if(d.content){
+          content += d.content;
+          if(!inThinking){ answerLive += d.content; started = true; }
+        }
         if(d.reference && d.reference.chunks) chunks = d.reference.chunks;
         if(started) show();
       }
