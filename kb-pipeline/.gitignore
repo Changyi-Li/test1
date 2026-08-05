@@ -1,3 +1,6 @@
 __pycache__/
 data/raw/
 state/
+
+# agent 对话预览（生成物）
+agent-chat-preview.html
