@@ -69,6 +69,31 @@ class AgentAnswer:
 
 
 # --------------------------------------------------------------------------- 客户端
+def _normalize_reference(reference: object) -> dict[str, Chunk]:
+    """把 v0.26.4 两种 reference 形状归一成 {cid: Chunk}。
+
+    openai 模式是 {"chunks":{cid:chunk},"doc_aggs":{...}} 或直接 {cid:chunk}；
+    常规模式是 {"chunks":{...},"doc_aggs":{...}}。chunk 字段也两种键都要兼容。
+    """
+    if isinstance(reference, dict) and "chunks" in reference:
+        raw_chunks = reference["chunks"] or {}
+    else:
+        raw_chunks = reference or {}
+    if not isinstance(raw_chunks, dict):
+        raw_chunks = {}
+    chunks: dict[str, Chunk] = {}
+    for cid, ck in raw_chunks.items():
+        if not isinstance(ck, dict):
+            continue
+        chunks[str(cid)] = Chunk(
+            content=ck.get("content_with_weight") or ck.get("content") or "",
+            doc_name=ck.get("docnm_kwd") or ck.get("document_name") or "",
+            url=ck.get("url") or "",
+            similarity=ck.get("similarity"),
+        )
+    return chunks
+
+
 class AgentChatClient:
     """RAGFlow agent 对话客户端（薄 HTTP，零第三方依赖）。
 
@@ -140,10 +165,9 @@ class AgentChatClient:
 
     def converse(self, agent_id: str, question: str,
                  session_id: str | None = None) -> AgentAnswer:
-        """发一条消息，返回回答正文 + 引用 chunks。
+        """发一条消息（openai-compatible 模式），返回回答正文 + 引用 chunks。
 
-        session_id 非空则作为续会话请求（openai-compatible 模式的多轮记忆
-        由 RAGFlow 侧决定，本模块只透传）；响应的 id 回填到 answer.session_id。
+        该模式无会话记忆，适合一次性查询；聊天机器人请用 converse_session()。
         """
         body: dict = {
             "agent_id": agent_id,
@@ -156,28 +180,32 @@ class AgentChatClient:
         resp = self._request("POST", "/api/v1/agents/chat/completions",
                              body=body)
         message = ((resp.get("choices") or [{}])[0].get("message") or {})
-        reference = message.get("reference") or {}
-        if isinstance(reference, dict) and "chunks" in reference:
-            raw_chunks = reference["chunks"] or {}  # {"chunks":..., "doc_aggs":...}
-        else:
-            raw_chunks = reference  # 已经是 {cid: chunk}
-        if not isinstance(raw_chunks, dict):
-            raw_chunks = {}
-
-        chunks: dict[str, Chunk] = {}
-        for cid, ck in raw_chunks.items():
-            if not isinstance(ck, dict):
-                continue
-            chunks[str(cid)] = Chunk(
-                content=ck.get("content_with_weight") or ck.get("content") or "",
-                doc_name=ck.get("docnm_kwd") or ck.get("document_name") or "",
-                url=ck.get("url") or "",
-                similarity=ck.get("similarity"),
-            )
         return AgentAnswer(
             content=message.get("content") or "",
-            chunks=chunks,
+            chunks=_normalize_reference(message.get("reference")),
             session_id=str(resp.get("id") or ""),
+            agent_id=agent_id,
+        )
+
+    def converse_session(self, agent_id: str, question: str,
+                         session_id: str | None = None) -> AgentAnswer:
+        """多轮会话（常规模式）：会话消息在 RAGFlow 侧累积，支持追问上下文。
+
+        请求是 {"agent_id","query","session_id"?}，不带 openai-compatible；
+        响应 {code, data:{session_id, data:{content, reference}}}。
+        每次返回的 answer.session_id 传给下一次调用即可续会话；不带则开新会话。
+        """
+        body: dict = {"agent_id": agent_id, "query": question, "stream": False}
+        if session_id:
+            body["session_id"] = session_id
+        resp = self._request("POST", "/api/v1/agents/chat/completions",
+                             body=body)
+        data = resp.get("data") or {}
+        inner = data.get("data") or {}
+        return AgentAnswer(
+            content=inner.get("content") or "",
+            chunks=_normalize_reference(inner.get("reference")),
+            session_id=str(data.get("session_id") or ""),
             agent_id=agent_id,
         )
 

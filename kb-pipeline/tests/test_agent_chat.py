@@ -143,6 +143,39 @@ def test_converse_passes_session_id(monkeypatch):
     assert answer.session_id == "sess-2"
 
 
+def test_converse_session_regular_mode(monkeypatch):
+    calls = _fake_urlopen(monkeypatch, lambda req, t: FakeResponse({
+        "code": 0,
+        "data": {"event": "workflow_finished", "session_id": "sess-9",
+                 "data": {
+                     "content": "多轮回答 [ID:94]。",
+                     "reference": {"chunks": {
+                         "94": {"content": "组件登记。",
+                                "docnm_kwd": "zh-cn_Stock_Register.md"}},
+                         "doc_aggs": {"a.md": {"count": 1}}},
+                 }}}))
+    answer = _client().converse_session("a1", "怎么创建组件呢")
+    assert answer.content == "多轮回答 [ID:94]。"
+    assert answer.session_id == "sess-9"
+    assert answer.chunks["94"].doc_name == "zh-cn_Stock_Register.md"
+    body = json.loads(calls[0].data.decode("utf-8"))
+    assert body == {"agent_id": "a1", "query": "怎么创建组件呢", "stream": False}
+    # 不带 openai-compatible / messages
+    assert "openai-compatible" not in body
+    assert "messages" not in body
+
+
+def test_converse_session_resumes_with_session_id(monkeypatch):
+    calls = _fake_urlopen(monkeypatch, lambda req, t: FakeResponse(
+        {"code": 0, "data": {"session_id": "sess-9",
+                             "data": {"content": "追问 [ID:201]。",
+                                      "reference": {}}}}))
+    answer = _client().converse_session("a1", "再讲讲另存为", session_id="sess-9")
+    body = json.loads(calls[0].data.decode("utf-8"))
+    assert body["session_id"] == "sess-9"
+    assert answer.session_id == "sess-9"
+
+
 def test_converse_http_error_raises(monkeypatch):
     def boom(req, timeout=None):
         raise __import__("urllib.error", fromlist=["HTTPError"])
