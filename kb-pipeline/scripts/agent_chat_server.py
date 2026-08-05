@@ -148,7 +148,6 @@ let sessionId = null;
 const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 function stripThink(c){ return c.replace(/<think>[\s\S]*?<\/think>/g, ''); }
 function splitThink(content){
-  // 把 <think>…</think> 块抽出来给折叠区，剩下的才是回答正文
   const thinking = [];
   const answer = content.replace(/<think>([\s\S]*?)<\/think>/g, (m, body)=>{ thinking.push(body); return ''; });
   return { thinking: thinking.join('\n\n'), answer };
@@ -275,25 +274,22 @@ async function send(){
     }
     const reader = resp.body.getReader();
     const decoder = new TextDecoder();
-    // 两个区域: 思考折叠块(默认收起，点击可看实时思考) + 回答实时区(带打字指示)
-    const zone = document.createElement('div'); zone.className='answer-zone';
-    zone.innerHTML='<span class="typing"><span class="t">●</span><span class="t">●</span><span class="t">●</span></span>';
-    mdEl.appendChild(zone);
-    let thinkEl=null, typingShown=true;
+    // 流式处理中只保留最上面那一排打字指示，完成后再统一渲染思考折叠区和正文。
+    const initialTyping = mdEl.querySelector('.typing');
+    let thinkEl=null;
     const ensureThink = ()=>{
       if(!thinkEl){
         thinkEl=document.createElement('details'); thinkEl.className='think';
-        thinkEl.innerHTML='<summary>💭 思考过程</summary><div class="think-body"></div>';
-        mdEl.insertBefore(thinkEl, zone);
+        thinkEl.innerHTML='<summary><span class="typing"><span class="t">●</span><span class="t">●</span><span class="t">●</span></span></summary><div class="think-body"></div>';
+        if(initialTyping && initialTyping.parentElement===mdEl){
+          initialTyping.replaceWith(thinkEl);
+        } else {
+          mdEl.appendChild(thinkEl);
+        }
       }
       return thinkEl;
     };
-    const showAnswer = (txt)=>{
-      if(typingShown){ typingShown=false; zone.innerHTML=''; }
-      zone.textContent = txt;
-      scrollBottom();
-    };
-    let buf='', content='', answerLive='', chunks={}, inThinking=false;
+    let buf='', content='', chunks={}, inThinking=false;
     while(true){
       const {done, value} = await reader.read();
       if(done) break;
@@ -314,10 +310,8 @@ async function send(){
           content += d.content;
           if(inThinking){
             const tb = thinkEl ? thinkEl.querySelector('.think-body') : null;
-            if(tb) tb.textContent += d.content;  // 思考折叠块里实时更新
-          } else {
-            answerLive += d.content;
-            showAnswer(answerLive);
+            if(tb) tb.textContent += d.content;
+            scrollBottom();
           }
         }
         if(d.reference && d.reference.chunks) chunks = normalizeChunks(d.reference.chunks);
