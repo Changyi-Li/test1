@@ -45,15 +45,11 @@ PAGE = r"""<!doctype html>
   .brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;}
   .brand .dot{width:9px;height:9px;border-radius:50%;background:#3fb950;}
   .head-actions{display:flex;align-items:center;gap:10px;}
-  .variant{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;
-           font-size:12px;}
-  .variant button{border:0;background:#fff;padding:5px 10px;cursor:pointer;color:var(--sub);}
-  .variant button.on{background:var(--blue);color:#fff;}
   #newChat{border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 12px;
            cursor:pointer;font-size:13px;color:var(--ink);}
   #newChat:hover{background:#f3f4f6;}
-  main{flex:1;overflow-y:auto;padding:24px 16px;}
-  .thread{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:18px;}
+  main{flex:1;overflow-y:auto;padding:24px 16px;display:flex;flex-direction:column;}
+  .thread{max-width:760px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:18px;flex:1;}
   .msg{display:flex;flex-direction:column;max-width:88%;}
   .msg.user{align-self:flex-end;align-items:flex-end;}
   .msg.bot{align-self:flex-start;}
@@ -114,8 +110,18 @@ PAGE = r"""<!doctype html>
   .typing .t:nth-child(2){animation-delay:.2s;}
   .typing .t:nth-child(3){animation-delay:.4s;}
   @keyframes blink{0%,80%,100%{opacity:.2;}40%{opacity:1;}}
-  .hint{text-align:center;color:var(--sub);font-size:13px;margin-top:16vh;}
-  .hint .big{font-size:22px;color:var(--ink);margin-bottom:8px;}
+  .hint{margin:auto;text-align:center;color:var(--sub);font-size:13px;}
+  .hint .big{font-size:26px;color:var(--ink);margin-bottom:10px;}
+  /* 思考过程：默认收起，点击展开 */
+  .think{margin:6px 0 10px;font-size:13px;}
+  .think summary{cursor:pointer;color:var(--sub);user-select:none;padding:3px 2px;
+                 list-style:none;display:inline-flex;align-items:center;gap:4px;}
+  .think summary::before{content:'▸';font-size:11px;color:var(--sub);}
+  .think[open] summary::before{content:'▾';}
+  .think summary:hover{color:var(--blue);}
+  .think-body{margin:6px 0 2px;padding:9px 12px;background:#f6f8fa;
+              border:1px solid #eaeef2;border-radius:6px;color:#57606a;
+              white-space:pre-wrap;word-break:break-word;font-size:12.5px;line-height:1.7;}
   .err{color:#cf222e;font-size:13px;margin-top:6px;}
 </style>
 </head>
@@ -123,11 +129,6 @@ PAGE = r"""<!doctype html>
 <header>
   <div class="brand"><span class="dot"></span>__AGENT_TITLE__</div>
   <div class="head-actions">
-    <div class="variant">
-      <button data-v="inline" class="on">inline</button>
-      <button data-v="tooltip">tooltip</button>
-      <button data-v="popover">popover</button>
-    </div>
     <button id="newChat">＋ 新对话</button>
   </div>
 </header>
@@ -141,11 +142,16 @@ PAGE = r"""<!doctype html>
 <script>
 const AGENT_ID = '__AGENT_ID__';
 let sessionId = null;
-let MODE = new URLSearchParams(location.search).get('variant') || 'inline';
 
-// ---- 最小 markdown + 引用渲染（剥 <think> 推理块）----
+// ---- 最小 markdown + 引用渲染 ----
 const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 function stripThink(c){ return c.replace(/<think>[\s\S]*?<\/think>/g, ''); }
+function splitThink(content){
+  // 把 <think>…</think> 块抽出来给折叠区，剩下的才是回答正文
+  const thinking = [];
+  const answer = content.replace(/<think>([\s\S]*?)<\/think>/g, (m, body)=>{ thinking.push(body); return ''; });
+  return { thinking: thinking.join('\n\n'), answer };
+}
 const CITE_RE = /\[(?:ID\s*:\s*)?(\d+)\]/g;
 function inline(md){
   let s = esc(md);
@@ -203,53 +209,23 @@ function chunkBody(idx, chunks){
   return '<div class="h">'+name+' <span>#'+esc(idx)+(c.similarity!=null?' · '+Number(c.similarity).toFixed(3):'')+'</span></div>'+
          '<div class="c">'+esc(c.content)+'</div>'+url;
 }
-let tipEl=null, popEl=null, openPop=null;
-function removeCard(){
-  if(tipEl){ tipEl.remove(); tipEl=null; }
-  if(popEl){ popEl.remove(); popEl=null; openPop=null; }
-}
 function clearInline(){ document.querySelectorAll('.chunk-expand').forEach(e=>e.remove()); }
-function showTip(el,chunks,idx){
-  removeCard();
-  tipEl=document.createElement('div'); tipEl.className='cite-card';
-  tipEl.innerHTML=chunkBody(idx,chunks); document.body.appendChild(tipEl);
-  const move=e=>{ const r=tipEl.getBoundingClientRect(); let x=e.clientX+14, y=e.clientY+14;
-    if(x+r.width>innerWidth) x=e.clientX-14-r.width; if(y+r.height>innerHeight) y=e.clientY-14-r.height;
-    tipEl.style.left=x+'px'; tipEl.style.top=y+'px'; };
-  const leave=()=>{ tipEl.remove(); tipEl=null; el.removeEventListener('mousemove',move); };
-  el.addEventListener('mousemove',move); el.addEventListener('mouseleave',leave,{once:true});
-  move({clientX:el.getBoundingClientRect().right, clientY:el.getBoundingClientRect().top});
-}
-function showPop(el,chunks,idx){
-  if(openPop===el){ removeCard(); return; }
-  removeCard();
-  openPop=el; popEl=document.createElement('div'); popEl.className='cite-card';
-  popEl.innerHTML=chunkBody(idx,chunks); document.body.appendChild(popEl);
-  const r=el.getBoundingClientRect(); popEl.style.left=r.left+'px'; popEl.style.top=(r.bottom+6)+'px';
-}
 function toggleInline(el,chunks,idx){
   const block = el.closest('p,li,h2,h3,h4,h5,h6,blockquote,pre,td') || el;
   const old = block.nextElementSibling;
   if(old && old.classList && old.classList.contains('chunk-expand')){ old.remove(); return; }
-  removeCard(); clearInline();
+  clearInline();
   const box=document.createElement('div'); box.className='chunk-expand';
   box.innerHTML=chunkBody(idx,chunks);
   block.insertAdjacentElement('afterend',box);
 }
 function bindCitations(container, chunks){
+  container._chunks = chunks;
   container.querySelectorAll('.cite').forEach(el=>{
     const idx = el.dataset.idx;
-    el.style.cursor = MODE==='tooltip' ? 'default' : 'pointer';
-    if(MODE==='tooltip'){
-      el.addEventListener('mouseenter',()=>showTip(el,chunks,idx));
-    } else if(MODE==='popover'){
-      el.addEventListener('click',ev=>{ ev.stopPropagation(); showPop(el,chunks,idx); });
-    } else {
-      el.addEventListener('click',ev=>{ ev.stopPropagation(); toggleInline(el,chunks,idx); });
-    }
+    el.addEventListener('click', ev=>{ ev.stopPropagation(); toggleInline(el, chunks, idx); });
   });
 }
-document.addEventListener('click',e=>{ if(!e.target.closest('.cite-card')) removeCard(); });
 
 // ---- 消息流 ----
 const thread = document.getElementById('thread');
@@ -257,6 +233,7 @@ const input = document.getElementById('input');
 const sendBtn = document.getElementById('send');
 function scrollBottom(){ main.scrollTop = main.scrollHeight; }
 function addUser(q){
+  thread.querySelectorAll('.hint').forEach(el=>el.remove());
   const m=document.createElement('div'); m.className='msg user';
   m.innerHTML='<div class="bubble">'+esc(q)+'</div>'; thread.appendChild(m); scrollBottom();
 }
@@ -298,12 +275,18 @@ async function send(){
         if(ev.error) throw new Error(ev.error);
         if(ev.session_id) sessionId=ev.session_id;
         const d=ev.data||{};
+        if(d.start_to_think){ content += '<think>'; }
         if(d.content){ content += d.content; started=true; }
+        if(d.end_to_think){ content += '</think>'; }
         if(d.reference && d.reference.chunks) chunks = d.reference.chunks;
         if(started) show();
       }
     }
-    mdEl.innerHTML = renderMarkdown(stripThink(content), chunks);
+    const { thinking, answer } = splitThink(content);
+    let html = '';
+    if(thinking.trim()) html += '<details class="think"><summary>💭 思考过程</summary><div class="think-body">'+esc(thinking.trim())+'</div></details>';
+    html += renderMarkdown(answer, chunks);
+    mdEl.innerHTML = html;
     bindCitations(bubble, chunks);
     scrollBottom();
   }catch(e){
@@ -316,28 +299,14 @@ input.addEventListener('input',autoGrow);
 input.addEventListener('keydown',e=>{ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); send(); } });
 sendBtn.addEventListener('click',send);
 
-// 变体切换：对已有回答重新绑定（不清空消息）
-document.querySelectorAll('.variant button').forEach(b=>{
-  b.classList.toggle('on', b.dataset.v===MODE);
-  b.addEventListener('click',()=>{
-    MODE=b.dataset.v;
-    document.querySelectorAll('.variant button').forEach(x=>x.classList.toggle('on',x===b));
-    removeCard(); clearInline();
-    thread.querySelectorAll('.msg.bot .md').forEach(md=>bindCitations(md, md._chunks||{}));
-  });
-});
 document.getElementById('newChat').addEventListener('click',()=>{
   sessionId=null; thread.innerHTML=''; input.focus();
-  document.querySelectorAll('.chunk-expand,.cite-card').forEach(e=>e.remove());
+  document.querySelectorAll('.chunk-expand').forEach(e=>e.remove());
   showHint();
 });
-// 绑定引用时把 chunks 记在 md 节点上，供变体切换重绑定
-const _origBind = bindCitations;
-bindCitations = function(container, chunks){ container._chunks = chunks; return _origBind(container, chunks); };
-
 function showHint(){
   const h=document.createElement('div'); h.className='hint';
-  h.innerHTML='<div class="big">💬</div>问 Monitor ERP Assistant 点什么<br><span>回答中的 [数字] 引用点击即可展开来源</span>';
+  h.innerHTML='<div class="big">💬</div><div>问 Monitor ERP Assistant 点什么</div>';
   thread.appendChild(h);
 }
 showHint();
