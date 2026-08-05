@@ -260,36 +260,55 @@ function addUser(q){
   const m=document.createElement('div'); m.className='msg user';
   m.innerHTML='<div class="bubble">'+esc(q)+'</div>'; thread.appendChild(m); scrollBottom();
 }
-function addBot(html, chunks){
+function makeBubble(){
   const m=document.createElement('div'); m.className='msg bot';
-  m.innerHTML='<div class="bubble"><div class="md">'+html+'</div></div>';
-  thread.appendChild(m); bindCitations(m, chunks); scrollBottom();
-}
-function addTyping(){
-  const m=document.createElement('div'); m.className='msg bot';
-  m.innerHTML='<div class="typing"><span class="t">●</span><span class="t">●</span><span class="t">●</span></div>';
-  thread.appendChild(m); m._typing=true; scrollBottom(); return m;
+  m.innerHTML='<div class="bubble"><div class="md"><span class="typing"><span class="t">●</span><span class="t">●</span><span class="t">●</span></span></div></div>';
+  thread.appendChild(m); scrollBottom(); return m;
 }
 async function send(){
   const q = input.value.trim();
   if(!q || sendBtn.disabled) return;
   input.value=''; autoGrow();
   addUser(q);
-  const typing=addTyping();
+  const bubble = makeBubble();
+  const mdEl = bubble.querySelector('.md');
   sendBtn.disabled=true;
   try{
     const resp = await fetch('/api/chat', {method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({question:q, session_id:sessionId})});
-    const data = await resp.json();
-    if(data.error) throw new Error(data.error);
-    sessionId = data.session_id || sessionId;
-    typing.remove();
-    addBot(renderMarkdown(stripThink(data.answer), data.chunks||{}), data.chunks||{});
+      body: JSON.stringify({question:q, session_id:sessionId, stream:true})});
+    if(!resp.ok || !resp.body){
+      const data = await resp.json().catch(()=>({}));
+      throw new Error(data.error || ('HTTP '+resp.status));
+    }
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    let buf='', content='', chunks={}, started=false;
+    const show = ()=>{ mdEl.textContent = stripThink(content); scrollBottom(); };
+    while(true){
+      const {done, value} = await reader.read();
+      if(done) break;
+      buf += decoder.decode(value, {stream:true});
+      let nl;
+      while((nl=buf.indexOf('\n'))>=0){
+        const line=buf.slice(0,nl).trim(); buf=buf.slice(nl+1);
+        if(!line.startsWith('data:')) continue;
+        const payload=line.slice(5).trim();
+        if(payload==='[DONE]') continue;
+        let ev; try{ ev=JSON.parse(payload); }catch{ continue; }
+        if(ev.error) throw new Error(ev.error);
+        if(ev.session_id) sessionId=ev.session_id;
+        const d=ev.data||{};
+        if(d.content){ content += d.content; started=true; }
+        if(d.reference && d.reference.chunks) chunks = d.reference.chunks;
+        if(started) show();
+      }
+    }
+    mdEl.innerHTML = renderMarkdown(stripThink(content), chunks);
+    bindCitations(bubble, chunks);
+    scrollBottom();
   }catch(e){
-    typing.remove();
-    const m=document.createElement('div'); m.className='msg bot';
-    m.innerHTML='<div class="bubble err">⚠ '+esc(e.message||String(e))+'</div>';
-    thread.appendChild(m); scrollBottom();
+    mdEl.parentElement.innerHTML='<div class="bubble err">⚠ '+esc(e.message||String(e))+'</div>';
+    scrollBottom();
   }finally{ sendBtn.disabled=false; }
 }
 function autoGrow(){ input.style.height='auto'; input.style.height=Math.min(input.scrollHeight,160)+'px'; }
@@ -353,6 +372,9 @@ class _Handler(BaseHTTPRequestHandler):
             if not question:
                 self._send_json({"error": "question 不能为空"}, 400)
                 return
+            if body.get("stream", False):
+                self._proxy_stream(question, body.get("session_id"))
+                return
             answer = self.server.client.converse_session(
                 self.server.agent_id, question, body.get("session_id"))
             payload = {
@@ -365,6 +387,44 @@ class _Handler(BaseHTTPRequestHandler):
             self._send_json({"error": str(exc)}, 502)
         except Exception as exc:
             self._send_json({"error": str(exc)}, 500)
+
+    def _proxy_stream(self, question: str, session_id: str | None) -> None:
+        """把 RAGFlow 的 SSE 转发给浏览器（边算边发，客户端断开就停）。
+
+        必须关连接（close_connection=True）让响应有明确结束，否则浏览器 fetch
+        的 reader.read() 永远等不到 done（keep-alive + 无 Content-Length 时
+        响应体到连接关闭才算完）。
+        """
+        self.close_connection = True
+        self.send_response(200)
+        self.send_header("Content-Type", "text/event-stream; charset=utf-8")
+        self.send_header("Cache-Control", "no-cache")
+        self.send_header("Connection", "close")
+        self.end_headers()
+        self.wfile.flush()
+        try:
+            for ev in self.server.client.converse_stream(
+                    self.server.agent_id, question, session_id):
+                line = ("data: " + json.dumps(ev, ensure_ascii=False)
+                        + "\n\n").encode("utf-8")
+                try:
+                    self.wfile.write(line)
+                    self.wfile.flush()
+                except (ConnectionAbortedError, BrokenPipeError):
+                    return  # 浏览器断开（比如中途关页），停止转发
+        except RagflowError as exc:
+            try:
+                self.wfile.write(("data: " + json.dumps(
+                    {"error": str(exc)}, ensure_ascii=False) + "\n\n").encode("utf-8"))
+                self.wfile.flush()
+            except (ConnectionAbortedError, BrokenPipeError):
+                pass
+            return
+        try:
+            self.wfile.write(b"data: [DONE]\n\n")
+            self.wfile.flush()
+        except (ConnectionAbortedError, BrokenPipeError):
+            pass
 
     def _send_html(self, html: str):
         data = html.encode("utf-8")

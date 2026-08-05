@@ -209,6 +209,42 @@ class AgentChatClient:
             agent_id=agent_id,
         )
 
+    def converse_stream(self, agent_id: str, question: str,
+                        session_id: str | None = None):
+        """流式（SSE）多轮会话；yield 每个事件 dict（含 session_id/reference）。
+
+        RAGFlow 常规模式 stream=true 返回 SSE 行: data: {event, data:{content,
+        reference}, session_id}，以 data: [DONE] 结束。content 增量靠 message
+        事件累积，reference 在 message_end 事件里，session_id 每条事件都有。
+        """
+        body: dict = {"agent_id": agent_id, "query": question, "stream": True}
+        if session_id:
+            body["session_id"] = session_id
+        url = f"{self.base_url}/api/v1/agents/chat/completions"
+        headers = {"Authorization": f"Bearer {self.api_key}",
+                   "Content-Type": "application/json"}
+        req = request.Request(url, data=json.dumps(body).encode("utf-8"),
+                              headers=headers, method="POST")
+        try:
+            with urlopen(req, timeout=self.timeout) as resp:
+                for raw in resp:
+                    line = raw.decode("utf-8").strip()
+                    if not line.startswith("data:"):
+                        continue
+                    payload = line[5:].strip()
+                    if payload == "[DONE]":
+                        return
+                    try:
+                        yield json.loads(payload)
+                    except json.JSONDecodeError:
+                        continue
+        except error.HTTPError as exc:
+            raise RagflowError(f"HTTP {exc.code} POST /agents/chat/completions:"
+                               f" {exc.reason}")
+        except error.URLError as exc:
+            raise RagflowError(f"网络错误 POST /agents/chat/completions:"
+                               f" {exc.reason}")
+
 
 # --------------------------------------------------------------------------- 解析
 def parse_citations(content: str) -> list[tuple[str, str]]:

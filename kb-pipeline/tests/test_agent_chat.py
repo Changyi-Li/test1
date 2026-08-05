@@ -176,6 +176,44 @@ def test_converse_session_resumes_with_session_id(monkeypatch):
     assert answer.session_id == "sess-9"
 
 
+def test_converse_stream_yields_events_and_stops_at_done(monkeypatch):
+    events = [
+        {"event": "workflow_started", "session_id": "s1", "data": {"content": ""}},
+        {"event": "message", "session_id": "s1", "data": {"content": "部分"}},
+        {"event": "message_end", "session_id": "s1", "data": {
+            "content": "",
+            "reference": {"chunks": {"94": {"content": "c", "docnm_kwd": "a.md"}},
+                          "doc_aggs": {}}}},
+    ]
+    sse_lines = "".join("data: " + json.dumps(e, ensure_ascii=False)
+                        + "\n\n" for e in events) + "data: [DONE]\n\n"
+
+    class SSEFake:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *exc):
+            return False
+
+        def __iter__(self):
+            for line in sse_lines.split("\n"):
+                yield line.encode("utf-8")
+
+    calls = []
+
+    def fake(req, timeout=None):
+        calls.append(req)
+        return SSEFake()
+
+    monkeypatch.setattr(agent_chat, "urlopen", fake)
+    got = list(_client().converse_stream("a1", "q"))
+    assert [e["event"] for e in got] == ["workflow_started", "message", "message_end"]
+    assert got[-1]["data"]["reference"]["chunks"]["94"]["docnm_kwd"] == "a.md"
+    body = json.loads(calls[0].data.decode("utf-8"))
+    assert body["stream"] is True
+    assert body["query"] == "q"
+
+
 def test_converse_http_error_raises(monkeypatch):
     def boom(req, timeout=None):
         raise __import__("urllib.error", fromlist=["HTTPError"])
